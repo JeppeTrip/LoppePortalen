@@ -1,23 +1,28 @@
 import Head from 'next/head'
 
-export default function Home() {
+export default function Index() {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Loppe Portalen</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Loppe Portalen Dev Page
         </h1>
 
         <p className="description">
-          Get started by editing <code>pages/index.js</code>
+          Landing page used for routing between pages that are in development.
         </p>
 
         <div className="grid">
+          <a href="/home" className="card">
+            <h3>Landing Page &rarr;</h3>
+            <p>Start of the landing page for Loppe Portalen</p>
+          </a>
+
           <a href="https://nextjs.org/docs" className="card">
             <h3>Documentation &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
@@ -187,21 +192,6 @@ export default function Home() {
             width: 100%;
             flex-direction: column;
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
         }
       `}</style>
     </div>

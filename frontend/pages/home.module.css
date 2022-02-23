@@ -1,0 +1,75 @@
+.topContainer{
+    background-image: url('https://loppeportalen.dk/images/index.jpg');
+    height: 435px;  
+}
+
+.topContent{
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1098px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.topHeader {
+    color: white;
+    background-color: rgba(0, 0, 0, 60%);
+    font-size: 5em;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.bodyGrid{
+    display: grid;
+    grid-template-columns: [col1] 20% [col2] auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    grid-column-start: col2;
+}
+
+.loppeTable {
+    width: 100%;
+    margin-right: 10px;
+    border-collapse: collapse;
+}
+
+.loppeTable > thead {
+    text-align: left;
+    border-bottom: 2px solid gray;
+}
+
+.loppeTable > tbody {
+    background-color: rgb(233,253,249);
+}
+
+.loppeTable th {
+    padding: 5px 5px;
+    font-size: 1.25em;
+    font-weight: normal;
+}
+
+.loppeTable td {
+    padding: 2.5px 5px;
+}
+
+.filterContainer {
+    grid-column-start: col1;
+}
+
+.filterMenu {
+    margin: 10px;
+    border: 0px 2px 0px 2px;
+    border-right: 2px solid rgba(0, 0, 0,50%);
+    border-bottom: 2px solid rgba(0, 0, 0, 50%);
+    border-radius: 4px;
+    height: 300px;
+}
