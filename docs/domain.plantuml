@@ -1,0 +1,37 @@
+@startuml
+class Organiser {
+
+}
+
+class Salesperson {
+
+}
+
+class Stall {
+
+}
+
+class Market { 
+
+}
+
+class Item {
+
+}
+
+class Chair {
+
+}
+
+class Table {
+
+}
+
+Organiser "1"--"*"  Market
+Market "1" -- "1..*" Stall
+Salesperson "1" -- "1..*" Stall
+Salesperson "1" -- "1..*" Item
+Stall "1" -- "1..*" Chair
+Stall "1" -- "1..*" Table
+Stall "1" -- "1..*" Item
+@enduml

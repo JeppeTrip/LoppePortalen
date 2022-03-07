@@ -1,0 +1,35 @@
+@startuml
+package "Next.js Frontend" {
+  package "Pages" {}
+  package "Components" {}
+  package "Stores" {}
+}
+
+package ".NET Backend" {
+  package "Web" {}
+  package "Application" {
+      package "Common" {
+          package "Interfaces" {}
+          package "Exceptions" {}
+          package "Dtos" {}
+          package "Behaviours" {}
+      }
+  }
+  package "Infrastructure" {}
+  package "Domain" {}
+}
+
+database "SQL" {
+
+}
+
+Infrastructure ..> SQL
+Web ..> Infrastructure
+Web ..> Application
+Application ..> Domain
+Infrastructure ..> Domain
+
+Stores ..> Web
+Pages ..> Stores 
+Pages ..> Components
+@enduml
