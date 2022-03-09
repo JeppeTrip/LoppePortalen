@@ -48,7 +48,7 @@ namespace Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseOpenApi();
             app.UseSwaggerUi3();
 

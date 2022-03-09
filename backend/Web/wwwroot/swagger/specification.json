@@ -1,0 +1,42 @@
+{
+  "x-generator": "NSwag v13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v12.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "Loppe Portalen API",
+    "version": "1.0.0"
+  },
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
+  "paths": {
+    "/api/Test": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "operationId": "Test_GetTest",
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TestMessage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TestMessage": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
