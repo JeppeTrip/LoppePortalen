@@ -7,9 +7,13 @@ namespace Web.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetTest()
+        public async Task<ActionResult<TestMessage>> GetTest()
         {
-            return await Task.Run(() => "Test");
+            return await Task.Run(() => new TestMessage { Message = $"Hello mother trucker" }); 
         }
+    }
+
+    public class TestMessage { 
+        public string Message { get; set; }
     }
 }
