@@ -13,5 +13,9 @@ namespace Domain.Entities
         public int Id { get; set; }
         public ContactInfoType ContactType { get; set; }
         public string Value { get; set; }   
+
+        //Organiser relationship attributes
+        public int OrganiserId { get; set; }
+        public virtual Organiser Organiser { get; set; }
     }
 }

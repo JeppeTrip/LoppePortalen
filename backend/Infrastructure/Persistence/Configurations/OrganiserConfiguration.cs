@@ -16,7 +16,9 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne<Address>(x => x.Address);
-            builder.HasMany<ContactInfo>(x => x.ContactInfoList);
+            builder.HasMany<ContactInfo>(x => x.ContactInfoList)
+                .WithOne(x => x.Organiser)
+                .IsRequired(false);
         }
     }
 }

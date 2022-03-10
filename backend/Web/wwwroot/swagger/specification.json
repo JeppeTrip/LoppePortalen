@@ -11,6 +11,40 @@
     "text/json"
   ],
   "paths": {
+    "/api/Organiser": {
+      "post": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetTest",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateOrganiserRequest"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateOrganiserResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/Test": {
       "get": {
         "tags": [
@@ -30,6 +64,65 @@
     }
   },
   "definitions": {
+    "CreateOrganiserResponse": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "appartment": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateOrganiserRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "appartment": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        }
+      }
+    },
     "TestMessage": {
       "type": "object",
       "properties": {

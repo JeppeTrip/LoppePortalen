@@ -9,6 +9,27 @@
 
 
 
+export interface CreateOrganiserResponse {
+    id: number;
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    number?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+}
+
+export interface CreateOrganiserRequest {
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    number?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+}
+
 export interface TestMessage {
     message?: string | null;
 }
