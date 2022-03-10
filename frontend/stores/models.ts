@@ -30,6 +30,30 @@ export interface CreateOrganiserRequest {
     city?: string | null;
 }
 
+export interface AddContactsToOrganiserResponse {
+    organiserId: number;
+    contactInformation?: { [key: string]: KeyValuePairOfStringAndContactInfoType; } | null;
+}
+
+export interface KeyValuePairOfStringAndContactInfoType {
+    key: string;
+    value: ContactInfoType;
+}
+
+export enum ContactInfoType {
+    PHONE_NUMER = 0,
+    FACEBOOK = 1,
+    TWITTER = 2,
+    EMAIL = 3,
+    INSTAGRAM = 4,
+    TIKTOK = 5,
+}
+
+export interface AddContactsToOrganiserRequest {
+    organiserId: number;
+    contactInformation?: { [key: string]: ContactInfoType; } | null;
+}
+
 export interface TestMessage {
     message?: string | null;
 }

@@ -11,12 +11,12 @@
     "text/json"
   ],
   "paths": {
-    "/api/Organiser": {
+    "/new": {
       "post": {
         "tags": [
           "Organiser"
         ],
-        "operationId": "Organiser_GetTest",
+        "operationId": "Organiser_CreateOrganiser",
         "consumes": [
           "application/json-patch+json",
           "application/json",
@@ -40,6 +40,40 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/CreateOrganiserResponse"
+            }
+          }
+        }
+      }
+    },
+    "/Add/ContactInformation": {
+      "post": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_AddContactInformation",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddContactsToOrganiserRequest"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddContactsToOrganiserResponse"
             }
           }
         }
@@ -120,6 +154,77 @@
         },
         "city": {
           "type": "string"
+        }
+      }
+    },
+    "AddContactsToOrganiserResponse": {
+      "type": "object",
+      "required": [
+        "organiserId"
+      ],
+      "properties": {
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "contactInformation": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/KeyValuePairOfStringAndContactInfoType"
+          }
+        }
+      }
+    },
+    "KeyValuePairOfStringAndContactInfoType": {
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/ContactInfoType"
+        }
+      }
+    },
+    "ContactInfoType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "PHONE_NUMER",
+        "FACEBOOK",
+        "TWITTER",
+        "EMAIL",
+        "INSTAGRAM",
+        "TIKTOK"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "AddContactsToOrganiserRequest": {
+      "type": "object",
+      "required": [
+        "organiserId"
+      ],
+      "properties": {
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "contactInformation": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ContactInfoType"
+          }
         }
       }
     },
