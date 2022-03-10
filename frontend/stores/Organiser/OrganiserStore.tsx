@@ -29,7 +29,7 @@ class Organiser {
 
 const OrganiserStore = ({ children }) => {
     const organiserStore = useLocalObservable(() => ({
-        Organiser: null,
+        organiser : Organiser,
         
         CreateOrganiser: (organiser : CreateOrganiserRequest) => {
             console.log("create this organiser or whatever.")
