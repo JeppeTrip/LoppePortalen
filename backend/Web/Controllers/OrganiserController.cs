@@ -7,13 +7,13 @@ namespace Web.Controllers
 {
     public class OrganiserController : ApiBase
     {
-        [HttpPost("/new")]
+        [HttpPost("new")]
         public async Task<ActionResult<CreateOrganiserResponse>> CreateOrganiser(CreateOrganiserRequest dto)
         {
             return await Mediator.Send(new CreateOrganiserCommand() { Dto = dto });
         }
 
-        [HttpPost("/Add/ContactInformation")]
+        [HttpPost("Add/ContactInformation")]
         public async Task<ActionResult<AddContactsToOrganiserResponse>> AddContactInformation(AddContactsToOrganiserRequest dto)
         {
             return await Mediator.Send(new AddContactsToOrganiserCommand() { Dto = dto });

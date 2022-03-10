@@ -1,0 +1,11 @@
+.form {
+    background-color: aqua;
+}
+
+.form > label {
+    display: block;
+}
+
+.form > input {
+    display: block;
+}
