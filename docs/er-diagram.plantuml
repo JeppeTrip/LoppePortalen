@@ -1,0 +1,20 @@
+@startuml
+class Organiser {
+    id : int <<PK>>
+    name : string
+    description : string 
+}
+
+class ContactInfo {
+    id : int <<PK>>
+    organiserId : int <<FK>>
+    type : int
+    value : string
+}
+
+
+
+Organiser "1" -- "*" ContactInfo
+ContactInfo --> ContactType
+
+@enduml
