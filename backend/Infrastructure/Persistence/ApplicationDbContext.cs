@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Common;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Threading;
@@ -9,6 +10,9 @@ namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
+        public DbSet<Organiser> Organisers { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<ContactInfo> ContactInformations { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

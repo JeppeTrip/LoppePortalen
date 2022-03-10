@@ -10,6 +10,7 @@ namespace Domain.Entities
 {
     public class ContactInfo : AuditableEntity
     {
+        public int Id { get; set; }
         public ContactInfoType ContactType { get; set; }
         public string Value { get; set; }   
     }
