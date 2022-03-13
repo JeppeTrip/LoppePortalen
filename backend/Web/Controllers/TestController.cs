@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Test.Commands;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System;
 
 namespace Web.Controllers
 {
@@ -7,13 +9,10 @@ namespace Web.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<TestMessage>> GetTest()
+        public async Task<ActionResult<TestCommandResponse>> GetTest()
         {
-            return await Task.Run(() => new TestMessage { Message = $"Hello mother trucker" }); 
+            var result = await Mediator.Send(new TestCommand());
+            return Ok(result);
         }
-    }
-
-    public class TestMessage { 
-        public string Message { get; set; }
     }
 }

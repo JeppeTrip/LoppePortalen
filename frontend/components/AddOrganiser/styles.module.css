@@ -1,10 +1,6 @@
 .form {
 }
 
-.form > label {
-    display: block;
-}
-
-.form > input {
+.input, .label{
     display: block;
 }

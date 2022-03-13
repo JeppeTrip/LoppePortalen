@@ -29,20 +29,17 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                  builder =>
-                  {
-                      builder.AllowAnyOrigin();
-                      builder.AllowAnyHeader();
-                      builder.AllowAnyMethod();
-                  });
-            });
+            services.AddCors(options => options.AddPolicy("TestPolicy", builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
 
+            services.AddHttpContextAccessor();
+            services.AddHealthChecks();
+
+            //Add rest of the projects to the service.
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration, Environment);
-            services.AddHttpContextAccessor();
             services.AddControllers(options =>
                  options.Filters.Add<ApiExceptionFilter>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
@@ -60,17 +57,28 @@ namespace Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseCors("TestPolicy");
+
+            app.UseHealthChecks("/health");
+            app.UseHttpsRedirection();
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
-            app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
         }
     }

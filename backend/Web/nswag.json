@@ -53,7 +53,7 @@
       "useHttpAttributeNameAsOperationId": false,
       "output": "wwwroot/swagger/specification.json",
       "outputType": "OpenApi3",
-      "newLineBehavior": "Auto",
+      "newLineBehavior": "LF",
       "assemblyPaths": [],
       "assemblyConfig": null,
       "referencePaths": [],
@@ -75,7 +75,7 @@
       "rxJsVersion": 6.0,
       "dateTimeType": "Date",
       "nullValue": "Null",
-      "generateClientClasses": false,
+      "generateClientClasses": true,
       "generateClientInterfaces": true,
       "generateOptionalParameters": true,
       "exportTypes": true,
@@ -87,7 +87,7 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "protectedMethods": [],
-      "configurationClass": "AuthBase",
+      "configurationClass": "",
       "useTransformOptionsMethod": true,
       "useTransformResultMethod": true,
       "generateDtoTypes": true,
@@ -99,7 +99,7 @@
       "useLeafType": false,
       "classTypes": [],
       "extendedClasses": [],
-      "extensionCode": "NSwag/nswag.extensions.ts",
+      "extensionCode": "../../frontend/services/ClientBase.ts",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
@@ -107,7 +107,7 @@
       "generateConstructorInterface": true,
       "convertConstructorInterfaceData": true,
       "importRequiredTypes": true,
-      "useGetBaseUrlMethod": false,
+      "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "API_BASE_URL",
       "queryNullValue": "",
       "useAbortSignal": false,
@@ -118,10 +118,10 @@
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,
-      "serviceHost": null,
+      "serviceHost": "",
       "serviceSchemes": null,
       "output": "../../frontend/stores/models.ts",
-      "newLineBehavior": "Auto"
+      "newLineBehavior": "LF"
     }
   }
 }

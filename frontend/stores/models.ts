@@ -8,7 +8,175 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class ClientBase {
+    baseApiUrl : string = "https://localhost:5001";
 
+    protected async transformOptions(options: RequestInit): Promise<RequestInit>{
+        const token = "";
+        //TODO: Add authorization
+        options.mode = 'cors';
+        options.headers = {
+            ...options.headers, /*, authorization: `Bearer ${token}` */};
+        return Promise.resolve(options);
+    }
+
+    protected transformResult(url: string, response: Response, processor: (response: Response) => Promise<any>){
+        return processor(response);
+    }
+
+    protected getBaseUrl(defaultUrl: string, baseUrl?: string){
+        return this.baseApiUrl;
+    }
+}
+
+export interface IOrganiserClient {
+
+    createOrganiser(dto: CreateOrganiserRequest): Promise<CreateOrganiserResponse>;
+
+    addContactInformation(dto: AddContactsToOrganiserRequest): Promise<AddContactsToOrganiserResponse>;
+}
+
+export class OrganiserClient extends ClientBase implements IOrganiserClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : window as any;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    createOrganiser(dto: CreateOrganiserRequest): Promise<CreateOrganiserResponse> {
+        let url_ = this.baseUrl + "/api/Organiser/new";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processCreateOrganiser(_response));
+        });
+    }
+
+    protected processCreateOrganiser(response: Response): Promise<CreateOrganiserResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateOrganiserResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CreateOrganiserResponse>(null as any);
+    }
+
+    addContactInformation(dto: AddContactsToOrganiserRequest): Promise<AddContactsToOrganiserResponse> {
+        let url_ = this.baseUrl + "/api/Organiser/Add/ContactInformation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processAddContactInformation(_response));
+        });
+    }
+
+    protected processAddContactInformation(response: Response): Promise<AddContactsToOrganiserResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AddContactsToOrganiserResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AddContactsToOrganiserResponse>(null as any);
+    }
+}
+
+export interface ITestClient {
+
+    getTest(): Promise<TestCommandResponse>;
+}
+
+export class TestClient extends ClientBase implements ITestClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : window as any;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    getTest(): Promise<TestCommandResponse> {
+        let url_ = this.baseUrl + "/api/Test";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetTest(_response));
+        });
+    }
+
+    protected processGetTest(response: Response): Promise<TestCommandResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TestCommandResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TestCommandResponse>(null as any);
+    }
+}
 
 export interface CreateOrganiserResponse {
     id: number;
@@ -55,8 +223,37 @@ export interface AddContactsToOrganiserRequest {
     contactInformation?: { [key: string]: ContactInfoType; } | null;
 }
 
-export interface TestMessage {
-    message?: string | null;
+export interface TestCommandResponse {
+    testResult?: string | null;
 }
 
-C:\Users\TripK\Projects\LoppePortalen\backend\Web\NSwag\nswag.extensions.ts
+export class SwaggerException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isSwaggerException = true;
+
+    static isSwaggerException(obj: any): obj is SwaggerException {
+        return obj.isSwaggerException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new SwaggerException(message, status, response, headers, null);
+}

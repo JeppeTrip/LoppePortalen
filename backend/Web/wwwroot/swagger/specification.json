@@ -90,7 +90,7 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/TestMessage"
+              "$ref": "#/definitions/TestCommandResponse"
             }
           }
         }
@@ -228,10 +228,10 @@
         }
       }
     },
-    "TestMessage": {
+    "TestCommandResponse": {
       "type": "object",
       "properties": {
-        "message": {
+        "testResult": {
           "type": "string"
         }
       }
