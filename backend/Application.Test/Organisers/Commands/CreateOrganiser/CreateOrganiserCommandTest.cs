@@ -1,6 +1,6 @@
-﻿using Application.Organisers.Commands.CreateOrganiser;
+﻿using Application.Common.Exceptions;
+using Application.Organisers.Commands.CreateOrganiser;
 using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -126,7 +126,7 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Name = "Test Organiser Name",
                 Appartment = "Test Organiser Appartment",
                 City = "Test Organiser City",
-                Description = "",
+                Description = null,
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street"
