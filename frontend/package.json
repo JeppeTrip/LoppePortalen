@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.8.1",
     "mobx": "^6.4.2",
     "mobx-react-lite": "^3.3.0",
     "next": "latest",
