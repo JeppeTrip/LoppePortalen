@@ -12,9 +12,24 @@ namespace Application.Organisers.Commands.CreateOrganiser
         public CreateOrganiserCommandValidator() { 
             RuleFor(e => e.Dto).NotEmpty();
 
-            //TODO: Protect this by a max length.
+            //TODO: Check these rules and maybe specify.
             RuleFor(e => e.Dto.Name)
                 .NotEmpty();
+
+            RuleFor(e => e.Dto.Street)
+                .NotEmpty();
+
+            RuleFor(e => e.Dto.Number)
+                .NotEmpty();
+
+            RuleFor(e => e.Dto.PostalCode)
+                .NotEmpty();
+
+            RuleFor(e => e.Dto.City)
+                .NotEmpty();
+
+            RuleFor(e => e.Dto.Description)
+                .NotNull();
         }
     }
 }
