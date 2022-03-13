@@ -20,11 +20,9 @@ const MenuItem: FC<Props> = (props: Props) => {
 
     const handleSubjectSelect = (e) => {
         e.stopPropagation();
-        setExpand(!expand);
-        if(!expand)
-        {
-            props.onSubjectSelect(e);
-        }
+        setExpand(!expand)
+        props.onSubjectSelect(e);
+
     }
     return (
         <li id={props.name} className={styles.listItem}  onClick={handleSubjectSelect}>

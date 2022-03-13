@@ -16,26 +16,33 @@ const menuItems = [
 const TestPage: NextPage = () => {
     const router = useRouter()
     const [category, setCategory] = useState("")
+    const [item, setItem] = useState("");
 
     const handleSubjectSelect = (event) => {
-        console.log("Subject select")
-        console.log(event);
-        console.log(event.currentTarget.id);
-        setCategory('Organiser')
+        if(category === event.currentTarget.id)
+        {
+            setCategory("")
+        }
+        else{
+            setCategory(event.currentTarget.id)
+        }
+
+
     }
 
     const handleItemSelect = (event) => {
-        console.log("item select")
-        console.log(event);
-        console.log(event.currentTarget.id);
+        setItem(event.currentTarget.id)
     }
 
     useEffect(() => {
-        if(category === "Organiser")
-        {
-            router.push('/test', 'test/Organiser', { shallow: true })
-        }
-      }, [category])
+            if(category === "")
+            {
+                router.push('/test', '/test', { shallow: true })
+            } else {
+                router.push('/test', '/test/'+category+'/'+item, { shallow: true })
+            }
+            
+      }, [category, item])
 
     return (
         <div style={{display: 'grid', gridTemplateColumns: '300px auto'}}>
@@ -46,7 +53,10 @@ const TestPage: NextPage = () => {
                     onSubjectSelect={handleSubjectSelect}/>
             </div>
             <div>
-                <AddOrganiser />
+                {
+                    (category === "Organisers" && item === "Create New") && <AddOrganiser />
+                }
+                
             </div>
 
         </div>
