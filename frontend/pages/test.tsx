@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AddOrganiser from "../components/AddOrganiser";
+import OrganiserList from "../components/OrganiserList";
 import Sidebar from "../components/sidebar/Sidebar";
 
 const menuItems = [
@@ -19,11 +20,10 @@ const TestPage: NextPage = () => {
     const [item, setItem] = useState("");
 
     const handleSubjectSelect = (event) => {
-        if(category === event.currentTarget.id)
-        {
+        if (category === event.currentTarget.id) {
             setCategory("")
         }
-        else{
+        else {
             setCategory(event.currentTarget.id)
         }
 
@@ -35,28 +35,29 @@ const TestPage: NextPage = () => {
     }
 
     useEffect(() => {
-            if(category === "")
-            {
-                router.push('/test', '/test', { shallow: true })
-            } else {
-                router.push('/test', '/test/'+category+'/'+item, { shallow: true })
-            }
-            
-      }, [category, item])
+        if (category === "") {
+            router.push('/test', '/test', { shallow: true })
+        } else {
+            router.push('/test', '/test/' + category + '/' + item, { shallow: true })
+        }
+
+    }, [category, item])
 
     return (
-        <div style={{display: 'grid', gridTemplateColumns: '300px auto'}}>
+        <div style={{ display: 'grid', gridTemplateColumns: '300px auto' }}>
             <div>
-                <Sidebar 
-                    menuItems={menuItems} 
-                    onItemSelect={handleItemSelect} 
-                    onSubjectSelect={handleSubjectSelect}/>
+                <Sidebar
+                    menuItems={menuItems}
+                    onItemSelect={handleItemSelect}
+                    onSubjectSelect={handleSubjectSelect} />
             </div>
-            <div>
+            <div style={{display: "flex", alignContent: "center", padding: "25px"}}>
                 {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
-                
+                {
+                    (category === "Organisers" && item === "List all") && <OrganiserList />
+                }
             </div>
 
         </div>

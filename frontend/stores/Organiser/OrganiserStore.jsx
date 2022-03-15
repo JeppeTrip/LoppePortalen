@@ -16,6 +16,9 @@ const OrganiserStore = ({ children }) => {
                 postalCode: organiser.postalcode,
                 city: organiser.city
             });
+        },
+        getAllOrganisers: async () => {
+            return clients.organiserClient.getAllOrganisers();
         }
     }));
 
