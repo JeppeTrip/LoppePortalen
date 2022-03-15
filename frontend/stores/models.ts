@@ -34,6 +34,8 @@ export interface IOrganiserClient {
     createOrganiser(dto: CreateOrganiserRequest): Promise<CreateOrganiserResponse>;
 
     addContactInformation(dto: AddContactsToOrganiserRequest): Promise<AddContactsToOrganiserResponse>;
+
+    getAllOrganisers(): Promise<GetAllOrganisersResponse[]>;
 }
 
 export class OrganiserClient extends ClientBase implements IOrganiserClient {
@@ -87,7 +89,7 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
     }
 
     addContactInformation(dto: AddContactsToOrganiserRequest): Promise<AddContactsToOrganiserResponse> {
-        let url_ = this.baseUrl + "/api/Organiser/Add/ContactInformation";
+        let url_ = this.baseUrl + "/api/Organiser/add/contactInformation";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(dto);
@@ -123,6 +125,41 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
             });
         }
         return Promise.resolve<AddContactsToOrganiserResponse>(null as any);
+    }
+
+    getAllOrganisers(): Promise<GetAllOrganisersResponse[]> {
+        let url_ = this.baseUrl + "/api/Organiser/all";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetAllOrganisers(_response));
+        });
+    }
+
+    protected processGetAllOrganisers(response: Response): Promise<GetAllOrganisersResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAllOrganisersResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetAllOrganisersResponse[]>(null as any);
     }
 }
 
@@ -221,6 +258,11 @@ export enum ContactInfoType {
 export interface AddContactsToOrganiserRequest {
     organiserId: number;
     contactInformation?: { [key: string]: ContactInfoType; } | null;
+}
+
+export interface GetAllOrganisersResponse {
+    id: number;
+    name?: string | null;
 }
 
 export interface TestCommandResponse {
