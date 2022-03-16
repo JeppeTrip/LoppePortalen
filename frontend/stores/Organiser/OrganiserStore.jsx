@@ -19,6 +19,10 @@ const OrganiserStore = ({ children }) => {
         },
         getAllOrganisers: async () => {
             return clients.organiserClient.getAllOrganisers();
+        },
+
+        getOrganisers: async (pageNumber, pageSize) => {
+            return clients.organiserClient.getOrganisers(pageNumber, pageSize);
         }
     }));
 

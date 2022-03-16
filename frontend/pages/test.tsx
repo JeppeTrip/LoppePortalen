@@ -44,14 +44,14 @@ const TestPage: NextPage = () => {
     }, [category, item])
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '300px auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '300px auto', height: "100vh" }}>
             <div>
                 <Sidebar
                     menuItems={menuItems}
                     onItemSelect={handleItemSelect}
                     onSubjectSelect={handleSubjectSelect} />
             </div>
-            <div style={{display: "flex", alignContent: "center", padding: "25px"}}>
+            <div style={{display: "flex", alignContent: "center", height: "inherit"}}>
                 {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
