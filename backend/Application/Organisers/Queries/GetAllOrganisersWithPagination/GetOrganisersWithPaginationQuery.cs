@@ -15,12 +15,12 @@ namespace Application.Organisers.Queries.GetAllOrganisersWithPagination
     {
         public GetOrganisersWithPaginationRequest Dto { get; set; }
 
-        public class GetAllOrganisersWithPaginationQueryHandler : IRequestHandler<GetOrganisersWithPaginationQuery, GetOrganisersWithPaginationResponse>
+        public class GetOrganisersWithPaginationQueryHandler : IRequestHandler<GetOrganisersWithPaginationQuery, GetOrganisersWithPaginationResponse>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IMapper _mapper; 
+            private readonly IMapper _mapper;
 
-            public GetAllOrganisersWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+            public GetOrganisersWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
