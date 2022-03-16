@@ -14,13 +14,16 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<MarketTemplate> builder)
         {
             builder.HasKey(x => x.Id);
+
             builder.HasOne(x => x.Organiser)
                 .WithMany(x => x.MarketTemplates)
                 .IsRequired(true);
 
+            
             builder.HasMany(x => x.MarketInstances)
                 .WithOne(x => x.MarketTemplate)
                 .IsRequired(true);
+
         }
     }
 }

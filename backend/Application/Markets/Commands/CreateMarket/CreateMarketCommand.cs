@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.CreateMarket
 {
-    class CreateMarketCommand : IRequest<CreateMarketResponse>
+    public class CreateMarketCommand : IRequest<CreateMarketResponse>
     {
         public CreateMarketRequest Dto { get; set; }
 
@@ -26,6 +26,7 @@ namespace Application.Markets.Commands.CreateMarket
 
             public async Task<CreateMarketResponse> Handle(CreateMarketCommand request, CancellationToken cancellationToken)
             {
+                
                 var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId);
                 if (organiser == null)
                 {
@@ -38,9 +39,11 @@ namespace Application.Markets.Commands.CreateMarket
                 {
                     Name = request.Dto.MarketName,
                     Description = request.Dto.MarketName,
-                    Organiser = organiser
+                    Organiser = organiser,
+                    OrganiserId = organiser.Id
                 };
                 _context.MarketTemplates.Add(template);
+                
                 MarketInstance instance = new MarketInstance()
                 {
                     MarketTemplate = template,
@@ -48,11 +51,11 @@ namespace Application.Markets.Commands.CreateMarket
                     EndDate = request.Dto.EndDate
                 };
                 _context.MarketInstances.Add(instance);
-
+                
                 await _context.SaveChangesAsync(cancellationToken);
                 return new CreateMarketResponse()
                 {
-                    MarketId = instance.Id
+                    MarketId = instance.Id,
                 };
             }
         }

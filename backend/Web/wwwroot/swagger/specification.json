@@ -11,6 +11,40 @@
     "text/json"
   ],
   "paths": {
+    "/api/Market/new": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_CreateMarket",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateMarketRequest"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateMarketResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -98,6 +132,46 @@
     }
   },
   "definitions": {
+    "CreateMarketResponse": {
+      "type": "object",
+      "required": [
+        "marketId"
+      ],
+      "properties": {
+        "marketId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CreateMarketRequest": {
+      "type": "object",
+      "required": [
+        "organiserId",
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "CreateOrganiserResponse": {
       "type": "object",
       "required": [

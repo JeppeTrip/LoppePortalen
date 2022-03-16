@@ -14,9 +14,6 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<MarketInstance> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.MarketTemplate)
-                .WithMany(x => x.MarketInstances)
-                .IsRequired(true);
         }
     }
 }

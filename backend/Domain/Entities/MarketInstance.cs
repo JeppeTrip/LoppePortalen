@@ -15,6 +15,8 @@ namespace Domain.Entities
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
 
+
         public virtual MarketTemplate MarketTemplate { get; set; }
+        public int MarketTemplateId { get; set; }
     }
 }

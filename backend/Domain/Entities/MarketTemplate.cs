@@ -9,10 +9,11 @@ namespace Domain.Entities
 {
     public class MarketTemplate : AuditableEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public int OrganiserId { get; set; }
         public virtual Organiser Organiser { get; set; }
         public virtual List<MarketInstance> MarketInstances { get; set; }
     }
