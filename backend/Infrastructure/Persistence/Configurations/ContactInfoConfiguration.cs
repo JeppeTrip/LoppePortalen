@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    internal class ContactInfoConfiguration : IEntityTypeConfiguration<ContactInfo>
+    public class ContactInfoConfiguration : IEntityTypeConfiguration<ContactInfo>
     {
         public void Configure(EntityTypeBuilder<ContactInfo> builder)
         {

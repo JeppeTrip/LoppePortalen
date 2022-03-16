@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class AddressConfiguration : IEntityTypeConfiguration<Address>
+    public class MarketInstanceConfiguration : IEntityTypeConfiguration<MarketInstance>
     {
-        public void Configure(EntityTypeBuilder<Address> builder) 
+        public void Configure(EntityTypeBuilder<MarketInstance> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.HasOne(x => x.MarketTemplate)
+                .WithMany(x => x.MarketInstances)
+                .IsRequired(true);
         }
     }
 }

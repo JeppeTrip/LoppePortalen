@@ -13,6 +13,8 @@ namespace Infrastructure.Persistence
         public DbSet<Organiser> Organisers { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<ContactInfo> ContactInformations { get; set; }
+        public DbSet<MarketTemplate> MarketTemplates { get; set; }
+        public DbSet<MarketInstance> MarketInstances { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

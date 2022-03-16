@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    internal class OrganiserConfiguration : IEntityTypeConfiguration<Organiser>
+    public class OrganiserConfiguration : IEntityTypeConfiguration<Organiser>
     {
         public void Configure(EntityTypeBuilder<Organiser> builder)
         {
@@ -17,6 +17,9 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne<Address>(x => x.Address);
             builder.HasMany<ContactInfo>(x => x.ContactInfoList)
+                .WithOne(x => x.Organiser)
+                .IsRequired(false);
+            builder.HasMany(x => x.MarketTemplates)
                 .WithOne(x => x.Organiser)
                 .IsRequired(false);
         }

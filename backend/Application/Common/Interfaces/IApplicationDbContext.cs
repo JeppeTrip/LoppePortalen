@@ -11,6 +11,8 @@ namespace Application.Common.Interfaces
         DbSet<Organiser> Organisers { get; set; }
         DbSet<Address> Address { get; set; }
         DbSet<ContactInfo> ContactInformations { get; set; }
+        DbSet<MarketTemplate> MarketTemplates { get; set; }
+        DbSet<MarketInstance> MarketInstances { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
