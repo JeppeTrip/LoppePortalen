@@ -1,6 +1,7 @@
 ﻿using Application.ContactInformation.Commands.AddContactsToOrganiser;
 using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
+using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace Web.Controllers
         public async Task<ActionResult<List<GetAllOrganisersResponse>>> GetAllOrganisers()
         {
             return await Mediator.Send(new GetAllOrganisersQuery());
+        }
+
+        [HttpGet("{pageNumber}/{pageSize}")]
+        public async Task<ActionResult<GetOrganisersWithPaginationResponse>> GetOrganisers([FromRoute] int pageNumber, [FromRoute] int pageSize)
+        {
+            var dto = new GetOrganisersWithPaginationRequest() { PageNumber = pageNumber, PageSize = pageSize };
+            return await Mediator.Send(new GetOrganisersWithPaginationQuery() { Dto = dto});
         }
     }
 }

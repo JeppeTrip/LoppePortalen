@@ -36,6 +36,8 @@ export interface IOrganiserClient {
     addContactInformation(dto: AddContactsToOrganiserRequest): Promise<AddContactsToOrganiserResponse>;
 
     getAllOrganisers(): Promise<GetAllOrganisersResponse[]>;
+
+    getOrganisers(pageNumber: number, pageSize: number): Promise<GetOrganisersWithPaginationResponse>;
 }
 
 export class OrganiserClient extends ClientBase implements IOrganiserClient {
@@ -161,6 +163,47 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
         }
         return Promise.resolve<GetAllOrganisersResponse[]>(null as any);
     }
+
+    getOrganisers(pageNumber: number, pageSize: number): Promise<GetOrganisersWithPaginationResponse> {
+        let url_ = this.baseUrl + "/api/Organiser/{pageNumber}/{pageSize}";
+        if (pageNumber === undefined || pageNumber === null)
+            throw new Error("The parameter 'pageNumber' must be defined.");
+        url_ = url_.replace("{pageNumber}", encodeURIComponent("" + pageNumber));
+        if (pageSize === undefined || pageSize === null)
+            throw new Error("The parameter 'pageSize' must be defined.");
+        url_ = url_.replace("{pageSize}", encodeURIComponent("" + pageSize));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetOrganisers(_response));
+        });
+    }
+
+    protected processGetOrganisers(response: Response): Promise<GetOrganisersWithPaginationResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetOrganisersWithPaginationResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetOrganisersWithPaginationResponse>(null as any);
+    }
 }
 
 export interface ITestClient {
@@ -261,6 +304,24 @@ export interface AddContactsToOrganiserRequest {
 }
 
 export interface GetAllOrganisersResponse {
+    id: number;
+    name?: string | null;
+}
+
+export interface GetOrganisersWithPaginationResponse {
+    organisers?: PaginatedListOfOrganiser | null;
+}
+
+export interface PaginatedListOfOrganiser {
+    items?: Organiser[] | null;
+    pageNumber: number;
+    totalPages: number;
+    totalCount: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+}
+
+export interface Organiser {
     id: number;
     name?: string | null;
 }
