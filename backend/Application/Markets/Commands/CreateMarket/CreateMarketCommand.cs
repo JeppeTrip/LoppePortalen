@@ -38,7 +38,7 @@ namespace Application.Markets.Commands.CreateMarket
                 MarketTemplate template = new MarketTemplate()
                 {
                     Name = request.Dto.MarketName,
-                    Description = request.Dto.MarketName,
+                    Description = request.Dto.Description,
                     Organiser = organiser,
                     OrganiserId = organiser.Id
                 };
