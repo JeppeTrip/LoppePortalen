@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AddOrganiser from "../components/AddOrganiser";
+import MarketForm from "../components/MarketForm";
 import OrganiserList from "../components/OrganiserList";
 import Sidebar from "../components/sidebar/Sidebar";
 
@@ -63,10 +64,10 @@ const TestPage: NextPage = () => {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
                 {
-                    (category === "Organisers" && item === "Create New") && <AddOrganiser />
+                    (category === "Organisers" && item === "List all") && <OrganiserList />
                 }
                 {
-                    (category === "Organisers" && item === "List all") && <OrganiserList />
+                   (category === "Market" && item === "Create New") && <MarketForm />
                 }
             </div>
 
