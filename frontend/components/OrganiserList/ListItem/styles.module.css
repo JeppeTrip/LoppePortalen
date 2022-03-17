@@ -1,0 +1,50 @@
+.avatar {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    border: solid rgba(0,0,0,50%) 1px;
+    border-radius: 2px;
+
+}
+
+.content {
+    position: relative;
+    height: inherit;
+    width: 100%;
+}
+
+.background {
+    background-image: url("../../../public/placeholder/company.png");
+
+    /* Add the blur effect */
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+  
+    /* Full height */
+    height: 100%;
+    width: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.name {
+    display: block;
+    width: -moz-available;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, .85);
+    margin: 0 25px;
+    font-size: larger;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 5px;
+}

@@ -16,6 +16,13 @@ const OrganiserStore = ({ children }) => {
                 postalCode: organiser.postalcode,
                 city: organiser.city
             });
+        },
+        getAllOrganisers: async () => {
+            return clients.organiserClient.getAllOrganisers();
+        },
+
+        getOrganisers: async (pageNumber, pageSize) => {
+            return clients.organiserClient.getOrganisers(pageNumber, pageSize);
         }
     }));
 

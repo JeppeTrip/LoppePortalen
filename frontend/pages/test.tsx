@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AddOrganiser from "../components/AddOrganiser";
+import OrganiserList from "../components/OrganiserList";
 import Sidebar from "../components/sidebar/Sidebar";
 
 const menuItems = [
@@ -50,21 +51,23 @@ const TestPage: NextPage = () => {
     }, [category, item])
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '300px auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '300px auto', height: "100vh" }}>
             <div>
                 <Sidebar
                     menuItems={menuItems}
                     onItemSelect={handleItemSelect}
                     onSubjectSelect={handleSubjectSelect} />
             </div>
-            <div>
+            <div style={{display: "flex", alignContent: "center", height: "inherit"}}>
                 {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
                 {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
-
+                {
+                    (category === "Organisers" && item === "List all") && <OrganiserList />
+                }
             </div>
 
         </div>

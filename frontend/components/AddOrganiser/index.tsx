@@ -11,8 +11,6 @@ type Props = {
 }
 
 const AddOrganiser: FC<Props> = (props: Props) => {
-    //TODO: Maybe move the status stuff out of the components themselves, I dunno.
-    const clients = useContext(ClientContext);
     const store = useContext(OrganiserContext);
 
     const [organiser, setOrganiser] = useState({
@@ -23,6 +21,7 @@ const AddOrganiser: FC<Props> = (props: Props) => {
         postalCode: "",
         city: ""
     } as CreateOrganiserRequest);
+    
     const [state, setState] = useState({
         loading: false,
         error: false,
