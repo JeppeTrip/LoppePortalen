@@ -3,21 +3,21 @@ import Head from 'next/head'
 import { ClientStore } from '../services/Clients'
 import { OrganiserStore } from '../stores/Organiser/OrganiserStore'
 import '../styles.css'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Script from 'next/script';
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-    <Head>
-      <title>Loppe Portalen</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"/>
-      
-      <link rel="stylesheet" href="https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css"/>
-      <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-quill@1.3.3/dist/react-quill.js"></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-<script type="text/babel" src="/my-scripts.js"></script>
-    </Head>
+      <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />
+      <Head>
+        <title>Loppe Portalen</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+        <link rel="stylesheet" href="https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css" />
+
+      </Head>
+
       <ClientStore>
         <OrganiserStore>
           <Component {...pageProps} />

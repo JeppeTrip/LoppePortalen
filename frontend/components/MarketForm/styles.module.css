@@ -1,0 +1,23 @@
+.container{
+    border: 2px solid rgba(0,0,0,60%);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 450px;
+    width: 50%;
+    padding: 10px 25px 10px 25px;
+}
+
+.dateSection {
+    display: flex;
+    gap: 20px;
+}
+
+.input, .label{
+    display: block;
+}
+
+.editor{
+    height: 300px;
+}

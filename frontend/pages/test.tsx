@@ -59,7 +59,7 @@ const TestPage: NextPage = () => {
                     onItemSelect={handleItemSelect}
                     onSubjectSelect={handleSubjectSelect} />
             </div>
-            <div style={{display: "flex", alignContent: "center", height: "inherit"}}>
+            <div style={{display: "flex", alignContent: "center", justifyContent:"center", height: "inherit"}}>
                 {
                     (category === "Organisers" && item === "Create New") && <AddOrganiser />
                 }
