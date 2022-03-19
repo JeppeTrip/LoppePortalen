@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { FC, useContext, useEffect, useState } from "react";
+import { IOrganiser } from "../../@types/Organiser";
 import { ClientContext } from "../../services/Clients";
 import { CreateOrganiserRequest } from "../../stores/models";
 import { OrganiserContext } from "../../stores/Organiser/OrganiserStore";
@@ -13,19 +14,15 @@ type Props = {
 const AddOrganiser: FC<Props> = (props: Props) => {
     const store = useContext(OrganiserContext);
 
-    const [organiser, setOrganiser] = useState({
+    const [organiser, setOrganiser] = useState<IOrganiser>({
+        id: null,
         name: "",
+        description: "",
         street: "",
-        number: "",
+        streetNumber: "",
         appartment: "",
         postalCode: "",
         city: ""
-    } as CreateOrganiserRequest);
-    
-    const [state, setState] = useState({
-        loading: false,
-        error: false,
-        success: false
     });
 
     const handleUpdate = (key, value) =>
@@ -35,61 +32,22 @@ const AddOrganiser: FC<Props> = (props: Props) => {
         }));
 
     const onSubmit = (event) => {
-        setState(
-            prevState => ({
-                ...prevState,
-                success: false,
-                error: false,
-                loading: true
-            }));
-        store.addOrganiser(organiser)
-            .then(res => {
-                setState(
-                    prevState => ({
-                        ...prevState,
-                        loading: false
-                    }));
-                if (!(res.id == null || res.id === "")) {
-                    setState(
-                        prevState => ({
-                            ...prevState,
-                            success: true
-                        }));
-                    setOrganiser({
-                        name: "",
-                        street: "",
-                        number: "",
-                        appartment: "",
-                        postalCode: "",
-                        city: ""
-                    })
-                } else {
-                    setState(
-                        prevState => ({
-                            ...prevState,
-                            error: false
-                        }));
-                }
-            })
-            .catch(e => {
-                setState(
-                    prevState => ({
-                        ...prevState,
-                        loading: false,
-                        error: true
-                    }));
-            });
+        store.addOrganiser(organiser);
+        setOrganiser({
+            id: null,
+            name: "",
+            description: "",
+            street: "",
+            streetNumber: "",
+            appartment: "",
+            postalCode: "",
+            city: ""
+        });
     }
 
     return (
         <>
             <div>
-                <div>
-                    loading: {state.loading + ""}
-                </div>
-                <div>error: {state.error + ""}</div>
-                <div>success: {state.success + ""}</div>
-
                 <h1> Create Organiser  </h1>
                 <form className={styles.form}>
                     <fieldset>
@@ -104,7 +62,7 @@ const AddOrganiser: FC<Props> = (props: Props) => {
                         <input id="street" type="text" name="street" value={organiser.street} onChange={event => handleUpdate("street", event.target.value)} />
 
                         <label className={styles.label} htmlFor="StreetNumber"> Street Number: </label>
-                        <input className={styles.input} id="StreetNumber" type="text" name="StreetNumber" value={organiser.number} onChange={event => handleUpdate("number", event.target.value)} />
+                        <input className={styles.input} id="streetNumber" type="text" name="streetNumber" value={organiser.streetNumber} onChange={event => handleUpdate("streetNumber", event.target.value)} />
 
                         <label className={styles.label} htmlFor="Appartment">Appartment: </label>
                         <input className={styles.input} id="Appartment" type="text" name="Appartment" value={organiser.appartment} onChange={event => handleUpdate("appartment", event.target.value)} />

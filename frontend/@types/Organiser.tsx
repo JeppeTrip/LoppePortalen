@@ -4,6 +4,7 @@ export interface IOrganiser {
     description : string;
     street : string;
     streetNumber : string;
+    appartment: string;
     postalCode : string;
     city : string
 }

@@ -19,13 +19,11 @@ function MyApp({ Component, pageProps }) {
 
       </Head>
 
-      <ClientStore>
-        <OrganiserStore>
-          <MarketStore>
-            <Component {...pageProps} />
-          </MarketStore>
-        </OrganiserStore>
-      </ClientStore>
+      <OrganiserStore>
+        <Component {...pageProps} />
+      </OrganiserStore>
+
+
     </>
 
 
