@@ -10,14 +10,13 @@ const MarketStore = ({ children }) => {
     const marketStore = useLocalObservable(() => ({
         addMarket: async market => {
             console.log(market)
-            return clients.marketClient.createMarket(market);
-        },
-        getAllOrganisers: async () => {
-            return clients.organiserClient.getAllOrganisers();
-        },
-
-        getOrganisers: async (pageNumber, pageSize) => {
-            return clients.organiserClient.getOrganisers(pageNumber, pageSize);
+            return clients.marketClient.createMarket({
+                organiserId: market.organiserId,
+                marketName: market.marketName,
+                description: market.description,
+                startDate: market.startDate,
+                endDate: market.endDate
+            });
         }
     }));
 

@@ -8,6 +8,7 @@ const OrganiserStore = ({ children }) => {
     const clients = useContext(ClientContext);
     const organiserStore = useLocalObservable(() => ({
         addOrganiser: async organiser => {
+            console.log(organiser)
             return clients.organiserClient.createOrganiser({
                 name: organiser.name,
                 street: organiser.street,

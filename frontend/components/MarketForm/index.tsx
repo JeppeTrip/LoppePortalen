@@ -15,6 +15,7 @@ type Props = {
 const MarketForm: FC<Props> = (props: Props) => {
     //TODO: Maybe move the status stuff out of the components themselves, I dunno.
     const store = useContext(MarketContext);
+    
     const [name, setName] = useState("")
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
