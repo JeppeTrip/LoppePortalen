@@ -22,8 +22,6 @@ function MyApp({ Component, pageProps }) {
       <OrganiserStore>
         <Component {...pageProps} />
       </OrganiserStore>
-
-
     </>
 
 

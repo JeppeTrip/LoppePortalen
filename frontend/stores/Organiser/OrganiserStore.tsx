@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { OrganiserContextType, IOrganiser } from '../../@types/Organiser';
 
-
-
 const OrganiserStore: React.FC<React.ReactNode> = ({ children }) => {
     const [organisers, setOrganisers] = React.useState<IOrganiser[]>([]);
     const addOrganiser = (organiser: IOrganiser) => {
