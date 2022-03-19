@@ -20,7 +20,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <OrganiserStore>
-        <Component {...pageProps} />
+        <MarketStore>
+          <Component {...pageProps} />
+        </MarketStore>
       </OrganiserStore>
     </>
 
