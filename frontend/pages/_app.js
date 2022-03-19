@@ -2,6 +2,7 @@ import App from 'next/app'
 import Head from 'next/head'
 import { ClientStore } from '../services/Clients'
 import { OrganiserStore } from '../stores/Organiser/OrganiserStore'
+import { MarketStore } from '../stores/Market/MarketStore'
 import '../styles.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }) {
 
       <ClientStore>
         <OrganiserStore>
-          <Component {...pageProps} />
+          <MarketStore>
+            <Component {...pageProps} />
+          </MarketStore>
         </OrganiserStore>
       </ClientStore>
     </>
