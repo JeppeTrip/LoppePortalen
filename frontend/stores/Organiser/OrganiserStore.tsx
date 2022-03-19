@@ -5,7 +5,7 @@ const OrganiserStore: React.FC<React.ReactNode> = ({ children }) => {
     const [organisers, setOrganisers] = React.useState<IOrganiser[]>([]);
     const addOrganiser = (organiser: IOrganiser) => {
         const newOrganiser = {
-            id: null,
+            id: Math.floor(Math.random() * 100) + 1,
             name: organiser.name,
             description: organiser.description,
             street: organiser.street,

@@ -5,7 +5,8 @@ const MarketStore: React.FC<React.ReactNode> = ({ children }) => {
     const [markets, setMarkets] = React.useState<IMarket[]>([]);
     const addMarket = (market: IMarket) => {
         const newMarket = {
-            id : null,
+            id : Math.floor(Math.random()*100)+1,
+            organiserId : market.organiserId,
             name : market.name,
             startDate : market.startDate,
             endDate : market.endDate,

@@ -1,5 +1,6 @@
 export interface IMarket {
     id : number;
+    organiserId : number;
     name : string;
     startDate : Date;
     endDate : Date;
