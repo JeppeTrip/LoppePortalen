@@ -10,12 +10,16 @@ type Props = {
 const OrganiserList: FC<Props> = (props: Props) => {
     const store = useContext(OrganiserContext);
 
+    useEffect(() => {
+        store.fetchAllOrganisers();
+    }, [])
+
     return (
         <div  className={styles.ol} >
             <ul id={'organiserList'}>
                 {
                     store.organisers.map(o =>
-                        <ListItem id={o.id} name={o.name} />
+                        <ListItem id={o.id} key={o.id} name={o.name} />
                     )
                 }
             </ul>

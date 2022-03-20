@@ -39,9 +39,10 @@ const OrganiserStore: React.FC<React.ReactNode> = ({ children }) => {
         var client = new OrganiserClient();
         client.getAllOrganisers()
             .then((res) => {
+                console.log("Organiser fetch complete.")
                 var organisers = res.map((org) => {
                     return {
-                        id = org.id,
+                        id: org.id,
                         name: org.name,
                         description: "",
                         street: "",
@@ -55,15 +56,15 @@ const OrganiserStore: React.FC<React.ReactNode> = ({ children }) => {
             }
             );
     };
-};
 
-return (
-    <OrganiserContext.Provider
-        value={{ organisers, addOrganiser, fetchAllOrganisers }}>
-        {children}
-    </OrganiserContext.Provider>
-)
-}
+
+    return (
+        <OrganiserContext.Provider
+            value={{ organisers, addOrganiser, fetchAllOrganisers }}>
+            {children}
+        </OrganiserContext.Provider>
+    )
+};
 
 const OrganiserContext = React.createContext<OrganiserContextType | null>(null);
 export { OrganiserContext, OrganiserStore }
