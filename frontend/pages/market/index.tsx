@@ -12,12 +12,15 @@ const MarketProfilePage: NextPage = () => {
                             Market Title
                         </h1>
                         <div className={styles.dateContainer}>
-                            Jan 1 -> Jan 10
+                            <i className="bi bi-calendar-week-fill"/>
+                            <p> Jan 10, 2022 </p>
+                            <i className="bi bi-arrow-right"/>
+                            <p>Jan 11, 2022</p>
                         </div>
                     </div>
 
                     <div className={styles.aboutInfo}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget turpis ornare, suscipit tellus nec, fermentum justo. Praesent tempor luctus dolor at interdum. Nam sed auctor neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis pretium tortor. Vivamus urna nunc, ornare eu nulla quis, rhoncus feugiat nulla. Nulla eu tortor ut libero pulvinar consectetur. Ut rhoncus odio egestas nisi varius, vel sagittis nunc aliquam. Vestibulum placerat metus nec ligula egestas, vel elementum tortor ornare. Vivamus feugiat tincidunt augue non tempor. Donec convallis, nisl at auctor accumsan, eros tortor molestie mi, non maximus tellus magna et ante. 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget turpis ornare, suscipit tellus nec, fermentum justo. Praesent tempor luctus dolor at interdum. Nam sed auctor neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis pretium tortor. Vivamus urna nunc, ornare eu nulla quis, rhoncus feugiat nulla. Nulla eu tortor ut libero pulvinar consectetur. Ut rhoncus odio egestas nisi varius, vel sagittis nunc aliquam. Vestibulum placerat metus nec ligula egestas, vel elementum tortor ornare. Vivamus feugiat tincidunt augue non tempor. Donec convallis, nisl at auctor accumsan, eros tortor molestie mi, non maximus tellus magna et ante.
                     </div>
                 </div>
                 <div className={styles.mapContainer}>
