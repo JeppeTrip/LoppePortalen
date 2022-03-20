@@ -34,13 +34,36 @@ const OrganiserStore: React.FC<React.ReactNode> = ({ children }) => {
         })
     };
 
-    return (
-        <OrganiserContext.Provider
-            value={{organisers, addOrganiser }}>
-            {children}
-        </OrganiserContext.Provider>
-    )
+    //TODO maybe make the organiser object a composite object.
+    const fetchAllOrganisers = () => {
+        var client = new OrganiserClient();
+        client.getAllOrganisers()
+            .then((res) => {
+                var organisers = res.map((org) => {
+                    return {
+                        id = org.id,
+                        name: org.name,
+                        description: "",
+                        street: "",
+                        streetNumber: "",
+                        appartment: "",
+                        postalCode: "",
+                        city: ""
+                    } as IOrganiser
+                });
+                setOrganisers(organisers);
+            }
+            );
+    };
+};
+
+return (
+    <OrganiserContext.Provider
+        value={{ organisers, addOrganiser, fetchAllOrganisers }}>
+        {children}
+    </OrganiserContext.Provider>
+)
 }
 
 const OrganiserContext = React.createContext<OrganiserContextType | null>(null);
-export {OrganiserContext, OrganiserStore}
+export { OrganiserContext, OrganiserStore }

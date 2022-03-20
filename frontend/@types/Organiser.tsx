@@ -12,4 +12,5 @@ export interface IOrganiser {
 export type OrganiserContextType = {
     organisers: IOrganiser[];
     addOrganiser : (organiser : IOrganiser) => void;
+    fetchAllOrganisers : () => void;
 }
