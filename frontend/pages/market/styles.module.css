@@ -1,0 +1,60 @@
+.profile {
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    z-index: 1;
+}
+
+.content {
+    background-color: rgb(255, 255, 255);
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    flex-direction: column;
+    width: 75%;
+    padding: 10px;
+    column-gap: 10px;
+
+}
+
+.contentHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.contentHeader h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600!important;
+    margin: 0;
+}
+
+.dateContainer {
+    font-weight: 600;
+    font-size: medium
+}
+
+.aboutInfo {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.informationContainer {
+   display: flex;
+   flex-direction: column;
+   row-gap: 10px;
+}
+
+.mapContainer {
+    height: 300px;
+}
+
+.mapPlaceholder {
+    border: 2px solid rgba(230, 230, 230, 1);
+    border-radius: 5px;
+    height: 100%;
+
+    background-image: url("../../public/placeholder/map.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}

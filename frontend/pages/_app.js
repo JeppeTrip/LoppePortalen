@@ -16,7 +16,9 @@ function MyApp({ Component, pageProps }) {
         <title>Loppe Portalen</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
         <link rel="stylesheet" href="https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css" />
-
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap" rel="stylesheet"/> 
       </Head>
 
       <OrganiserStore>
@@ -40,7 +42,7 @@ function MyApp({ Component, pageProps }) {
 //   // calls page's `getInitialProps` and fills `appProps.pageProps`
 //   const appProps = await App.getInitialProps(appContext);
 //
-//   return { ...appProps }
+//   return {...appProps}
 // }
 
 export default MyApp
