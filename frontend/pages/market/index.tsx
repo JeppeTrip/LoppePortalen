@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import DateDisplay from "../../components/DateDisplay";
 import styles from './styles.module.css'
 
 const MarketProfilePage: NextPage = () => {
@@ -11,12 +12,7 @@ const MarketProfilePage: NextPage = () => {
                         <h1>
                             Market Title
                         </h1>
-                        <div className={styles.dateContainer}>
-                            <i className="bi bi-calendar-week-fill"/>
-                            <p> Jan 10, 2022 </p>
-                            <i className="bi bi-arrow-right"/>
-                            <p>Jan 11, 2022</p>
-                        </div>
+                        <DateDisplay startDate={new Date("2022-01-01")} endDate={new Date("2022-01-10")}/>
                     </div>
 
                     <div className={styles.aboutInfo}>

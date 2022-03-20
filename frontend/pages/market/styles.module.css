@@ -28,18 +28,6 @@
     margin: 0;
 }
 
-
-.dateContainer {
-    display: flex;
-    column-gap: 5px;
-    font-weight: 600;
-    font-size: medium
-}
-
-.dateContainer p{
-    margin: 0;
-    font-family: 'Quicksand', sans-serif;
-}
 .aboutInfo {
     font-family: 'Quicksand', sans-serif;
 }
