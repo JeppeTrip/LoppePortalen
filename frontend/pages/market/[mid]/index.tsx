@@ -1,13 +1,20 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { IMarket } from "../../@types/Market";
-import DateDisplay from "../../components/DateDisplay";
-import { MarketContext } from "../../stores/Market/MarketStore";
-import styles from './styles.module.css'
+import { IMarket } from "../../../@types/Market";
+import DateDisplay from "../../../components/DateDisplay";
+import { MarketContext } from "../../../stores/Market/MarketStore";
+import styles from './../styles.module.css'
 
-const MarketProfilePage: NextPage = () => {
+type Props = {
+    mid: string
+}
+
+const MarketProfilePageID: NextPage<Props> = () => {
     const [market, setMarket] = useState<IMarket>();
     const store = useContext(MarketContext);
+    const router = useRouter()
+    const { mid } = router.query
 
     useEffect(() => {
         setMarket({
@@ -31,6 +38,7 @@ const MarketProfilePage: NextPage = () => {
                         <>
                             <div className={styles.contentHeader}>
                                 <h1>
+                                    {mid+" "}
                                     {market.name}
                                 </h1>
                                 <DateDisplay startDate={market.startDate} endDate={market.endDate} />
@@ -52,4 +60,4 @@ const MarketProfilePage: NextPage = () => {
     )
 }
 
-export default MarketProfilePage;
+export default MarketProfilePageID;
