@@ -37,9 +37,20 @@ const MarketForm: FC<Props> = (props: Props) => {
         description: ""
     })
 
+    const handleSelect = (event) => {
+        console.log(event);
+        var key = "organiserId"
+        var value = event.target.value;
+        setMarket(prevState => ({
+            ...prevState,
+            [key]: value
+        }));
+    };
+
     const handleUpdate = (key, value) => {
         console.log(key)
         console.log(value)
+        //handle the date times.
         if (key == "startDate" || key == "endDate") {
             if (value.length > 10) {
                 setMarket(prevState => ({
@@ -52,22 +63,45 @@ const MarketForm: FC<Props> = (props: Props) => {
                     [key]: new Date(value)
                 }));
             }
+            //handle everything else.
+        } else {
+            setMarket(prevState => ({
+                ...prevState,
+                [key]: value
+            }));
         }
     }
 
 
 
     const submitMarket = (event) => {
-
+        marketStore.addMarket({
+            id: null,
+            organiserId: market.organiserId,
+            name: market.name,
+            startDate: market.startDate,
+            endDate: market.endDate,
+            description: market.description
+        });
+        setMarket({
+            id: null,
+            organiserId: null,
+            name: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            description: ""
+        });
     }
 
     return (
         <>
             <div className={styles.container}>
                 <div>
-                    <select name="organisers" id="organisers">
+                    <select name="organisers" id="organiserId" onChange={handleSelect}>
+                        <option id="-1" value={-1}>{"select organiser"}</option>
                         {
-                            organiserStore.organisers.map((organiser) => <option id={organiser.id+""} value={organiser.id}>{organiser.name}</option>)
+
+                            organiserStore.organisers.map((organiser) => <option id={organiser.id + ""} value={organiser.id}>{organiser.name}</option>)
                         }
                     </select>
                 </div>
