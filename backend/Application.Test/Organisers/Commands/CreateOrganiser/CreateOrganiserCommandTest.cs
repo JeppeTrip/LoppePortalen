@@ -60,11 +60,10 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
             {
                 Dto = request
             };
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
         }
 
         [Fact]
@@ -85,10 +84,8 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -109,10 +106,9 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
         }
 
         [Fact]
@@ -133,10 +129,9 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
         }
 
         [Fact]
@@ -157,10 +152,9 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
         }
 
         [Fact]
@@ -181,10 +175,9 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
         }
 
         [Fact]
@@ -205,10 +198,9 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            });
+            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
         }
     }
 }
