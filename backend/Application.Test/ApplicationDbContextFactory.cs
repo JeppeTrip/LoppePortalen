@@ -52,6 +52,7 @@ namespace Application.Test
                 }
 
             });
+            context.SaveChanges();
             List<Organiser> organisers = new List<Organiser>()
             {
                 new Organiser()
@@ -173,6 +174,20 @@ namespace Application.Test
                 }
             };
             context.Organisers.AddRange(organisers);
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 1,
+                OrganiserId = 1,
+                Name = "Test Market 1",
+                Description = "Test Description 1"
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id=1,
+                StartDate=DateTime.Now,
+                EndDate=DateTime.Now.AddDays(1),
+                MarketTemplateId = 1
+            });
             context.SaveChanges();
         }
     }
