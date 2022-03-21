@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { IMarket } from "../../../@types/Market";
 import DateDisplay from "../../../components/DateDisplay";
+import Loading from "../../../components/Loading";
 import { MarketContext } from "../../../stores/Market/MarketStore";
 import { MarketClient } from "../../../stores/models";
 import styles from './../styles.module.css'
@@ -12,6 +13,8 @@ type Props = {
 }
 
 const MarketProfilePageID: NextPage<Props> = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
     const [marketId, setMarketId] = useState<string>("");
     const [market, setMarket] = useState<IMarket>(null);
     const router = useRouter();
@@ -29,7 +32,7 @@ const MarketProfilePageID: NextPage<Props> = () => {
         if (marketId) {
             var client = new MarketClient();
             client.getMarketInstance(marketId + "").then(
-                res => setMarket(                        {
+                res => setMarket({
                     id: res.marketId,
                     organiserId: res.organiserId,
                     name: res.marketName,
@@ -37,6 +40,7 @@ const MarketProfilePageID: NextPage<Props> = () => {
                     endDate: new Date(res.endDate),
                     description: res.description
                 }));
+                setIsLoading(false);
         }
     }, [marketId])
 
@@ -44,28 +48,34 @@ const MarketProfilePageID: NextPage<Props> = () => {
     return (
         <div className={styles.profile}>
             <div className={styles.content}>
-                <div className={styles.informationContainer}>
-                    {
-                        (market != undefined || market != null) &&
+                {
+                    isLoading ? <div style={{gridColumnStart: "span 2"}}><Loading /></div> :
                         <>
-                            {console.log(market)}
-                            <div className={styles.contentHeader}>
-                                <h1>
-                                    {market.name}
-                                </h1>
-                                <DateDisplay startDate={market.startDate} endDate={market.endDate} />
-                            </div>
+                            <div className={styles.informationContainer}>
+                                {
+                                    (market != undefined || market != null) &&
+                                    <>
+                                        {console.log(market)}
+                                        <div className={styles.contentHeader}>
+                                            <h1>
+                                                {market.name}
+                                            </h1>
+                                            <DateDisplay startDate={market.startDate} endDate={market.endDate} />
+                                        </div>
 
-                            <div className={styles.aboutInfo}>
-                                {market.description}
+                                        <div className={styles.aboutInfo}>
+                                            {market.description}
+                                        </div>
+                                    </>
+                                }
+
+                            </div>
+                            <div className={styles.mapContainer}>
+                                <div className={styles.mapPlaceholder} />
                             </div>
                         </>
-                    }
+                }
 
-                </div>
-                <div className={styles.mapContainer}>
-                    <div className={styles.mapPlaceholder} />
-                </div>
             </div>
 
         </div>
