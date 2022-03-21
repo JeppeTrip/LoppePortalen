@@ -22,11 +22,9 @@ const MarketProfilePageID: NextPage<Props> = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!router.isReady) { console.log("router is not ready."); return };
-        console.log("router is ready.")
+        if (!router.isReady) { return };
         var { mid } = router.query
         setMarketId(mid + "")
-        console.log(mid);
 
     }, [router.isReady]);
 

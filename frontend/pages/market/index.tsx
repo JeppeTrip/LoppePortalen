@@ -1,51 +1,65 @@
 import { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { IMarket } from "../../@types/Market";
 import DateDisplay from "../../components/DateDisplay";
+import Error from "../../components/Error";
+import Loading from "../../components/Loading";
+import MarketListItem from "../../components/MarketListItem";
 import { MarketContext } from "../../stores/Market/MarketStore";
+import { MarketClient } from "../../stores/models";
 import styles from './styles.module.css'
 
 const MarketProfilePage: NextPage = () => {
-    const [market, setMarket] = useState<IMarket>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    const [markets, setMarkets] = useState<IMarket[]>([]);
     const store = useContext(MarketContext);
 
     useEffect(() => {
-        setMarket({
-            id: 1,
-            organiserId: 1,
-            name: "Name of Market",
-            startDate: new Date("2022-01-01"),
-            endDate: new Date("2022-01-10"),
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget turpis ornare, suscipit tellus nec, fermentum justo. Praesent tempor luctus dolor at interdum. Nam sed auctor neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis pretium tortor. Vivamus urna nunc, ornare eu nulla quis, rhoncus feugiat nulla. Nulla eu tortor ut libero pulvinar consectetur. Ut rhoncus odio egestas nisi varius, vel sagittis nunc aliquam. Vestibulum placerat metus nec ligula egestas, vel elementum tortor ornare. Vivamus feugiat tincidunt augue non tempor. Donec convallis, nisl at auctor accumsan, eros tortor molestie mi, non maximus tellus magna et ante."
+        var client = new MarketClient();
+        client.getAllMarketInstances().then(res => {
+            var results = res.map(m => {
+                return (
+                    {
+                        id: m.marketId,
+                        organiserId: m.organiserId,
+                        name: m.marketName,
+                        startDate: new Date(m.startDate),
+                        endDate: new Date(m.endDate),
+                        description: m.description
+                    }
+                )
+            })
+
+            setMarkets(results);
+            setIsLoading(false);
+        }).catch(error => {
+            setError(true);
+            setIsLoading(false);
         })
     }, [])
-
-
 
     return (
         <div className={styles.profile}>
             <div className={styles.content}>
-                <div className={styles.informationContainer}>
-                    {
-                        market != undefined &&
-                        <>
-                            <div className={styles.contentHeader}>
-                                <h1>
-                                    {market.name}
-                                </h1>
-                                <DateDisplay startDate={market.startDate} endDate={market.endDate} />
-                            </div>
-
-                            <div className={styles.aboutInfo}>
-                                {market.description}
-                            </div>
-                        </>
-                    }
-
-                </div>
-                <div className={styles.mapContainer}>
-                    <div className={styles.mapPlaceholder} />
-                </div>
+                {
+                    error ?
+                        <div style={{ gridColumnStart: "span 2" }}>
+                            <Error message={"Ooops Something Went Wrong."} />
+                        </div>
+                        : isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div>
+                            :
+                            <ul style={{ gridColumnStart: "span 2" }}>
+                                {
+                                    markets.map(market =>
+                                        <MarketListItem key={market.id} name={market.name} id={market.id} startDate={market.startDate} endDate={market.endDate} />
+                                    )
+                                }
+                            </ul>
+                }
             </div>
 
         </div>

@@ -9,7 +9,6 @@ const DateDisplay: FC<Props> = (props: Props) => {
     return (
         
         <div className={styles.dateContainer}>
-            {console.log(props)}
             <i className="bi bi-calendar-week-fill" />
             <p> {props.startDate.toDateString()} </p>
             <i className="bi bi-arrow-right" />
