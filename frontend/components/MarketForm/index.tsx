@@ -83,14 +83,14 @@ const MarketForm: FC<Props> = (props: Props) => {
             endDate: market.endDate,
             description: market.description
         });
-        setMarket({
+        setMarket(prevState => ({
+            ...prevState,
             id: null,
-            organiserId: null,
             name: "",
             startDate: new Date(),
             endDate: new Date(),
             description: ""
-        });
+        }));
     }
 
     return (
