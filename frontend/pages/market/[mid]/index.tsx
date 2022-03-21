@@ -66,14 +66,16 @@ const MarketProfilePageID: NextPage<Props> = () => {
                                     {
                                         (market != undefined || market != null) &&
                                         <>
-                                            {console.log(market)}
                                             <div className={styles.contentHeader}>
                                                 <h1>
                                                     {market.name}
                                                 </h1>
                                                 <DateDisplay startDate={market.startDate} endDate={market.endDate} />
                                             </div>
-
+                                            
+                                            <div className={styles.marketBanner}>
+                                                Image here.
+                                            </div>
                                             <div className={styles.aboutInfo}>
                                                 {market.description}
                                             </div>
@@ -88,7 +90,6 @@ const MarketProfilePageID: NextPage<Props> = () => {
                 }
 
             </div>
-
         </div>
     )
 }
