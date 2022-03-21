@@ -59,12 +59,11 @@ namespace Application.Test.Markets.Queries
             };
 
             var query = new GetMarketInstanceQuery() { Dto = request };
-            var handler = new GetMarketInstanceQuery.GetMarketInstanceQueryHandler(Context);
 
-            await Assert.ThrowsAsync<ValidationException>(async () =>
-            {
-                await new GetMarketInstanceQueryValidator().ValidateAsync(query, CancellationToken.None);
-            });
+            var valRes = await new GetMarketInstanceQueryValidator().ValidateAsync(query, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
+
         }
     }
 }
