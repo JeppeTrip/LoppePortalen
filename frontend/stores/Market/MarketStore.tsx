@@ -26,13 +26,28 @@ const MarketStore: React.FC<React.ReactNode> = ({ children }) => {
             newMarket.id = res.marketId;
             setMarkets([...markets, newMarket]);
         }).catch(error => console.debug(error))
-        
-        
     };
+    const getMarketInstance = (id: number): IMarket => {
+        var client = new MarketClient();
+        var result;
+        client.getMarketInstance(id + "").then(
+            market => {
+                return (
+                    {
+                        id: market.marketId,
+                        organiserId: market.organiserId,
+                        name: market.marketName,
+                        startDate: market.startDate,
+                        endDate: market.endDate,
+                        description: market.description
+                    }
+                )
+            });
+    }
 
     return (
         <MarketContext.Provider
-            value={{ markets, addMarket }}>
+            value={{ markets, addMarket, getMarketInstance }}>
             {children}
         </MarketContext.Provider>
     )

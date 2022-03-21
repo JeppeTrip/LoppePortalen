@@ -10,4 +10,5 @@ export interface IMarket {
 export type MarketContextType = {
     markets: IMarket[];
     addMarket : (market : IMarket) => void;
+    getMarketInstance : (id : number) => IMarket;
 }

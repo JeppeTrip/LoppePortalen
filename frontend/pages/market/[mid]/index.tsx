@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { IMarket } from "../../../@types/Market";
 import DateDisplay from "../../../components/DateDisplay";
 import { MarketContext } from "../../../stores/Market/MarketStore";
+import { MarketClient } from "../../../stores/models";
 import styles from './../styles.module.css'
 
 type Props = {
@@ -11,22 +12,33 @@ type Props = {
 }
 
 const MarketProfilePageID: NextPage<Props> = () => {
-    const [market, setMarket] = useState<IMarket>();
-    const store = useContext(MarketContext);
-    const router = useRouter()
-    const { mid } = router.query
+    const [marketId, setMarketId] = useState<string>("");
+    const [market, setMarket] = useState<IMarket>(null);
+    const router = useRouter();
 
     useEffect(() => {
-        setMarket({
-            id: 1,
-            organiserId: 1,
-            name: "Name of Market",
-            startDate: new Date("2022-01-01"),
-            endDate: new Date("2022-01-10"),
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget turpis ornare, suscipit tellus nec, fermentum justo. Praesent tempor luctus dolor at interdum. Nam sed auctor neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis pretium tortor. Vivamus urna nunc, ornare eu nulla quis, rhoncus feugiat nulla. Nulla eu tortor ut libero pulvinar consectetur. Ut rhoncus odio egestas nisi varius, vel sagittis nunc aliquam. Vestibulum placerat metus nec ligula egestas, vel elementum tortor ornare. Vivamus feugiat tincidunt augue non tempor. Donec convallis, nisl at auctor accumsan, eros tortor molestie mi, non maximus tellus magna et ante."
-        })
-    }, [])
+        if (!router.isReady) { console.log("router is not ready."); return };
+        console.log("router is ready.")
+        var { mid } = router.query
+        setMarketId(mid + "")
+        console.log(mid);
 
+    }, [router.isReady]);
+
+    useEffect(() => {
+        if (marketId) {
+            var client = new MarketClient();
+            client.getMarketInstance(marketId + "").then(
+                res => setMarket(                        {
+                    id: res.marketId,
+                    organiserId: res.organiserId,
+                    name: res.marketName,
+                    startDate: new Date(res.startDate),
+                    endDate: new Date(res.endDate),
+                    description: res.description
+                }));
+        }
+    }, [marketId])
 
 
     return (
@@ -34,11 +46,11 @@ const MarketProfilePageID: NextPage<Props> = () => {
             <div className={styles.content}>
                 <div className={styles.informationContainer}>
                     {
-                        market != undefined &&
+                        (market != undefined || market != null) &&
                         <>
+                            {console.log(market)}
                             <div className={styles.contentHeader}>
                                 <h1>
-                                    {mid+" "}
                                     {market.name}
                                 </h1>
                                 <DateDisplay startDate={market.startDate} endDate={market.endDate} />
