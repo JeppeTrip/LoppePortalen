@@ -34,6 +34,8 @@ export interface IMarketClient {
     createMarket(dto: CreateMarketRequest): Promise<CreateMarketResponse>;
 
     getMarketInstance(id: string | null): Promise<GetMarketInstanceQueryResponse>;
+
+    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -122,6 +124,41 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<GetMarketInstanceQueryResponse>(null as any);
+    }
+
+    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]> {
+        let url_ = this.baseUrl + "/api/Market/instance/all";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetAllMarketInstances(_response));
+        });
+    }
+
+    protected processGetAllMarketInstances(response: Response): Promise<GetAllMarketInstancesQueryResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAllMarketInstancesQueryResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetAllMarketInstancesQueryResponse[]>(null as any);
     }
 }
 
@@ -367,6 +404,15 @@ export interface CreateMarketRequest {
 }
 
 export interface GetMarketInstanceQueryResponse {
+    marketId: number;
+    organiserId: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate: Date;
+    endDate: Date;
+}
+
+export interface GetAllMarketInstancesQueryResponse {
     marketId: number;
     organiserId: number;
     marketName?: string | null;

@@ -1,6 +1,8 @@
 ﻿using Application.Markets.Commands.CreateMarket;
+using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetMarket;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -22,6 +24,12 @@ namespace Web.Controllers
                 {
                     Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId }
                 });
+        }
+
+        [HttpGet("instance/all")]
+        public async Task<ActionResult<List<GetAllMarketInstancesQueryResponse>>> GetAllMarketInstances()
+        {
+            return await Mediator.Send(new GetAllMarketInstancesQuery());
         }
     }
 }

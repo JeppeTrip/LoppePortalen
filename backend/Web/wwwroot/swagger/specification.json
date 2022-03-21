@@ -71,6 +71,26 @@
         }
       }
     },
+    "/api/Market/instance/all": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetAllMarketInstances",
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetAllMarketInstancesQueryResponse"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -254,6 +274,39 @@
       }
     },
     "GetMarketInstanceQueryResponse": {
+      "type": "object",
+      "required": [
+        "marketId",
+        "organiserId",
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "marketId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "GetAllMarketInstancesQueryResponse": {
       "type": "object",
       "required": [
         "marketId",
