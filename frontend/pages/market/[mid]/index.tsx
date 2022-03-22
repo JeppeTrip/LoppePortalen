@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { IMarket } from "../../../@types/Market";
+import Banner from "../../../components/Banner";
 import DateDisplay from "../../../components/DateDisplay";
 import Error from "../../../components/Error";
 import Loading from "../../../components/Loading";
@@ -51,44 +52,70 @@ const MarketProfilePageID: NextPage<Props> = () => {
 
 
     return (
-        <div className={styles.profile}>
-            <div className={styles.content}>
+        isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div> :
+            <div className={styles.profile}>
+                <div className={styles.header}>
+                    <div className={styles.coverPhoto}>
+                        <Banner />
+                    </div>
+                    <div className={styles.headerInfo}>
+                        <h1> {market.name} </h1>
+                        <DateDisplay startDate={market.startDate} endDate={market.endDate} />
+                        <button> Edit Market </button>
+                    </div>
+                </div>
+                <div className={styles.contentArea} >
+                    <div className={styles.aboutInfo}>
+                        <h2>About</h2>
+                        {market.description}
+                    </div>
+                    <div className={styles.mapContainer}>
+                        <div className={styles.mapPlaceholder} />
+                    </div>
+                </div>
                 {
-                    error ?
-                        <div style={{ gridColumnStart: "span 2" }}>
-                            <Error message={"Ooops Something Went Wrong."} />
-                        </div>
-                        : isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div>
-                            : <>
-                                <div className={styles.informationContainer}>
-                                    {
-                                        (market != undefined || market != null) &&
-                                        <>
-                                            <div className={styles.contentHeader}>
-                                                <h1>
-                                                    {market.name}
-                                                </h1>
-                                                <DateDisplay startDate={market.startDate} endDate={market.endDate} />
-                                            </div>
-                                            
-                                            <div className={styles.marketBanner}>
-                                                Image here.
-                                            </div>
-                                            <div className={styles.aboutInfo}>
-                                                {market.description}
-                                            </div>
-                                        </>
-                                    }
+                    /*
+                                <div className={styles.content}>
+                    {
+                        error ?
+                            <div style={{ gridColumnStart: "span 2" }}>
+                                <Error message={"Ooops Something Went Wrong."} />
+                            </div>
+                            : isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div>
+                                : <>
+                                    <div className={styles.informationContainer}>
+                                        {
+                                            (market != undefined || market != null) &&
+                                            <>
+                                                <div className={styles.contentHeader}>
+                                                    <h1>
+                                                        {market.name}
+                                                    </h1>
+                                                    <DateDisplay startDate={market.startDate} endDate={market.endDate} />
+                                                </div>
+                                                
+                                                <div className={styles.marketBanner}>
+                                                    Image here.
+                                                </div>
+                                                <div className={styles.aboutInfo}>
+                                                    {market.description}
+                                                </div>
+                                            </>
+                                        }
+    
+                                    </div>
+                                    <div className={styles.mapContainer}>
+                                        <div className={styles.mapPlaceholder} />
+                                    </div>
+                                </>
+                    }
+    
+                </div>
+                    */
 
-                                </div>
-                                <div className={styles.mapContainer}>
-                                    <div className={styles.mapPlaceholder} />
-                                </div>
-                            </>
                 }
 
             </div>
-        </div>
     )
 }
 
