@@ -42,7 +42,9 @@ namespace Application.Markets.Commands.EditMarketInstance
                 }
 
                 bool hasSiblings = marketInstance.MarketTemplate.MarketInstances.Count() > 1;
-                if(hasSiblings){
+                bool hasTemplateChanged = !(marketInstance.MarketTemplate.Name.Equals(request.Dto.MarketName) && marketInstance.MarketTemplate.Description.Equals(request.Dto.Description));
+                if(hasSiblings && hasTemplateChanged)
+                {
                     MarketTemplate newTemplate = new MarketTemplate() { 
                         Name = request.Dto.MarketName,
                         OrganiserId = request.Dto.OrganiserId,
