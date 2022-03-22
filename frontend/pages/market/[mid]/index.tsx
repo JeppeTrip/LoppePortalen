@@ -50,6 +50,10 @@ const MarketProfilePageID: NextPage<Props> = () => {
         }
     }, [marketId])
 
+    const handleOnEdit = (event) => {
+        event.preventDefault();
+        router.push(`/market/edit/${marketId}`);
+    }
 
     return (
         isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div> :
@@ -61,7 +65,7 @@ const MarketProfilePageID: NextPage<Props> = () => {
                     <div className={styles.headerInfo}>
                         <h1> {market.name} </h1>
                         <DateDisplay startDate={market.startDate} endDate={market.endDate} />
-                        <button> Edit Market </button>
+                        <button onClick={handleOnEdit}> Edit Market </button>
                     </div>
                 </div>
                 <div className={styles.contentArea} >
@@ -73,48 +77,6 @@ const MarketProfilePageID: NextPage<Props> = () => {
                         <div className={styles.mapPlaceholder} />
                     </div>
                 </div>
-                {
-                    /*
-                                <div className={styles.content}>
-                    {
-                        error ?
-                            <div style={{ gridColumnStart: "span 2" }}>
-                                <Error message={"Ooops Something Went Wrong."} />
-                            </div>
-                            : isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div>
-                                : <>
-                                    <div className={styles.informationContainer}>
-                                        {
-                                            (market != undefined || market != null) &&
-                                            <>
-                                                <div className={styles.contentHeader}>
-                                                    <h1>
-                                                        {market.name}
-                                                    </h1>
-                                                    <DateDisplay startDate={market.startDate} endDate={market.endDate} />
-                                                </div>
-                                                
-                                                <div className={styles.marketBanner}>
-                                                    Image here.
-                                                </div>
-                                                <div className={styles.aboutInfo}>
-                                                    {market.description}
-                                                </div>
-                                            </>
-                                        }
-    
-                                    </div>
-                                    <div className={styles.mapContainer}>
-                                        <div className={styles.mapPlaceholder} />
-                                    </div>
-                                </>
-                    }
-    
-                </div>
-                    */
-
-                }
-
             </div>
     )
 }

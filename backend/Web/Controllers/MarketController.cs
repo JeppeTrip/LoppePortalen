@@ -1,4 +1,5 @@
 ﻿using Application.Markets.Commands.CreateMarket;
+using Application.Markets.Commands.EditMarketInstance;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetMarket;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,12 @@ namespace Web.Controllers
         public async Task<ActionResult<List<GetAllMarketInstancesQueryResponse>>> GetAllMarketInstances()
         {
             return await Mediator.Send(new GetAllMarketInstancesQuery());
+        }
+
+        [HttpPost("instance/edit")]
+        public async Task<ActionResult<EditMarketInstanceResponse>> EditMarketInstance(EditMarketInstanceRequest dto)
+        {
+            return await Mediator.Send(new EditMarketInstanceCommand() { Dto = dto});
         }
     }
 }

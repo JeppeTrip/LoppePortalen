@@ -91,6 +91,40 @@
         }
       }
     },
+    "/api/Market/instance/edit": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_EditMarketInstance",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EditMarketInstanceRequest"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditMarketInstanceResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -320,6 +354,72 @@
           "format": "int32"
         },
         "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EditMarketInstanceResponse": {
+      "type": "object",
+      "required": [
+        "organiserId",
+        "marketInstanceId",
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketInstanceId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EditMarketInstanceRequest": {
+      "type": "object",
+      "required": [
+        "organiserId",
+        "marketInstanceId",
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketInstanceId": {
           "type": "integer",
           "format": "int32"
         },

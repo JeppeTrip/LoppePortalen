@@ -15,6 +15,9 @@ const EditMarket: NextPage<Props> = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(false);
+
     const [marketId, setMarketId] = useState<string>("");
     const [market, setMarket] = useState<IMarket>(null);
     const router = useRouter();
@@ -73,7 +76,22 @@ const EditMarket: NextPage<Props> = () => {
     }
 
     const handleSubmit = (event) => {
-        console.log("submit edit here.")
+        event.preventDefault();
+        setIsSubmitting(true);
+        var client = new MarketClient();
+        client.editMarketInstance({
+            organiserId: market.organiserId,
+            marketInstanceId: market.id,
+            marketName: market.name,
+            startDate: market.startDate,
+            endDate: market.endDate,
+            description: market.description
+        }).then(res => {
+            router.push(`/market/${res.marketInstanceId}`)
+        }).catch(error => {
+            setIsSubmitting(false);
+            setSubmitError(true);
+        })
     }
 
     return (
@@ -98,7 +116,12 @@ const EditMarket: NextPage<Props> = () => {
 
                         <label>Description:</label>
                         <textarea className={styles.textarea} value={market.description} onChange={e => handleUpdate("description", e.target.value)} />
-                        <button onClick={handleSubmit}>Submit</button>
+                        {
+                            isSubmitting ? <i style={{alignSelf: "center", justifySelf: "center"}}className="bi bi-cloud-arrow-up"></i> : <button onClick={handleSubmit}>Submit</button>
+                        }
+                        {
+                            submitError && <div className={styles.errorMsg}>Something went wrong trying to submit your request, try again.</div>
+                        }
                     </div>
                 </div>
     )
