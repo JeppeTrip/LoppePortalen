@@ -188,6 +188,34 @@ namespace Application.Test
                 EndDate=DateTime.Now.AddDays(1),
                 MarketTemplateId = 1
             });
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2,
+                OrganiserId = 1,
+                Name = "Test Market 2",
+                Description = "Test Description 2"
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 2,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                MarketTemplateId = 2
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 3,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                MarketTemplateId = 2
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 4,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                MarketTemplateId = 2
+            });
             context.SaveChanges();
         }
     }
