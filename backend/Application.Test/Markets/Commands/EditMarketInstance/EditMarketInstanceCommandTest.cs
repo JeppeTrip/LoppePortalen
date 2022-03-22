@@ -223,5 +223,137 @@ namespace Application.Test.Markets.Commands.EditMarketInstance
                 await handler.Handle(command, CancellationToken.None);
             });
         }
+
+        [Fact]
+        public async Task Handle_NegativeOrganiserId()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = -1,
+                MarketInstanceId = 1,
+                MarketName = "This Should fail so doesn't matter",
+                Description = "This Should fail so doesn't matter",
+                EndDate = DateTime.Now.AddDays(1),
+                StartDate = DateTime.Now
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task Handle_NoMarketName()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = 1,
+                MarketInstanceId = 1,
+                MarketName = "",
+                Description = "Description",
+                EndDate = DateTime.Now.AddDays(1),
+                StartDate = DateTime.Now
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+            valRes.Errors.Count.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task Handle_NoMarketDescription()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = 1,
+                MarketInstanceId = 1,
+                MarketName = "Market Name",
+                Description = "",
+                EndDate = DateTime.Now.AddDays(1),
+                StartDate = DateTime.Now
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Handle_NoMarketStartDate()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = 1,
+                MarketInstanceId = 1,
+                MarketName = "Name",
+                Description = "Description",
+                EndDate = DateTime.Now.AddDays(1),
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_NoMarketEndDate()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = 1,
+                MarketInstanceId = 1,
+                MarketName = "Name",
+                Description = "Description",
+                StartDate = DateTime.Now,
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_NoEndDateBeforeStartDate()
+        {
+            var request = new EditMarketInstanceRequest()
+            {
+                OrganiserId = 1,
+                MarketInstanceId = 1,
+                MarketName = "Name",
+                Description = "Description",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(-1),
+            };
+            var command = new EditMarketInstanceCommand()
+            {
+                Dto = request
+            };
+
+            var valRes = await new EditMarketInstanceCommandValidator()
+                .ValidateAsync(command, CancellationToken.None);
+            valRes.IsValid.Should().BeFalse();
+        }
     }
 }
