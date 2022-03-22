@@ -98,7 +98,7 @@ const EditMarket: NextPage<Props> = () => {
 
                         <label>Description:</label>
                         <textarea className={styles.textarea} value={market.description} onChange={e => handleUpdate("description", e.target.value)} />
-                        <button>Submit</button>
+                        <button onClick={handleSubmit}>Submit</button>
                     </div>
                 </div>
     )
