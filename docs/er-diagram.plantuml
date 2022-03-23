@@ -12,9 +12,42 @@ class ContactInfo {
     value : string
 }
 
+Enum ContactType {
 
+}
+
+class MarketTemplate {
+
+}
+
+class MarketInstance {
+
+}
+
+class Map {
+
+}
+
+class Stall {
+
+}
+
+class User {
+
+}
+
+class Seller {
+
+}
 
 Organiser "1" -- "*" ContactInfo
-ContactInfo --> ContactType
-
+ContactInfo ..> ContactType
+MarketTemplate "1" -- "1..*" MarketInstance
+MarketTemplate "*" -- "1" Organiser
+MarketTemplate "1" -- "1" Map
+Stall "1..*" -- "1" Map
+User "1" -- "*" Organiser
+User "1" -- "*" Seller
+Stall "*" -- "1" Seller
+Seller "1" -- "1..*" ContactInfo
 @enduml
