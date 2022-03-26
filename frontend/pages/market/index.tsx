@@ -1,4 +1,4 @@
-import { Avatar, CircularProgress, Container, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { Avatar, CircularProgress, Container, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import ImageIcon from '@mui/icons-material/Image'
 import WorkIcon from '@mui/icons-material/Work'
 import BeachAccessIcon from '@mui/icons-material/BeachAccess'
@@ -7,8 +7,10 @@ import TopBar from "../../components/TopBar";
 import styles from './styles.module.css'
 import { useContext, useEffect } from "react";
 import { StoreContext } from "../../stores/StoreContext";
+import MarketListItem from "../../components/MarketListItem";
+import { observer } from "mobx-react-lite";
 
-const Markets: NextPage = () => {
+const Markets: NextPage = observer(() => {
     const stores = useContext(StoreContext);
 
     useEffect(() => {
@@ -24,30 +26,10 @@ const Markets: NextPage = () => {
     const content = () => {
         return (
             <List>
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <ImageIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-                </ListItem>
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <WorkIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Work" secondary="Jan 7, 2014" />
-                </ListItem>
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <BeachAccessIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Vacation" secondary="July 20, 2014" />
-                </ListItem>
+                {
+                    stores.marketStore.markets.map(
+                        market => <> <MarketListItem Market={market}/> <Divider /> </>)
+                }
             </List>
         );
     }
@@ -66,6 +48,6 @@ const Markets: NextPage = () => {
 
         </>
     )
-}
+})
 
 export default Markets;
