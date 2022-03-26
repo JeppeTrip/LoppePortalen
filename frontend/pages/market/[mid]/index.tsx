@@ -7,6 +7,7 @@ import TopBar from "../../../components/TopBar";
 import { StoreContext } from "../../../stores/StoreContext";
 import styles from './styles.module.css'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useRouter } from "next/router";
 
 type Props = {
     mid: string
@@ -15,6 +16,27 @@ type Props = {
 const MarketProfilePageID: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
     const [selectedMarket, setSelectedMarket] = useState(null)
+    const [marketId, setMarketId] = useState<string>("");
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!router.isReady) { return };
+        var { mid } = router.query
+        setMarketId(mid + "")
+
+    }, [router.isReady]);
+
+    useEffect(() => {
+        if (stores.marketStore.selectedMarket == null) {
+            if (!(marketId == ""))
+            {
+                //TODO: this should call a backend fetch probably to get a fully updated market.
+                var market = stores.marketStore.getMarket(parseInt(marketId))
+                stores.marketStore.setSelectedMarket(market);
+            }
+
+        }
+    }, [marketId])
 
     useEffect(() => {
         setSelectedMarket(stores.marketStore.selectedMarket)

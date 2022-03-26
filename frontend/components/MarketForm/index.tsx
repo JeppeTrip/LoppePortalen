@@ -1,135 +1,115 @@
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
-import { OrganiserContext } from "../../stores/Organiser/OrganiserStore";
-import { MarketContext } from "../../stores/Markets/MarketStore";
-import styles from "./styles.module.css";
+import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField } from "@mui/material";
+
+import { FC, useContext, useEffect, useState } from "react";
+
+import { observer } from "mobx-react-lite";
+import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import styles from './styles.module.css'
 import { IMarket } from "../../@types/Market";
+import { StoreContext } from "../../stores/StoreContext";
 
-type Props = {
-
-}
-
-const months = {
-    0: "01",
-    1: "02",
-    2: "03",
-    3: "04",
-    4: "05",
-    5: "06",
-    6: "07",
-    7: "08",
-    8: "09",
-    9: "10",
-    10: "11",
-    11: "12",
-}
+type Props = {}
 
 const MarketForm: FC<Props> = (props: Props) => {
-    //TODO: Maybe move the status stuff out of the components themselves, I dunno.
-    const organiserStore = useContext(OrganiserContext);
-    const marketStore = useContext(MarketContext);
-
-    const [market, setMarket] = useState<IMarket>({
-        id: null,
-        organiserId: null,
-        name: "",
-        startDate: new Date(),
-        endDate: new Date(),
-        description: ""
-    })
-
-    const handleSelect = (event) => {
-        console.log(event);
-        var key = "organiserId"
-        var value = event.target.value;
-        setMarket(prevState => ({
-            ...prevState,
-            [key]: value
-        }));
-    };
-
-    const handleUpdate = (key, value) => {
-        console.log(key)
-        console.log(value)
-        //handle the date times.
-        if (key == "startDate" || key == "endDate") {
-            if (value.length > 10) {
-                setMarket(prevState => ({
-                    ...prevState
-                }));
-            }
-            else {
-                setMarket(prevState => ({
-                    ...prevState,
-                    [key]: new Date(value)
-                }));
-            }
-            //handle everything else.
-        } else {
-            setMarket(prevState => ({
-                ...prevState,
-                [key]: value
-            }));
-        }
-    }
-
-
-
-    const submitMarket = (event) => {
-        marketStore.addMarket({
-            id: null,
-            organiserId: market.organiserId,
-            name: market.name,
-            startDate: market.startDate,
-            endDate: market.endDate,
-            description: market.description
-        });
-        setMarket(prevState => ({
-            ...prevState,
-            id: null,
+    const stores = useContext(StoreContext);
+    const [newMarket, setNewMarket] = useState<IMarket>(
+        {
+            id: undefined,
+            organiserId: undefined,
             name: "",
             startDate: new Date(),
             endDate: new Date(),
             description: ""
+        }
+    );
+
+    const handleUpdate = (key, value) => {
+        setNewMarket(prevState => ({
+            ...prevState,
+            [key]: value
         }));
     }
 
+    const handleSubmit = (event) => {
+        stores.marketStore.addNewMarket(newMarket);
+        setNewMarket({
+            id: undefined,
+            organiserId: undefined,
+            name: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            description: ""
+        });
+    }
+
     return (
-        <>
-            <div className={styles.container}>
-                <div>
-                    <select name="organisers" id="organiserId" onChange={handleSelect}>
-                        <option id="-1" value={-1}>{"select organiser"}</option>
-                        {
-
-                            organiserStore.organisers.map((organiser) => <option id={organiser.id + ""} value={organiser.id}>{organiser.name}</option>)
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                {
+                    //TODO: Fix this, this bad.
+                }
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserId"
+                    label="Organiser ID"
+                    variant="outlined"
+                    value={newMarket.organiserId}
+                    type="number"
+                    onChange={(event => handleUpdate("organiserId", parseInt(event.target.value)))}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                    className={styles.nameInput}
+                    id="marketName"
+                    label="Name"
+                    variant="outlined"
+                    onChange={(event => handleUpdate("name", event.target.value))}
+                    value={newMarket.name} />
+            </Grid>
+            <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        label="Start Date"
+                        value={newMarket.startDate}
+                        onChange={(newValue) => {
+                            handleUpdate("startDate", newValue)
                         }
-                    </select>
-                </div>
-                <div>
-                    <label className={styles.label} htmlFor="marketName">Market name:</label>
-                    <input className={styles.input} type='text' id="marketName" name="marketName" value={market.name} onChange={e => handleUpdate("name", e.target.value)} />
-                </div>
+                        }
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        label="End Date"
+                        value={newMarket.endDate}
+                        onChange={(newValue) => {
+                            handleUpdate("endDate", newValue)
+                        }
+                        }
+                    />
+                </LocalizationProvider>
+            </Grid>
 
-                <div className={styles.dateSection}>
-                    <div>
-                        <label className={styles.label} htmlFor="startDate">Start date:</label>
-                        <input required className={styles.input} type='date' id="startDate" name="startDate" onChange={e => handleUpdate("startDate", e.target.value)}
-                            value={market.startDate.toISOString().slice(0, 10)} />
-                    </div>
-                    <div>
-                        <label className={styles.label} htmlFor="endDate">End date:</label>
-                        <input required className={styles.input} id="endDate" name="endDate"
-                            type='date' onChange={e => handleUpdate("endDate", e.target.value)} value={market.endDate.toISOString().slice(0, 10)} />
-                    </div>
-                </div>
-                <div className={styles.editor}>
-                    <textarea className={styles.textarea} value={market.description} onChange={e => handleUpdate("description", e.target.value)} />
-                </div>
-                <button id="submitMarket" onClick={submitMarket}>
-                    Submit
-                </button>
-            </div >
-        </>
+            <Grid item xs={12}>
+                <TextField
+                    className={styles.descriptionInput}
+                    id="outlined-multiline-static"
+                    label="Description"
+                    value={newMarket.description}
+                    onChange={(event => handleUpdate("description", event.target.value))}
+                    multiline
+                    rows={10}
+                />
+            </Grid>
+            <Grid item>
+                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+            </Grid>
+        </Grid>
 
     )
 }
