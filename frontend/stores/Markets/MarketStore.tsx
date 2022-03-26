@@ -7,6 +7,7 @@ import { RootStore } from '../RootStore';
 class MarketStore {
     rootStore : RootStore;
     markets : IMarket[] = [];
+    selectedMarket : IMarket = null; 
     isLoading = true;
 
     constructor(rootStore : RootStore) {
@@ -63,6 +64,10 @@ class MarketStore {
         ]
         this.isLoading = false;
        
+    }
+
+    setSelectedMarket(market : IMarket) {
+        this.selectedMarket = market;
     }
 }
 
