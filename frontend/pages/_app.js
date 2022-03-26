@@ -9,6 +9,8 @@ import { createContext } from 'vm'
 import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
 
+const rootStore = new RootStore();
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -33,7 +35,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
 
-        <StoreProvider store={new RootStore()}>
+        <StoreProvider store={rootStore}>
           <CssBaseline />
           <Component {...pageProps} />
         </StoreProvider>

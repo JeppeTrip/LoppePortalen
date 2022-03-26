@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import * as React from 'react';
 import { MarketContextType, IMarket } from '../../@types/Market';
 import { MarketClient } from '../models';
@@ -66,8 +66,12 @@ class MarketStore {
        
     }
 
+    @action
     setSelectedMarket(market : IMarket) {
+        console.log("Setting selected market")
+        console.log(market)
         this.selectedMarket = market;
+        console.log("done setting selected market.")
     }
 }
 
