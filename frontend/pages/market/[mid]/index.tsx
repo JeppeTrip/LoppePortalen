@@ -5,7 +5,7 @@ import { IMarket } from "../../../@types/Market";
 import DateDisplay from "../../../components/DateDisplay";
 import Error from "../../../components/Error";
 import Loading from "../../../components/Loading";
-import { MarketContext } from "../../../stores/Market/MarketStore";
+import { MarketContext } from "../../../stores/Markets/MarketStore";
 import { MarketClient } from "../../../stores/models";
 import styles from './../styles.module.css'
 

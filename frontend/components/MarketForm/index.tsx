@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { OrganiserContext } from "../../stores/Organiser/OrganiserStore";
-import { MarketContext } from "../../stores/Market/MarketStore";
+import { MarketContext } from "../../stores/Markets/MarketStore";
 import styles from "./styles.module.css";
 import { IMarket } from "../../@types/Market";
 

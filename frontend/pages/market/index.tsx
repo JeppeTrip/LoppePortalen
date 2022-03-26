@@ -1,69 +1,71 @@
+import { Avatar, CircularProgress, Container, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import ImageIcon from '@mui/icons-material/Image'
+import WorkIcon from '@mui/icons-material/Work'
+import BeachAccessIcon from '@mui/icons-material/BeachAccess'
 import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { IMarket } from "../../@types/Market";
-import DateDisplay from "../../components/DateDisplay";
-import Error from "../../components/Error";
-import Loading from "../../components/Loading";
-import MarketListItem from "../../components/MarketListItem";
-import { MarketContext } from "../../stores/Market/MarketStore";
-import { MarketClient } from "../../stores/models";
+import TopBar from "../../components/TopBar";
 import styles from './styles.module.css'
+import { useContext, useEffect } from "react";
+import { StoreContext } from "../../stores/StoreContext";
 
-const MarketProfilePage: NextPage = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    const [markets, setMarkets] = useState<IMarket[]>([]);
-    const store = useContext(MarketContext);
+const Markets: NextPage = () => {
+    const stores = useContext(StoreContext);
 
     useEffect(() => {
-        var client = new MarketClient();
-        client.getAllMarketInstances().then(res => {
-            var results = res.map(m => {
-                return (
-                    {
-                        id: m.marketId,
-                        organiserId: m.organiserId,
-                        name: m.marketName,
-                        startDate: new Date(m.startDate),
-                        endDate: new Date(m.endDate),
-                        description: m.description
-                    }
-                )
-            })
+        console.log(stores)
+    }, [stores])
 
-            setMarkets(results);
-            setIsLoading(false);
-        }).catch(error => {
-            setError(true);
-            setIsLoading(false);
-        })
-    }, [])
+    const loading = () => {
+        return (
+                <CircularProgress />
+        )
+    }
+
+    const content = () => {
+        return (
+            <List>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <ImageIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+                </ListItem>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <WorkIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Work" secondary="Jan 7, 2014" />
+                </ListItem>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <BeachAccessIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Vacation" secondary="July 20, 2014" />
+                </ListItem>
+            </List>
+        );
+    }
 
     return (
-        <div className={styles.profile}>
-            <div className={styles.content}>
+        <>
+            <Container 
+                className={stores.marketStore.isLoading ? 
+                    styles.ContainerLoading : styles.Container} 
+                maxWidth="sm">
+            <TopBar />
                 {
-                    error ?
-                        <div style={{ gridColumnStart: "span 2" }}>
-                            <Error message={"Ooops Something Went Wrong."} />
-                        </div>
-                        : isLoading ? <div style={{ gridColumnStart: "span 2" }}><Loading /></div>
-                            :
-                            <ul style={{ gridColumnStart: "span 2" }}>
-                                {
-                                    markets.map(market =>
-                                        <MarketListItem key={market.id} name={market.name} id={market.id} startDate={market.startDate} endDate={market.endDate} />
-                                    )
-                                }
-                            </ul>
+                    stores.marketStore.isLoading ? loading() : content()
                 }
-            </div>
+            </Container>
 
-        </div>
+        </>
     )
 }
 
-export default MarketProfilePage;
+export default Markets;
