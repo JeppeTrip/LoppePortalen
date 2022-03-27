@@ -1,14 +1,15 @@
-import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField } from "@mui/material";
+import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from "@mui/material";
 
 import { FC, useContext, useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
-import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import styles from './styles.module.css'
 import { IMarket } from "../../@types/Market";
 import { StoreContext } from "../../stores/StoreContext";
 import { IOrganiser } from "../../@types/Organiser";
+import SaveIcon from '@mui/icons-material/Save';
 
 type Props = {}
 
@@ -36,17 +37,23 @@ const OrganiserForm: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         stores.organiserStore.addOrganiser(newOrganiser);
-        setNewOrganiser({
-            id: undefined,
-            name: "",
-            description: "",
-            street: "",
-            streetNumber: "",
-            appartment: "",
-            postalCode: "",
-            city: ""
-        });
     }
+
+    //TODO: This seems like a little bit of a filthy work around probably do something a little smarter.
+    useEffect(() => {
+        if (stores.organiserStore.newOrganiser.id > 0) {
+            setNewOrganiser({
+                id: undefined,
+                name: "",
+                description: "",
+                street: "",
+                streetNumber: "",
+                appartment: "",
+                postalCode: "",
+                city: ""
+            })
+        }
+    }, [stores.organiserStore.newOrganiser.id])
 
     return (
         <Grid container spacing={1}>
@@ -121,12 +128,31 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     rows={10}
                 />
             </Grid>
-            <Grid item>
-                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+            <Grid item xs={12}>
+                <LoadingButton
+                    onClick={handleSubmit}
+                    loading={stores.organiserStore.isSubmitting}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
+
+                >
+                    Submit
+                </LoadingButton>
             </Grid>
+            {
+                //TODO: Make error handling waaay the fuck better.
+                stores.organiserStore.hadSubmissionError &&
+                <Grid item xs={12}>
+                    <Typography variant="caption" color={"red"}>
+                        Could not submit.
+                    </Typography>
+                </Grid>
+            }
+
         </Grid>
 
     )
 }
 
-export default OrganiserForm;
+export default observer(OrganiserForm);

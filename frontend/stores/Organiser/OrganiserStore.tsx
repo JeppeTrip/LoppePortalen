@@ -8,6 +8,7 @@ import { RootStore } from '../RootStore';
 class OrganiserStore {
     rootStore: RootStore;
     organisers: IOrganiser[] = [];
+    newOrganiser: IOrganiser;
 
     isLoading = true;
     hadLoadingError = false;
@@ -17,6 +18,15 @@ class OrganiserStore {
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
+        this.newOrganiser = {            
+            id: null,
+            name: "",
+            description: "",
+            street: "",
+            streetNumber: "",
+            appartment: "",
+            postalCode: "",
+            city: ""}
         this.rootStore = rootStore;
     }
 
@@ -53,6 +63,7 @@ class OrganiserStore {
     addOrganiser(organiser: IOrganiser) {
         this.isSubmitting = true;
         const client = new OrganiserClient();
+        this.newOrganiser = organiser
 
         client.createOrganiser({
             name: organiser.name,
@@ -63,13 +74,13 @@ class OrganiserStore {
             postalCode: organiser.postalCode,
             city: organiser.city
         }).then(res => {
-            organiser.id = res.id;
-            this.organisers.push(organiser);
-            return res.id;
+            this.newOrganiser.id = res.id
+            this.organisers.push(this.newOrganiser);
+            this.isSubmitting = false;
         }).catch(error => {
             this.hadSubmissionError = true;
             this.isSubmitting = false;
-            return -1;
+            this.newOrganiser.id = -1;
         })
     }
 }
