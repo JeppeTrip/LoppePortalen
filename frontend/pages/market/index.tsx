@@ -9,17 +9,24 @@ import { useContext, useEffect } from "react";
 import { StoreContext } from "../../stores/StoreContext";
 import MarketListItem from "../../components/MarketListItem";
 import { observer } from "mobx-react-lite";
+import ErrorIcon from '@mui/icons-material/Error';
 
 const Markets: NextPage = observer(() => {
     const stores = useContext(StoreContext);
 
     useEffect(() => {
-        console.log(stores)
-    }, [stores])
+        stores.marketStore.loadMarkets()
+    }, [])
+
+    const error = () => {
+        return (
+            <ErrorIcon sx={{ fontSize: 50 }} />
+        )
+    }
 
     const loading = () => {
         return (
-                <CircularProgress />
+            <CircularProgress />
         )
     }
 
@@ -28,7 +35,7 @@ const Markets: NextPage = observer(() => {
             <List>
                 {
                     stores.marketStore.markets.map(
-                        market => <> <MarketListItem Market={market}/> <Divider /> </>)
+                        market => <> <MarketListItem Market={market} /> <Divider /> </>)
                 }
             </List>
         );
@@ -36,13 +43,14 @@ const Markets: NextPage = observer(() => {
 
     return (
         <>
-            <Container 
-                className={stores.marketStore.isLoading ? 
-                    styles.ContainerLoading : styles.Container} 
+            <Container
+                className={stores.marketStore.isLoading || stores.marketStore.hadLoadingError ?
+                    styles.ContainerLoading : styles.Container}
                 maxWidth="sm">
-            <TopBar />
+                <TopBar />
                 {
-                    stores.marketStore.isLoading ? loading() : content()
+                    stores.marketStore.isLoading ? loading() : 
+                    stores.marketStore.hadLoadingError ? error() : content()
                 }
             </Container>
         </>
