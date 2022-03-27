@@ -18,7 +18,6 @@ const MarketListItem: FC<Props> = (props: Props) => {
     const handleOnClick = (event) => {
         event.preventDefault();
         if (router.isReady) {
-            stores.marketStore.setSelectedMarket(props.Market)
             router.push('/market/'+props.Market.id, undefined, { shallow: true });
         }
     }

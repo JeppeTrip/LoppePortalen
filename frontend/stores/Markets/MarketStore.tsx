@@ -54,12 +54,32 @@ class MarketStore {
     }
 
     @action
-    setSelectedMarket(market: IMarket) {
-        this.selectedMarket = market;
-    }
-
-    getMarket(id: number): IMarket {
-        return this.markets.find(market => market.id === id);
+    setSelectedMarket(marketId : number) {
+        this.isLoading = true;
+        var result = this.markets.find(market => market.id === marketId);
+        if(result === undefined)
+        {
+            const client = new MarketClient();
+            client.getMarketInstance(marketId+"").then(res => {
+                this.selectedMarket = 
+                    {
+                        id : res.marketId,
+                        organiserId : res.organiserId,
+                        name : res.marketName,
+                        startDate : new Date(res.startDate),
+                        endDate : new Date(res.endDate),
+                        description : res.description
+                    }
+                    this.isLoading = false;
+                    this.hadLoadingError = false;
+            }).catch(error => {
+                this.isLoading = false;
+                this.hadLoadingError = true;
+            })
+        } else {
+            this.selectedMarket = result;
+            this.isLoading = false
+        }
     }
 
     @action

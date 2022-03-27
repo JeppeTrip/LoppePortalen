@@ -28,19 +28,25 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
 
     useEffect(() => {
         if (stores.marketStore.selectedMarket == null) {
-            if (!(marketId == ""))
-            {
-                //TODO: this should call a backend fetch probably to get a fully updated market.
-                var market = stores.marketStore.getMarket(parseInt(marketId))
-                stores.marketStore.setSelectedMarket(market);
+            if (!(marketId == "")) {
+                stores.marketStore.setSelectedMarket(parseInt(marketId));
             }
-
         }
     }, [marketId])
 
     useEffect(() => {
-        setSelectedMarket(stores.marketStore.selectedMarket)
+        if(stores.marketStore.selectedMarket != null)
+        {
+            setSelectedMarket(stores.marketStore.selectedMarket)
+        }
     }, [stores.marketStore.selectedMarket])
+
+    //Adding a return statement is the same as componentWillUnMount - that is pretty damn obscure.
+    useEffect(() => {
+        return () => {
+            stores.marketStore.selectedMarket = null;
+        }
+    }, [])
 
     return (
         <>
