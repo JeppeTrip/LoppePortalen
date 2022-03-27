@@ -87,6 +87,15 @@ class OrganiserStore {
 
     }
 
+    @action
+    addOrganiser(organiser : IOrganiser)
+    {
+        //TODO: Fix this so it calls backend and obviously gets id from there.
+        organiser.id = Math.floor(Math.random()*1000);
+        this.organisers.push(organiser);
+        return organiser.id;
+    }
+
 }
 
 export { OrganiserStore }
