@@ -45,7 +45,6 @@ const Markets: NextPage = observer(() => {
                     stores.marketStore.isLoading ? loading() : content()
                 }
             </Container>
-
         </>
     )
 })
