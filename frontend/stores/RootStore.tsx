@@ -4,6 +4,7 @@ import { OrganiserStore } from './Organiser/OrganiserStore';
 
 export interface IRootStore {
     marketStore : MarketStore
+    organiserStore : OrganiserStore
 }
 
 export class RootStore implements IRootStore{

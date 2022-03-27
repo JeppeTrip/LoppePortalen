@@ -31,6 +31,56 @@ class OrganiserStore {
                 appartment: "st tv",
                 postalCode : "1234",
                 city : "Test City"
+            },
+            {
+                id : 2,
+                name : "Moria Merchandising",
+                description : "The most amazing organiser you have ever seen",
+                street : "Test Street",
+                streetNumber : "123",
+                appartment: "st tv",
+                postalCode : "1234",
+                city : "Test City"
+            },
+            {
+                id : 3,
+                name : "Rivendell Beauty Parlor",
+                description : "The most amazing organiser you have ever seen",
+                street : "Test Street",
+                streetNumber : "123",
+                appartment: "st tv",
+                postalCode : "1234",
+                city : "Test City"
+            },
+            {
+                id : 4,
+                name : "Mordor IF",
+                description : "The most amazing organiser you have ever seen",
+                street : "Test Street",
+                streetNumber : "123",
+                appartment: "st tv",
+                postalCode : "1234",
+                city : "Test City"
+            },
+            {
+                id : 5,
+                name : "Gondor FC",
+                description : "The most amazing organiser you have ever seen",
+                street : "Test Street",
+                streetNumber : "123",
+                appartment: "st tv",
+                postalCode : "1234",
+                city : "Test City"
+            },
+            {
+                id : 6,
+                name : "Isengard Squash Team",
+                description : "The most amazing organiser you have ever seen",
+                street : "Test Street",
+                streetNumber : "123",
+                appartment: "st tv",
+                postalCode : "1234",
+                city : "Test City"
             }
         ]
         this.isLoading = false;

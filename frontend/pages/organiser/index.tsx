@@ -2,13 +2,26 @@ import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListI
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import styles from './styles.module.css'
+import { RootStore } from "../../stores/RootStore";
+import { useContext } from "react";
+import {StoreContext} from '../../stores/StoreContext'
+import OrganiserListItem from "../../components/OrganiserListItem";
 
 const OrganiserListPage: NextPage = observer(() => {
-
+    const stores = useContext(StoreContext);
 
     return (
         <>
-            ORGANISER LIST HERE
+            <List>
+                {
+                    stores.organiserStore.organisers.map(organiser => 
+                    <>
+                    {
+                        <OrganiserListItem Organiser={organiser}/>
+                    }
+                    </>)
+                }
+            </List>
         </>
     )
 })
