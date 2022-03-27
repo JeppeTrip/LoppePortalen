@@ -59,6 +59,8 @@ class OrganiserStore {
         })
     }
 
+    
+
     @action
     addOrganiser(organiser: IOrganiser) {
         this.isSubmitting = true;

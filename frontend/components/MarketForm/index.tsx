@@ -1,13 +1,14 @@
-import { Avatar, Button, CircularProgress, Container, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField } from "@mui/material";
+import { Avatar, Button, CircularProgress, Container, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 import { FC, useContext, useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
-import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import styles from './styles.module.css'
 import { IMarket } from "../../@types/Market";
 import { StoreContext } from "../../stores/StoreContext";
+import SaveIcon from '@mui/icons-material/Save';
 
 type Props = {}
 
@@ -23,6 +24,15 @@ const MarketForm: FC<Props> = (props: Props) => {
             description: ""
         }
     );
+
+    //TODO: Insert a loading indicator if the oragnisers doesn't exist in the store yet.
+    //TODO: This will be a perforamnce nightmare if there ends up being a huge amount of organisers. this is likely temporary so will be fixed.
+    useEffect(() => {
+        if(stores.organiserStore.organisers.length === 0)
+        {
+            stores.organiserStore.loadOrganisers()
+        }
+    }, [])
 
     const handleUpdate = (key, value) => {
         console.log(key)
@@ -44,6 +54,7 @@ const MarketForm: FC<Props> = (props: Props) => {
             description: ""
         });
     }
+
 
     return (
         <Grid container spacing={2}>
@@ -113,12 +124,30 @@ const MarketForm: FC<Props> = (props: Props) => {
                     rows={10}
                 />
             </Grid>
-            <Grid item>
-                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+            <Grid item xs={12}>
+                <LoadingButton
+                    onClick={handleSubmit}
+                    loading={stores.organiserStore.isSubmitting}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
+
+                >
+                    Submit
+                </LoadingButton>
             </Grid>
+            {
+                //TODO: Make error handling waaay the fuck better.
+                stores.marketStore.hadSubmissionError &&
+                <Grid item xs={12}>
+                    <Typography variant="caption" color={"red"}>
+                        Could not submit.
+                    </Typography>
+                </Grid>
+            }
         </Grid>
 
     )
 }
 
-export default MarketForm;
+export default observer(MarketForm);
