@@ -12,6 +12,9 @@ class OrganiserStore {
     isLoading = true;
     hadLoadingError = false;
 
+    isSubmitting = false;
+    hadSubmissionError = false;
+
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
@@ -48,12 +51,27 @@ class OrganiserStore {
 
     @action
     addOrganiser(organiser: IOrganiser) {
-        //TODO: Fix this so it calls backend and obviously gets id from there.
-        organiser.id = Math.floor(Math.random() * 1000);
-        this.organisers.push(organiser);
-        return organiser.id;
-    }
+        this.isSubmitting = true;
+        const client = new OrganiserClient();
 
+        client.createOrganiser({
+            name: organiser.name,
+            description: organiser.description,
+            street: organiser.street,
+            number: organiser.streetNumber,
+            appartment: organiser.appartment,
+            postalCode: organiser.postalCode,
+            city: organiser.city
+        }).then(res => {
+            organiser.id = res.id;
+            this.organisers.push(organiser);
+            return res.id;
+        }).catch(error => {
+            this.hadSubmissionError = true;
+            this.isSubmitting = false;
+            return -1;
+        })
+    }
 }
 
 export { OrganiserStore }
