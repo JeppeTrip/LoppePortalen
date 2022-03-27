@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField } from "@mui/material";
+import { Avatar, Button, CircularProgress, Container, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField } from "@mui/material";
 
 import { FC, useContext, useEffect, useState } from "react";
 
@@ -15,8 +15,8 @@ const MarketForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [newMarket, setNewMarket] = useState<IMarket>(
         {
-            id: undefined,
-            organiserId: undefined,
+            id: -1,
+            organiserId: -1,
             name: "",
             startDate: new Date(),
             endDate: new Date(),
@@ -25,6 +25,8 @@ const MarketForm: FC<Props> = (props: Props) => {
     );
 
     const handleUpdate = (key, value) => {
+        console.log(key)
+        console.log(value)
         setNewMarket(prevState => ({
             ...prevState,
             [key]: value
@@ -34,8 +36,8 @@ const MarketForm: FC<Props> = (props: Props) => {
     const handleSubmit = (event) => {
         stores.marketStore.addNewMarket(newMarket);
         setNewMarket({
-            id: undefined,
-            organiserId: undefined,
+            id: -1,
+            organiserId: -1,
             name: "",
             startDate: new Date(),
             endDate: new Date(),
@@ -46,18 +48,23 @@ const MarketForm: FC<Props> = (props: Props) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                {
-                    //TODO: Fix this, this bad.
-                }
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserId"
-                    label="Organiser ID"
-                    variant="outlined"
-                    value={newMarket.organiserId}
-                    type="number"
-                    onChange={(event => handleUpdate("organiserId", parseInt(event.target.value)))}
-                />
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Organiser</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={newMarket.organiserId < 1 ? '' : newMarket.organiserId}
+                        label="Organiser"
+                        onChange={event => handleUpdate("organiserId", event.target.value as number)}
+                    >
+                        {
+                            stores.organiserStore.organisers.map(o => 
+                                <MenuItem value={o.id}>{o.name}</MenuItem>
+                            )
+                        }
+                    </Select>
+                </FormControl>
+
             </Grid>
             <Grid item xs={12}>
                 <TextField
