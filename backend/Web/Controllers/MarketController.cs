@@ -1,7 +1,9 @@
-﻿using Application.Markets.Commands.CreateMarket;
+﻿using Application.Markets.Commands.CancelMarket;
+using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetMarket;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,6 +32,23 @@ namespace Web.Controllers
         public async Task<ActionResult<List<GetAllMarketInstancesQueryResponse>>> GetAllMarketInstances()
         {
             return await Mediator.Send(new GetAllMarketInstancesQuery());
+        }
+
+        [HttpPatch("instance/cancel/{id}")]
+        public async Task<ActionResult<CancelMarketInstanceResponse>> CancelMarketInstance([FromRoute] string id)
+        {
+            try {
+                int marketId = int.Parse(id);
+                return await Mediator.Send(
+                    new CancelMarketInstanceCommand()
+                    {
+                        Dto = new CancelMarketInstanceRequest() { MarketId = marketId }
+                    });
+            } catch(Exception e)
+            {
+                return BadRequest();
+            }
+
         }
     }
 }

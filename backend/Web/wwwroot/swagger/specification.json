@@ -91,6 +91,32 @@
         }
       }
     },
+    "/api/Market/instance/cancel/{id}": {
+      "patch": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_CancelMarketInstance",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CancelMarketInstanceResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -336,6 +362,22 @@
         "endDate": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "CancelMarketInstanceResponse": {
+      "type": "object",
+      "required": [
+        "marketId",
+        "isCancelled"
+      ],
+      "properties": {
+        "marketId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isCancelled": {
+          "type": "boolean"
         }
       }
     },
