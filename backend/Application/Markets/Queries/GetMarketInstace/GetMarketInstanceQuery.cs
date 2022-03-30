@@ -38,7 +38,8 @@ namespace Application.Markets.Queries.GetMarket
                     MarketName = marketInstance.MarketTemplate.Name,
                     OrganiserId = marketInstance.MarketTemplate.OrganiserId,
                     StartDate = marketInstance.StartDate,
-                    EndDate = marketInstance.EndDate
+                    EndDate = marketInstance.EndDate,
+                    IsCancelled = marketInstance.IsCancelled
                 };
                 return response;
             }

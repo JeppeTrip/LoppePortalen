@@ -14,5 +14,6 @@ namespace Application.Markets.Queries.GetMarket
         public string Description { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
+        public bool IsCancelled { get; set; }
     }
 }

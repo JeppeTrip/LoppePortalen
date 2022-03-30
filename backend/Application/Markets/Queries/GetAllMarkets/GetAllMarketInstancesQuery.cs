@@ -32,7 +32,8 @@ namespace Application.Markets.Queries.GetAllMarkets
                     MarketName = x.MarketTemplate.Name,
                     OrganiserId = x.MarketTemplate.OrganiserId,
                     StartDate = x.StartDate,
-                    EndDate = x.EndDate
+                    EndDate = x.EndDate,
+                    IsCancelled = x.IsCancelled
                 }).ToList();
 
                 return result;
