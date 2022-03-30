@@ -4,12 +4,20 @@ import '../styles.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Script from 'next/script';
-import { CssBaseline } from '@mui/material'
+import { Box, CssBaseline } from '@mui/material'
 import { createContext } from 'vm'
 import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import { Typography } from '@mui/material'
+import DrawerMenu from '../components/DrawerMenu'
 
 const rootStore = new RootStore();
+
+const drawerWidth = 240;
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -35,10 +43,42 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
 
-        <StoreProvider store={rootStore}>
-          <CssBaseline />
+      <StoreProvider store={rootStore}>
+        <CssBaseline />
+        <AppBar position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" component="div">
+              Loppe Portalen
+            </Typography>
+
+          </Toolbar>
+        </AppBar>
+        <Toolbar />
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          <DrawerMenu drawerWidth={drawerWidth} />
+        </Box>
+        <Box
+          id="Main"
+          component="main"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
           <Component {...pageProps} />
-        </StoreProvider>
+        </Box>
+      </StoreProvider>
 
     </>
 
