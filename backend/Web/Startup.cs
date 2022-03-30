@@ -65,7 +65,7 @@ namespace Web
             }
 
             app.UseCors("TestPolicy");
-
+             
             app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
 
