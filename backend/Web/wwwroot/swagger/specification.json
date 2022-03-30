@@ -305,7 +305,8 @@
         "marketId",
         "organiserId",
         "startDate",
-        "endDate"
+        "endDate",
+        "isCancelled"
       ],
       "properties": {
         "marketId": {
@@ -329,6 +330,9 @@
         "endDate": {
           "type": "string",
           "format": "date-time"
+        },
+        "isCancelled": {
+          "type": "boolean"
         }
       }
     },
@@ -338,7 +342,8 @@
         "marketId",
         "organiserId",
         "startDate",
-        "endDate"
+        "endDate",
+        "isCancelled"
       ],
       "properties": {
         "marketId": {
@@ -362,6 +367,9 @@
         "endDate": {
           "type": "string",
           "format": "date-time"
+        },
+        "isCancelled": {
+          "type": "boolean"
         }
       }
     },

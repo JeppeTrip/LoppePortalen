@@ -450,6 +450,7 @@ export interface GetMarketInstanceQueryResponse {
     description?: string | null;
     startDate: Date;
     endDate: Date;
+    isCancelled: boolean;
 }
 
 export interface GetAllMarketInstancesQueryResponse {
@@ -459,6 +460,7 @@ export interface GetAllMarketInstancesQueryResponse {
     description?: string | null;
     startDate: Date;
     endDate: Date;
+    isCancelled: boolean;
 }
 
 export interface CancelMarketInstanceResponse {

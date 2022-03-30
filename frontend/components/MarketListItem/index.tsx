@@ -1,4 +1,4 @@
-import { Avatar, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
+import { Avatar, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { IMarket } from '../../@types/Market';
@@ -6,6 +6,7 @@ import DateDisplay from '../DateDisplay';
 import styles from './styles.module.css';
 import ImageIcon from '@mui/icons-material/Image'
 import { StoreContext } from '../../stores/StoreContext';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
     Market: IMarket
@@ -30,6 +31,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText primary={props.Market.name} secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
+            { props.Market.isCancelled && <CancelIcon />}
         </ListItemButton>
     )
 }

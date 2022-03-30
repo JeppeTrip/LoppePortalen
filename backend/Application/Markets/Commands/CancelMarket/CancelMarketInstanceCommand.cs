@@ -32,7 +32,8 @@ namespace Application.Markets.Commands.CancelMarket
                 }
 
                 marketInstance.IsCancelled = true;
-                var result = _context.MarketInstances.Update(marketInstance);
+                _context.MarketInstances.Update(marketInstance);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return new CancelMarketInstanceResponse() { MarketId = marketInstance.Id, IsCancelled = marketInstance.IsCancelled };
             }

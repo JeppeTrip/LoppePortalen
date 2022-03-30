@@ -5,6 +5,7 @@ export interface IMarket {
     startDate : Date;
     endDate : Date;
     description : string;
+    isCancelled : boolean;
 }
 
 export type MarketContextType = {

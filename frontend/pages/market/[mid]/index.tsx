@@ -8,6 +8,8 @@ import { StoreContext } from "../../../stores/StoreContext";
 import styles from './styles.module.css'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useRouter } from "next/router";
+import { LoadingButton } from "@mui/lab";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
     mid: string
@@ -35,8 +37,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
     }, [marketId])
 
     useEffect(() => {
-        if(stores.marketStore.selectedMarket != null)
-        {
+        if (stores.marketStore.selectedMarket != null) {
             setSelectedMarket(stores.marketStore.selectedMarket)
         }
     }, [stores.marketStore.selectedMarket])
@@ -47,6 +48,10 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
             stores.marketStore.selectedMarket = null;
         }
     }, [])
+
+    const handleCancel = () => {
+        stores.marketStore.cancelSelectedMarket()
+    }
 
     return (
         <>
@@ -61,17 +66,44 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                             <div className={styles.bannerPlaceholder} />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography variant="h5">
-                                                {selectedMarket.name}
-                                            </Typography>
+                                            <Grid container columns={12}>
+                                                <Grid item xs={8}>
+                                                    <Grid>
+                                                        <Grid item xs={12}>
+                                                            <Typography variant="h5">
+                                                                {selectedMarket.name}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={12}>
+                                                            <Typography>
+                                                                {
+                                                                    selectedMarket.startDate.toLocaleDateString() + " - " + selectedMarket.endDate.toLocaleDateString()
+                                                                }
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid container 
+                                                    item 
+                                                    xs={4} 
+                                                    justifyContent="flex-end"
+                                                    alignContent="center">
+                                                    <LoadingButton
+                                                        style={{height: "40px"}}
+                                                        onClick={handleCancel}
+                                                        loading={stores.marketStore.isCancelling}
+                                                        loadingPosition="start"
+                                                        startIcon={<CancelIcon />}
+                                                        variant="outlined"
+                                                        disabled={stores.marketStore.selectedMarket == null || stores.marketStore.selectedMarket.isCancelled}
+                                                    >
+                                                        Cancel
+                                                    </LoadingButton>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography>
-                                                {
-                                                    selectedMarket.startDate.toLocaleDateString() + " - " + selectedMarket.endDate.toLocaleDateString()
-                                                }
-                                            </Typography>
-                                        </Grid>
+
+
                                     </Grid>
                                 </Container>
                             </Paper>
