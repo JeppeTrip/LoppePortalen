@@ -16,7 +16,7 @@ namespace Domain.Entities
         public DateTimeOffset EndDate { get; set; }
 
         //TODO: Is this the correct place to put this?
-        public bool IsCancelled { get; set; }
+        public bool IsCancelled { get; set; } = false;
 
 
         public virtual MarketTemplate MarketTemplate { get; set; }
