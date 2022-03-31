@@ -11,6 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import DeckIcon from '@mui/icons-material/Deck';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { Box } from '@mui/system';
+import { useRouter } from 'next/router';
 
 type Props = {
     /**
@@ -24,35 +25,49 @@ type Props = {
 const menuItems = [
     {
         name: "Market",
-        icon: <DeckIcon />
+        icon: <DeckIcon />,
+        path: '/market/'
     },
     {
         name: "Stall",
-        icon: <TableRestaurantIcon />
+        icon: <TableRestaurantIcon />,
+        path: '/stall/'
     },
     {
         name: "Organisers",
-        icon: <CorporateFareIcon />
+        icon: <CorporateFareIcon />,
+        path: '/organiser/'
     },
     {
         name: "Sellers",
-        icon: <StorefrontIcon />
+        icon: <StorefrontIcon />,
+        path: 'seller'
     },
     {
         name: "About",
-        icon: <InfoIcon />
+        icon: <InfoIcon />,
+        path: 'about'
     },
 
 ]
 
 const DrawerMenu: FC<Props> = (props: Props) => {
+    //TODO: this window prop is not necessary, remove this from the implementation.
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const drawerWidth = props.drawerWidth;
 
+    const router = useRouter();
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const handleOnClick = (path) => {
+        if (router.isReady) {
+            router.push(path, undefined, { shallow: true });
+        }
+    }
 
     const drawer = (
         <div>
@@ -60,7 +75,7 @@ const DrawerMenu: FC<Props> = (props: Props) => {
             <Divider />
             <List>
                 {menuItems.map((item, index) => (
-                    <ListItem button key={item.name}>
+                    <ListItem button key={item.name} onClick={event => handleOnClick(item.path)}>
                         <ListItemIcon>
                             {item.icon}
                         </ListItemIcon>

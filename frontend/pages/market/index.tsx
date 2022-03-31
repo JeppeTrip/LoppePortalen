@@ -46,8 +46,7 @@ const Markets: NextPage = observer(() => {
             <Container
                 className={stores.marketStore.isLoading || stores.marketStore.hadLoadingError ?
                     styles.ContainerLoading : styles.Container}
-                maxWidth="sm">
-                <TopBar />
+                maxWidth="xl">
                 {
                     stores.marketStore.isLoading ? loading() : 
                     stores.marketStore.hadLoadingError ? error() : content()
