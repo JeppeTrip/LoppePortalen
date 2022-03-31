@@ -1,18 +1,10 @@
-import App from 'next/app'
 import Head from 'next/head'
 import '../styles.css'
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Script from 'next/script';
 import { Box, CssBaseline, Drawer } from '@mui/material'
-import { createContext } from 'vm'
 import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import { Typography } from '@mui/material'
 import DrawerMenu from '../components/DrawerMenu'
 import { observer } from 'mobx-react-lite';
 import TopBar from '../components/TopBar';
