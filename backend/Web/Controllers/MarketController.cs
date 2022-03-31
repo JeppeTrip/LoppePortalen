@@ -60,7 +60,7 @@ namespace Web.Controllers
         {
             var request = new GetFilteredMarketsQueryRequest()
             {
-                IsCancelled = isCancelled,
+                HideCancelled = isCancelled,
                 StartDate = startDate,
                 EndDate = endDate
             };

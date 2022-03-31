@@ -9,7 +9,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
     public class GetFilteredMarketsQueryRequest
     {
         //TODO: Expand filter
-        public bool? IsCancelled { get; set; }
+        public bool? HideCancelled { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 

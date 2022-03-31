@@ -24,22 +24,11 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
             result.Count.Should().Be(Context.MarketInstances.ToList().Count);
         }
 
-        [Fact]
-        public async Task Handle_FetchOnlyCancelledMarkets()
-        {
-            var request = new GetFilteredMarketsQueryRequest() { IsCancelled = true};
-            var command = new GetFilteredMarketsQuery() { Dto = request };
-            var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
-
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            result.Count.Should().Be(Context.MarketInstances.Where(x => x.IsCancelled).Count());
-        }
 
         [Fact]
         public async Task Handle_FetchOnlyActiveMarkets()
         {
-            var request = new GetFilteredMarketsQueryRequest() { IsCancelled = false };
+            var request = new GetFilteredMarketsQueryRequest() { HideCancelled = true };
             var command = new GetFilteredMarketsQuery() { Dto = request };
             var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
 

@@ -27,7 +27,6 @@ const TopBar: FC<Props> = (props: Props) => {
           <Typography variant="h6" color="inherit" component="div">
             Loppe Portalen
           </Typography>
-
         </Toolbar>
       </AppBar>
       <Toolbar />

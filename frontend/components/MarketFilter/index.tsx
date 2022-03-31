@@ -13,6 +13,18 @@ type Props = {}
 const MarketFilter: FC<Props> = (props: Props) => {
     //TODO: this window prop is not necessary, remove this from the implementation.
     const stores = useContext(StoreContext);
+    const [hideCancelledEvents, setHideCancelledEvents] = useState(true);
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+
+
+    const toggleHideCancelledEvents = (event) => {
+        setHideCancelledEvents(!hideCancelledEvents)
+    }
+
+    const handleSubmit = (event) => {
+        stores.marketStore.getFilteredMarkets(hideCancelledEvents, startDate, endDate)
+    }
 
     return (
         <>
@@ -31,17 +43,23 @@ const MarketFilter: FC<Props> = (props: Props) => {
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
                         <ListItem>
-                            <Button 
+                            <Button
                                 variant="contained"
-                                sx={{width: "100%"}}>
+                                sx={{ width: "100%" }}
+                                onClick={handleSubmit} >
                                 Apply Filter
                             </Button>
                         </ListItem>
                         <ListItem>
                             <FormGroup>
                                 <FormControlLabel
-                                    control={<Checkbox defaultChecked />}
-                                    label="Cancelled Events" />
+                                    control={
+                                        <Checkbox
+                                            checked={hideCancelledEvents}
+                                            onChange={toggleHideCancelledEvents}
+                                        />
+                                    }
+                                    label="Hide Cancelled Events" />
                             </FormGroup>
 
 
@@ -51,9 +69,9 @@ const MarketFilter: FC<Props> = (props: Props) => {
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
                                     label="Start Date"
-                                    value={new Date()}
+                                    value={startDate}
                                     onChange={(newValue) => {
-                                        console.log("on change start date")
+                                        setStartDate(newValue)
                                     }
                                     }
                                 />
@@ -64,9 +82,9 @@ const MarketFilter: FC<Props> = (props: Props) => {
                                 <DateTimePicker
                                     renderInput={(props) => <TextField {...props} />}
                                     label="End Date"
-                                    value={new Date()}
+                                    value={endDate}
                                     onChange={(newValue) => {
-                                        console.log("on change end date")
+                                        setEndDate(newValue)
                                     }
                                     }
                                 />

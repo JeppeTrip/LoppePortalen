@@ -29,9 +29,9 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                     .Include(x => x.MarketTemplate)
                     .ToListAsync();
 
-                if (request.Dto.IsCancelled != null)
+                if (request.Dto.HideCancelled != null && (bool)request.Dto.HideCancelled)
                 {
-                    instances = instances.Where(x => x.IsCancelled == request.Dto.IsCancelled).ToList();
+                    instances = instances.Where(x => !x.IsCancelled).ToList();
                 }
                 if(request.Dto.StartDate != null)
                 {

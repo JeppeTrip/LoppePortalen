@@ -34,8 +34,9 @@ class MarketStore {
         this.rootStore = rootStore;
     }
 
+    @action
     loadMarkets() {
-        this.isLoading = true;
+        this.setIsLoading(true);
         const client = new MarketClient()
         client.getAllMarketInstances().then(res => {
             var result = res.map(m => {
@@ -49,35 +50,34 @@ class MarketStore {
                     isCancelled: m.isCancelled
                 })
             })
-            this.markets = result;
-            this.isLoading = false;
-            this.hadLoadingError = false;
+            this.setMarkets(result);
+            this.setIsLoading(false);
+            this.setHadLoadingError(false);
         }).catch(error => {
-            this.hadLoadingError = true;
-            this.isLoading = false;
+            this.setHadLoadingError(true);
+            this.setIsLoading(false);
         })
     }
 
     @action
-    setSelectedMarket(marketId : number) {
+    setSelectedMarket(marketId: number) {
         this.isLoading = true;
         var result = this.markets.find(market => market.id === marketId);
-        if(result === undefined)
-        {
+        if (result === undefined) {
             const client = new MarketClient();
-            client.getMarketInstance(marketId+"").then(res => {
-                this.selectedMarket = 
-                    {
-                        id : res.marketId,
-                        organiserId : res.organiserId,
-                        name : res.marketName,
-                        startDate : new Date(res.startDate),
-                        endDate : new Date(res.endDate),
-                        description : res.description,
-                        isCancelled : res.isCancelled
-                    }
-                    this.isLoading = false;
-                    this.hadLoadingError = false;
+            client.getMarketInstance(marketId + "").then(res => {
+                this.selectedMarket =
+                {
+                    id: res.marketId,
+                    organiserId: res.organiserId,
+                    name: res.marketName,
+                    startDate: new Date(res.startDate),
+                    endDate: new Date(res.endDate),
+                    description: res.description,
+                    isCancelled: res.isCancelled
+                }
+                this.isLoading = false;
+                this.hadLoadingError = false;
             }).catch(error => {
                 this.isLoading = false;
                 this.hadLoadingError = true;
@@ -115,30 +115,74 @@ class MarketStore {
     }
 
     @action
-    cancelSelectedMarket()
-    {
+    cancelSelectedMarket() {
         this.hadCancellingError = false;
 
-        if(this.selectedMarket == null)
-        {
+        if (this.selectedMarket == null) {
             //throw an exception here.
         } else {
             this.isCancelling = true;
             const client = new MarketClient();
-            client.cancelMarketInstance(this.selectedMarket.id+"")
-            .then(res => {
-                if(res.marketId == this.selectedMarket.id)
-                {
-                    this.selectedMarket.isCancelled = res.isCancelled;
-                }
-                this.isCancelling = false
-            })
-            .catch(error => {
-                this.hadCancellingError = true;
-                this.isCancelling = false;
-            });
+            client.cancelMarketInstance(this.selectedMarket.id + "")
+                .then(res => {
+                    if (res.marketId == this.selectedMarket.id) {
+                        this.selectedMarket.isCancelled = res.isCancelled;
+                    }
+                    this.isCancelling = false
+                })
+                .catch(error => {
+                    this.hadCancellingError = true;
+                    this.isCancelling = false;
+                });
         }
     }
+
+    @action
+    getFilteredMarkets(hideCancelled : boolean, startDate : Date | null, endDate : Date | null) {
+        console.log (hideCancelled)
+        console.log(startDate)
+        console.log(endDate)
+        this.setIsLoading(true);
+        const client = new MarketClient()
+
+        client.getFilteredMarketInstances(hideCancelled, startDate, endDate).then(res => {
+            var result = res.map(m => {
+                return ({
+                    id: m.marketId,
+                    organiserId: m.organiserId,
+                    name: m.marketName,
+                    startDate: new Date(m.startDate),
+                    endDate: new Date(m.endDate),
+                    description: m.description,
+                    isCancelled: m.isCancelled
+                })
+            })
+            this.setMarkets(result);
+            this.setIsLoading(false);
+            this.setHadLoadingError(false);
+        }).catch(error => {
+            this.setHadLoadingError(true);
+            this.setIsLoading(false);
+        })
+    }
+
+    @action
+    setIsLoading(isLoading : boolean) {
+        this.isLoading = isLoading
+    }
+
+    @action
+    setHadLoadingError(hadLoadingError : boolean)
+    {
+        this.hadLoadingError = hadLoadingError
+    }
+
+    @action
+    setMarkets(markets : IMarket[])
+    {
+        this.markets = markets
+    }
+    
 }
 
 export { MarketStore }
