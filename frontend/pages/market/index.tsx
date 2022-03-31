@@ -1,4 +1,4 @@
-import { Avatar, CircularProgress, Container, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { Avatar, Box, CircularProgress, Container, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper, Toolbar, Typography } from "@mui/material";
 import { NextPage } from "next";
 import styles from './styles.module.css'
 import { useContext, useEffect } from "react";
@@ -6,6 +6,7 @@ import { StoreContext } from "../../stores/StoreContext";
 import MarketListItem from "../../components/MarketListItem";
 import { observer } from "mobx-react-lite";
 import ErrorIcon from '@mui/icons-material/Error';
+import MarketFilter from "../../components/MarketFilter";
 
 const Markets: NextPage = observer(() => {
     const stores = useContext(StoreContext);
@@ -28,27 +29,29 @@ const Markets: NextPage = observer(() => {
 
     const content = () => {
         return (
-            <List>
-                {
-                    stores.marketStore.markets.map(
-                        market => <> <MarketListItem Market={market} /> <Divider /> </>)
-                }
-            </List>
+            <Paper elevation={1}>
+                <List>
+                    {
+                        stores.marketStore.markets.map(
+                            market => <> <MarketListItem Market={market} /> <Divider /> </>)
+                    }
+                </List>
+            </Paper>
         );
     }
 
     return (
         <>
-            <Container
-                className={stores.marketStore.isLoading || stores.marketStore.hadLoadingError ?
-                    styles.ContainerLoading : styles.Container}
-                maxWidth="xl">
-                {
-                    stores.marketStore.isLoading ? loading() : 
-                    stores.marketStore.hadLoadingError ? error() : content()
-                }
-            </Container>
+            <Box sx={{ display: 'flex' }}>
+                <MarketFilter />
+                <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    { 
+                        stores.marketStore.isLoading ? loading() :
+                        stores.marketStore.hadLoadingError ? error() : content()}
+                </Box>
+            </Box>
         </>
+
     )
 })
 

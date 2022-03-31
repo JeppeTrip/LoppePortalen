@@ -16,6 +16,7 @@ const TopBar: FC<Props> = (props: Props) => {
     <>
       <AppBar position="fixed"
         sx={{
+          zIndex: 9999,
           width: { sm: stores.uiStateStore.isDrawerOpen ? `calc(100% - ${stores.uiStateStore.drawerWidth}px)` : `calc(100%)` },
           ml: { sm: `${stores.uiStateStore.drawerWidth}px` },
         }}>

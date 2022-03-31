@@ -6,6 +6,8 @@ class UiStateStore {
     drawerWidth = 240;
     isDrawerOpen = true;
 
+    filterDrawerWidth = 260;
+
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
