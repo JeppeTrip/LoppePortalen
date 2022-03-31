@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Paper, TextField } from "@mui/material";
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import styles from './styles.module.css'
@@ -30,30 +30,33 @@ const OrganiserListPage: NextPage = observer(() => {
 
     const content = () => {
         return (
-            <List>
-                {
-                    stores.organiserStore.organisers.map(organiser =>
-                        <>
-                            {
-                                <OrganiserListItem Organiser={organiser} />
-                            }
-                        </>)
-                }
-            </List>
+            <Paper elevation={1}>
+                <List>
+                    {
+                        stores.organiserStore.organisers.map(organiser =>
+                            <>
+                                {
+                                    <OrganiserListItem Organiser={organiser} />
+                                }
+                            </>)
+                    }
+                </List>
+            </Paper>
         )
     }
     return (
         <>
-            <Container
-                className={stores.organiserStore.isLoading || stores.organiserStore.hadLoadingError ?
-                    styles.ContainerLoading : styles.Container}
-                maxWidth="sm">
-                <TopBar />
-                {
-                    stores.organiserStore.isLoading ? loading() :
-                        stores.organiserStore.hadLoadingError ? error() : content()
-                }
+            <Container sx={{minHeight: "100%"}}>
+                <Box sx={{ display: 'flex' }}>
+                    <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                        {
+                            stores.organiserStore.isLoading ? loading() :
+                                stores.organiserStore.hadLoadingError ? error() : content()
+                        }
+                    </Box>
+                </Box>
             </Container>
+
         </>
     )
 })

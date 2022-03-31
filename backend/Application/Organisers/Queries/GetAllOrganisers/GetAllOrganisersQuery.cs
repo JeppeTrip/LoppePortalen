@@ -1,5 +1,6 @@
 using Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,10 @@ namespace Application.Organisers.Queries.GetAllOrganisers
 
             public async Task<List<GetAllOrganisersResponse>> Handle(GetAllOrganisersQuery request, CancellationToken cancellationToken)
             {
-                var allOrganisers = _context.Organisers.Select(x => new GetAllOrganisersResponse() { Id = x.Id, Name=x.Name }).ToList(); 
+                var allOrganisers = await _context.Organisers
+                    .Select(x => new GetAllOrganisersResponse() { Id = x.Id, Name=x.Name })
+                    .ToListAsync(); 
+
                 return allOrganisers;
             }
         }

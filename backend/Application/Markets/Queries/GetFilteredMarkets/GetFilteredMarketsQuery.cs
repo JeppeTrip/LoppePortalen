@@ -29,18 +29,23 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                     .Include(x => x.MarketTemplate)
                     .ToListAsync();
 
+                if (request.Dto.OrganiserId != null)
+                {
+                    instances = instances.Where(x => x.MarketTemplate.OrganiserId == request.Dto.OrganiserId).ToList();
+                }
                 if (request.Dto.HideCancelled != null && (bool)request.Dto.HideCancelled)
                 {
                     instances = instances.Where(x => !x.IsCancelled).ToList();
                 }
-                if(request.Dto.StartDate != null)
-                {
-                    instances = instances.Where(x => DateTimeOffset.Compare(x.StartDate, (DateTimeOffset)request.Dto.StartDate) >= 0).ToList();
-                }
-                if (request.Dto.EndDate != null)
-                {
-                    instances = instances.Where(x => DateTimeOffset.Compare(x.EndDate, (DateTimeOffset)request.Dto.EndDate) <= 0).ToList();
-                }
+
+                var startDate = request.Dto.StartDate == null ? new DateTimeOffset(new DateTime(9999, 12, 31)) : (DateTimeOffset) request.Dto.StartDate;
+                var endDate = request.Dto.EndDate == null ? new DateTimeOffset(new DateTime(9999, 12, 31)) : (DateTimeOffset) request.Dto.EndDate;
+                instances = instances.Where(
+                        x => (DateTimeOffset.Compare(x.StartDate, startDate) >= 0 || DateTimeOffset.Compare(x.EndDate, startDate) >= 0))
+                        .ToList();
+                instances = instances.Where(
+                    x => DateTimeOffset.Compare(x.StartDate, endDate) <= 0 || DateTimeOffset.Compare(x.EndDate, endDate) <= 0)
+                    .ToList();
 
                 List<GetFilteredMarketsQueryResponse> responses = new List<GetFilteredMarketsQueryResponse>();
                 foreach (var instance in instances)

@@ -9,6 +9,7 @@ class OrganiserStore {
     rootStore: RootStore;
     organisers: IOrganiser[] = [];
     newOrganiser: IOrganiser;
+    selectedOrganiser: IOrganiser | null = null;
 
     isLoading = true;
     hadLoadingError = false;
@@ -18,7 +19,7 @@ class OrganiserStore {
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
-        this.newOrganiser = {            
+        this.newOrganiser = {
             id: null,
             name: "",
             description: "",
@@ -26,10 +27,12 @@ class OrganiserStore {
             streetNumber: "",
             appartment: "",
             postalCode: "",
-            city: ""}
+            city: ""
+        }
         this.rootStore = rootStore;
     }
 
+    @action
     loadOrganisers() {
         this.hadLoadingError = false;
         this.isLoading = true;
@@ -59,7 +62,7 @@ class OrganiserStore {
         })
     }
 
-    
+
 
     @action
     addOrganiser(organiser: IOrganiser) {
@@ -84,6 +87,50 @@ class OrganiserStore {
             this.isSubmitting = false;
             this.newOrganiser.id = -1;
         })
+    }
+
+    @action
+    loadOrganiser(organiserId: number) {
+        this.setIsLoading(true);
+
+        const client = new OrganiserClient();
+        client.getOrganiser(organiserId + "").then(res => {
+            const org = 
+            {
+                id: res.id,
+                name: res.name,
+                description: res.description,
+                street: res.street,
+                streetNumber: res.number,
+                appartment: res.appartment,
+                postalCode: res.postalCode,
+                city: res.city
+            }
+            this.setSelectedOrganiser(org);
+            this.setIsLoading(false);
+            this.setHadLoadingError(false);
+        }).catch(error => {
+            this.setIsLoading(false);
+            this.setHadLoadingError(true);
+        });
+
+    }
+
+    @action
+    setIsLoading(isLoading: boolean) {
+        this.isLoading = isLoading
+    }
+
+    @action
+    setHadLoadingError(hadError : boolean)
+    {
+        this.hadLoadingError = hadError;
+    }
+
+    @action
+    setSelectedOrganiser(organiser : IOrganiser)
+    {
+        this.selectedOrganiser = organiser
     }
 }
 

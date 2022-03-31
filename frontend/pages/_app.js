@@ -38,23 +38,7 @@ function MyApp({ Component, pageProps }) {
       <StoreProvider store={rootStore}>
         <CssBaseline />
         <TopBar />
-        <Box
-          component="nav"
-          sx={{ width: { sm: rootStore.uiStateStore.drawerWidth }, flexShrink: { sm: 0 } }}
-        >
-          <DrawerMenu />
-        </Box>
-        <Box
-          id="Main"
-          component="main"
-          sx={{
-            width: { sm: rootStore.uiStateStore.isDrawerOpen ? `calc(100% - ${rootStore.uiStateStore.drawerWidth}px)` : `calc(100%)` },
-            ml: { sm: rootStore.uiStateStore.isDrawerOpen ? `${rootStore.uiStateStore.drawerWidth}px` : '0px' },
-          }}
-        >
-          <Component {...pageProps} />
-        </Box>
-
+        <Component {...pageProps} />
       </StoreProvider>
 
     </>

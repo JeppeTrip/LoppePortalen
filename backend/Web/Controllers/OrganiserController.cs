@@ -2,6 +2,7 @@
 using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
 using Application.Organisers.Queries.GetAllOrganisersWithPagination;
+using Application.Organisers.Queries.GetOrganiser;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,6 +34,17 @@ namespace Web.Controllers
         {
             var dto = new GetOrganisersWithPaginationRequest() { PageNumber = pageNumber, PageSize = pageSize };
             return await Mediator.Send(new GetOrganisersWithPaginationQuery() { Dto = dto});
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetOrganiserQueryResponse>> GetOrganiser([FromRoute] string id)
+        {
+            int organiserId = int.Parse(id);
+            return await Mediator.Send(
+                new GetOrganiserQuery()
+                {
+                    Dto = new GetOrganiserQueryRequest() { Id = organiserId }
+                });
         }
     }
 }

@@ -138,7 +138,7 @@ class MarketStore {
     }
 
     @action
-    getFilteredMarkets(hideCancelled : boolean, startDate : Date | null, endDate : Date | null) {
+    getFilteredMarkets(organiserId: number | null, hideCancelled : boolean, startDate : Date | null, endDate : Date | null) {
         console.log (hideCancelled)
         console.log(startDate)
         console.log(endDate)
@@ -146,6 +146,7 @@ class MarketStore {
         const client = new MarketClient()
 
         client.getFilteredMarketInstances(hideCancelled, startDate, endDate).then(res => {
+            console.log(res)
             var result = res.map(m => {
                 return ({
                     id: m.marketId,

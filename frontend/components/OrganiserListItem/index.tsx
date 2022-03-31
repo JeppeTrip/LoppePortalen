@@ -19,13 +19,9 @@ const OrganiserListItem: FC<Props> = (props: Props) => {
 
     const handleOnClick = (event) => {
         event.preventDefault();
-        //TODO: Make this redirect to an organiser profile.
-        /*
         if (router.isReady) {
-            stores.marketStore.setSelectedMarket(props.Market)
-            router.push('/market/'+props.Market.id, undefined, { shallow: true });
+            router.push('/organiser/'+props.Organiser.id, undefined, { shallow: true });
         }
-        */
     }
 
     return (

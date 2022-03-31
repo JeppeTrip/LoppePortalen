@@ -282,6 +282,32 @@
         }
       }
     },
+    "/api/Organiser/{id}": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetOrganiser",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetOrganiserQueryResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/Test": {
       "get": {
         "tags": [
@@ -668,6 +694,39 @@
           "format": "int32"
         },
         "name": {
+          "type": "string"
+        }
+      }
+    },
+    "GetOrganiserQueryResponse": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "appartment": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "city": {
           "type": "string"
         }
       }
