@@ -12,6 +12,8 @@ import DeckIcon from '@mui/icons-material/Deck';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
+import { StoreContext } from '../../stores/StoreContext';
+import { observer } from 'mobx-react-lite';
 
 type Props = {
     /**
@@ -19,7 +21,6 @@ type Props = {
      * You won't need it on your project.
      */
     window?: () => Window;
-    drawerWidth: number;
 }
 
 const menuItems = [
@@ -53,9 +54,10 @@ const menuItems = [
 
 const DrawerMenu: FC<Props> = (props: Props) => {
     //TODO: this window prop is not necessary, remove this from the implementation.
+    const stores = useContext(StoreContext);
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const drawerWidth = props.drawerWidth;
+
 
     const router = useRouter();
 
@@ -91,28 +93,14 @@ const DrawerMenu: FC<Props> = (props: Props) => {
     return (
         <>
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            {/** TODO: Fix so it works on mobile. */}
             <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-            >
-                {drawer}
-            </Drawer>
-            <Drawer
-                variant="permanent"
+                variant="persistent"
+                open={stores.uiStateStore.isDrawerOpen}
                 sx={{
                     display: { xs: 'none', sm: 'block' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: stores.uiStateStore.drawerWidth },
                 }}
-                open
             >
                 {drawer}
             </Drawer>
@@ -120,4 +108,4 @@ const DrawerMenu: FC<Props> = (props: Props) => {
     )
 }
 
-export default DrawerMenu;
+export default observer(DrawerMenu);
