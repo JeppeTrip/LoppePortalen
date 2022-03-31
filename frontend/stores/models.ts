@@ -38,6 +38,8 @@ export interface IMarketClient {
     getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]>;
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
+
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -199,6 +201,47 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<CancelMarketInstanceResponse>(null as any);
+    }
+
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]> {
+        let url_ = this.baseUrl + "/api/Market/instance/filtered?";
+        if (isCancelled !== undefined && isCancelled !== null)
+            url_ += "isCancelled=" + encodeURIComponent("" + isCancelled) + "&";
+        if (startDate !== undefined && startDate !== null)
+            url_ += "startDate=" + encodeURIComponent(startDate ? "" + startDate.toISOString() : "") + "&";
+        if (endDate !== undefined && endDate !== null)
+            url_ += "endDate=" + encodeURIComponent(endDate ? "" + endDate.toISOString() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetFilteredMarketInstances(_response));
+        });
+    }
+
+    protected processGetFilteredMarketInstances(response: Response): Promise<GetFilteredMarketsQueryResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFilteredMarketsQueryResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetFilteredMarketsQueryResponse[]>(null as any);
     }
 }
 
@@ -465,6 +508,16 @@ export interface GetAllMarketInstancesQueryResponse {
 
 export interface CancelMarketInstanceResponse {
     marketId: number;
+    isCancelled: boolean;
+}
+
+export interface GetFilteredMarketsQueryResponse {
+    marketId: number;
+    organiserId: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate: Date;
+    endDate: Date;
     isCancelled: boolean;
 }
 
