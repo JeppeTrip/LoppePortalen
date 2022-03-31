@@ -1,13 +1,13 @@
-import App from 'next/app'
 import Head from 'next/head'
 import '../styles.css'
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Script from 'next/script';
-import { CssBaseline } from '@mui/material'
-import { createContext } from 'vm'
+import { Box, CssBaseline, Drawer } from '@mui/material'
 import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
+import DrawerMenu from '../components/DrawerMenu'
+import { observer } from 'mobx-react-lite';
+import TopBar from '../components/TopBar';
 
 const rootStore = new RootStore();
 
@@ -35,10 +35,27 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
 
-        <StoreProvider store={rootStore}>
-          <CssBaseline />
+      <StoreProvider store={rootStore}>
+        <CssBaseline />
+        <TopBar />
+        <Box
+          component="nav"
+          sx={{ width: { sm: rootStore.uiStateStore.drawerWidth }, flexShrink: { sm: 0 } }}
+        >
+          <DrawerMenu />
+        </Box>
+        <Box
+          id="Main"
+          component="main"
+          sx={{
+            width: { sm: rootStore.uiStateStore.isDrawerOpen ? `calc(100% - ${rootStore.uiStateStore.drawerWidth}px)` : `calc(100%)` },
+            ml: { sm: rootStore.uiStateStore.isDrawerOpen ? `${rootStore.uiStateStore.drawerWidth}px` : '0px' },
+          }}
+        >
           <Component {...pageProps} />
-        </StoreProvider>
+        </Box>
+
+      </StoreProvider>
 
     </>
 
@@ -59,4 +76,4 @@ function MyApp({ Component, pageProps }) {
 //   return {...appProps}
 // }
 
-export default MyApp
+export default observer(MyApp)

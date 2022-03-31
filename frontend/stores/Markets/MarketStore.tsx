@@ -16,6 +16,9 @@ class MarketStore {
     isSubmitting = false;
     hadSubmissionError = false;
 
+    isCancelling = false;
+    hadCancellingError = false;
+
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         //TODO: Something else I can do but magic numbers to signify that this is an uncreated market?
@@ -25,7 +28,8 @@ class MarketStore {
             name: "",
             startDate: new Date(),
             endDate: new Date(),
-            description: ""
+            description: "",
+            isCancelled: false
         }
         this.rootStore = rootStore;
     }
@@ -41,7 +45,8 @@ class MarketStore {
                     name: m.marketName,
                     startDate: new Date(m.startDate),
                     endDate: new Date(m.endDate),
-                    description: m.description
+                    description: m.description,
+                    isCancelled: m.isCancelled
                 })
             })
             this.markets = result;
@@ -68,7 +73,8 @@ class MarketStore {
                         name : res.marketName,
                         startDate : new Date(res.startDate),
                         endDate : new Date(res.endDate),
-                        description : res.description
+                        description : res.description,
+                        isCancelled : res.isCancelled
                     }
                     this.isLoading = false;
                     this.hadLoadingError = false;
@@ -106,6 +112,32 @@ class MarketStore {
         market.id = Math.floor(Math.random() * 1000)
         this.markets.push(market);
         return market.id;
+    }
+
+    @action
+    cancelSelectedMarket()
+    {
+        this.hadCancellingError = false;
+
+        if(this.selectedMarket == null)
+        {
+            //throw an exception here.
+        } else {
+            this.isCancelling = true;
+            const client = new MarketClient();
+            client.cancelMarketInstance(this.selectedMarket.id+"")
+            .then(res => {
+                if(res.marketId == this.selectedMarket.id)
+                {
+                    this.selectedMarket.isCancelled = res.isCancelled;
+                }
+                this.isCancelling = false
+            })
+            .catch(error => {
+                this.hadCancellingError = true;
+                this.isCancelling = false;
+            });
+        }
     }
 }
 

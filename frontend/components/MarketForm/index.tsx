@@ -21,7 +21,8 @@ const MarketForm: FC<Props> = (props: Props) => {
             name: "",
             startDate: new Date(),
             endDate: new Date(),
-            description: ""
+            description: "",
+            isCancelled: false
         }
     );
 
@@ -51,7 +52,8 @@ const MarketForm: FC<Props> = (props: Props) => {
             name: "",
             startDate: new Date(),
             endDate: new Date(),
-            description: ""
+            description: "",
+            isCancelled: false
         });
     }
 
