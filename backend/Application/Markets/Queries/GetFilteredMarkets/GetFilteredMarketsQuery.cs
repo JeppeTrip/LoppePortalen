@@ -26,7 +26,8 @@ namespace Application.Markets.Queries.GetFilteredMarkets
             public async Task<List<GetFilteredMarketsQueryResponse>> Handle(GetFilteredMarketsQuery request, CancellationToken cancellationToken)
             {
                 var instances = await _context.MarketInstances
-                    .Include(x => x.MarketTemplate).ToListAsync();
+                    .Include(x => x.MarketTemplate)
+                    .ToListAsync();
 
                 if (request.Dto.IsCancelled != null)
                 {
@@ -38,7 +39,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                 }
                 if (request.Dto.EndDate != null)
                 {
-                    instances = instances.Where(x => DateTimeOffset.Compare(x.EndDate, (DateTimeOffset)request.Dto.EndDate) >= 0).ToList();
+                    instances = instances.Where(x => DateTimeOffset.Compare(x.EndDate, (DateTimeOffset)request.Dto.EndDate) <= 0).ToList();
                 }
 
                 List<GetFilteredMarketsQueryResponse> responses = new List<GetFilteredMarketsQueryResponse>();
@@ -55,6 +56,8 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                         IsCancelled = instance.IsCancelled
                     });
                 }
+
+                return responses;
                 
             }
         }

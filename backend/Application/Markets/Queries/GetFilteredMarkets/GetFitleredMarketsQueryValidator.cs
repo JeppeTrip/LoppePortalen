@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetFilteredMarkets
 {
-    internal class GetFitleredMarketsQueryValidator
+    public class GetFitleredMarketsQueryValidator 
     {
     }
 }

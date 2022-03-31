@@ -189,6 +189,85 @@ namespace Application.Test
                 MarketTemplateId = 1
             });
             context.SaveChanges();
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2,
+                OrganiserId = 1,
+                Name = "Test Market 2",
+                Description = "Test Description 2"
+            });
+            List<MarketInstance> instances = new List<MarketInstance>() {
+                new MarketInstance(){
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(1),
+                    MarketTemplateId = 2,
+                    IsCancelled = true
+                },
+                new MarketInstance(){
+                    StartDate = DateTime.Now.AddDays(10),
+                    EndDate = DateTime.Now.AddDays(11),
+                    MarketTemplateId = 2,
+                    IsCancelled = true
+                },
+                new MarketInstance(){
+                    StartDate = DateTime.Now.AddDays(12),
+                    EndDate = DateTime.Now.AddDays(17),
+                    MarketTemplateId = 2,
+                    IsCancelled = true
+                },
+            };
+            context.MarketInstances.AddRange(instances);
+            context.SaveChanges();
+            //Test date range
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 3,
+                OrganiserId = 1,
+                Name = "Test Market 3",
+                Description = "Test Description 3"
+            });
+            List<MarketInstance> dateRangeFilterInstances = new List<MarketInstance>() {
+                new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 1, 1)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 1, 3)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+                new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 2, 10)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 2, 13)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+                new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 3, 11)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 3, 15)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+                    new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 4, 11)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 4, 15)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+                                                new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 5, 11)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 5, 15)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+                    new MarketInstance(){
+                    StartDate = new DateTimeOffset(new DateTime(1980, 6, 11)),
+                    EndDate = new DateTimeOffset(new DateTime(1980, 6, 15)),
+                    MarketTemplateId = 3,
+                    IsCancelled = false
+                },
+            };
+            context.MarketInstances.AddRange(dateRangeFilterInstances);
+            context.SaveChanges();
+
         }
     }
 }
