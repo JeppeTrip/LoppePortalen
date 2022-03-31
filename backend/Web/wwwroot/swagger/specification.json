@@ -131,6 +131,13 @@
             "x-nullable": true
           },
           {
+            "type": "integer",
+            "name": "organiserId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
             "type": "string",
             "name": "startDate",
             "in": "query",

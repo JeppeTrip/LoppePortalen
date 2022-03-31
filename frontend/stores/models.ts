@@ -39,7 +39,7 @@ export interface IMarketClient {
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
 
-    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -203,10 +203,12 @@ export class MarketClient extends ClientBase implements IMarketClient {
         return Promise.resolve<CancelMarketInstanceResponse>(null as any);
     }
 
-    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]> {
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]> {
         let url_ = this.baseUrl + "/api/Market/instance/filtered?";
         if (isCancelled !== undefined && isCancelled !== null)
             url_ += "isCancelled=" + encodeURIComponent("" + isCancelled) + "&";
+        if (organiserId !== undefined && organiserId !== null)
+            url_ += "organiserId=" + encodeURIComponent("" + organiserId) + "&";
         if (startDate !== undefined && startDate !== null)
             url_ += "startDate=" + encodeURIComponent(startDate ? "" + startDate.toISOString() : "") + "&";
         if (endDate !== undefined && endDate !== null)

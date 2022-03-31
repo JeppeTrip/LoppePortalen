@@ -47,6 +47,7 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
     useEffect(() => {
         return () => {
             stores.organiserStore.selectedOrganiser = null;
+            stores.marketStore.markets = [];
         }
     }, [])
 

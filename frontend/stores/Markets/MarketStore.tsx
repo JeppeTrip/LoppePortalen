@@ -145,7 +145,7 @@ class MarketStore {
         this.setIsLoading(true);
         const client = new MarketClient()
 
-        client.getFilteredMarketInstances(hideCancelled, startDate, endDate).then(res => {
+        client.getFilteredMarketInstances(hideCancelled, organiserId, startDate, endDate).then(res => {
             console.log(res)
             var result = res.map(m => {
                 return ({

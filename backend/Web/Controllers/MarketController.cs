@@ -54,12 +54,14 @@ namespace Web.Controllers
         [HttpGet("instance/filtered")]
         public async Task<ActionResult<List<GetFilteredMarketsQueryResponse>>> GetFilteredMarketInstances(
             bool? isCancelled,
+            int? organiserId,
             DateTimeOffset? startDate,
             DateTimeOffset? endDate
         )
         {
             var request = new GetFilteredMarketsQueryRequest()
             {
+                OrganiserId = organiserId,
                 HideCancelled = isCancelled,
                 StartDate = startDate,
                 EndDate = endDate
