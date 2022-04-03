@@ -1,6 +1,7 @@
 ﻿using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Queries.GetAllMarkets;
+using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -48,7 +49,28 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+        }
 
+        [HttpGet("instance/filtered")]
+        public async Task<ActionResult<List<GetFilteredMarketsQueryResponse>>> GetFilteredMarketInstances(
+            bool? isCancelled,
+            int? organiserId,
+            DateTimeOffset? startDate,
+            DateTimeOffset? endDate
+        )
+        {
+            var request = new GetFilteredMarketsQueryRequest()
+            {
+                OrganiserId = organiserId,
+                HideCancelled = isCancelled,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+            return await Mediator.Send(
+                new GetFilteredMarketsQuery()
+                {
+                    Dto = request
+                });
         }
     }
 }

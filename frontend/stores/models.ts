@@ -38,6 +38,8 @@ export interface IMarketClient {
     getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]>;
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
+
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -200,6 +202,49 @@ export class MarketClient extends ClientBase implements IMarketClient {
         }
         return Promise.resolve<CancelMarketInstanceResponse>(null as any);
     }
+
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]> {
+        let url_ = this.baseUrl + "/api/Market/instance/filtered?";
+        if (isCancelled !== undefined && isCancelled !== null)
+            url_ += "isCancelled=" + encodeURIComponent("" + isCancelled) + "&";
+        if (organiserId !== undefined && organiserId !== null)
+            url_ += "organiserId=" + encodeURIComponent("" + organiserId) + "&";
+        if (startDate !== undefined && startDate !== null)
+            url_ += "startDate=" + encodeURIComponent(startDate ? "" + startDate.toISOString() : "") + "&";
+        if (endDate !== undefined && endDate !== null)
+            url_ += "endDate=" + encodeURIComponent(endDate ? "" + endDate.toISOString() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetFilteredMarketInstances(_response));
+        });
+    }
+
+    protected processGetFilteredMarketInstances(response: Response): Promise<GetFilteredMarketsQueryResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFilteredMarketsQueryResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetFilteredMarketsQueryResponse[]>(null as any);
+    }
 }
 
 export interface IOrganiserClient {
@@ -211,6 +256,8 @@ export interface IOrganiserClient {
     getAllOrganisers(): Promise<GetAllOrganisersResponse[]>;
 
     getOrganisers(pageNumber: number, pageSize: number): Promise<GetOrganisersWithPaginationResponse>;
+
+    getOrganiser(id: string | null): Promise<GetOrganiserQueryResponse>;
 }
 
 export class OrganiserClient extends ClientBase implements IOrganiserClient {
@@ -377,6 +424,44 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
         }
         return Promise.resolve<GetOrganisersWithPaginationResponse>(null as any);
     }
+
+    getOrganiser(id: string | null): Promise<GetOrganiserQueryResponse> {
+        let url_ = this.baseUrl + "/api/Organiser/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetOrganiser(_response));
+        });
+    }
+
+    protected processGetOrganiser(response: Response): Promise<GetOrganiserQueryResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetOrganiserQueryResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetOrganiserQueryResponse>(null as any);
+    }
 }
 
 export interface ITestClient {
@@ -468,6 +553,16 @@ export interface CancelMarketInstanceResponse {
     isCancelled: boolean;
 }
 
+export interface GetFilteredMarketsQueryResponse {
+    marketId: number;
+    organiserId: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate: Date;
+    endDate: Date;
+    isCancelled: boolean;
+}
+
 export interface CreateOrganiserResponse {
     id: number;
     name?: string | null;
@@ -534,6 +629,17 @@ export interface PaginatedListOfOrganiser {
 export interface Organiser {
     id: number;
     name?: string | null;
+}
+
+export interface GetOrganiserQueryResponse {
+    id: number;
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    number?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
 }
 
 export interface TestCommandResponse {

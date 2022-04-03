@@ -4,7 +4,9 @@ import { RootStore } from '../RootStore';
 class UiStateStore {
     rootStore: RootStore;
     drawerWidth = 240;
-    isDrawerOpen = true;
+    isDrawerOpen = false;
+
+    filterDrawerWidth = 260;
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);

@@ -49,7 +49,6 @@ const menuItems = [
         icon: <InfoIcon />,
         path: 'about'
     },
-
 ]
 
 const DrawerMenu: FC<Props> = (props: Props) => {

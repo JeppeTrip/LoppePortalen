@@ -27,10 +27,10 @@ namespace Application.Test.Markets.Commands.CreateMarket
             var command = new CreateMarketCommand() { Dto = request };
             var handler = new CreateMarketCommand.CreateMarketCommandHandler(Context);
 
-            var result = handler.Handle(command, CancellationToken.None);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Id.Should().BePositive();
+            result.MarketId.Should().BePositive();
             var templates = Context.MarketTemplates
                 .Where(x => x.OrganiserId == request.OrganiserId && x.Name.Equals(request.MarketName) && x.Description.Equals(request.Description))
                 .ToList();

@@ -25,9 +25,9 @@ namespace Application.Markets.Queries.GetMarket
             }
             public async Task<GetMarketInstanceQueryResponse> Handle(GetMarketInstanceQuery request, CancellationToken cancellationToken)
             {
-                var marketInstance = _context.MarketInstances
+                var marketInstance = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
-                    .FirstOrDefault(x => x.Id == request.Dto.MarketId);
+                    .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
                 if (marketInstance == null)
                 {
                     throw new NotFoundException("No such market.");

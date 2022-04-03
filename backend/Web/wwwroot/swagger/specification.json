@@ -117,6 +117,55 @@
         }
       }
     },
+    "/api/Market/instance/filtered": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetFilteredMarketInstances",
+        "parameters": [
+          {
+            "type": "boolean",
+            "name": "isCancelled",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "organiserId",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "startDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "endDate",
+            "in": "query",
+            "format": "date-time",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetFilteredMarketsQueryResponse"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -235,6 +284,32 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/GetOrganisersWithPaginationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/{id}": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetOrganiser",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetOrganiserQueryResponse"
             }
           }
         }
@@ -383,6 +458,43 @@
         "marketId": {
           "type": "integer",
           "format": "int32"
+        },
+        "isCancelled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GetFilteredMarketsQueryResponse": {
+      "type": "object",
+      "required": [
+        "marketId",
+        "organiserId",
+        "startDate",
+        "endDate",
+        "isCancelled"
+      ],
+      "properties": {
+        "marketId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "organiserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "marketName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
         },
         "isCancelled": {
           "type": "boolean"
@@ -589,6 +701,39 @@
           "format": "int32"
         },
         "name": {
+          "type": "string"
+        }
+      }
+    },
+    "GetOrganiserQueryResponse": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "appartment": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "city": {
           "type": "string"
         }
       }
