@@ -1,15 +1,10 @@
 {
   "x-generator": "NSwag v13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v12.0.0.0))",
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "title": "Loppe Portalen API",
     "version": "1.0.0"
   },
-  "produces": [
-    "text/plain",
-    "application/json",
-    "text/json"
-  ],
   "paths": {
     "/api/Market/new": {
       "post": {
@@ -17,29 +12,27 @@
           "Market"
         ],
         "operationId": "Market_CreateMarket",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "parameters": [
-          {
-            "name": "dto",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateMarketRequest"
-            },
-            "x-nullable": false
-          }
-        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/CreateMarketResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMarketResponse"
+                }
+              }
             }
           }
         }
@@ -53,19 +46,25 @@
         "operationId": "Market_GetMarketInstance",
         "parameters": [
           {
-            "type": "string",
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": true
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/GetMarketInstanceQueryResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketInstanceQueryResponse"
+                }
+              }
             }
           }
         }
@@ -79,12 +78,15 @@
         "operationId": "Market_GetAllMarketInstances",
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/GetAllMarketInstancesQueryResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllMarketInstancesQueryResponse"
+                  }
+                }
               }
             }
           }
@@ -99,19 +101,25 @@
         "operationId": "Market_CancelMarketInstance",
         "parameters": [
           {
-            "type": "string",
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": true
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/CancelMarketInstanceResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelMarketInstanceResponse"
+                }
+              }
             }
           }
         }
@@ -125,41 +133,56 @@
         "operationId": "Market_GetFilteredMarketInstances",
         "parameters": [
           {
-            "type": "boolean",
             "name": "isCancelled",
             "in": "query",
-            "x-nullable": true
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "x-position": 1
           },
           {
-            "type": "integer",
             "name": "organiserId",
             "in": "query",
-            "format": "int32",
-            "x-nullable": true
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
           },
           {
-            "type": "string",
             "name": "startDate",
             "in": "query",
-            "format": "date-time",
-            "x-nullable": true
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 3
           },
           {
-            "type": "string",
             "name": "endDate",
             "in": "query",
-            "format": "date-time",
-            "x-nullable": true
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 4
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/GetFilteredMarketsQueryResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetFilteredMarketsQueryResponse"
+                  }
+                }
               }
             }
           }
@@ -172,29 +195,27 @@
           "Organiser"
         ],
         "operationId": "Organiser_CreateOrganiser",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "parameters": [
-          {
-            "name": "dto",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateOrganiserRequest"
-            },
-            "x-nullable": false
-          }
-        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganiserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/CreateOrganiserResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrganiserResponse"
+                }
+              }
             }
           }
         }
@@ -206,29 +227,27 @@
           "Organiser"
         ],
         "operationId": "Organiser_AddContactInformation",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "parameters": [
-          {
-            "name": "dto",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddContactsToOrganiserRequest"
-            },
-            "x-nullable": false
-          }
-        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactsToOrganiserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/AddContactsToOrganiserResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactsToOrganiserResponse"
+                }
+              }
             }
           }
         }
@@ -242,12 +261,15 @@
         "operationId": "Organiser_GetAllOrganisers",
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/GetAllOrganisersResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllOrganisersResponse"
+                  }
+                }
               }
             }
           }
@@ -262,28 +284,35 @@
         "operationId": "Organiser_GetOrganisers",
         "parameters": [
           {
-            "type": "integer",
             "name": "pageNumber",
             "in": "path",
             "required": true,
-            "format": "int32",
-            "x-nullable": false
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
           },
           {
-            "type": "integer",
             "name": "pageSize",
             "in": "path",
             "required": true,
-            "format": "int32",
-            "x-nullable": false
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/GetOrganisersWithPaginationResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganisersWithPaginationResponse"
+                }
+              }
             }
           }
         }
@@ -297,19 +326,25 @@
         "operationId": "Organiser_GetOrganiser",
         "parameters": [
           {
-            "type": "string",
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": true
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/GetOrganiserQueryResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganiserQueryResponse"
+                }
+              }
             }
           }
         }
@@ -323,428 +358,441 @@
         "operationId": "Test_GetTest",
         "responses": {
           "200": {
-            "x-nullable": false,
             "description": "",
-            "schema": {
-              "$ref": "#/definitions/TestCommandResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestCommandResponse"
+                }
+              }
             }
           }
         }
       }
     }
   },
-  "definitions": {
-    "CreateMarketResponse": {
-      "type": "object",
-      "required": [
-        "marketId"
-      ],
-      "properties": {
-        "marketId": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "CreateMarketRequest": {
-      "type": "object",
-      "required": [
-        "organiserId",
-        "startDate",
-        "endDate"
-      ],
-      "properties": {
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "marketName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "GetMarketInstanceQueryResponse": {
-      "type": "object",
-      "required": [
-        "marketId",
-        "organiserId",
-        "startDate",
-        "endDate",
-        "isCancelled"
-      ],
-      "properties": {
-        "marketId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "marketName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "isCancelled": {
-          "type": "boolean"
-        }
-      }
-    },
-    "GetAllMarketInstancesQueryResponse": {
-      "type": "object",
-      "required": [
-        "marketId",
-        "organiserId",
-        "startDate",
-        "endDate",
-        "isCancelled"
-      ],
-      "properties": {
-        "marketId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "marketName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "isCancelled": {
-          "type": "boolean"
-        }
-      }
-    },
-    "CancelMarketInstanceResponse": {
-      "type": "object",
-      "required": [
-        "marketId",
-        "isCancelled"
-      ],
-      "properties": {
-        "marketId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "isCancelled": {
-          "type": "boolean"
-        }
-      }
-    },
-    "GetFilteredMarketsQueryResponse": {
-      "type": "object",
-      "required": [
-        "marketId",
-        "organiserId",
-        "startDate",
-        "endDate",
-        "isCancelled"
-      ],
-      "properties": {
-        "marketId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "marketName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "isCancelled": {
-          "type": "boolean"
-        }
-      }
-    },
-    "CreateOrganiserResponse": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "street": {
-          "type": "string"
-        },
-        "number": {
-          "type": "string"
-        },
-        "appartment": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        }
-      }
-    },
-    "CreateOrganiserRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "street": {
-          "type": "string"
-        },
-        "number": {
-          "type": "string"
-        },
-        "appartment": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        }
-      }
-    },
-    "AddContactsToOrganiserResponse": {
-      "type": "object",
-      "required": [
-        "organiserId"
-      ],
-      "properties": {
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "contactInformation": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/KeyValuePairOfStringAndContactInfoType"
+  "components": {
+    "schemas": {
+      "CreateMarketResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
-      }
-    },
-    "KeyValuePairOfStringAndContactInfoType": {
-      "type": "object",
-      "required": [
-        "key",
-        "value"
-      ],
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "value": {
-          "$ref": "#/definitions/ContactInfoType"
-        }
-      }
-    },
-    "ContactInfoType": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "PHONE_NUMER",
-        "FACEBOOK",
-        "TWITTER",
-        "EMAIL",
-        "INSTAGRAM",
-        "TIKTOK"
-      ],
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ]
-    },
-    "AddContactsToOrganiserRequest": {
-      "type": "object",
-      "required": [
-        "organiserId"
-      ],
-      "properties": {
-        "organiserId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "contactInformation": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ContactInfoType"
+      },
+      "CreateMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
-      }
-    },
-    "GetAllOrganisersResponse": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
+      },
+      "GetMarketInstanceQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
         }
-      }
-    },
-    "GetOrganisersWithPaginationResponse": {
-      "type": "object",
-      "properties": {
-        "organisers": {
-          "$ref": "#/definitions/PaginatedListOfOrganiser"
+      },
+      "GetAllMarketInstancesQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
         }
-      }
-    },
-    "PaginatedListOfOrganiser": {
-      "type": "object",
-      "required": [
-        "pageNumber",
-        "totalPages",
-        "totalCount",
-        "hasPreviousPage",
-        "hasNextPage"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
+      },
+      "CancelMarketInstanceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GetFilteredMarketsQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateOrganiserResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateOrganiserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddContactsToOrganiserResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactInformation": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/KeyValuePairOfStringAndContactInfoType"
+            }
+          }
+        }
+      },
+      "KeyValuePairOfStringAndContactInfoType": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "ContactInfoType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "PHONE_NUMER",
+          "FACEBOOK",
+          "TWITTER",
+          "EMAIL",
+          "INSTAGRAM",
+          "TIKTOK"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "AddContactsToOrganiserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactInformation": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ContactInfoType"
+            }
+          }
+        }
+      },
+      "GetAllOrganisersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetOrganisersWithPaginationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organisers": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedListOfOrganiser"
+              }
+            ]
+          }
+        }
+      },
+      "PaginatedListOfOrganiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "items": {
-            "$ref": "#/definitions/Organiser"
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
-        },
-        "pageNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "totalPages": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "totalCount": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "hasPreviousPage": {
-          "type": "boolean"
-        },
-        "hasNextPage": {
-          "type": "boolean"
+        }
+      },
+      "Organiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetOrganiserQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TestCommandResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testResult": {
+            "type": "string",
+            "nullable": true
+          }
         }
       }
     },
-    "Organiser": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "GetOrganiserQueryResponse": {
-      "type": "object",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "street": {
-          "type": "string"
-        },
-        "number": {
-          "type": "string"
-        },
-        "appartment": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        }
-      }
-    },
-    "TestCommandResponse": {
-      "type": "object",
-      "properties": {
-        "testResult": {
-          "type": "string"
-        }
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "Type into the textbox: Bearer {your JWT token}.",
+        "name": "Authorization",
+        "in": "header"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
 }

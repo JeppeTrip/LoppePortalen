@@ -517,54 +517,54 @@ export class TestClient extends ClientBase implements ITestClient {
 }
 
 export interface CreateMarketResponse {
-    marketId: number;
+    marketId?: number;
 }
 
 export interface CreateMarketRequest {
-    organiserId: number;
+    organiserId?: number;
     marketName?: string | null;
     description?: string | null;
-    startDate: Date;
-    endDate: Date;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface GetMarketInstanceQueryResponse {
-    marketId: number;
-    organiserId: number;
+    marketId?: number;
+    organiserId?: number;
     marketName?: string | null;
     description?: string | null;
-    startDate: Date;
-    endDate: Date;
-    isCancelled: boolean;
+    startDate?: Date;
+    endDate?: Date;
+    isCancelled?: boolean;
 }
 
 export interface GetAllMarketInstancesQueryResponse {
-    marketId: number;
-    organiserId: number;
+    marketId?: number;
+    organiserId?: number;
     marketName?: string | null;
     description?: string | null;
-    startDate: Date;
-    endDate: Date;
-    isCancelled: boolean;
+    startDate?: Date;
+    endDate?: Date;
+    isCancelled?: boolean;
 }
 
 export interface CancelMarketInstanceResponse {
-    marketId: number;
-    isCancelled: boolean;
+    marketId?: number;
+    isCancelled?: boolean;
 }
 
 export interface GetFilteredMarketsQueryResponse {
-    marketId: number;
-    organiserId: number;
+    marketId?: number;
+    organiserId?: number;
     marketName?: string | null;
     description?: string | null;
-    startDate: Date;
-    endDate: Date;
-    isCancelled: boolean;
+    startDate?: Date;
+    endDate?: Date;
+    isCancelled?: boolean;
 }
 
 export interface CreateOrganiserResponse {
-    id: number;
+    id?: number;
     name?: string | null;
     description?: string | null;
     street?: string | null;
@@ -585,13 +585,13 @@ export interface CreateOrganiserRequest {
 }
 
 export interface AddContactsToOrganiserResponse {
-    organiserId: number;
+    organiserId?: number;
     contactInformation?: { [key: string]: KeyValuePairOfStringAndContactInfoType; } | null;
 }
 
 export interface KeyValuePairOfStringAndContactInfoType {
-    key: string;
-    value: ContactInfoType;
+    key?: string;
+    value?: ContactInfoType;
 }
 
 export enum ContactInfoType {
@@ -604,12 +604,12 @@ export enum ContactInfoType {
 }
 
 export interface AddContactsToOrganiserRequest {
-    organiserId: number;
+    organiserId?: number;
     contactInformation?: { [key: string]: ContactInfoType; } | null;
 }
 
 export interface GetAllOrganisersResponse {
-    id: number;
+    id?: number;
     name?: string | null;
 }
 
@@ -619,20 +619,20 @@ export interface GetOrganisersWithPaginationResponse {
 
 export interface PaginatedListOfOrganiser {
     items?: Organiser[] | null;
-    pageNumber: number;
-    totalPages: number;
-    totalCount: number;
-    hasPreviousPage: boolean;
-    hasNextPage: boolean;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }
 
 export interface Organiser {
-    id: number;
+    id?: number;
     name?: string | null;
 }
 
 export interface GetOrganiserQueryResponse {
-    id: number;
+    id?: number;
     name?: string | null;
     description?: string | null;
     street?: string | null;
