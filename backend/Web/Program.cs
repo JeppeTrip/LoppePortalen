@@ -21,9 +21,11 @@ namespace Web
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
+            
 
             var host = CreateHostBuilder(args).Build();
 

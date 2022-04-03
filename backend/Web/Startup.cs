@@ -60,6 +60,7 @@ namespace Web
             services.AddOpenApiDocument(configure =>
             {
                 configure.Title = "Loppe Portalen API";
+                
                 configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
                 {
                     Type = OpenApiSecuritySchemeType.ApiKey,
@@ -69,6 +70,7 @@ namespace Web
                 });
 
                 configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                
             });
         }
 
@@ -99,9 +101,9 @@ namespace Web
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseIdentityServer();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseIdentityServer();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
