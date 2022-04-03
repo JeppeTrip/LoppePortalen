@@ -31,7 +31,7 @@ export class ClientBase {
 
 export interface IAuthorizationClient {
 
-    createUser(email?: string | null | undefined, passWord?: string | null | undefined): Promise<CreateUserResponse>;
+    registerUser(dto: RegisterUserRequest): Promise<RegisterUserResponse>;
 }
 
 export class AuthorizationClient extends ClientBase implements IAuthorizationClient {
@@ -45,17 +45,17 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    createUser(email?: string | null | undefined, passWord?: string | null | undefined): Promise<CreateUserResponse> {
-        let url_ = this.baseUrl + "/api/Authorization?";
-        if (email !== undefined && email !== null)
-            url_ += "email=" + encodeURIComponent("" + email) + "&";
-        if (passWord !== undefined && passWord !== null)
-            url_ += "passWord=" + encodeURIComponent("" + passWord) + "&";
+    registerUser(dto: RegisterUserRequest): Promise<RegisterUserResponse> {
+        let url_ = this.baseUrl + "/api/Authorization/Register";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(dto);
+
         let options_: RequestInit = {
+            body: content_,
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -63,17 +63,17 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.transformResult(url_, _response, (_response: Response) => this.processCreateUser(_response));
+            return this.transformResult(url_, _response, (_response: Response) => this.processRegisterUser(_response));
         });
     }
 
-    protected processCreateUser(response: Response): Promise<CreateUserResponse> {
+    protected processRegisterUser(response: Response): Promise<RegisterUserResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateUserResponse;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RegisterUserResponse;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -81,7 +81,7 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<CreateUserResponse>(null as any);
+        return Promise.resolve<RegisterUserResponse>(null as any);
     }
 }
 
@@ -577,8 +577,18 @@ export interface Result {
     errors?: string[] | null;
 }
 
-export interface CreateUserResponse extends Result {
-    userId?: string | null;
+export interface AuthResult extends Result {
+    token?: string | null;
+}
+
+export interface RegisterUserResponse extends AuthResult {
+}
+
+export interface RegisterUserRequest {
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+    password?: string | null;
 }
 
 export interface CreateMarketResponse {

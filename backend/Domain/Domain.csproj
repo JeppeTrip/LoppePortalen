@@ -4,6 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <!-- TODO: Find a way to work around this dependency.-->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.15" />
+  </ItemGroup>
+
+
   <ItemGroup>
     <Folder Include="EntityExtensions\" />
     <Folder Include="Exceptions\" />

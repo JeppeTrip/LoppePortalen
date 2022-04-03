@@ -16,7 +16,7 @@ namespace Application.Test
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
 
-            var context = new ApplicationDbContext(options);
+            var context = new ApplicationDbContext(options, null, null); //TODO this doesn't work.
 
             if (context != null)
             {

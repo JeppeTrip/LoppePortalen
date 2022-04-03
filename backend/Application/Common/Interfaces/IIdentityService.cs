@@ -1,6 +1,7 @@
 ﻿using Application.Common.Models;
 using System;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Application.Common.Interfaces
 {
@@ -15,5 +16,8 @@ namespace Application.Common.Interfaces
         Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
 
         Task<Result> DeleteUserAsync(string userId);
+
+        string GenerateJwtToken(ApplicationUser user);
+        Task<ApplicationUser> GetUser(string userId);
     }
 }

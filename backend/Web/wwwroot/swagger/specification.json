@@ -6,39 +6,31 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Authorization": {
+    "/api/Authorization/Register": {
       "post": {
         "tags": [
           "Authorization"
         ],
-        "operationId": "Authorization_CreateUser",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
+        "operationId": "Authorization_RegisterUser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserRequest"
+              }
+            }
           },
-          {
-            "name": "passWord",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateUserResponse"
+                  "$ref": "#/components/schemas/RegisterUserResponse"
                 }
               }
             }
@@ -413,7 +405,18 @@
   },
   "components": {
     "schemas": {
-      "CreateUserResponse": {
+      "RegisterUserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AuthResult": {
         "allOf": [
           {
             "$ref": "#/components/schemas/Result"
@@ -422,7 +425,7 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "userId": {
+              "token": {
                 "type": "string",
                 "nullable": true
               }
@@ -443,6 +446,28 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "RegisterUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

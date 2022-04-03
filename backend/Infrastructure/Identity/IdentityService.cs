@@ -1,10 +1,16 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 //Based on https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/Infrastructure/Identity/IdentityService.cs
@@ -16,14 +22,18 @@ namespace Infrastructure.Identity
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
         private readonly IAuthorizationService _authorizationService;
 
+        private readonly JwtConfig _jwtConfig;
+
         public IdentityService(
             UserManager<ApplicationUser> userManager,
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService,
+            IOptionsMonitor<JwtConfig> optionsMonitor)
         {
             _userManager = userManager;
             _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             _authorizationService = authorizationService;
+            _jwtConfig = optionsMonitor.CurrentValue;
         }
 
         public async Task<bool> AuthorizeAsync(string userId, string policyName)
@@ -81,6 +91,40 @@ namespace Infrastructure.Identity
             var result = await _userManager.DeleteAsync(user);
 
             return result.ToApplicationResult();
+        }
+
+        public string GenerateJwtToken(ApplicationUser user)
+        {
+            var jwtHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim("Id", user.Id),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email), //unique id - emails required unique in this instance.
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // used by tge refresh token
+                }),
+                //TODO: Update so it is much shorter lived (minutes)
+                Expires = DateTime.UtcNow.AddHours(3),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature //TODO: Review algorithm
+                )
+            };
+            //Gen security token
+            var token = jwtHandler.CreateToken(tokenDescriptor);
+            //Convert security token into a usable string
+            var jwtToken = jwtHandler.WriteToken(token);
+            return jwtToken;
+        }
+
+        public async Task<ApplicationUser> GetUser(string userId)
+        {
+            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            return user;
         }
     }
 }
