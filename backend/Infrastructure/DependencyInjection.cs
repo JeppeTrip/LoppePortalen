@@ -2,6 +2,7 @@
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,10 +22,12 @@ namespace Infrastructure
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-                services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+                
                 //TODO: Add timetracking as a trancient dependency here.
             }
-            /*
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
             services
                 .AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
@@ -32,7 +35,12 @@ namespace Infrastructure
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-            */
+
+            services.AddTransient<IIdentityService, IdentityService>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
             return services;
         }
     }

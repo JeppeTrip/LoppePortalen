@@ -1,25 +1,29 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Common;
 using Domain.Entities;
+using IdentityServer4.EntityFramework.Options;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        public DbSet<Organiser> Organisers { get; set; }
-        public DbSet<Address> Address { get; set; }
-        public DbSet<ContactInfo> ContactInformations { get; set; }
-        public DbSet<MarketTemplate> MarketTemplates { get; set; }
-        public DbSet<MarketInstance> MarketInstances { get; set; }
+        private readonly ICurrentUserService _currentUserService;
 
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions,
+            ICurrentUserService currentUserService): base(options, operationalStoreOptions)
         {
-            //TODO: Add current user and datetimeoffsets here
+            _currentUserService = currentUserService;
         }
+
 
         private void PrepareEntitiesForSave()
         {
@@ -36,6 +40,12 @@ namespace Infrastructure.Persistence
                 }
             }
         }
+
+        public DbSet<Organiser> Organisers { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<ContactInfo> ContactInformations { get; set; }
+        public DbSet<MarketTemplate> MarketTemplates { get; set; }
+        public DbSet<MarketInstance> MarketInstances { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {
