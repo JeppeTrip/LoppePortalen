@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
+using System.Linq;
 using Web.Filters;
+using Web.Services;
 
 namespace Web
 {
@@ -40,13 +44,31 @@ namespace Web
             //Add rest of the projects to the service.
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration, Environment);
+
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
             services.AddControllers(options =>
                  options.Filters.Add<ApiExceptionFilter>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
                 .AddNewtonsoftJson();
 
 
-            services.AddSwaggerDocument(configure => configure.Title = "Loppe Portalen API");
+            //services.AddSwaggerDocument(configure => configure.Title = "Loppe Portalen API");
+
+
+            services.AddOpenApiDocument(configure =>
+            {
+                configure.Title = "Loppe Portalen API";
+                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
+
+                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            });
         }
 
 
@@ -73,6 +95,10 @@ namespace Web
             app.UseSwaggerUi3();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseIdentityServer();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
