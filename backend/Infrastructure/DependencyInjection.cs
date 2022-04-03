@@ -1,6 +1,8 @@
 ﻿using Application.Common.Interfaces;
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +24,15 @@ namespace Infrastructure
                 services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
                 //TODO: Add timetracking as a trancient dependency here.
             }
+            /*
+            services
+                .AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            */
             return services;
         }
     }
