@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using Serilog;
 using System.Linq;
 using Web.Filters;
 using Web.Services;
@@ -87,7 +88,9 @@ namespace Web
             }
 
             app.UseCors("TestPolicy");
-             
+
+            app.UseSerilogRequestLogging();
+
             app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
 
