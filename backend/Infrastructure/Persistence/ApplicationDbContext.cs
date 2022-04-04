@@ -46,6 +46,7 @@ namespace Infrastructure.Persistence
         public DbSet<ContactInfo> ContactInformations { get; set; }
         public DbSet<MarketTemplate> MarketTemplates { get; set; }
         public DbSet<MarketInstance> MarketInstances { get; set; }
+        public DbSet<User> UserInfo { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {

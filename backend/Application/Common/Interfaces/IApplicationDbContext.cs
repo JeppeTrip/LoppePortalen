@@ -13,7 +13,7 @@ namespace Application.Common.Interfaces
         DbSet<ContactInfo> ContactInformations { get; set; }
         DbSet<MarketTemplate> MarketTemplates { get; set; }
         DbSet<MarketInstance> MarketInstances { get; set; }
-
+        DbSet<Domain.Entities.User> UserInfo { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

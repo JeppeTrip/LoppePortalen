@@ -35,10 +35,20 @@ namespace Application.User.Commands.CreateUser
                     return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, "");
                 }
 
-                var user = await _identityService.GetUser(createRes.UserId);
+                var newUser = new Domain.Entities.User()
+                {
+                    IdentityId = new Guid(createRes.UserId),
+                    FirstName = request.Dto.FirstName,
+                    LastName = request.Dto.LastName,
+                    Email = request.Dto.Email
+                };
 
-                var token = _identityService.GenerateJwtToken(user);
-                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, token);
+                _context.UserInfo.Add(newUser);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                var token = _identityService.GenerateJwtToken(newUser.IdentityId.ToString());
+
+                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, newUser.IdentityId.ToString());
             }
         }
     }

@@ -93,8 +93,9 @@ namespace Infrastructure.Identity
             return result.ToApplicationResult();
         }
 
-        public string GenerateJwtToken(ApplicationUser user)
+        public async Task<string> GenerateJwtToken(string userId)
         {
+            var user = await GetUser(userId);
             var jwtHandler = new JwtSecurityTokenHandler();
 
             var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
@@ -105,7 +106,7 @@ namespace Infrastructure.Identity
                     new Claim("Id", user.Id),
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email), //unique id - emails required unique in this instance.
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // used by tge refresh token
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // used by the refresh token
                 }),
                 //TODO: Update so it is much shorter lived (minutes)
                 Expires = DateTime.UtcNow.AddHours(3),

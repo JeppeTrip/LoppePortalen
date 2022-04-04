@@ -17,7 +17,7 @@ namespace Application.Common.Interfaces
 
         Task<Result> DeleteUserAsync(string userId);
 
-        string GenerateJwtToken(ApplicationUser user);
-        Task<ApplicationUser> GetUser(string userId);
+        public Task<string> GenerateJwtToken(string userId);
+
     }
 }
