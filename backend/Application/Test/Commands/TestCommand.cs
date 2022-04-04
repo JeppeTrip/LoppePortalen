@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Common.Security;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Test.Commands
 {
+    [AuthorizeAttribute(Roles = "Administrator")]
     public class TestCommand : IRequest<TestCommandResponse>
     {
         public class TestCommandHandler : IRequestHandler<TestCommand, TestCommandResponse>

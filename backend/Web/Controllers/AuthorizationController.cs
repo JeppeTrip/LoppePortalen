@@ -1,4 +1,5 @@
-﻿using Application.User.Commands.CreateUser;
+﻿using Application.User.Commands.AuthenticateUser;
+using Application.User.Commands.CreateUser;
 using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,15 @@ namespace Web.Controllers
         public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest dto)
         {
             return await Mediator.Send(new RegisterUserCommand()
+            {
+                Dto = dto
+            });
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<AuthenticateUserResponse>> AuthenticateUser([FromBody] AuthenticateUserRequest dto)
+        {
+            return await Mediator.Send(new AuthenticateUserCommand()
             {
                 Dto = dto
             });

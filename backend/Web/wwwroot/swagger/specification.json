@@ -38,6 +38,38 @@
         }
       }
     },
+    "/api/Authorization/Login": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Authorization_AuthenticateUser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticateUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Market/new": {
       "post": {
         "tags": [
@@ -461,6 +493,31 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AuthenticateUserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AuthenticateUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "email": {
             "type": "string",
             "nullable": true

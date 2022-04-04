@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -126,6 +127,32 @@ namespace Infrastructure.Identity
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
             return user;
+        }
+
+        public async Task<AuthResult> authenticateUser(string email, string password)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "");
+                } else
+                {
+                    var isValidPass = await _userManager.CheckPasswordAsync(user, password);
+                    if (isValidPass) {
+                        var token = await GenerateJwtToken(user.Id);
+                        return new AuthResult(Result.Success(), token);
+                    } else
+                    {
+                        return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new AuthResult(Result.Failure(new List<string>() { e.Message }), "");
+            }
         }
     }
 }

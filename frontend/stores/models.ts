@@ -32,6 +32,8 @@ export class ClientBase {
 export interface IAuthorizationClient {
 
     registerUser(dto: RegisterUserRequest): Promise<RegisterUserResponse>;
+
+    authenticateUser(dto: AuthenticateUserRequest): Promise<AuthenticateUserResponse>;
 }
 
 export class AuthorizationClient extends ClientBase implements IAuthorizationClient {
@@ -82,6 +84,45 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
             });
         }
         return Promise.resolve<RegisterUserResponse>(null as any);
+    }
+
+    authenticateUser(dto: AuthenticateUserRequest): Promise<AuthenticateUserResponse> {
+        let url_ = this.baseUrl + "/api/Authorization/Login";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processAuthenticateUser(_response));
+        });
+    }
+
+    protected processAuthenticateUser(response: Response): Promise<AuthenticateUserResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AuthenticateUserResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuthenticateUserResponse>(null as any);
     }
 }
 
@@ -587,6 +628,14 @@ export interface RegisterUserResponse extends AuthResult {
 export interface RegisterUserRequest {
     firstName?: string | null;
     lastName?: string | null;
+    email?: string | null;
+    password?: string | null;
+}
+
+export interface AuthenticateUserResponse extends AuthResult {
+}
+
+export interface AuthenticateUserRequest {
     email?: string | null;
     password?: string | null;
 }
