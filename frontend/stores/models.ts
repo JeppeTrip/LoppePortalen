@@ -12,9 +12,8 @@ export class ClientBase {
     baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
-        const token = JSON.parse(localStorage.getItem("user"));
-        console.log(`Client Base Token ${token}`);
-        
+        const token = localStorage.getItem("user");
+
         options.mode = 'cors';
         options.headers = {
             ...options.headers, 

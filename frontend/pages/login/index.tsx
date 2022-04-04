@@ -4,17 +4,11 @@ import { NextPage } from "next";
 import { useContext } from "react";
 import { StoreContext } from "../../stores/StoreContext";
 
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { LoadingButton } from "@mui/lab";
+import LoginIcon from '@mui/icons-material/Login';
 
 
 const LoginPage: NextPage = observer(() => {
@@ -79,15 +73,17 @@ const LoginPage: NextPage = observer(() => {
                     />
                         */
                     }
-
-                    <Button
+                    <LoadingButton
                         type="submit"
-                        fullWidth
+                        loading={stores.userStore.isLoggingIn}
+                        loadingPosition="start"
+                        startIcon={<LoginIcon />}
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        fullWidth
                     >
                         Sign In
-                    </Button>
+                    </LoadingButton>
                     {/*
             <Grid container>
               <Grid item xs>

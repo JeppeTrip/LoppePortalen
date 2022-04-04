@@ -65,6 +65,10 @@ const TopBar: FC<Props> = (props: Props) => {
       }
   }
 
+  const handleLogout = () => {
+    stores.userStore.logout()
+  }
+
 
   return (
     <>
@@ -140,7 +144,12 @@ const TopBar: FC<Props> = (props: Props) => {
               </Button>
             ))}
           </Box>
-          <Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>
+          {
+            stores.userStore.isLoggedIn ? <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
+            : <Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>
+          }
+          
+          
         </Toolbar>
       </AppBar>
       <Toolbar />

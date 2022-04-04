@@ -36,6 +36,7 @@ class MarketStore {
 
     @action
     loadMarkets() {
+        console.log("loadf markets")
         this.setIsLoading(true);
         const client = new MarketClient()
         client.getAllMarketInstances().then(res => {
@@ -54,6 +55,7 @@ class MarketStore {
             this.setIsLoading(false);
             this.setHadLoadingError(false);
         }).catch(error => {
+            console.log(error);
             this.setHadLoadingError(true);
             this.setIsLoading(false);
         })
