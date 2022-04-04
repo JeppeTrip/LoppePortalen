@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using Domain.Entities;
+using Microsoft.Extensions.Options;
+using IdentityServer4.EntityFramework.Options;
 
 namespace Application.Test
 {
@@ -16,7 +18,9 @@ namespace Application.Test
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
 
-            var context = new ApplicationDbContext(options, null, null); //TODO this doesn't work.
+            var someOptions = Options.Create(new OperationalStoreOptions());
+
+            var context = new ApplicationDbContext(options, someOptions, null); //TODO this doesn't work.
 
             if (context != null)
             {

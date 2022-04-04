@@ -62,9 +62,6 @@ namespace Web
                 .AddNewtonsoftJson();
 
 
-            //services.AddSwaggerDocument(configure => configure.Title = "Loppe Portalen API");
-
-
             services.AddOpenApiDocument(configure =>
             {
                 configure.Title = "Loppe Portalen API";

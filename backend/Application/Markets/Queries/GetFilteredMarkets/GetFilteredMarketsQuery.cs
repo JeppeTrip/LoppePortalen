@@ -38,8 +38,8 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                     instances = instances.Where(x => !x.IsCancelled).ToList();
                 }
 
-                var startDate = request.Dto.StartDate == null ? new DateTimeOffset(new DateTime(9999, 12, 31)) : (DateTimeOffset) request.Dto.StartDate;
-                var endDate = request.Dto.EndDate == null ? new DateTimeOffset(new DateTime(9999, 12, 31)) : (DateTimeOffset) request.Dto.EndDate;
+                var startDate = request.Dto.StartDate == null ? DateTimeOffset.MinValue : (DateTimeOffset) request.Dto.StartDate;
+                var endDate = request.Dto.EndDate == null ? DateTimeOffset.MaxValue : (DateTimeOffset) request.Dto.EndDate;
                 instances = instances.Where(
                         x => (DateTimeOffset.Compare(x.StartDate, startDate) >= 0 || DateTimeOffset.Compare(x.EndDate, startDate) >= 0))
                         .ToList();
