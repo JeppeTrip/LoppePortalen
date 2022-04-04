@@ -46,9 +46,9 @@ namespace Application.User.Commands.CreateUser
                 _context.UserInfo.Add(newUser);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var token = _identityService.GenerateJwtToken(newUser.IdentityId.ToString());
+                var token = await _identityService.GenerateJwtToken(newUser.IdentityId.ToString());
 
-                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, newUser.IdentityId.ToString());
+                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, token);
             }
         }
     }
