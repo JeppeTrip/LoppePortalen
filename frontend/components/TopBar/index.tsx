@@ -59,11 +59,11 @@ const TopBar: FC<Props> = (props: Props) => {
     setAnchorElUser(null);
   };
 
-    const handleOnClick = (path) => {
-        if (router.isReady) {
-            router.push(path, undefined, { shallow: true });
-        }
-    }
+  const handleOnClick = (path) => {
+      if (router.isReady) {
+          router.push(path, undefined, { shallow: true });
+      }
+  }
 
 
   return (
@@ -140,6 +140,7 @@ const TopBar: FC<Props> = (props: Props) => {
               </Button>
             ))}
           </Box>
+          <Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>
         </Toolbar>
       </AppBar>
       <Toolbar />

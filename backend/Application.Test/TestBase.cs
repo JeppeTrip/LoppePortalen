@@ -1,4 +1,10 @@
-﻿using Infrastructure.Persistence;
+﻿using Application.Common.Interfaces;
+using Application.Common.Models;
+using Infrastructure.Identity;
+using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +21,7 @@ namespace Application.Test
         {
             Context = ApplicationDbContextFactory.Create();
         }
+
         public void Dispose()
         {
             ApplicationDbContextFactory.Destroy(Context);
