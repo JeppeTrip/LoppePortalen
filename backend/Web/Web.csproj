@@ -40,13 +40,12 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
-<!--
-  <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+
+  <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Caprover'">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
     <Exec Command="$(NSwagExe_Net50) run /variables:Configuration=$(Configuration)" />
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
--->
 
 
   <Target Name="NSwagDebug" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
