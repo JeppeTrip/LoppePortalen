@@ -19,8 +19,8 @@ namespace Infrastructure
             if (!environment.IsEnvironment("Test"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
+                    options.UseNpgsql(
+                        configuration.GetConnectionString("Postgresql"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
                 
