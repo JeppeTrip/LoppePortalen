@@ -1,5 +1,5 @@
+using Domain.Common;
 using Domain.Entities;
-using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

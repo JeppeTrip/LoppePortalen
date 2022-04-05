@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Infrastructure.Identity;
+﻿using Domain.Common;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

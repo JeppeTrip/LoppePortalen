@@ -14,6 +14,7 @@ namespace Application.Common.Interfaces
         DbSet<MarketTemplate> MarketTemplates { get; set; }
         DbSet<MarketInstance> MarketInstances { get; set; }
         DbSet<Domain.Entities.User> UserInfo { get; set; }
+        DbSet<RefreshToken> RefreshTokens { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

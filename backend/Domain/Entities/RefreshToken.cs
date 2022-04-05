@@ -23,5 +23,7 @@ namespace Domain.Entities
         public bool IsUsed { get; set; }
         public bool IsRewoked { get; set; }
         public DateTime ExpiryDate { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

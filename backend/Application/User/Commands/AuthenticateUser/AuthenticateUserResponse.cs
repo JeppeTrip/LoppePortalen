@@ -5,7 +5,7 @@ namespace Application.User.Commands.AuthenticateUser
 {
     public class AuthenticateUserResponse : AuthResult
     {
-        public AuthenticateUserResponse(bool succeeded, IEnumerable<string> errors, string token) : base(succeeded, errors, token)
+        public AuthenticateUserResponse(bool succeeded, IEnumerable<string> errors, string token, string refreshToken) : base(succeeded, errors, token, refreshToken)
         {
         }
     }

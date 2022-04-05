@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Common;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -135,22 +136,22 @@ namespace Infrastructure.Identity
                 var user = await _userManager.FindByEmailAsync(email);
                 if (user == null)
                 {
-                    return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "");
+                    return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "", "");
                 } else
                 {
                     var isValidPass = await _userManager.CheckPasswordAsync(user, password);
                     if (isValidPass) {
                         var token = await GenerateJwtToken(user.Id);
-                        return new AuthResult(Result.Success(), token);
+                        return new AuthResult(Result.Success(), token, "");
                     } else
                     {
-                        return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "");
+                        return new AuthResult(Result.Failure(new List<string>() { "Invalid email or password." }), "", "");
                     }
                 }
             }
             catch (Exception e)
             {
-                return new AuthResult(Result.Failure(new List<string>() { e.Message }), "");
+                return new AuthResult(Result.Failure(new List<string>() { e.Message }), "", "");
             }
         }
     }

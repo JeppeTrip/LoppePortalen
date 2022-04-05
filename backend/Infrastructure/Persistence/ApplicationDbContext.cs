@@ -2,7 +2,6 @@
 using Domain.Common;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -47,6 +46,7 @@ namespace Infrastructure.Persistence
         public DbSet<MarketTemplate> MarketTemplates { get; set; }
         public DbSet<MarketInstance> MarketInstances { get; set; }
         public DbSet<User> UserInfo { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {
