@@ -21,9 +21,13 @@ namespace Infrastructure
             {
                 if (environment.IsEnvironment("caprover"))
                 {
+                    var server = Environment.GetEnvironmentVariable("DB_SERVER");
+                    var port = Environment.GetEnvironmentVariable("DB_PORT");
+                    var database = Environment.GetEnvironmentVariable("DATABASE");
+                    var userId = Environment.GetEnvironmentVariable("POSTGRES_USER");
+                    var password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
                     services.AddDbContext<ApplicationDbContext>(options =>
-                        options.UseNpgsql(
-                            configuration.GetConnectionString($"Server={Environment.GetEnvironmentVariable("DB_SERVER")};Port={Environment.GetEnvironmentVariable("DB_PORT")};Database={Environment.GetEnvironmentVariable("DATABASE")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")}"),
+                        options.UseNpgsql($"Server={server};Port={port};Database={database};User Id={userId};Password={password}",
                             b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
                 }
                 else
