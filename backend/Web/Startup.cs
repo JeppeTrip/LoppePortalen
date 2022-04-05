@@ -78,6 +78,21 @@ namespace Web
                 
             });
 
+            //Getting the secret from the config.
+            //In production use system variables.
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false, //TODO: Update
+                ValidateAudience = false, //TODO: Update
+                RequireExpirationTime = false, //TODO: Update
+                ValidateLifetime = true
+            };
+
+            services.AddSingleton(tokenValidationParameters);
+
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,19 +101,8 @@ namespace Web
             })
             .AddJwtBearer(jwt =>
             {
-                //Getting the secret from the config.
-                //In production use system variables.
-                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
                 jwt.SaveToken = true; //save inside authentication properties.
-                jwt.TokenValidationParameters = new TokenValidationParameters { 
-                    ValidateIssuerSigningKey = true,  
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false, //TODO: Update
-                    ValidateAudience = false, //TODO: Update
-                    RequireExpirationTime = false, //TODO: Update
-                    ValidateLifetime = true
-                };
+                jwt.TokenValidationParameters = tokenValidationParameters;
             });
         }
 

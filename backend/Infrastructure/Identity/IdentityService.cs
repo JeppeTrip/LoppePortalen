@@ -109,8 +109,7 @@ namespace Infrastructure.Identity
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // used by the refresh token
                 }),
-                //TODO: Update so it is much shorter lived (minutes)
-                Expires = DateTime.UtcNow.AddHours(3),
+                Expires = DateTime.UtcNow.Add(_jwtConfig.ExpiryTimeFrame), //read timespan from jwtConfig
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature //TODO: Review algorithm
                 )
