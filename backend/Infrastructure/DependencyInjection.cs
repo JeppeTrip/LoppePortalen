@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Domain.Entities;
+using System;
 
 namespace Infrastructure
 {
@@ -18,12 +19,23 @@ namespace Infrastructure
         {
             if (!environment.IsEnvironment("Test"))
             {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseNpgsql(
-                        configuration.GetConnectionString("Postgresql"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                if (environment.IsEnvironment("caprover"))
+                {
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseNpgsql(
+                            configuration.GetConnectionString($"Server={Environment.GetEnvironmentVariable("DB_SERVER")};Port={Environment.GetEnvironmentVariable("DB_PORT")};Database={Environment.GetEnvironmentVariable("DATABASE")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")}"),
+                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                }
+                else
+                {
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseNpgsql(
+                            configuration.GetConnectionString("Postgresql"),
+                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                }
 
-                
+
+
                 //TODO: Add timetracking as a trancient dependency here.
             }
 
