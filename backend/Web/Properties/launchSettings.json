@@ -22,12 +22,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "POSTGRES_PASSWORD": "Frh9xz6A",
-        "ASPNETCORE_ENVIRONMENT": "caprover",
-        "DB_PORT": "5432",
-        "DB_SERVER": "srv-captain--loppeportalen-db-db",
-        "POSTGRES_USER": "s175197",
-        "DATABASE": "loppeportalen"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "dotnetRunMessages": "true"
