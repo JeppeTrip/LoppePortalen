@@ -118,11 +118,6 @@ namespace Web
                 app.UseHsts();
             }
 
-            if(context != null)
-            {
-                context.Database.Migrate();
-            }
-
             app.UseCors("TestPolicy");
 
             app.UseSerilogRequestLogging();
