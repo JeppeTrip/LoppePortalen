@@ -20,6 +20,12 @@ FROM build AS publish
 RUN dotnet publish "Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ARG ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+ARG DB_SERVER=${DB_SERVER}
+ARG DB_PORT=${DB_PORT}
+ARG DATABASE=${DATABASE}
+ARG POSTGRES_USER=${POSTGRES_USER}
+ARG POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Web.dll"]
