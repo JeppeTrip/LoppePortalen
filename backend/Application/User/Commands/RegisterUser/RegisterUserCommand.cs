@@ -32,7 +32,7 @@ namespace Application.User.Commands.CreateUser
                 var createRes = await _identityService.CreateUserAsync(request.Dto.Email, request.Dto.Password);
                 if (!createRes.Result.Succeeded)
                 {
-                    return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, "");
+                    return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, "", "");
                 }
 
                 var newUser = new Domain.Entities.User()
@@ -46,9 +46,9 @@ namespace Application.User.Commands.CreateUser
                 _context.UserInfo.Add(newUser);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var token = await _identityService.GenerateJwtToken(newUser.IdentityId.ToString());
+                var token = await _identityService.AuthenticateUser(newUser.Email, request.Dto.Password);
 
-                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, token);
+                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, token.Tokens.JwtToken, token.Tokens.RefreshToken.Token);
             }
         }
     }

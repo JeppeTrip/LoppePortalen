@@ -28,8 +28,20 @@ namespace Application.User.Commands.AuthenticateUser
 
             public async Task<AuthenticateUserResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
             {
-                var authResult = await _identityService.authenticateUser(request.Dto.Email, request.Dto.Password);
-                return new AuthenticateUserResponse(authResult.Succeeded, authResult.Errors, authResult.Token);
+                var authenticated = await _identityService.AuthenticateUser(request.Dto.Email, request.Dto.Password);
+                if (authenticated.Result.Succeeded)
+                {
+                    var jwt = authenticated.Tokens.JwtToken;
+                    var refreshToken = authenticated.Tokens.RefreshToken;
+
+                    _context.RefreshTokens.Add(refreshToken);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    return new AuthenticateUserResponse(authenticated.Result.Succeeded, authenticated.Result.Errors, jwt, refreshToken.Token);
+                } else
+                {
+                    return new AuthenticateUserResponse(authenticated.Result.Succeeded, authenticated.Result.Errors, "", "");
+                }
             }
         }
     }

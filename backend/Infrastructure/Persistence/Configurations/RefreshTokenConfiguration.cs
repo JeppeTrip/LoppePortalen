@@ -8,6 +8,9 @@ namespace Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
+            //TODO: Is this actually a valid primary key?
+            builder.HasKey(x => x.Token);
+
             builder.HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.RefreshTokens)
                 .HasForeignKey(x => x.UserId)

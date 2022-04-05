@@ -1,5 +1,6 @@
 ﻿using Application.User.Commands.AuthenticateUser;
 using Application.User.Commands.CreateUser;
+using Application.User.Commands.RefreshJwt;
 using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,15 @@ namespace Web.Controllers
         public async Task<ActionResult<AuthenticateUserResponse>> AuthenticateUser([FromBody] AuthenticateUserRequest dto)
         {
             return await Mediator.Send(new AuthenticateUserCommand()
+            {
+                Dto = dto
+            });
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<ActionResult<RefreshJwtResponse>> RefreshToken([FromBody] RefreshJwtRequest dto)
+        {
+            return await Mediator.Send(new RefreshJwtCommand()
             {
                 Dto = dto
             });

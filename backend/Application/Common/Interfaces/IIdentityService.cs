@@ -19,7 +19,13 @@ namespace Application.Common.Interfaces
 
         Task<string> GenerateJwtToken(string userId);
 
-        Task<AuthResult> authenticateUser(string email, string password);
+        Task<(Result Result, Tokens Tokens)> AuthenticateUser(string email, string password);
+
+        Task<RefreshToken> GenerateRefreshToken(string userId, string jwtId);
+
+        Task<Result> VerifyTokens(string JwtToken, string refreshToken);
+
+        Task<Tokens> GenerateTokens(string userId);
 
     }
 }

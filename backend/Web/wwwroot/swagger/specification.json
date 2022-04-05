@@ -70,6 +70,38 @@
         }
       }
     },
+    "/api/Authorization/RefreshToken": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Authorization_RefreshToken",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshJwtRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshJwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Market/new": {
       "post": {
         "tags": [
@@ -460,6 +492,10 @@
               "token": {
                 "type": "string",
                 "nullable": true
+              },
+              "refreshToken": {
+                "type": "string",
+                "nullable": true
               }
             }
           }
@@ -523,6 +559,31 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RefreshJwtResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "RefreshJwtRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "refreshToken": {
             "type": "string",
             "nullable": true
           }
