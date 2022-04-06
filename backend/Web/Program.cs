@@ -40,7 +40,6 @@ namespace Web
 
                     if (context.Database.IsNpgsql())
                     {
-                        context.Database.EnsureDeleted(); //TODO: REMOVE!
                         context.Database.Migrate();
                     }
 
