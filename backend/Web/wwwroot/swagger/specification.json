@@ -622,6 +622,10 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "numberOfStalls": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

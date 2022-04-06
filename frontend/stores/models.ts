@@ -701,6 +701,7 @@ export interface CreateMarketRequest {
     description?: string | null;
     startDate?: Date;
     endDate?: Date;
+    numberOfStalls?: number;
 }
 
 export interface GetMarketInstanceQueryResponse {

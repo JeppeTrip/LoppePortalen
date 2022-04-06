@@ -52,6 +52,14 @@ namespace Application.Markets.Commands.CreateMarket
                 };
                 _context.MarketInstances.Add(instance);
                 
+                for(int i = 0; i<request.Dto.NumberOfStalls; i++)
+                {
+                    _context.Stalls.Add(new Stall()
+                    {
+                        MarketTemplate = template
+                    });
+                }
+
                 await _context.SaveChangesAsync(cancellationToken);
                 return new CreateMarketResponse()
                 {

@@ -47,6 +47,7 @@ namespace Infrastructure.Persistence
         public DbSet<MarketInstance> MarketInstances { get; set; }
         public DbSet<User> UserInfo { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Stall> Stalls { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {
