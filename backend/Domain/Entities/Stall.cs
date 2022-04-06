@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class Stall
     {
-        int Id { get; set; }
+        public int Id { get; set; }
 
         public virtual MarketTemplate MarketTemplate { get; set; }
         public int MarketTemplateId { get; set; }
