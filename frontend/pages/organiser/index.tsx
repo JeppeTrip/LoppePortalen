@@ -46,7 +46,7 @@ const OrganiserListPage: NextPage = observer(() => {
     }
     return (
         <>
-            <Container sx={{minHeight: "100%"}}>
+            <Container>
                 <Box sx={{ display: 'flex' }}>
                     <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                         {

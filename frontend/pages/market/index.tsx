@@ -41,17 +41,16 @@ const Markets: NextPage = observer(() => {
     }
 
     return (
-        <>
+        <Container>
+            <MarketFilter />
             <Box sx={{ display: 'flex' }}>
-                <MarketFilter />
                 <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    { 
+                    {
                         stores.marketStore.isLoading ? loading() :
-                        stores.marketStore.hadLoadingError ? error() : content()}
+                            stores.marketStore.hadLoadingError ? error() : content()}
                 </Box>
             </Box>
-        </>
-
+        </Container>
     )
 })
 
