@@ -9,6 +9,7 @@ import DeckIcon from '@mui/icons-material/Deck';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
+import styles from './styles.module.css';
 
 type Props = {
 
@@ -80,10 +81,12 @@ const TopBar: FC<Props> = (props: Props) => {
         }}>
         <Toolbar>
           <Typography
+            className={styles.logo}
             variant="h6"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            onClick={() => handleOnClick("/")}
           >
             Loppe Portalen
           </Typography>
