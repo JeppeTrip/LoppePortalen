@@ -4,6 +4,7 @@ using Application.User.Commands.RefreshJwt;
 using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Web.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<AuthenticateUserResponse>> AuthenticateUser([FromBody] AuthenticateUserRequest dto)
         {
+            Log.Information("AuthorizationController AuthenticateUser");
             return await Mediator.Send(new AuthenticateUserCommand()
             {
                 Dto = dto

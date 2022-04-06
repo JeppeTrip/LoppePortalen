@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Domain.Common;
+using Domain.Entities;
+using System;
 
 namespace Infrastructure
 {
@@ -18,12 +20,27 @@ namespace Infrastructure
         {
             if (!environment.IsEnvironment("Test"))
             {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                if (environment.IsEnvironment("caprover"))
+                {
+                    var server = Environment.GetEnvironmentVariable("DB_SERVER");
+                    var port = Environment.GetEnvironmentVariable("DB_PORT");
+                    var database = Environment.GetEnvironmentVariable("DATABASE");
+                    var userId = Environment.GetEnvironmentVariable("POSTGRES_USER");
+                    var password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseNpgsql($"Server={server};Port={port};Database={database};User Id={userId};Password={password}",
+                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                }
+                else
+                {
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseNpgsql(
+                            configuration.GetConnectionString("Postgresql"),
+                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                }
 
-                
+
+
                 //TODO: Add timetracking as a trancient dependency here.
             }
 
@@ -34,8 +51,7 @@ namespace Infrastructure
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            //services.AddIdentityServer().AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             services.AddTransient<IIdentityService, IdentityService>();
 
