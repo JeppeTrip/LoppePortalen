@@ -1,6 +1,5 @@
-import { Avatar, Box, CircularProgress, Container, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper, Toolbar, Typography } from "@mui/material";
+import {Box, CircularProgress, Container, Divider, List, Paper, Typography } from "@mui/material";
 import { NextPage } from "next";
-import styles from './styles.module.css'
 import { useContext, useEffect } from "react";
 import { StoreContext } from "../../stores/StoreContext";
 import MarketListItem from "../../components/MarketListItem";
@@ -30,20 +29,28 @@ const Markets: NextPage = observer(() => {
     const content = () => {
         return (
             <Paper elevation={1}>
-                <List>
-                    {
-                        stores.marketStore.markets.map(
-                            market => <> <MarketListItem Market={market} /> <Divider /> </>)
-                    }
-                </List>
+                {
+                    stores.marketStore.markets.length == 0 ?
+                        <Typography variant="subtitle2">
+                            No markets found.
+                        </Typography>
+                        :
+                        <List>
+                            {
+                                stores.marketStore.markets.map(
+                                    market => <> <MarketListItem Market={market} /> <Divider /> </>)
+                            }
+                        </List>
+                }
+
             </Paper>
         );
     }
 
     return (
         <Container>
-            <MarketFilter />
             <Box sx={{ display: 'flex' }}>
+                <MarketFilter />
                 <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     {
                         stores.marketStore.isLoading ? loading() :

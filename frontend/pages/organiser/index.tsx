@@ -1,12 +1,9 @@
-import { Avatar, Box, Button, CircularProgress, Container, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Paper, TextField } from "@mui/material";
+import {Typography, Box, CircularProgress, Container, List, Paper} from "@mui/material";
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
-import styles from './styles.module.css'
-import { RootStore } from "../../stores/RootStore";
 import { useContext, useEffect } from "react";
 import { StoreContext } from '../../stores/StoreContext'
 import OrganiserListItem from "../../components/OrganiserListItem";
-import TopBar from "../../components/TopBar";
 import ErrorIcon from '@mui/icons-material/Error';
 
 const OrganiserListPage: NextPage = observer(() => {
@@ -31,16 +28,24 @@ const OrganiserListPage: NextPage = observer(() => {
     const content = () => {
         return (
             <Paper elevation={1}>
-                <List>
-                    {
-                        stores.organiserStore.organisers.map(organiser =>
-                            <>
-                                {
-                                    <OrganiserListItem Organiser={organiser} />
-                                }
-                            </>)
-                    }
-                </List>
+                {
+                    stores.organiserStore.organisers.length == 0 ?
+                        <Typography variant="subtitle2">
+                            No organisers found.
+                        </Typography>
+                        :
+                        <List>
+                            {
+                                stores.organiserStore.organisers.map(organiser =>
+                                    <>
+                                        {
+                                            <OrganiserListItem Organiser={organiser} />
+                                        }
+                                    </>)
+                            }
+                        </List>
+                }
+
             </Paper>
         )
     }
