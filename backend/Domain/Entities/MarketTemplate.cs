@@ -16,5 +16,7 @@ namespace Domain.Entities
         public int OrganiserId { get; set; }
         public virtual Organiser Organiser { get; set; }
         public virtual List<MarketInstance> MarketInstances { get; set; }
+
+        public virtual List<Stall> Stalls { get; set; }
     }
 }

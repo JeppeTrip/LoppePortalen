@@ -1,20 +1,24 @@
 @startuml
-class Organiser {
-    id : int <<PK>>
-    name : string
-    description : string 
+class MarketTemplate {
+
 }
 
-class ContactInfo {
-    id : int <<PK>>
-    organiserId : int <<FK>>
-    type : int
-    value : string
+class Stall {
+
 }
 
+class MarketInstance {
 
+}
 
-Organiser "1" -- "*" ContactInfo
-ContactInfo --> ContactType
+class StallMarketInstance {
+
+}
+
+MarketTemplate "1" --"1..*" MarketInstance
+MarketTemplate "1" -- "1..*" Stall
+Stall "1" -- "*" StallMarketInstance
+MarketInstance "1" -- "*" StallMarketInstance
+
 
 @enduml
