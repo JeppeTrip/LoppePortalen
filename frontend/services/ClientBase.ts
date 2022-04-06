@@ -1,5 +1,5 @@
 export class ClientBase {
-    baseApiUrl : string = "https://localhost:5001";
+    baseApiUrl : string = "http://srv-captain--loppeportalen-backend";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("user");
