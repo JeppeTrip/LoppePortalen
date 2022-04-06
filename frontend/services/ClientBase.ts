@@ -1,5 +1,5 @@
 export class ClientBase {
-    baseApiUrl : string = "http://srv-captain--loppeportalen-backend";
+    baseApiUrl : string = "http://loppeportalen-backend.loppeportalen.tk";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("user");
