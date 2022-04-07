@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Input, ListItem, Typography } from "@mui/material";
+import { Button, Grid, IconButton, Input, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useContext, useState } from "react";
 
@@ -8,7 +8,7 @@ import { StoreContext } from "../../stores/StoreContext";
 import { IStall } from "../../@types/Stall";
 
 type Props = {
-    stall : IStall
+    stall: IStall
 }
 
 
@@ -20,16 +20,20 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
         <ListItem>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={8}>
-                    <Typography variant="h6">
-                        {
-                            props.stall.type
-                        }
-                    </Typography>
-                    <Typography variant="caption">
-                        {
-                            props.stall.description
-                        }
-                    </Typography>
+                    <Stack>
+                        <Typography
+                            variant="h6">
+                            {
+                                props.stall.type
+                            }
+                        </Typography>
+                        <Typography variant="caption">
+                            {
+                                props.stall.description
+                            }
+                        </Typography>
+                    </Stack>
+
                 </Grid>
                 <Grid item xs={4}>
                     <Input

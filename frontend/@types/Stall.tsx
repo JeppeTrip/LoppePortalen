@@ -1,9 +1,12 @@
-import { observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 export interface IStall {
     id : number;
     type : string;
     description : string;
+
+    setDescription;
+    setType;
 }
 
 export class Stall implements IStall {
@@ -12,7 +15,20 @@ export class Stall implements IStall {
     @observable description : string;
 
     constructor(type : string, description : string){
+        makeObservable(this);
         this.type = type;
+        this.description = description;
+    }
+
+    @action
+    setType(type : string)
+    {
+        this.type = type;
+    }
+
+    @action
+    setDescription(description : string)
+    {
         this.description = description;
     }
 }

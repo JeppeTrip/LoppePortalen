@@ -6,6 +6,7 @@ import List from '@mui/material/List';
 import AddIcon from '@mui/icons-material/Add';
 import { StoreContext } from "../../stores/StoreContext";
 import StallTypeListItem from "../StallTypeListItem";
+import StallTypeInputListItem from "../StallTypeInputListItem";
 
 type Props = {}
 
@@ -28,6 +29,10 @@ const StallForm: FC<Props> = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                    {
+                        stores.stallFormUiStore.isAddingNewStall && 
+                        <StallTypeInputListItem stall={stores.marketStore.newMarket.newStall} />
+                    }
                     {
                         stores.marketStore.newMarket.stalls.map(x => <StallTypeListItem stall={x}/>)
                     }
