@@ -15,13 +15,14 @@ const StallForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     
     const handleOnClick = (event) => {
+        stores.stallFormUiStore.setIsAddingNewStall(true);
         stores.marketStore.newMarket.setNewStall()
     }
 
     return (
         <Grid>
             <Grid item>
-                <Button size="small" startIcon={<AddIcon />} onClick={handleOnClick}>
+                <Button disabled={stores.stallFormUiStore.isAddingNewStall} size="small" startIcon={<AddIcon />} onClick={handleOnClick}>
                     Add Stall
                 </Button>
             </Grid>
