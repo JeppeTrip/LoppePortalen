@@ -623,7 +623,28 @@
             "type": "string",
             "format": "date-time"
           },
-          "numberOfStalls": {
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallDto"
+            }
+          }
+        }
+      },
+      "StallDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
             "type": "integer",
             "format": "int32"
           }

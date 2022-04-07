@@ -48,6 +48,7 @@ namespace Infrastructure.Persistence
         public DbSet<User> UserInfo { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Stall> Stalls { get; set; }
+        public DbSet<StallType> StallTypes { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {

@@ -701,7 +701,13 @@ export interface CreateMarketRequest {
     description?: string | null;
     startDate?: Date;
     endDate?: Date;
-    numberOfStalls?: number;
+    stalls?: StallDto[] | null;
+}
+
+export interface StallDto {
+    name?: string | null;
+    description?: string | null;
+    count?: number;
 }
 
 export interface GetMarketInstanceQueryResponse {

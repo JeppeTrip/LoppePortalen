@@ -52,12 +52,17 @@ namespace Application.Markets.Commands.CreateMarket
                 };
                 _context.MarketInstances.Add(instance);
                 
-                for(int i = 0; i<request.Dto.NumberOfStalls; i++)
+                foreach(var stall in request.Dto.Stalls)
                 {
-                    _context.Stalls.Add(new Stall()
+                    var type = new StallType() { Name = stall.Name, Description = stall.Description, MarketTemplate = template};
+                    _context.StallTypes.Add(type);
+                    for (int i = 0; i < stall.Count; i++)
                     {
-                        MarketTemplate = template
-                    });
+                        _context.Stalls.Add(new Stall()
+                        {
+                            StallType = type
+                        });
+                    }
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
