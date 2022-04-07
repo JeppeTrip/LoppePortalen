@@ -31,27 +31,25 @@ class MarketStore {
 
     @action
     loadMarkets() {
-        console.log("loadf markets")
         this.setIsLoading(true);
         const client = new MarketClient()
         client.getAllMarketInstances().then(res => {
             var result = res.map(m => {
-                return ({
-                    id: m.marketId,
-                    organiserId: m.organiserId,
-                    name: m.marketName,
-                    startDate: new Date(m.startDate),
-                    endDate: new Date(m.endDate),
-                    description: m.description,
-                    isCancelled: m.isCancelled,
-                    stalls: [] //TODO: Send stalls array back.
-                })
+                return (
+                    new Market(
+                        m.marketId,
+                        m.organiserId,
+                        m.marketName,
+                        new Date(m.startDate),
+                        new Date(m.endDate),
+                        m.description,
+                        m.isCancelled,
+                        []))
             })
             this.setMarkets(result);
             this.setIsLoading(false);
             this.setHadLoadingError(false);
         }).catch(error => {
-            console.log(error);
             this.setHadLoadingError(true);
             this.setIsLoading(false);
         })
@@ -63,24 +61,23 @@ class MarketStore {
         var result = this.markets.find(market => market.id === marketId);
         if (result === undefined) {
             const client = new MarketClient();
-            client.getMarketInstance(marketId + "").then(res => {
-                this.selectedMarket =
-                {
-                    id: res.marketId,
-                    organiserId: res.organiserId,
-                    name: res.marketName,
-                    startDate: new Date(res.startDate),
-                    endDate: new Date(res.endDate),
-                    description: res.description,
-                    isCancelled: res.isCancelled,
-                    stalls: [] //TODO: Send stalls array back.
-                }
-                this.isLoading = false;
-                this.hadLoadingError = false;
-            }).catch(error => {
-                this.isLoading = false;
-                this.hadLoadingError = true;
-            })
+            client.getMarketInstance(marketId + "")
+                .then(res => {
+                    this.selectedMarket = new Market(
+                        res.marketId,
+                        res.organiserId,
+                        res.marketName,
+                        new Date(res.startDate),
+                        new Date(res.endDate),
+                        res.description,
+                        res.isCancelled,
+                        [])
+                    this.isLoading = false;
+                    this.hadLoadingError = false;
+                }).catch(error => {
+                    this.isLoading = false;
+                    this.hadLoadingError = true;
+                })
         } else {
             this.selectedMarket = result;
             this.isLoading = false
@@ -91,7 +88,7 @@ class MarketStore {
     addNewMarket() {
         this.rootStore.marketFormUiStore.beginSubmit()
         const client = new MarketClient();
-        var stallDto: StallDto[] = this.newMarket.uniqueStalls.map<StallDto>(x => {
+        var stallDto: StallDto[] = this.newMarket.uniqueStalls().map<StallDto>(x => {
             return (
                 {
                     name: x.type,
@@ -106,7 +103,7 @@ class MarketStore {
             description: this.newMarket.description,
             startDate: this.newMarket.startDate,
             endDate: this.newMarket.endDate,
-            stalls: stallDto 
+            stalls: stallDto
         }
         client.createMarket(request).then(res => {
             this.newMarket.id = res.marketId
@@ -142,25 +139,21 @@ class MarketStore {
 
     @action
     getFilteredMarkets(organiserId: number | null, hideCancelled: boolean, startDate: Date | null, endDate: Date | null) {
-        console.log(hideCancelled)
-        console.log(startDate)
-        console.log(endDate)
         this.setIsLoading(true);
         const client = new MarketClient()
 
         client.getFilteredMarketInstances(hideCancelled, organiserId, startDate, endDate).then(res => {
-            console.log(res)
             var result = res.map(m => {
-                return ({
-                    id: m.marketId,
-                    organiserId: m.organiserId,
-                    name: m.marketName,
-                    startDate: new Date(m.startDate),
-                    endDate: new Date(m.endDate),
-                    description: m.description,
-                    isCancelled: m.isCancelled,
-                    stalls: [] //Send stalls back.
-                })
+                return (
+                    new Market(
+                        m.marketId,
+                        m.organiserId,
+                        m.marketName,
+                        new Date(m.startDate),
+                        new Date(m.endDate),
+                        m.description,
+                        m.isCancelled,
+                        []))
             })
             this.setMarkets(result);
             this.setIsLoading(false);

@@ -9,7 +9,10 @@ export interface IMarket {
     endDate : Date;
     description : string;
     isCancelled : boolean;
-    stalls: IStall[]
+    stalls: IStall[];
+
+    uniqueStalls : () => IStall[]
+    stallCount : (type : string) => number
 }
 
 export class Market implements IMarket {
@@ -109,7 +112,7 @@ export class Market implements IMarket {
     }
 
     @computed
-    get uniqueStalls(){
+    uniqueStalls(){
         return this.stalls.filter((v, i, a) => a.indexOf(v) === i);
     }
 

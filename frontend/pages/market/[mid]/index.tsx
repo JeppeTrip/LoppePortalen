@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Divider, Grid, Paper, Typography } from "@mui/material";
+import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
@@ -10,6 +10,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
 import CancelIcon from '@mui/icons-material/Cancel';
+import StallTypeListItem from "../../../components/StallTypeListItem";
+import { Market } from "../../../@types/Market";
+import StallTypeInfoList from "../../../components/StallTypeInfoList";
 
 type Props = {
     mid: string
@@ -83,13 +86,13 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
-                                                <Grid container 
-                                                    item 
-                                                    xs={4} 
+                                                <Grid container
+                                                    item
+                                                    xs={4}
                                                     justifyContent="flex-end"
                                                     alignContent="center">
                                                     <LoadingButton
-                                                        style={{height: "40px"}}
+                                                        style={{ height: "40px" }}
                                                         onClick={handleCancel}
                                                         loading={stores.marketStore.isCancelling}
                                                         loadingPosition="start"
@@ -127,8 +130,17 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Paper elevation={1}>
-                                            <div className={styles.mapPlaceholder} />
+                                            <div className={styles.AboutInfo}>
+                                                <Typography variant="h6">
+                                                    Stalls
+                                                </Typography>
+                                                <Divider />
+                                                {
+                                                    <StallTypeInfoList market={stores.marketStore.selectedMarket} />
+                                                }
+                                            </div>
                                         </Paper>
+
                                     </Grid>
                                 </Grid>
                             </Container>
