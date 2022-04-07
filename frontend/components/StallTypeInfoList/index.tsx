@@ -25,7 +25,8 @@ const StallTypeInfoList: FC<Props> = (props: Props) => {
                         <StallTypeInfoListItem
                             stall={x}
                             available={props.market.stallCount(x.type)}
-                            total={props.market.stallCount(x.type)} />
+                            total={props.market.stallCount(x.type)}
+                        />
                     )
                 })
             }
