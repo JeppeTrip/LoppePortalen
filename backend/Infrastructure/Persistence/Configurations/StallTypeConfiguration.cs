@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class StallConfiguration : IEntityTypeConfiguration<Stall>
+    public class StallTypeConfiguration : IEntityTypeConfiguration<StallType>
     {
-        public void Configure(EntityTypeBuilder<Stall> builder)
+        public void Configure(EntityTypeBuilder<StallType> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.StallType)
-                .WithMany(x => x.Stalls);
+            builder.HasOne(x => x.MarketTemplate)
+                .WithMany(x => x.StallTypes);
+
+            builder.HasMany(x => x.Stalls)
+                .WithOne(x => x.StallType);
         }
     }
 }

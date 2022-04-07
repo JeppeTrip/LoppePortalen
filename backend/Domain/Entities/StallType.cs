@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class MarketTemplate : AuditableEntity
+    public class StallType : AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public int OrganiserId { get; set; }
-        public virtual Organiser Organiser { get; set; }
-        public virtual List<MarketInstance> MarketInstances { get; set; }
+        public virtual MarketTemplate MarketTemplate { get; set; }
+        public int MarketTemplateId { get; set; }
 
-        public virtual List<StallType> StallTypes { get; set; }
+        public virtual List<Stall> Stalls { get; set; }
     }
 }

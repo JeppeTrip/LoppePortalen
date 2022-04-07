@@ -15,10 +15,15 @@ class StallMarketInstance {
 
 }
 
+class StallType {
+    Name
+    Description
+}
+
 MarketTemplate "1" --"1..*" MarketInstance
-MarketTemplate "1" -- "1..*" Stall
 Stall "1" -- "*" StallMarketInstance
 MarketInstance "1" -- "*" StallMarketInstance
-
+StallType "1" -- "*" Stall
+StallType -- MarketTemplate
 
 @enduml

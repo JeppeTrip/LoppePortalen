@@ -16,6 +16,7 @@ namespace Application.Common.Interfaces
         DbSet<Domain.Entities.User> UserInfo { get; set; }
         DbSet<Stall> Stalls { get; set; }
         DbSet<RefreshToken> RefreshTokens { get; set; }
+        DbSet<StallType> StallTypes { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

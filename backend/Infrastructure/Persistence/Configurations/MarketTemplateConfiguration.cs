@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence.Configurations
                 .WithOne(x => x.MarketTemplate)
                 .IsRequired(true);
 
-            builder.HasMany(x => x.Stalls)
+            builder.HasMany(x => x.StallTypes)
                 .WithOne(x => x.MarketTemplate);
         }
     }
