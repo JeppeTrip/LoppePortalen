@@ -20,7 +20,6 @@ type Props = {
 
 const MarketProfilePageID: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
-    const [selectedMarket, setSelectedMarket] = useState(null)
     const [marketId, setMarketId] = useState<string>("");
     const router = useRouter();
 
@@ -31,6 +30,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
 
     }, [router.isReady]);
 
+    //Set market
     useEffect(() => {
         if (stores.marketStore.selectedMarket == null) {
             if (!(marketId == "")) {
@@ -39,9 +39,11 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
         }
     }, [marketId])
 
+    //WTF Does this do. oh it is bad it uses internal state to represent this shit.
+    //TODO: Outface this.
     useEffect(() => {
         if (stores.marketStore.selectedMarket != null) {
-            setSelectedMarket(stores.marketStore.selectedMarket)
+            stores.marketStore.fetchStallsForMarket(stores.marketStore.selectedMarket);
         }
     }, [stores.marketStore.selectedMarket])
 
@@ -59,7 +61,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
     return (
         <>
             {
-                selectedMarket == null ? <CircularProgress /> :
+                stores.marketStore.selectedMarket == null ? <CircularProgress /> :
                     <Grid container columns={1} spacing={1}>
                         <Grid item xs={1}>
                             <Paper square={true} elevation={1}>
@@ -74,13 +76,13 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                                     <Grid>
                                                         <Grid item xs={12}>
                                                             <Typography variant="h5">
-                                                                {selectedMarket.name}
+                                                                {stores.marketStore.selectedMarket.name}
                                                             </Typography>
                                                         </Grid>
                                                         <Grid item xs={12}>
                                                             <Typography>
                                                                 {
-                                                                    selectedMarket.startDate.toLocaleDateString() + " - " + selectedMarket.endDate.toLocaleDateString()
+                                                                    stores.marketStore.selectedMarket.startDate.toLocaleDateString() + " - " + stores.marketStore.selectedMarket.endDate.toLocaleDateString()
                                                                 }
                                                             </Typography>
                                                         </Grid>
@@ -123,7 +125,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                                 </Typography>
                                                 <Divider />
                                                 <Typography variant="body1">
-                                                    {selectedMarket.description}
+                                                    {stores.marketStore.selectedMarket.description}
                                                 </Typography>
                                             </div>
                                         </Paper>

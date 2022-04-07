@@ -603,6 +603,61 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
     }
 }
 
+export interface IStallClient {
+
+    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse[]>;
+}
+
+export class StallClient extends ClientBase implements IStallClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : window as any;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse[]> {
+        let url_ = this.baseUrl + "/api/Stall/{marketId}";
+        if (marketId === undefined || marketId === null)
+            throw new Error("The parameter 'marketId' must be defined.");
+        url_ = url_.replace("{marketId}", encodeURIComponent("" + marketId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetStallsForMarket(_response));
+        });
+    }
+
+    protected processGetStallsForMarket(response: Response): Promise<GetMarketStallsResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetMarketStallsResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetMarketStallsResponse[]>(null as any);
+    }
+}
+
 export interface ITestClient {
 
     getTest(): Promise<TestCommandResponse>;
@@ -822,6 +877,12 @@ export interface GetOrganiserQueryResponse {
     appartment?: string | null;
     postalCode?: string | null;
     city?: string | null;
+}
+
+export interface GetMarketStallsResponse {
+    stallId?: number;
+    stallName?: string | null;
+    stallDescription?: string | null;
 }
 
 export interface TestCommandResponse {

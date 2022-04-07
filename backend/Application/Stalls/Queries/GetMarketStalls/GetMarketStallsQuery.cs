@@ -39,7 +39,7 @@ namespace Application.Stalls.Queries.GetMarketStalls
                     .Where(x => x.StallType.MarketTemplateId == marketInstance.MarketTemplateId)
                     .ToListAsync();
 
-                return stalls.Select(x => new GetMarketStallsResponse() { StallId = x.Id, StallName = x.StallType.Name, StallDescription = x.StallType.Description });
+                return stalls.Select(x => new GetMarketStallsResponse() { StallId = x.Id, StallName = x.StallType.Name, StallDescription = x.StallType.Description }).ToList();
             }
 
             

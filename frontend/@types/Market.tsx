@@ -13,6 +13,7 @@ export interface IMarket {
 
     uniqueStalls : () => IStall[]
     stallCount : (type : string) => number
+    setStalls : (stalls : IStall[]) => void
 }
 
 export class Market implements IMarket {
@@ -106,14 +107,19 @@ export class Market implements IMarket {
     @computed
     get stallCounts()
     {
-        var unique = this.stalls.filter((v, i, a) => a.indexOf(v) === i);
+        var unique = this.uniqueStalls();
         var stallCounts = unique.map(stall => [stall, this.stalls.filter(x => x.type === stall.type).length])
         return stallCounts;
     }
 
     @computed
     uniqueStalls(){
-        return this.stalls.filter((v, i, a) => a.indexOf(v) === i);
+        var result = []
+        var stallTypeSet = new Set<string>(this.stalls.map(x => x.type));
+        stallTypeSet.forEach(element => {
+            result.push(this.stalls.find(x => x.type == element))
+        });
+        return result;
     }
 
     //TODO: This is temporary (likely)

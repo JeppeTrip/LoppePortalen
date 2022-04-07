@@ -446,6 +446,41 @@
         }
       }
     },
+    "/api/Stall/{marketId}": {
+      "get": {
+        "tags": [
+          "Stall"
+        ],
+        "operationId": "Stall_GetStallsForMarket",
+        "parameters": [
+          {
+            "name": "marketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetMarketStallsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Test": {
       "get": {
         "tags": [
@@ -1006,6 +1041,24 @@
             "nullable": true
           },
           "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetMarketStallsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stallId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stallName": {
+            "type": "string",
+            "nullable": true
+          },
+          "stallDescription": {
             "type": "string",
             "nullable": true
           }

@@ -14,7 +14,7 @@ export class Stall implements IStall {
     @observable type : string;
     @observable description : string;
 
-    constructor(type : string, description : string){
+    constructor(type : string, description : string, id? : number){
         makeObservable(this);
         this.type = type;
         this.description = description;

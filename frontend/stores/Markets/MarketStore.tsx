@@ -1,7 +1,8 @@
 import { action, makeAutoObservable } from 'mobx';
 import * as React from 'react';
 import { IMarket, Market } from '../../@types/Market';
-import { MarketClient, StallDto } from '../models';
+import { Stall } from '../../@types/Stall';
+import { MarketClient, StallClient, StallDto } from '../models';
 import { RootStore } from '../RootStore';
 
 class MarketStore {
@@ -177,6 +178,25 @@ class MarketStore {
     @action
     setMarkets(markets: IMarket[]) {
         this.markets = markets
+    }
+
+    @action
+    fetchStallsForMarket(market: IMarket) {
+        const client = new StallClient()
+
+        client.getStallsForMarket(market.id)
+            .then(res => {
+                var result = res.map(stall => {
+                    return (
+                        new Stall(
+                            stall.stallName,
+                            stall.stallDescription,
+                            stall.stallId))
+                })
+                market.setStalls(result);
+            }).catch(error => {
+                
+            })
     }
 }
 
