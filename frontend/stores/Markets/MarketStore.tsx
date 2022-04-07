@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import * as React from 'react';
-import { MarketContextType, IMarket } from '../../@types/Market';
+import { IMarket, Market } from '../../@types/Market';
 import { MarketClient } from '../models';
 import { RootStore } from '../RootStore';
 
@@ -8,8 +8,9 @@ class MarketStore {
     rootStore: RootStore;
     markets: IMarket[] = [];
     selectedMarket: IMarket = null;
-    newMarket: IMarket
+    newMarket: Market //reaction?????
 
+    //TODO: Move all UI state out of here.
     isLoading = true;
     hadLoadingError = false;
 
@@ -22,16 +23,13 @@ class MarketStore {
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         //TODO: Something else I can do but magic numbers to signify that this is an uncreated market?
-        this.newMarket = {
-            id: -1,
-            organiserId: -1,
-            name: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            description: "",
-            isCancelled: false
-        }
         this.rootStore = rootStore;
+        this.newMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, []);
+    }
+
+    @action
+    resetNewMarket() {
+        this.newMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, []);
     }
 
     @action
@@ -48,7 +46,8 @@ class MarketStore {
                     startDate: new Date(m.startDate),
                     endDate: new Date(m.endDate),
                     description: m.description,
-                    isCancelled: m.isCancelled
+                    isCancelled: m.isCancelled,
+                    stalls: [] //TODO: Send stalls array back.
                 })
             })
             this.setMarkets(result);
@@ -76,7 +75,8 @@ class MarketStore {
                     startDate: new Date(res.startDate),
                     endDate: new Date(res.endDate),
                     description: res.description,
-                    isCancelled: res.isCancelled
+                    isCancelled: res.isCancelled,
+                    stalls: [] //TODO: Send stalls array back.
                 }
                 this.isLoading = false;
                 this.hadLoadingError = false;
@@ -99,7 +99,8 @@ class MarketStore {
             marketName: market.name,
             description: market.description,
             startDate: market.startDate,
-            endDate: market.endDate
+            endDate: market.endDate,
+            stalls: market.stalls
         }
         this.newMarket = market;
         client.createMarket(request).then(res => {
@@ -140,8 +141,8 @@ class MarketStore {
     }
 
     @action
-    getFilteredMarkets(organiserId: number | null, hideCancelled : boolean, startDate : Date | null, endDate : Date | null) {
-        console.log (hideCancelled)
+    getFilteredMarkets(organiserId: number | null, hideCancelled: boolean, startDate: Date | null, endDate: Date | null) {
+        console.log(hideCancelled)
         console.log(startDate)
         console.log(endDate)
         this.setIsLoading(true);
@@ -157,7 +158,8 @@ class MarketStore {
                     startDate: new Date(m.startDate),
                     endDate: new Date(m.endDate),
                     description: m.description,
-                    isCancelled: m.isCancelled
+                    isCancelled: m.isCancelled,
+                    stalls: [] //Send stalls back.
                 })
             })
             this.setMarkets(result);
@@ -170,22 +172,24 @@ class MarketStore {
     }
 
     @action
-    setIsLoading(isLoading : boolean) {
+    setIsLoading(isLoading: boolean) {
         this.isLoading = isLoading
     }
 
     @action
-    setHadLoadingError(hadLoadingError : boolean)
-    {
+    setHadLoadingError(hadLoadingError: boolean) {
         this.hadLoadingError = hadLoadingError
     }
 
     @action
-    setMarkets(markets : IMarket[])
-    {
+    setMarkets(markets: IMarket[]) {
         this.markets = markets
     }
-    
+
+    get newMarketInstance()
+    {
+        return this.newMarket;
+    }
 }
 
 export { MarketStore }

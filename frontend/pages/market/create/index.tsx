@@ -31,7 +31,6 @@ const CreateMarketPage: NextPage = observer(() => {
                     <MarketForm/>
                 }
             </Container>
-
         </>
     )
 })

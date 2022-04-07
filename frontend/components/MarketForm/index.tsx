@@ -1,47 +1,58 @@
-import { Avatar, Button, CircularProgress, Container, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, Typography } from "@mui/material";
-
-import { FC, useContext, useEffect, useState } from "react";
-
-import { observer } from "mobx-react-lite";
-import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import styles from './styles.module.css'
-import { IMarket } from "../../@types/Market";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { observer } from 'mobx-react-lite';
+import MarketDetailsForm from '../MarketDetailsForm';
+import { FC, Fragment, useContext, useEffect, useState } from 'react';
+import StallForm from '../StallForm';
 import { StoreContext } from "../../stores/StoreContext";
-import SaveIcon from '@mui/icons-material/Save';
+import { LoadingButton } from "@mui/lab";
+import { IMarket } from '../../@types/Market';
 
 type Props = {}
 
+const steps = ['Market Information', 'Stalls'];
+
+function getStepContent(step: number) {
+    switch (step) {
+        case 0:
+            return <MarketDetailsForm />;
+        case 1:
+            return <StallForm />;
+        default:
+            throw new Error('Unknown step');
+    }
+}
+
+
+const theme = createTheme();
+
 const MarketForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
-    const [newMarket, setNewMarket] = useState<IMarket>(
-        {
-            id: -1,
-            organiserId: -1,
-            name: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            description: "",
-            isCancelled: false
-        }
-    );
+    const [activeStep, setActiveStep] = useState(0);
 
-    //TODO: Insert a loading indicator if the oragnisers doesn't exist in the store yet.
-    //TODO: This will be a perforamnce nightmare if there ends up being a huge amount of organisers. this is likely temporary so will be fixed.
     useEffect(() => {
-        if(stores.organiserStore.organisers.length === 0)
-        {
-            stores.organiserStore.loadOrganisers()
-        }
+        stores.marketStore.resetNewMarket();
     }, [])
 
-    const handleUpdate = (key, value) => {
-        console.log(key)
-        console.log(value)
-        setNewMarket(prevState => ({
-            ...prevState,
-            [key]: value
-        }));
+    const handleNext = () => {
+        setActiveStep(activeStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep(activeStep - 1);
+    };
+
+    const getButton = () => {
+        return (
+            activeStep === steps.length - 1 ? loadingButton() : nextButton()
+        )
     }
 
     const handleSubmit = (event) => {
@@ -53,103 +64,74 @@ const MarketForm: FC<Props> = (props: Props) => {
             startDate: new Date(),
             endDate: new Date(),
             description: "",
-            isCancelled: false
+            isCancelled: false,
+            stalls: 0
         });
     }
 
+    const loadingButton = () => <LoadingButton
+        onClick={handleSubmit}
+        loading={stores.marketStore.isSubmitting}
+        loadingPosition="start"
+        variant="contained"
+        sx={{ mt: 3, ml: 1 }}
+    >
+        Submit
+    </LoadingButton>
+
+    const nextButton = () => <Button
+        variant="contained"
+        onClick={handleNext}
+        sx={{ mt: 3, ml: 1 }}
+    >
+        Next
+    </Button>
 
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Organiser</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={newMarket.organiserId < 1 ? '' : newMarket.organiserId}
-                        label="Organiser"
-                        onChange={event => handleUpdate("organiserId", event.target.value as number)}
-                    >
-                        {
-                            stores.organiserStore.organisers.map(o => 
-                                <MenuItem value={o.id}>{o.name}</MenuItem>
-                            )
-                        }
-                    </Select>
-                </FormControl>
-
-            </Grid>
-            <Grid item xs={12}>
-                <TextField
-                    className={styles.nameInput}
-                    id="marketName"
-                    label="Name"
-                    variant="outlined"
-                    onChange={(event => handleUpdate("name", event.target.value))}
-                    value={newMarket.name} />
-            </Grid>
-            <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="Start Date"
-                        value={newMarket.startDate}
-                        onChange={(newValue) => {
-                            handleUpdate("startDate", newValue)
-                        }
-                        }
-                    />
-                </LocalizationProvider>
-            </Grid>
-            <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker
-                        renderInput={(props) => <TextField {...props} />}
-                        label="End Date"
-                        value={newMarket.endDate}
-                        onChange={(newValue) => {
-                            handleUpdate("endDate", newValue)
-                        }
-                        }
-                    />
-                </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={12}>
-                <TextField
-                    className={styles.descriptionInput}
-                    id="outlined-multiline-static"
-                    label="Description"
-                    value={newMarket.description}
-                    onChange={(event => handleUpdate("description", event.target.value))}
-                    multiline
-                    rows={10}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <LoadingButton
-                    onClick={handleSubmit}
-                    loading={stores.organiserStore.isSubmitting}
-                    loadingPosition="start"
-                    startIcon={<SaveIcon />}
-                    variant="contained"
-
-                >
-                    Submit
-                </LoadingButton>
-            </Grid>
-            {
-                //TODO: Make error handling waaay the fuck better.
-                stores.marketStore.hadSubmissionError &&
-                <Grid item xs={12}>
-                    <Typography variant="caption" color={"red"}>
-                        Could not submit.
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="md">
+                <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
+                    <Typography component="h1" variant="h4" align="center">
+                        Create Market
                     </Typography>
-                </Grid>
-            }
-        </Grid>
-
-    )
+                    <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+                        {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+                    <Fragment>
+                        {activeStep === steps.length ? (
+                            <Fragment>
+                                <Typography variant="h5" gutterBottom>
+                                    Thank you for your order.
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                    Your order number is #2001539. We have emailed your order
+                                    confirmation, and will send you an update when your order has
+                                    shipped.
+                                </Typography>
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                {getStepContent(activeStep)}
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    {activeStep !== 0 && (
+                                        <Button disabled={stores.marketStore.isSubmitting} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                            Back
+                                        </Button>
+                                    )}
+                                    {getButton()}
+                                </Box>
+                            </Fragment>
+                        )}
+                    </Fragment>
+                </Paper>
+            </Container>
+        </ThemeProvider>
+    );
 }
+
 
 export default observer(MarketForm);
