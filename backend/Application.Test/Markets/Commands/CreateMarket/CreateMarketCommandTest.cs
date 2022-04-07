@@ -22,7 +22,11 @@ namespace Application.Test.Markets.Commands.CreateMarket
                 Description = "Test market",
                 StartDate = new DateTimeOffset(new DateTime(2022, 1, 1)),
                 EndDate = new DateTimeOffset(new DateTime(2022, 1, 10)),
-            };
+                Stalls = new List<StallDto> { new StallDto { 
+                    Name = "Basic Stall", 
+                    Description = "1x2m stall.",
+                    Count = 100
+                }}};
 
             var command = new CreateMarketCommand() { Dto = request };
             var handler = new CreateMarketCommand.CreateMarketCommandHandler(Context);
@@ -34,8 +38,13 @@ namespace Application.Test.Markets.Commands.CreateMarket
             var templates = Context.MarketTemplates
                 .Where(x => x.OrganiserId == request.OrganiserId && x.Name.Equals(request.MarketName) && x.Description.Equals(request.Description))
                 .ToList();
-
             templates.Count().Should().Be(1);
+
+            var instance = Context.MarketInstances.First(x => x.Id == result.MarketId);
+            instance.Should().NotBeNull();
+            instance.MarketTemplate.StallTypes.Should().HaveCount(1);
+            Context.Stalls.Where(x => x.StallType.Name.Equals(request.Stalls[0].Name)).Should().HaveCount(100);
+
         }
 
         [Fact (Skip = "Find out how to test validators.")]
