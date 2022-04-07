@@ -1,5 +1,5 @@
-import { action, makeAutoObservable, observable } from "mobx";
-import { IStall } from "./Stall";
+import { action, computed, makeAutoObservable, observable } from "mobx";
+import { IStall, Stall } from "./Stall";
 
 export interface IMarket {
     id : number;
@@ -23,14 +23,14 @@ export class Market implements IMarket {
     @observable stalls: IStall[]
 
     constructor(
-        id,
-        organiserId,
-        name,
-        startDate,
-        endDate,
-        description,
-        isCancelled,
-        stalls
+        id : number,
+        organiserId : number,
+        name : string,
+        startDate : Date,
+        endDate : Date,
+        description : string,
+        isCancelled : boolean,
+        stalls : IStall[]
     ) {
         makeAutoObservable(this)
         this.id = id,
@@ -91,4 +91,35 @@ export class Market implements IMarket {
         this.stalls = stalls;
     }
 
+    @computed
+    get stallCount()
+    {
+        return this.stalls.length;
+    }
+
+    //TODO: This is temporary (likely)
+    @action
+    setNumberOfStalls(count : number)
+    {
+        count = count < 0 ? 0 : count;
+        const currentCount = this.stalls.length;
+        const diff = count - currentCount;
+        if(diff > 0)
+        {
+            var newStalls : IStall[] = [];
+            for(var i = 0; i<diff; i++)
+            {
+                newStalls.push(new Stall())
+            }
+            this.stalls = this.stalls.concat(newStalls);
+        }
+        else if(diff < 0)
+        {
+            this.stalls = this.stalls.slice(0, diff);
+        }
+        else if(diff == 0)
+        {
+            this.stalls = [];
+        }
+    }
 }
