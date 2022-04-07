@@ -21,6 +21,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
         var added = stores.marketStore.newMarket.addStall(props.stall);
         if (added) {
             stores.stallFormUiStore.setIsAddingNewStall(false);
+            stores.marketStore.newMarket.setNewStall();
         } else {
             stores.stallFormUiStore.setIsInvalidStall(true);
         }

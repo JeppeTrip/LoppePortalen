@@ -39,7 +39,7 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                     <Input
                         type="number"
                         value={stores.marketStore.newMarket.stallCount(props.stall.type)}
-                        onChange={(event) => { console.log(event.target.value); stores.marketStore.newMarket.setNumberOfStalls(props.stall.type, event.target.value === "" ? 0 : parseInt(event.target.value)) }}
+                        onChange={(event) => {stores.marketStore.newMarket.setNumberOfStalls(props.stall.type, event.target.value === "" ? 0 : parseInt(event.target.value)) }}
                     />
                 </Grid>
             </Grid>

@@ -1,7 +1,7 @@
 import { action, makeAutoObservable } from 'mobx';
 import * as React from 'react';
 import { IMarket, Market } from '../../@types/Market';
-import { MarketClient } from '../models';
+import { MarketClient, StallDto } from '../models';
 import { RootStore } from '../RootStore';
 
 class MarketStore {
@@ -91,17 +91,26 @@ class MarketStore {
     addNewMarket() {
         this.rootStore.marketFormUiStore.beginSubmit()
         const client = new MarketClient();
+        var stallDto: StallDto[] = this.newMarket.uniqueStalls.map<StallDto>(x => {
+            return (
+                {
+                    name: x.type,
+                    description: x.description,
+                    count: this.newMarket.stallCount(x.type)
+                }
+            )
+        });
         const request = {
             organiserId: this.newMarket.organiserId,
             marketName: this.newMarket.name,
             description: this.newMarket.description,
             startDate: this.newMarket.startDate,
             endDate: this.newMarket.endDate,
-            numberOfStalls: this.newMarket.stalls.length //Update later to actually send some type of object.
+            stalls: stallDto //Update later to actually send some type of object.
         }
         client.createMarket(request).then(res => {
             this.newMarket.id = res.marketId
-            this.markets.push(this.newMarket);
+            this.markets.push(this.newMarket); //send the entire market dto back, since this will give issues with the stall ids not being updated.
             this.rootStore.marketFormUiStore.submitSuccess()
         }).catch(error => {
             this.rootStore.marketFormUiStore.hadSubmissionError()

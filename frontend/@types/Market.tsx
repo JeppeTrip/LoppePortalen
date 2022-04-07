@@ -10,7 +10,6 @@ export interface IMarket {
     description : string;
     isCancelled : boolean;
     stalls: IStall[]
-    stallMap: Map<string, IStall[]>
 }
 
 export class Market implements IMarket {
@@ -23,7 +22,6 @@ export class Market implements IMarket {
     @observable isCancelled : boolean;
     @observable stalls: IStall[];
 
-    @observable stallMap: Map<string, IStall[]> = new Map<string, IStall[]>()
     @observable newStall: IStall;
 
     constructor(
@@ -119,14 +117,17 @@ export class Market implements IMarket {
     @action
     setNumberOfStalls(type : string, count : number)
     {
-        var stall = this.stalls.filter(x => x.type === type)[0];
+        var unique = this.stalls.filter(x => x.type === type);
+        var stall = unique[0];
+
         if(stall === null ||stall === undefined)
         {
             return;
         }
         count = count < 1 ? 1 : count;
-        const currentCount = this.stalls.length;
+        const currentCount = unique.length;
         const diff = count - currentCount;
+
         if(diff > 0)
         {
             var newStalls : IStall[] = [];

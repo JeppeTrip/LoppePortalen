@@ -34,7 +34,7 @@ const StallForm: FC<Props> = (props: Props) => {
                         <StallTypeInputListItem stall={stores.marketStore.newMarket.newStall} />
                     }
                     {
-                        stores.marketStore.newMarket.uniqueStalls.map(x => <StallTypeListItem stall={x}/>)
+                        stores.marketStore.newMarket.uniqueStalls.map(x => {console.log(x); return(<StallTypeListItem stall={x}/>)})
                     }
                 </List>
             </Grid>
