@@ -23,16 +23,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
             stores.organiserStore.loadOrganisers()
         }
     }, []);
-
-    const handleSubmit = (event) => {
-        //submission through the store.
-    }
-
-    useEffect(() => {
-        console.log("change made to newMarket")
-    }, [stores.marketStore.newMarket.organiserId])
-
-
+    
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>

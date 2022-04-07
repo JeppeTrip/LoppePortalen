@@ -14,9 +14,6 @@ class MarketStore {
     isLoading = true;
     hadLoadingError = false;
 
-    isSubmitting = false;
-    hadSubmissionError = false;
-
     isCancelling = false;
     hadCancellingError = false;
 
@@ -91,30 +88,24 @@ class MarketStore {
     }
 
     @action
-    addNewMarket(market: IMarket) {
-        this.isSubmitting = true;
+    addNewMarket() {
+        this.rootStore.marketFormUiStore.beginSubmit()
         const client = new MarketClient();
         const request = {
-            organiserId: market.organiserId,
-            marketName: market.name,
-            description: market.description,
-            startDate: market.startDate,
-            endDate: market.endDate,
-            stalls: market.stalls
+            organiserId: this.newMarket.organiserId,
+            marketName: this.newMarket.name,
+            description: this.newMarket.description,
+            startDate: this.newMarket.startDate,
+            endDate: this.newMarket.endDate,
+            numberOfStalls: this.newMarket.stalls.length //Update later to actually send some type of object.
         }
-        this.newMarket = market;
         client.createMarket(request).then(res => {
             this.newMarket.id = res.marketId
-            this.isSubmitting = false;
-            this.hadSubmissionError = false;
+            this.markets.push(this.newMarket);
+            this.rootStore.marketFormUiStore.submitSuccess()
         }).catch(error => {
-            this.hadSubmissionError = true;
-            this.isSubmitting = false;
+            this.rootStore.marketFormUiStore.hadSubmissionError()
         })
-
-        market.id = Math.floor(Math.random() * 1000)
-        this.markets.push(market);
-        return market.id;
     }
 
     @action

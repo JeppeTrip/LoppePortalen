@@ -13,7 +13,9 @@ import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import StallForm from '../StallForm';
 import { StoreContext } from "../../stores/StoreContext";
 import { LoadingButton } from "@mui/lab";
+import SaveIcon from "@mui/icons-material/Save"
 import { IMarket } from '../../@types/Market';
+import { Grid } from '@mui/material';
 
 type Props = {}
 
@@ -38,7 +40,9 @@ const MarketForm: FC<Props> = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
 
     useEffect(() => {
+        console.log("marketform fires")
         stores.marketStore.resetNewMarket();
+        stores.marketFormUiStore.resetState();
     }, [])
 
     const handleNext = () => {
@@ -56,23 +60,15 @@ const MarketForm: FC<Props> = (props: Props) => {
     }
 
     const handleSubmit = (event) => {
-        stores.marketStore.addNewMarket(newMarket);
-        setNewMarket({
-            id: -1,
-            organiserId: -1,
-            name: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            description: "",
-            isCancelled: false,
-            stalls: 0
-        });
+        var result = stores.marketStore.addNewMarket();
+        console.log(result)
     }
 
     const loadingButton = () => <LoadingButton
         onClick={handleSubmit}
-        loading={stores.marketStore.isSubmitting}
+        loading={stores.marketFormUiStore.isSubmittingForm}
         loadingPosition="start"
+        startIcon={<SaveIcon />}
         variant="contained"
         sx={{ mt: 3, ml: 1 }}
     >
@@ -102,30 +98,26 @@ const MarketForm: FC<Props> = (props: Props) => {
                         ))}
                     </Stepper>
                     <Fragment>
-                        {activeStep === steps.length ? (
-                            <Fragment>
-                                <Typography variant="h5" gutterBottom>
-                                    Thank you for your order.
-                                </Typography>
-                                <Typography variant="subtitle1">
-                                    Your order number is #2001539. We have emailed your order
-                                    confirmation, and will send you an update when your order has
-                                    shipped.
-                                </Typography>
-                            </Fragment>
-                        ) : (
-                            <Fragment>
-                                {getStepContent(activeStep)}
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    {activeStep !== 0 && (
-                                        <Button disabled={stores.marketStore.isSubmitting} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                            Back
-                                        </Button>
-                                    )}
-                                    {getButton()}
-                                </Box>
-                            </Fragment>
-                        )}
+                        <Fragment>
+                            {getStepContent(activeStep)}
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                {activeStep !== 0 && (
+                                    <Button disabled={stores.marketFormUiStore.isSubmittingForm} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                        Back
+                                    </Button>
+                                )}
+                                {getButton()}
+                            </Box>
+                            {
+                                //TODO: Make error handling waaay the fuck better.
+                                stores.marketFormUiStore.showError &&
+                                <Grid item xs={12}>
+                                    <Typography variant="caption" color={"red"}>
+                                        Could not submit.
+                                    </Typography>
+                                </Grid>
+                            }
+                        </Fragment>
                     </Fragment>
                 </Paper>
             </Container>
