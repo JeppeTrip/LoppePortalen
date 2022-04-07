@@ -24,7 +24,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "stores/Organiser/OrganiserContext.jsx", "stores/Organiser/OrganiserStore.js", "stores/Organiser/OrganiserStore.js", "services/Clients.tsx", "stores/Organiser/OrganiserStore.tss", "stores/Organiser/OrganiserStore_old.jsx", "stores/Markets/MarketContextProvider.jsx"  ],
+, "stores/Organiser/OrganiserContext.jsx", "stores/Organiser/OrganiserStore.js", "stores/Organiser/OrganiserStore.js", "services/Clients.tsx", "stores/Organiser/OrganiserStore.tss", "stores/Organiser/OrganiserStore_old.jsx", "stores/Markets/MarketContextProvider.jsx", "stores/UiState/StallForm/StallFormUiContextProvider.jsx"  ],
   "exclude": [
     "node_modules"
   ]

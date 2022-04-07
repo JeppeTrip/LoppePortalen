@@ -10,6 +10,7 @@ export interface IMarket {
     description : string;
     isCancelled : boolean;
     stalls: IStall[]
+    stallMap: Map<string, IStall[]>
 }
 
 export class Market implements IMarket {
@@ -20,7 +21,10 @@ export class Market implements IMarket {
     @observable endDate : Date;
     @observable description : string;
     @observable isCancelled : boolean;
-    @observable stalls: IStall[]
+    @observable stalls: IStall[];
+
+    @observable stallMap: Map<string, IStall[]> = new Map<string, IStall[]>()
+    @observable newStall: IStall;
 
     constructor(
         id : number,
@@ -41,6 +45,7 @@ export class Market implements IMarket {
         this.description = description,
         this.isCancelled = isCancelled,
         this.stalls = stalls
+
     }
 
     @action
@@ -109,7 +114,7 @@ export class Market implements IMarket {
             var newStalls : IStall[] = [];
             for(var i = 0; i<diff; i++)
             {
-                newStalls.push(new Stall())
+                newStalls.push(new Stall("", ""))
             }
             this.stalls = this.stalls.concat(newStalls);
         }
@@ -121,5 +126,10 @@ export class Market implements IMarket {
         {
             this.stalls = [];
         }
+    }
+
+    @action
+    setNewStall(){
+        this.stalls.push(new Stall("Basic Stall", "1x2m stall."));
     }
 }

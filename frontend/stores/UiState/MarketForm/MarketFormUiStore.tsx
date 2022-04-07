@@ -1,5 +1,4 @@
 import { action, makeAutoObservable, observable } from 'mobx';
-import { IOrganiser } from '../../../@types/Organiser';
 import { RootStore } from '../../RootStore';
 
 class MarketFormUiStore {

@@ -1,3 +1,5 @@
+import { observable } from "mobx";
+
 export interface IStall {
     id : number;
     type : string;
@@ -6,11 +8,11 @@ export interface IStall {
 
 export class Stall implements IStall {
     id : number;
-    type : string;
-    description : string;
+    @observable type : string;
+    @observable description : string;
 
-    constructor()
-    {
-
+    constructor(type : string, description : string){
+        this.type = type;
+        this.description = description;
     }
 }

@@ -176,11 +176,6 @@ class MarketStore {
     setMarkets(markets: IMarket[]) {
         this.markets = markets
     }
-
-    get newMarketInstance()
-    {
-        return this.newMarket;
-    }
 }
 
 export { MarketStore }
