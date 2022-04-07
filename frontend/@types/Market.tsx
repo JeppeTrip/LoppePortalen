@@ -132,4 +132,10 @@ export class Market implements IMarket {
     setNewStall(){
         this.newStall = new Stall("", "");
     }
+
+    @action
+    addStall(stall : IStall)
+    {
+        this.stalls.push(stall)
+    }
 }

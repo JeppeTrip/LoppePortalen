@@ -12,8 +12,20 @@ type Props = {
     stall: IStall
 }
 
+
+
 const StallTypeInputListItem: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
+
+    const handleOnAdd = (event) => {
+        stores.stallFormUiStore.setIsAddingNewStall(false);
+        stores.marketStore.newMarket.addStall(props.stall);
+    }
+    
+    const handleOnDelete = (event) => {
+        stores.marketStore.newMarket.setNewStall()
+        stores.stallFormUiStore.setIsAddingNewStall(false);
+    }
 
     return (
         <ListItem>
@@ -41,10 +53,15 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
 
                     </Grid>
                     <Grid container item xs={4} justifyContent="end" >
-                        <IconButton color="success" aria-label="delete">
+                        <IconButton 
+                            color="success" 
+                            aria-label="stallAdd"
+                            onClick={handleOnAdd}>
                             <AddBoxIcon />
                         </IconButton>
-                        <IconButton aria-label="delete">
+                        <IconButton 
+                            aria-label="stallDelete"
+                            onClick={handleOnDelete}>
                             <DeleteIcon />
                         </IconButton>
                     </Grid>
