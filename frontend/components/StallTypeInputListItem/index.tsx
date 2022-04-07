@@ -18,13 +18,18 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
 
     const handleOnAdd = (event) => {
-        stores.stallFormUiStore.setIsAddingNewStall(false);
-        stores.marketStore.newMarket.addStall(props.stall);
+        var added = stores.marketStore.newMarket.addStall(props.stall);
+        if (added) {
+            stores.stallFormUiStore.setIsAddingNewStall(false);
+        } else {
+            stores.stallFormUiStore.setIsInvalidStall(true);
+        }
     }
-    
+
     const handleOnDelete = (event) => {
         stores.marketStore.newMarket.setNewStall()
         stores.stallFormUiStore.setIsAddingNewStall(false);
+        stores.stallFormUiStore.setIsInvalidStall(false);
     }
 
     return (
@@ -39,8 +44,8 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 id="stallNameInput"
                                 label="Name"
                                 variant="outlined"
-                                value={props.stall.type} 
-                                onChange={(event) => props.stall.setType(event.target.value)}/>
+                                value={props.stall.type}
+                                onChange={(event) => props.stall.setType(event.target.value)} />
 
                             <TextField
                                 size="small"
@@ -48,23 +53,32 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 label="Description"
                                 variant="outlined"
                                 value={props.stall.description}
-                                onChange={(event) => props.stall.setDescription(event.target.value)}/>
+                                onChange={(event) => props.stall.setDescription(event.target.value)} />
                         </Stack>
 
                     </Grid>
                     <Grid container item xs={4} justifyContent="end" >
-                        <IconButton 
-                            color="success" 
+                        <IconButton
+                            color="success"
                             aria-label="stallAdd"
                             onClick={handleOnAdd}>
                             <AddBoxIcon />
                         </IconButton>
-                        <IconButton 
+                        <IconButton
                             aria-label="stallDelete"
                             onClick={handleOnDelete}>
                             <DeleteIcon />
                         </IconButton>
                     </Grid>
+                    {
+                        //TODO: Make error handling waaay the fuck better.
+                        stores.stallFormUiStore.isInvalidStall &&
+                        <Grid item xs={12}>
+                            <Typography variant="caption" color={"red"}>
+                                Stall must have a unique name, and a description.
+                            </Typography>
+                        </Grid>
+                    }
                 </Grid>
             </Paper>
 

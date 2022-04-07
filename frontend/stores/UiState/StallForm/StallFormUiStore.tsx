@@ -6,9 +6,24 @@ class StallFormUiStore {
 
     @observable isAddingNewStall : boolean = false;
 
+    @observable isInvalidStall : boolean = false;
+
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
+    }
+
+    @action
+    addingStall()
+    {
+        this.isAddingNewStall = true;
+        this.isInvalidStall = false;
+    }
+
+    @action
+    setIsInvalidStall(isInvalidStall : boolean)
+    {
+        this.isInvalidStall = isInvalidStall;
     }
 
     @action

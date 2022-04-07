@@ -136,6 +136,12 @@ export class Market implements IMarket {
     @action
     addStall(stall : IStall)
     {
+        var filtered = this.stalls.filter(x => x.type === stall.type);
+        if(filtered.length != 0 || stall.type.length === 0 || stall.description.length === 0)
+        {
+            return false;
+        }
         this.stalls.push(stall)
+        return true;
     }
 }
