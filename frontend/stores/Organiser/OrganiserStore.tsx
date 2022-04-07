@@ -1,8 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
-import * as React from 'react';
-import { MarketContextType, IMarket } from '../../@types/Market';
 import { IOrganiser } from '../../@types/Organiser';
-import { MarketClient, OrganiserClient } from '../models';
+import { OrganiserClient } from '../models';
 import { RootStore } from '../RootStore';
 
 class OrganiserStore {
