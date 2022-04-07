@@ -106,11 +106,11 @@ class MarketStore {
             description: this.newMarket.description,
             startDate: this.newMarket.startDate,
             endDate: this.newMarket.endDate,
-            stalls: stallDto //Update later to actually send some type of object.
+            stalls: stallDto 
         }
         client.createMarket(request).then(res => {
             this.newMarket.id = res.marketId
-            this.markets.push(this.newMarket); //send the entire market dto back, since this will give issues with the stall ids not being updated.
+            this.markets.push(this.newMarket); //TODO: Maybe send the entire market dto back, since this will give issues with the stall ids not being updated.
             this.rootStore.marketFormUiStore.submitSuccess()
         }).catch(error => {
             this.rootStore.marketFormUiStore.hadSubmissionError()

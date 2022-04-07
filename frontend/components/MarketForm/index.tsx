@@ -16,6 +16,8 @@ import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
 import { IMarket } from '../../@types/Market';
 import { Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { MarketStore } from '../../stores/Markets/MarketStore';
 
 type Props = {}
 
@@ -38,12 +40,31 @@ const theme = createTheme();
 const MarketForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
+    const router = useRouter();
 
+    //Component mounts
     useEffect(() => {
-        console.log("marketform fires")
         stores.marketStore.resetNewMarket();
         stores.marketFormUiStore.resetState();
+        stores.stallFormUiStore.resetState();
     }, [])
+
+    //Component unmounts
+    useEffect(() => {
+        return () => {
+            stores.marketStore.resetNewMarket();
+            stores.marketFormUiStore.resetState();
+            stores.stallFormUiStore.resetState();
+        }
+    }, [])
+
+    useEffect(() => {
+        if(stores.marketFormUiStore.redirect)
+        {
+            if(router.isReady && stores.marketStore.newMarket.id > 0)
+                router.push(`${stores.marketStore.newMarket.id}`, undefined, { shallow: true });
+        }
+    }, [stores.marketFormUiStore.redirect])
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -61,7 +82,6 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         var result = stores.marketStore.addNewMarket();
-        console.log(result)
     }
 
     const loadingButton = () => <LoadingButton
