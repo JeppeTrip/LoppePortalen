@@ -97,16 +97,34 @@ export class Market implements IMarket {
     }
 
     @computed
-    get stallCount()
+    stallCount(type : string)
     {
-        return this.stalls.length;
+        return this.stalls.filter(x => x.type === type).length;
+    }
+
+    @computed
+    get stallCounts()
+    {
+        var unique = this.stalls.filter((v, i, a) => a.indexOf(v) === i);
+        var stallCounts = unique.map(stall => [stall, this.stalls.filter(x => x.type === stall.type).length])
+        return stallCounts;
+    }
+
+    @computed
+    get uniqueStalls(){
+        return this.stalls.filter((v, i, a) => a.indexOf(v) === i);
     }
 
     //TODO: This is temporary (likely)
     @action
-    setNumberOfStalls(count : number)
+    setNumberOfStalls(type : string, count : number)
     {
-        count = count < 0 ? 0 : count;
+        var stall = this.stalls.filter(x => x.type === type)[0];
+        if(stall === null ||stall === undefined)
+        {
+            return;
+        }
+        count = count < 1 ? 1 : count;
         const currentCount = this.stalls.length;
         const diff = count - currentCount;
         if(diff > 0)
@@ -114,17 +132,13 @@ export class Market implements IMarket {
             var newStalls : IStall[] = [];
             for(var i = 0; i<diff; i++)
             {
-                newStalls.push(new Stall("", ""))
+                newStalls.push(stall)
             }
             this.stalls = this.stalls.concat(newStalls);
         }
         else if(diff < 0)
         {
             this.stalls = this.stalls.slice(0, diff);
-        }
-        else if(diff == 0)
-        {
-            this.stalls = [];
         }
     }
 
