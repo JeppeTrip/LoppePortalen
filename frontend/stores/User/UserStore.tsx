@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import { IUser, User } from '../../@types/User';
-import { AuthenticateUserRequest, AuthorizationClient } from '../models';
+import { AuthenticateUserRequest, AuthorizationClient, RegisterUserRequest, RegisterUserResponse } from '../models';
 import { RootStore } from '../RootStore';
 
 class UserStore {
@@ -16,7 +16,7 @@ class UserStore {
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
-        this.newUser = new User("", "", "", "", "", null, "")
+        this.newUser = new User("", "", "", "", "", null, "", "")
     }
 
     @action
@@ -36,17 +36,48 @@ class UserStore {
                     this.setIsLoggedIn(true);
                 }
                 else {
-                    console.log(`Authentication fail: ${email}, ${password}`);
                     this.setHadAuthenticationError(true);
                     this.setIsLoggingIn(false);
                     this.setIsLoggedIn(false);
                 }
-            })
+            }).catch(error => {
+                this.setHadAuthenticationError(true);
+                this.setIsLoggingIn(false);
+                this.setIsLoggedIn(false);
+            });
+    }
+
+    @action
+    async registerUser() {
+        this.rootStore.userFormUiStore.beginSubmit()
+        const client = new AuthorizationClient();
+        const request = {
+            email: this.newUser.email,
+            password: this.newUser.password,
+            firstname: this.newUser.firstname,
+            lastname: this.newUser.lastname,
+            phonenumber: this.newUser.phonenumber,
+            dateOfBirth: this.newUser.dateOfBirth,
+            country: this.newUser.country
+
+        } as RegisterUserRequest;
+        client.registerUser(request)
+            .then(res => {
+                if (res.succeeded) {
+
+                    this.newUser.id = res.id;
+                    this.rootStore.userFormUiStore.submitSuccess()
+                } else {
+                    this.rootStore.userFormUiStore.hadSubmissionError()
+                }
+            }).catch(error => {
+                this.rootStore.userFormUiStore.hadSubmissionError()
+            });
     }
 
     @action
     resetNewUser() {
-        this.newUser = new User("", "", "", "", "", null, "")
+        this.newUser = new User("", "", "", "", "", null, "", "")
     }
 
     @action

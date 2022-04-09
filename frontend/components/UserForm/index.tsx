@@ -42,18 +42,27 @@ const UserForm: FC<Props> = (props: Props) => {
 
     //Component mounts
     useEffect(() => {
-
+        stores.userFormUiStore.resetState()
+        stores.userStore.resetNewUser()
     }, [])
 
     //Component unmounts
     useEffect(() => {
         return () => {
-
+            stores.userFormUiStore.resetState()
+            stores.userStore.resetNewUser()
         }
     }, [])
 
+    useEffect(() => {
+        if(stores.userFormUiStore.redirect && router.isReady)
+        {
+            router.push("login", undefined, { shallow: true });
+        }
+    }, [stores.userFormUiStore.redirect])
+
     const handleSubmit = () => {
-        console.log("handle submit user form")
+        stores.userStore.registerUser()   
     }
 
     const handleNext = () => {

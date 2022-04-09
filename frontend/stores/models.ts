@@ -721,13 +721,17 @@ export interface AuthResult extends Result {
 }
 
 export interface RegisterUserResponse extends AuthResult {
+    id?: string | null;
 }
 
 export interface RegisterUserRequest {
-    firstName?: string | null;
-    lastName?: string | null;
     email?: string | null;
     password?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    dateOfBirth?: Date;
+    country?: string | null;
 }
 
 export interface AuthenticateUserResponse extends AuthResult {

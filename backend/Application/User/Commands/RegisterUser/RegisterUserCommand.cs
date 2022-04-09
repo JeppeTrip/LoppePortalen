@@ -40,7 +40,10 @@ namespace Application.User.Commands.CreateUser
                     IdentityId = new Guid(createRes.UserId),
                     FirstName = request.Dto.FirstName,
                     LastName = request.Dto.LastName,
-                    Email = request.Dto.Email
+                    Email = request.Dto.Email,
+                    DateOfBirth = request.Dto.DateOfBirth,
+                    Phone = request.Dto.PhoneNumber,
+                    Country = request.Dto.Country
                 };
 
                 _context.UserInfo.Add(newUser);
@@ -48,7 +51,11 @@ namespace Application.User.Commands.CreateUser
 
                 var token = await _identityService.AuthenticateUser(newUser.Email, request.Dto.Password);
 
-                return new RegisterUserResponse(createRes.Result.Succeeded, createRes.Result.Errors, token.Tokens.JwtToken, token.Tokens.RefreshToken.Token);
+                return new RegisterUserResponse(
+                    createRes.Result.Succeeded, 
+                    createRes.Result.Errors, 
+                    token.Tokens.JwtToken, 
+                    token.Tokens.RefreshToken.Token) { Id=newUser.IdentityId.ToString()};
             }
         }
     }

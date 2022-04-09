@@ -511,7 +511,13 @@
           },
           {
             "type": "object",
-            "additionalProperties": false
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              }
+            }
           }
         ]
       },
@@ -556,6 +562,14 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
           "firstName": {
             "type": "string",
             "nullable": true
@@ -564,11 +578,15 @@
             "type": "string",
             "nullable": true
           },
-          "email": {
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "country": {
             "type": "string",
             "nullable": true
           }
