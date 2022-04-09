@@ -1,4 +1,4 @@
-import { Avatar, Box, Container } from "@mui/material";
+import { Avatar, Box, Container, Grid, Link } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext } from "react";
@@ -9,23 +9,25 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { LoadingButton } from "@mui/lab";
 import LoginIcon from '@mui/icons-material/Login';
+import { useRouter } from "next/router";
 
 
 const LoginPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);
+    const router = useRouter();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email').toString();
         const password = data.get('password').toString();
-
-        console.log({
-            email: email,
-            password: password,
-        });
-
         stores.userStore.login(email, password);
+    };
+
+    const handleClickSignup = (event) => {
+        if (router.isReady) {
+            router.push('signup', undefined, { shallow: true });
+        };
     };
 
     return (
@@ -84,22 +86,27 @@ const LoginPage: NextPage = observer(() => {
                     >
                         Sign In
                     </LoadingButton>
-                    {/*
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-        */}
                 </Box>
             </Box>
+            <Grid container>
+                {
+                    /*
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                */
+                }
+                <Grid item>
+                    <Link
+                        component={"button"}
+                        variant="body2"
+                        onClick={(event) => { handleClickSignup(event) }}>
+                        {"Don't have an account? Sign Up"}
+                    </Link>
+                </Grid>
+            </Grid>
         </Container>
     );
 })

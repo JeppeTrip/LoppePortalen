@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Domain.Entities
 {
     //TODO: Fix the redundancy that is built in due to the use of the base identity user´.
+    //TODO: Update with more address information
     public class User : AuditableEntity
     {
         public Guid IdentityId { get; set; }

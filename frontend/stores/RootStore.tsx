@@ -5,6 +5,7 @@ import { MarketFormUiStore } from './UiState/MarketForm/MarketFormUiStore';
 import { MarketProfileUiStore } from './UiState/MarketProfile/MarketProfileUiStore';
 import { StallFormUiStore } from './UiState/StallForm/StallFormUiStore';
 import { UiStateStore } from './UiState/UiStateStore';
+import { UserFormUiStore } from './UiState/UserForm/UserFormUiStore';
 import { UserStore } from './User/UserStore';
 
 export interface IRootStore {
@@ -15,6 +16,7 @@ export interface IRootStore {
     marketFormUiStore : MarketFormUiStore
     stallFormUiStore : StallFormUiStore
     marketProfileUiStore : MarketProfileUiStore
+    userFormUiStore : UserFormUiStore
 }
 
 export class RootStore implements IRootStore{
@@ -25,6 +27,7 @@ export class RootStore implements IRootStore{
     marketFormUiStore: MarketFormUiStore;
     stallFormUiStore : StallFormUiStore;
     marketProfileUiStore : MarketProfileUiStore
+    userFormUiStore : UserFormUiStore
 
     constructor(){
         makeAutoObservable(this)
@@ -35,5 +38,6 @@ export class RootStore implements IRootStore{
         this.marketFormUiStore = new MarketFormUiStore(this);
         this.stallFormUiStore = new StallFormUiStore(this);
         this.marketProfileUiStore = new MarketProfileUiStore(this);
+        this.userFormUiStore = new UserFormUiStore(this);
     }
 }

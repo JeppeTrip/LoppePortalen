@@ -1,11 +1,11 @@
 import {CircularProgress, Container } from "@mui/material";
 
 import { NextPage } from "next";
-import TopBar from "../../../components/TopBar";
+import TopBar from "../../components/TopBar";
 import { observer } from "mobx-react-lite";
-import MarketForm from "../../../components/MarketForm";
+import UserForm from "../../components/UserForm";
 
-const CreateMarketPage: NextPage = observer(() => {
+const SingupPage: NextPage = observer(() => {
 
     const loading = () => {
         return (
@@ -20,11 +20,11 @@ const CreateMarketPage: NextPage = observer(() => {
                 maxWidth="sm">
                 <TopBar />
                 {
-                    <MarketForm/>
+                    <UserForm/>
                 }
             </Container>
         </>
     )
 })
 
-export default CreateMarketPage;
+export default SingupPage;
