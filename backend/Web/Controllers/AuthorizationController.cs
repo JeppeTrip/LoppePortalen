@@ -13,6 +13,8 @@ namespace Web.Controllers
 {
     public class AuthorizationController : ApiBase
     {
+        //TODO: move this over into the user controller probably.
+        //TODO: should I return tokens here at all?
         [HttpPost("Register")]
         public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest dto)
         {
@@ -25,12 +27,11 @@ namespace Web.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<AuthenticateUserResponse>> AuthenticateUser([FromBody] AuthenticateUserRequest dto)
         {
-            Log.Information("AuthorizationController AuthenticateUser");
             return await Mediator.Send(new AuthenticateUserCommand()
             {
                 Dto = dto
             });
-        }
+        } 
 
         [HttpPost("RefreshToken")]
         public async Task<ActionResult<RefreshJwtResponse>> RefreshToken([FromBody] RefreshJwtRequest dto)
