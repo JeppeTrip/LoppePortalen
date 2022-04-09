@@ -23,6 +23,31 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
     const [marketId, setMarketId] = useState<string>("");
     const router = useRouter();
 
+    /**
+     * Comoponent will mount.
+     * Reset the UI State to make sure that the state is at least consistent
+     * when the market profile is loaded in.
+     */
+    useEffect(() => {
+        stores.marketProfileUiStore.resetState();
+    }, [])
+
+    /**
+     * Component will unmount.
+     * Clean up after, to make sure the state is left in a somewhat consistent state when 
+     * we are moving away from this market.
+     */
+    useEffect(() => {
+        return () => {
+            stores.marketProfileUiStore.resetState();
+            stores.marketStore.selectedMarket = null;
+        }
+    }, [])
+
+    /**
+     * The next.js router needs to be ready to read from it.
+     * When router is ready set the market id used to populate information on this page.
+     */
     useEffect(() => {
         if (!router.isReady) { return };
         var { mid } = router.query
@@ -30,127 +55,155 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
 
     }, [router.isReady]);
 
-    //Set market
+    /**
+     * When the market id has been updated search for the market through the market store.
+     */
     useEffect(() => {
         if (stores.marketStore.selectedMarket == null) {
             if (!(marketId == "")) {
-                stores.marketStore.setSelectedMarket(parseInt(marketId));
+                stores.marketProfileUiStore.loadMarket();
+                stores.marketStore.setSelectedMarket(parseInt(marketId))
             }
         }
     }, [marketId])
 
-    //WTF Does this do. oh it is bad it uses internal state to represent this shit.
-    //TODO: Outface this.
+
+    /**
+     * When selected market is changed.
+     * Update UI State.
+     * If selected market is an actual market start the fetching of stalls.
+     * TODO: load in the stalls with the initial load of the market, would make this 
+     * more transaction safe, and would at least provide a consistent look at thet market
+     * information.
+     */
     useEffect(() => {
         if (stores.marketStore.selectedMarket != null) {
-            stores.marketStore.fetchStallsForMarket(stores.marketStore.selectedMarket);
+            if (stores.marketStore.selectedMarket.id > 0) {
+                stores.marketProfileUiStore.marketLoadingSuccess();
+                //TODO: Set loading stalls state in the ui store.
+                stores.marketStore.fetchStallsForMarket(stores.marketStore.selectedMarket);
+            }
+            else {
+                stores.marketProfileUiStore.hadMarketLoadingError();
+            }
         }
     }, [stores.marketStore.selectedMarket])
 
-    //Adding a return statement is the same as componentWillUnMount - that is pretty damn obscure.
-    useEffect(() => {
-        return () => {
-            stores.marketStore.selectedMarket = null;
-        }
-    }, [])
 
     const handleCancel = () => {
         stores.marketStore.cancelSelectedMarket()
     }
 
-    return (
-        <>
-            {
-                stores.marketStore.selectedMarket == null ? <CircularProgress /> :
-                    <Grid container columns={1} spacing={1}>
-                        <Grid item xs={1}>
-                            <Paper square={true} elevation={1}>
-                                <Container maxWidth={"xl"}>
+    const profileContent = () => {
+        return (
+            <Grid id={"ProfileContainer"} container columns={1} spacing={1}>
+                <Grid item xs={1}>
+                    <Paper square={true} elevation={1}>
+                        <Container maxWidth={"xl"}>
+                            <Grid container columns={12}>
+                                <Grid item xs={12}>
+                                    <div className={styles.bannerPlaceholder} />
+                                </Grid>
+                                <Grid item xs={12}>
                                     <Grid container columns={12}>
-                                        <Grid item xs={12}>
-                                            <div className={styles.bannerPlaceholder} />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Grid container columns={12}>
-                                                <Grid item xs={8}>
-                                                    <Grid>
-                                                        <Grid item xs={12}>
-                                                            <Typography variant="h5">
-                                                                {stores.marketStore.selectedMarket.name}
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid item xs={12}>
-                                                            <Typography>
-                                                                {
-                                                                    stores.marketStore.selectedMarket.startDate.toLocaleDateString() + " - " + stores.marketStore.selectedMarket.endDate.toLocaleDateString()
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
+                                        <Grid item xs={8}>
+                                            <Grid>
+                                                <Grid item xs={12}>
+                                                    <Typography variant="h5">
+                                                        {stores.marketStore.selectedMarket.name}
+                                                    </Typography>
                                                 </Grid>
-                                                <Grid container
-                                                    item
-                                                    xs={4}
-                                                    justifyContent="flex-end"
-                                                    alignContent="center">
-                                                    <LoadingButton
-                                                        style={{ height: "40px" }}
-                                                        onClick={handleCancel}
-                                                        loading={stores.marketStore.isCancelling}
-                                                        loadingPosition="start"
-                                                        startIcon={<CancelIcon />}
-                                                        variant="outlined"
-                                                        disabled={stores.marketStore.selectedMarket == null || stores.marketStore.selectedMarket.isCancelled}
-                                                    >
-                                                        Cancel
-                                                    </LoadingButton>
+                                                <Grid item xs={12}>
+                                                    <Typography>
+                                                        {
+                                                            stores.marketStore.selectedMarket.startDate.toLocaleDateString() + " - " + stores.marketStore.selectedMarket.endDate.toLocaleDateString()
+                                                        }
+                                                    </Typography>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-
-
-                                    </Grid>
-                                </Container>
-                            </Paper>
-                        </Grid>
-
-                        <Grid item xs={1}>
-                            <Container maxWidth={"lg"}>
-                                <Grid container columns={12} spacing={1}>
-                                    <Grid item xs={7}>
-                                        <Paper elevation={1}>
-                                            <div className={styles.AboutInfo}>
-                                                <Typography variant="h6">
-                                                    About
-                                                </Typography>
-                                                <Divider />
-                                                <Typography variant="body1">
-                                                    {stores.marketStore.selectedMarket.description}
-                                                </Typography>
-                                            </div>
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Paper elevation={1}>
-                                            <div className={styles.AboutInfo}>
-                                                <Typography variant="h6">
-                                                    Stalls
-                                                </Typography>
-                                                <Divider />
-                                                {
-                                                    <StallTypeInfoList market={stores.marketStore.selectedMarket} />
-                                                }
-                                            </div>
-                                        </Paper>
-
+                                        <Grid container
+                                            item
+                                            xs={4}
+                                            justifyContent="flex-end"
+                                            alignContent="center">
+                                            <LoadingButton
+                                                style={{ height: "40px" }}
+                                                onClick={handleCancel}
+                                                loading={stores.marketStore.isCancelling}
+                                                loadingPosition="start"
+                                                startIcon={<CancelIcon />}
+                                                variant="outlined"
+                                                disabled={stores.marketStore.selectedMarket == null || stores.marketStore.selectedMarket.isCancelled}
+                                            >
+                                                Cancel
+                                            </LoadingButton>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Container>
+
+
+                            </Grid>
+                        </Container>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={1}>
+                    <Container maxWidth={"lg"}>
+                        <Grid container columns={12} spacing={1}>
+                            <Grid item xs={7}>
+                                <Paper elevation={1}>
+                                    <div className={styles.AboutInfo}>
+                                        <Typography variant="h6">
+                                            About
+                                        </Typography>
+                                        <Divider />
+                                        <Typography variant="body1">
+                                            {stores.marketStore.selectedMarket.description}
+                                        </Typography>
+                                    </div>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Paper elevation={1}>
+                                    <div className={styles.AboutInfo}>
+                                        <Typography variant="h6">
+                                            Stalls
+                                        </Typography>
+                                        <Divider />
+                                        {
+                                            <StallTypeInfoList market={stores.marketStore.selectedMarket} />
+                                        }
+                                    </div>
+                                </Paper>
+
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Container>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    const loadingContent = () => {
+        return (
+            <Grid id={"ProfileLoadingContainer"} height="100%" container alignItems="center" justifyItems={"center"} alignContent="center" justifyContent={"center"}>
+                <Grid item>
+                    <CircularProgress />
+                </Grid>
+            </Grid>
+        )
+    }
+
+    const errorContent = () => {
+
+    }
+
+    return (
+        <>
+            {
+                stores.marketProfileUiStore.loadingMarket ? loadingContent() : profileContent()
             }
-
-
         </>
     )
 })

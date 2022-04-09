@@ -58,9 +58,12 @@ class MarketStore {
 
     @action
     setSelectedMarket(marketId: number) {
-        this.isLoading = true;
+        //TODO: Research wether or not this is a good idea.
         var result = this.markets.find(market => market.id === marketId);
-        if (result === undefined) {
+        if (result != null) {
+            this.selectedMarket = result;
+        }
+        else {
             const client = new MarketClient();
             client.getMarketInstance(marketId + "")
                 .then(res => {
@@ -72,16 +75,18 @@ class MarketStore {
                         new Date(res.endDate),
                         res.description,
                         res.isCancelled,
-                        [])
-                    this.isLoading = false;
-                    this.hadLoadingError = false;
+                        []);
                 }).catch(error => {
-                    this.isLoading = false;
-                    this.hadLoadingError = true;
+                    this.selectedMarket = new Market(
+                        -1,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        []);
                 })
-        } else {
-            this.selectedMarket = result;
-            this.isLoading = false
         }
     }
 
@@ -195,7 +200,7 @@ class MarketStore {
                 })
                 market.setStalls(result);
             }).catch(error => {
-                
+
             })
     }
 }

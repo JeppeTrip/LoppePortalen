@@ -1,14 +1,14 @@
 import React, {createContext, ReactElement, ReactNode, useContext} from 'react';
 import { useLocalObservable } from 'mobx-react-lite';
 
-const StallFormUiContext = createContext(null)
+const MarketProfileUiContext = createContext(null)
 
-export const StallFormUiContextProvider  = ({ children }) => {
-    const StallFormUiStore = useLocalObservable(() => new StallFormUiStore())
+export const MarketProfileUiContextProvider  = ({ children }) => {
+    const marketProfileUiStore = useLocalObservable(() => new MarketProfileUiStore())
 
     return(
-        <StallFormUiContextProvider.Provider value={StallFormUiStore}>{children}</StallFormUiContextProvider.Provider>
+        <MarketProfileUiContextProvider.Provider value={marketProfileUiStore}>{children}</MarketProfileUiContextProvider.Provider>
     )
 }
 
-export const useStallFormUiContext = () => useContext(StallFormUiContext);
+export const useMarketProfileUiContext = () => useContext(MarketProfileUiContext);
