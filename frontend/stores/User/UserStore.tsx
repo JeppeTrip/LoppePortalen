@@ -5,7 +5,7 @@ import { RootStore } from '../RootStore';
 
 class UserStore {
     rootStore: RootStore;
-    @observable selectedUser : IUser;
+    @observable currentUser : IUser;
     @observable newUser: IUser;
 
 
@@ -18,6 +18,7 @@ class UserStore {
         makeAutoObservable(this);
         this.rootStore = rootStore;
         this.newUser = new User("", "", "", "", "", null, "", "")
+        this.currentUser = new User("", "", "", "", "", null, "", "")
     }
 
     @action

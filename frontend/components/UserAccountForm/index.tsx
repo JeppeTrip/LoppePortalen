@@ -4,25 +4,26 @@ import { FC, useContext} from "react";
 
 import { observer } from "mobx-react-lite";
 import { StoreContext } from "../../stores/StoreContext";
+import { IUser } from "../../@types/User";
 
-type Props = {}
+type Props = {
+    user : IUser
+}
 
-const UserAccountForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
-    
+const UserAccountForm: FC<Props> = (props: Props) => {  
     const handleEmailChange = (event) => {
-        stores.userStore.newUser.setEmail(event.target.value)
+        props.user.setEmail(event.target.value)
     }
 
     const handlePasswordChange =(event) => {
-        stores.userStore.newUser.setPassword(event.target.value)
+        props.user.setPassword(event.target.value)
     }
 
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <TextField
-                    value={stores.userStore.newUser.email}
+                    value={props.user.email}
                     onChange={event => handleEmailChange(event)}
                     required
                     fullWidth
@@ -41,7 +42,7 @@ const UserAccountForm: FC<Props> = (props: Props) => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    value={stores.userStore.newUser.password}
+                    value={props.user.password}
                     onChange={event => handlePasswordChange(event)} />
             </Grid>
         </Grid >

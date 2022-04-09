@@ -21,24 +21,23 @@ type Props = {}
 
 const steps = ['User Info', 'Account Info'];
 
-function getStepContent(step: number) {
-    switch (step) {
-        case 0:
-            return <UserInfoForm />;
-        case 1:
-            return <UserAccountForm />
-        default:
-            throw new Error('Unknown step');
-    }
-}
-
-
 const theme = createTheme();
 
 const UserForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
     const router = useRouter();
+
+    const getStepContent = (step: number) => {
+        switch (step) {
+            case 0:
+                return <UserInfoForm user={stores.userStore.newUser}/>;
+            case 1:
+                return <UserAccountForm user={stores.userStore.newUser} />
+            default:
+                throw new Error('Unknown step');
+        }
+    }
 
     //Component mounts
     useEffect(() => {

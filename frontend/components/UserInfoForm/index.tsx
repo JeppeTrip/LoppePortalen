@@ -6,11 +6,14 @@ import { observer } from "mobx-react-lite";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { StoreContext } from "../../stores/StoreContext";
+import { IUser } from "../../@types/User";
+import styles from "./styles.module.css";
 
-type Props = {}
+type Props = {
+    user: IUser
+}
 
 const UserInfoForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const [countries, setCountries] = useState([]);
 
     /**
@@ -26,42 +29,44 @@ const UserInfoForm: FC<Props> = (props: Props) => {
     }, []);
 
     const handleFirstNameChange = (event) => {
-        stores.userStore.newUser.setFirstName(event.target.value)
+        props.user.setFirstName(event.target.value)
     }
 
     const handleLastNameChange = (event) => {
-        stores.userStore.newUser.setLastName(event.target.value)
+        props.user.setLastName(event.target.value)
     }
 
     const handlePhoneNumberChange = (event) => {
-        stores.userStore.newUser.setPhoneNumber(event.target.value)
+        props.user.setPhoneNumber(event.target.value)
     }
 
     const handleDateOfBirthChange = (value) => {
-        stores.userStore.newUser.setDateOfBirth(value)
+        props.user.setDateOfBirth(value)
     }
 
     const handleCountryChange = (value) => {
-        stores.userStore.newUser.setCountry(value)
+        props.user.setCountry(value)
     }
 
     return (
         <Grid container spacing={1}>
             <Grid item xs={6}>
                 <TextField
+                    fullWidth={true}
                     id="inputFirstName"
                     label="First Name"
                     variant="outlined"
                     onChange={(event) => handleFirstNameChange(event)}
-                    value={stores.userStore.newUser.firstname} />
+                    value={props.user.firstname} />
             </Grid>
             <Grid item xs={6}>
                 <TextField
+                    fullWidth={true}
                     id="inputLastName"
                     label="Last Name"
                     variant="outlined"
                     onChange={(event) => handleLastNameChange(event)}
-                    value={stores.userStore.newUser.lastname} />
+                    value={props.user.lastname} />
             </Grid>
             <Grid item xs={12}>
                 <TextField
@@ -70,14 +75,15 @@ const UserInfoForm: FC<Props> = (props: Props) => {
                     label="Phone Number"
                     variant="outlined"
                     onChange={(event) => handlePhoneNumberChange(event)}
-                    value={stores.userStore.newUser.phonenumber} />
+                    value={props.user.phonenumber} />
             </Grid>
             <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
+                        className={styles.fullWidthDatePicker}
                         label="Birthday"
                         inputFormat="MM/dd/yyyy"
-                        value={stores.userStore.newUser.dateOfBirth}
+                        value={props.user.dateOfBirth}
                         onChange={(value) => handleDateOfBirthChange(value)}
                         renderInput={(params) => <TextField {...params} />}
                     />
@@ -85,7 +91,7 @@ const UserInfoForm: FC<Props> = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
                 <Autocomplete
-                    onChange={(event, value) =>handleCountryChange(value)}
+                    onChange={(event, value) => handleCountryChange(value)}
                     freeSolo={false}
                     disablePortal
                     id="inputCountry"
