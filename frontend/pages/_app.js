@@ -2,10 +2,9 @@ import Head from 'next/head'
 import '../styles.css'
 import React from 'react';
 import Script from 'next/script';
-import { Box, CssBaseline, Drawer } from '@mui/material'
+import { Box, CssBaseline, Drawer, Stack } from '@mui/material'
 import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
-import DrawerMenu from '../components/DrawerMenu'
 import { observer } from 'mobx-react-lite';
 import TopBar from '../components/TopBar';
 
@@ -23,8 +22,8 @@ function MyApp({ Component, pageProps }) {
 
       <StoreProvider store={rootStore}>
         <CssBaseline />
-        <TopBar />
-        <Component {...pageProps} />
+          <TopBar/>
+          <Component {...pageProps} />
       </StoreProvider>
 
     </>

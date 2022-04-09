@@ -73,12 +73,7 @@ const TopBar: FC<Props> = (props: Props) => {
 
   return (
     <>
-      <AppBar position="fixed"
-        sx={{
-          zIndex: 9999,
-          width: { sm: stores.uiStateStore.isDrawerOpen ? `calc(100% - ${stores.uiStateStore.drawerWidth}px)` : `calc(100%)` },
-          ml: { sm: `${stores.uiStateStore.drawerWidth}px` },
-        }}>
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             className={styles.logo}
@@ -94,7 +89,7 @@ const TopBar: FC<Props> = (props: Props) => {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="navigation properties"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -117,7 +112,7 @@ const TopBar: FC<Props> = (props: Props) => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                zIndex: 9999,
+                zIndex: 1,
                 display: { xs: 'block', md: 'none' },
               }}
             >

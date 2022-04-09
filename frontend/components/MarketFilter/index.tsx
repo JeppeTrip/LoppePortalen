@@ -34,9 +34,9 @@ const MarketFilter: FC<Props> = (props: Props) => {
             <Drawer
                 variant="permanent"
                 sx={{
-                    zIndex: 0,
+                    zIndex: 1,
                     width: stores.uiStateStore.filterDrawerWidth,
-                    flexShrink: 0,
+                    flexShrink: 1,
                     [`& .MuiDrawer-paper`]: { width: stores.uiStateStore.filterDrawerWidth, boxSizing: 'border-box' },
                 }}
             >
