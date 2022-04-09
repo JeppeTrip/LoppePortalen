@@ -59,11 +59,9 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
      * When the market id has been updated search for the market through the market store.
      */
     useEffect(() => {
-        if (stores.marketStore.selectedMarket == null) {
-            if (!(marketId == "")) {
-                stores.marketProfileUiStore.loadMarket();
-                stores.marketStore.setSelectedMarket(parseInt(marketId))
-            }
+        if (!(marketId == "")) {
+            stores.marketProfileUiStore.loadMarket();
+            stores.marketStore.setSelectedMarket(parseInt(marketId))
         }
     }, [marketId])
 
@@ -77,16 +75,24 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
      * information.
      */
     useEffect(() => {
-        if (stores.marketStore.selectedMarket != null) {
+        console.log("Market success.")
+        if (stores.marketStore.selectedMarket != null && stores.marketStore.selectedMarket.id > 0) {
             if (stores.marketStore.selectedMarket.id > 0) {
                 stores.marketProfileUiStore.marketLoadingSuccess();
                 //TODO: Set loading stalls state in the ui store.
+                stores.marketProfileUiStore.loadStalls();
                 stores.marketStore.fetchStallsForMarket(stores.marketStore.selectedMarket);
             }
             else {
                 stores.marketProfileUiStore.hadMarketLoadingError();
             }
         }
+    }, [stores.marketStore.selectedMarket])
+
+    //When the selected market stalls have been updated change the state to show the stall information.
+    useEffect(() => {
+        console.log("update stalls")
+        stores.marketProfileUiStore.stallLoadingSuccess()
     }, [stores.marketStore.selectedMarket])
 
 
@@ -141,8 +147,6 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-
-
                             </Grid>
                         </Container>
                     </Paper>
@@ -172,7 +176,8 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                         </Typography>
                                         <Divider />
                                         {
-                                            <StallTypeInfoList market={stores.marketStore.selectedMarket} />
+                                            stores.marketProfileUiStore.loadingStalls ? loadingContent() :
+                                                <StallTypeInfoList market={stores.marketStore.selectedMarket} />
                                         }
                                     </div>
                                 </Paper>

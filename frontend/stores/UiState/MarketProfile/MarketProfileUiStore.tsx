@@ -4,13 +4,13 @@ import { RootStore } from '../../RootStore';
 class MarketProfileUiStore {
     rootStore: RootStore;
 
-    loadingMarket = true;
-    marketLoadSuccess = false;
-    errorLoadingMarket = false;
+    @observable loadingMarket = true;
+    @observable marketLoadSuccess = false;
+    @observable errorLoadingMarket = false;
 
-    loadingStalls = true;
-    stallLoadSuccess = false;
-    errorLoadingStalls = false;
+    @observable loadingStalls = true;
+    @observable stallLoadSuccess = false;
+    @observable errorLoadingStalls = false;
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -47,6 +47,27 @@ class MarketProfileUiStore {
         this.loadingMarket = false;
         this.marketLoadSuccess = true;
         this.errorLoadingMarket = false;
+    }
+
+    @action
+    loadStalls(){
+        this.loadingStalls = true;
+        this.stallLoadSuccess = false;
+        this.errorLoadingStalls = false;
+    }
+
+    @action
+    hadStallLoadingError() {
+        this.loadingStalls = false;
+        this.stallLoadSuccess = false;
+        this.errorLoadingStalls = true;
+    }
+
+    @action
+    stallLoadingSuccess(){
+        this.loadingStalls = false;
+        this.stallLoadSuccess = true;
+        this.errorLoadingStalls = false;
     }
 }
 

@@ -19,6 +19,10 @@ const StallTypeInfoList: FC<Props> = (props: Props) => {
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {
+                props.market.stalls == null || props.market.stalls.length === 0 ? 
+                <Typography variant="caption">
+                    No stalls.
+                </Typography> :
                 //TODO: remember to update available once renting has been implemented.
                 props.market.uniqueStalls().map(x => {
                     return (

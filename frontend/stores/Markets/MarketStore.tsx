@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
 import * as React from 'react';
 import { IMarket, Market } from '../../@types/Market';
 import { Stall } from '../../@types/Stall';
@@ -7,9 +7,9 @@ import { RootStore } from '../RootStore';
 
 class MarketStore {
     rootStore: RootStore;
-    markets: IMarket[] = [];
-    selectedMarket: IMarket = null;
-    newMarket: Market //reaction?????
+    @observable markets: IMarket[];
+    @observable selectedMarket: IMarket;
+    @observable newMarket: Market //reaction?????
 
     //TODO: Move all UI state out of here.
     isLoading = true;
@@ -23,6 +23,16 @@ class MarketStore {
         //TODO: Something else I can do but magic numbers to signify that this is an uncreated market?
         this.rootStore = rootStore;
         this.newMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, []);
+        this.selectedMarket = new Market(
+            -1,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            []);
+        this.markets = [];
     }
 
     @action
@@ -59,7 +69,9 @@ class MarketStore {
     @action
     setSelectedMarket(marketId: number) {
         //TODO: Research wether or not this is a good idea.
+        console.log("Selected market.")
         var result = this.markets.find(market => market.id === marketId);
+        console.log(result)
         if (result != null) {
             this.selectedMarket = result;
         }
