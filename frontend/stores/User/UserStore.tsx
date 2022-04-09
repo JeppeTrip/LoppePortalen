@@ -1,11 +1,12 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
 import { IUser, User } from '../../@types/User';
 import { AuthenticateUserRequest, AuthorizationClient, RegisterUserRequest, RegisterUserResponse } from '../models';
 import { RootStore } from '../RootStore';
 
 class UserStore {
     rootStore: RootStore;
-    newUser: IUser;
+    @observable selectedUser : IUser;
+    @observable newUser: IUser;
 
 
     hadAuthenticationError: boolean = false;
@@ -64,8 +65,6 @@ class UserStore {
         client.registerUser(request)
             .then(res => {
                 if (res.succeeded) {
-
-                    this.newUser.id = res.id;
                     this.rootStore.userFormUiStore.submitSuccess()
                 } else {
                     this.rootStore.userFormUiStore.hadSubmissionError()

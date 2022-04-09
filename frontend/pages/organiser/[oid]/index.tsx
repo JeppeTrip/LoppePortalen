@@ -1,15 +1,10 @@
 import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } from "@mui/material";
-import { styled } from "@mui/system";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import TopBar from "../../../components/TopBar";
 import { StoreContext } from "../../../stores/StoreContext";
 import styles from './styles.module.css'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useRouter } from "next/router";
-import { LoadingButton } from "@mui/lab";
-import CancelIcon from '@mui/icons-material/Cancel';
 import MarketListItem from "../../../components/MarketListItem";
 
 type Props = {
