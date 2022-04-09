@@ -1,7 +1,7 @@
 import { Avatar, Box, Container, Grid, Link } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { StoreContext } from "../../stores/StoreContext";
 
 import TextField from '@mui/material/TextField';
@@ -16,12 +16,31 @@ const LoginPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);
     const router = useRouter();
 
+    //component mount
+    useEffect(() => {
+
+    }, [])
+
+    //component unmount
+    useEffect(() => {
+        return () => {
+            
+        }
+    }, [])
+
+    useEffect(() => {
+        if(stores.authStore.signedIn)
+        {
+            router.push(stores.authStore.redirect ? stores.authStore.consumeRedirect() : "profile", undefined, { shallow: true })
+        }
+    }, [stores.authStore.signedIn, stores.authStore.redirect, stores.authStore.consumeRedirect()])
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email').toString();
         const password = data.get('password').toString();
-        stores.userStore.login(email, password);
+        stores.authStore.login(email, password);
     };
 
     const handleClickSignup = (event) => {

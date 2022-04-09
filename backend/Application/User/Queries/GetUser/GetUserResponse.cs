@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Application.User.Queries.GetUser
 {
-    public class GetUserResponse
+    public class GetUserResponse : Result
     {
+        internal GetUserResponse(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
+        {
+        }
+
         public string Id { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }

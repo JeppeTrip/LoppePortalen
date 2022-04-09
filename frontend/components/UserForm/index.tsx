@@ -13,7 +13,6 @@ import { StoreContext } from "../../stores/StoreContext";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
 import { Grid } from '@mui/material';
-import { useRouter } from 'next/router';
 import UserInfoForm from '../UserInfoForm';
 import UserAccountForm from '../UserAccountForm';
 
@@ -26,7 +25,6 @@ const theme = createTheme();
 const UserForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
-    const router = useRouter();
 
     const getStepContent = (step: number) => {
         switch (step) {
@@ -52,13 +50,6 @@ const UserForm: FC<Props> = (props: Props) => {
             stores.userStore.resetNewUser()
         }
     }, [])
-
-    useEffect(() => {
-        if(stores.userFormUiStore.redirect && router.isReady)
-        {
-            router.push("login", undefined, { shallow: true });
-        }
-    }, [stores.userFormUiStore.redirect])
 
     const handleSubmit = () => {
         stores.userStore.registerUser()   

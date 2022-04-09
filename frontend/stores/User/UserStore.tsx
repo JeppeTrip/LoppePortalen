@@ -1,11 +1,12 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import { IUser, User } from '../../@types/User';
-import { AuthenticateUserRequest, AuthorizationClient, RegisterUserRequest, RegisterUserResponse } from '../models';
+import { AuthenticateUserRequest, AuthorizationClient, RegisterUserRequest, RegisterUserResponse, UserClient } from '../models';
 import { RootStore } from '../RootStore';
 
 class UserStore {
     rootStore: RootStore;
-    @observable currentUser : IUser;
+    @observable currentUser: IUser;
+    @observable oldUserData: IUser;
     @observable newUser: IUser;
 
 
@@ -76,6 +77,41 @@ class UserStore {
     }
 
     @action
+    getCurrentUser() {
+        const client = new UserClient();
+        client.getUserInfo()
+            .then(res => {
+                if (res.succeeded) {
+                    this.setCurrentUser(new User(
+                        res.id,
+                        res.firstName,
+                        res.lastName,
+                        res.email,
+                        res.phoneNumber,
+                        res.dateOfBirth,
+                        res.country,
+                        ""
+                    ))
+                    this.setOldUser(
+                        new User(
+                            res.id,
+                            res.firstName,
+                            res.lastName,
+                            res.email,
+                            res.phoneNumber,
+                            res.dateOfBirth,
+                            res.country,
+                            ""
+                        ))
+                } else {
+
+                }
+            }).catch(error => {
+
+            });
+    }
+
+    @action
     resetNewUser() {
         this.newUser = new User("", "", "", "", "", null, "", "")
     }
@@ -99,6 +135,32 @@ class UserStore {
     @action
     setIsLoggedIn(isLoggedIn: boolean) {
         this.isLoggedIn = isLoggedIn;
+    }
+
+    @action
+    setCurrentUser(user: IUser) {
+        this.currentUser = user;
+    }
+
+    @action
+    setOldUser(user: IUser) {
+        this.oldUserData = user;
+    }
+
+    @action
+    resetCurrentUser()
+    {
+        const data = new User(
+            this.oldUserData.id,
+            this.oldUserData.firstname,
+            this.oldUserData.lastname,
+            this.oldUserData.email,
+            this.oldUserData.phonenumber,
+            this.oldUserData.dateOfBirth,
+            this.oldUserData.country,
+            this.oldUserData.password
+        )
+        this.setCurrentUser(data);
     }
 }
 

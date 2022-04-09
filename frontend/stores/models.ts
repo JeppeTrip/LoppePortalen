@@ -945,7 +945,7 @@ export interface TestCommandResponse {
     testResult?: string | null;
 }
 
-export interface GetUserResponse {
+export interface GetUserResponse extends Result {
     id?: string | null;
     email?: string | null;
     firstName?: string | null;

@@ -7,10 +7,18 @@ import { StoreProvider } from '../stores/StoreContext';
 import { RootStore } from '../stores/RootStore';
 import { observer } from 'mobx-react-lite';
 import TopBar from '../components/TopBar';
+import { NextPage } from 'next';
+import { AppProps } from 'next/app';
+import AuthGuard from '../components/AuthGuard';
+import { NextPageAuth } from '../@types/NextAuthPage';
 
 const rootStore = new RootStore();
 
-function MyApp({ Component, pageProps }) {
+function MyApp(props: AppProps) {
+  const {
+    Component,
+    pageProps,
+  }: { Component: NextPageAuth; pageProps: any } = props
   return (
     <>
       <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />
@@ -22,8 +30,20 @@ function MyApp({ Component, pageProps }) {
 
       <StoreProvider store={rootStore}>
         <CssBaseline />
-          <TopBar/>
-          <Component {...pageProps} />
+        <TopBar />
+        {
+          console.log(typeof Component)
+        }
+        {
+          Component.requireAuth ? (
+            <AuthGuard>
+              <Component {...pageProps} />
+            </AuthGuard>
+          ) : (
+            <Component {...pageProps} />
+          )
+        }
+
       </StoreProvider>
 
     </>

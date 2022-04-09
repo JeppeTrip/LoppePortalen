@@ -31,7 +31,7 @@ namespace Application.User.Queries.GetUser
                 {
                     throw new NotFoundException("No such user.");
                 }
-                return new GetUserResponse()
+                return new GetUserResponse(true, new List<string>())
                 {
                     Id = user.IdentityId.ToString(),
                     FirstName = user.FirstName,
