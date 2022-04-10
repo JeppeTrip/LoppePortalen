@@ -22,8 +22,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(x => x.User)
                 .WithMany(x => x.Organisers)
-                .HasForeignKey(x => x.UserId)
-                .IsRequired(true);
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

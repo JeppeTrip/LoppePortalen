@@ -16,8 +16,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(x => x.IdentityId);
 
             builder.HasMany<Organiser>(x => x.Organisers)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserId);
+                .WithOne(x => x.User);
         }
     }
 }

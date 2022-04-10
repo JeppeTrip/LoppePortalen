@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220410092925_UpdateUserOrganiserRelation")]
+    [Migration("20220410093459_UpdateUserOrganiserRelation")]
     partial class UpdateUserOrganiserRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
