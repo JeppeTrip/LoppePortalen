@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 
-import * as React from 'react';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,6 +17,7 @@ import { Container, Tooltip } from "@mui/material";
 import { StoreContext } from "../../stores/StoreContext";
 import ProfileUserInfo from "../../components/ProfileUserInfo";
 import { NextPageAuth } from "../../@types/NextAuthPage";
+import { useContext, useEffect, useState } from "react";
 
 const drawerWidth = 240;
 
@@ -84,11 +84,23 @@ const profileNavs = [
 ]
 
 const UserProfile: NextPageAuth = observer(() => {
-    const stores = React.useContext(StoreContext);
-    const [open, setOpen] = React.useState(false);
+    const stores = useContext(StoreContext);
+    const [activeStep, setActiveStep] = useState(0);
+
+    const getStepContent = (step: number) => {
+        switch (step) {
+            case 0:
+                return <ProfileUserInfo user={stores.userStore.currentUser} />;
+            case 1:
+                return <div>Organisation management</div>;
+            case 2: return <div>Sales management</div>;
+            default:
+                throw new Error('Unknown step');
+        }
+    }
 
     //Don't know if this is the way to do this.
-    React.useEffect(() => {
+    useEffect(() => {
         if (stores.authStore.signedIn) {
             if (stores.userStore.currentUser == null || stores.userStore.currentUser.id == "") {
                 stores.userStore.getCurrentUser()
@@ -111,20 +123,22 @@ const UserProfile: NextPageAuth = observer(() => {
                                 key={nav.text}
                                 sx={{
                                     minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
+                                    justifyContent: 'center',
                                     px: 2.5,
                                 }}
+                                onClick={() => setActiveStep(profileNavs.indexOf(nav))}
+
                             >
                                 <ListItemIcon
                                     sx={{
                                         minWidth: 0,
-                                        mr: open ? 3 : 'auto',
+                                        mr: 'auto',
                                         justifyContent: 'center',
                                     }}
                                 >
                                     {nav.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={nav.text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={nav.text} sx={{ opacity: 0 }} />
                             </ListItemButton>
                         </Tooltip>
 
@@ -134,7 +148,9 @@ const UserProfile: NextPageAuth = observer(() => {
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
                 <Container>
-                    <ProfileUserInfo user={stores.userStore.currentUser} />
+                    {
+                        getStepContent(activeStep)
+                    }
                 </Container>
             </Box>
         </Box>
