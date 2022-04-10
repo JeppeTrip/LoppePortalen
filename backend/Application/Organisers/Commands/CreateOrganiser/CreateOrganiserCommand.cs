@@ -29,7 +29,7 @@ namespace Application.Organisers.Commands.CreateOrganiser
                 var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(request.Dto.UserId));
                 if(user == null)
                 {
-                    throw new ValidationException();
+                    throw new NotFoundException("No such users.");
                 }
 
                 Address newAddress = new Address {
