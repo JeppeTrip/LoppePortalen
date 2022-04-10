@@ -9,6 +9,7 @@ namespace Application.Organisers.Commands.CreateOrganiser
 {
     public class CreateOrganiserRequest
     {
+        public string UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; } = "";
         public string Street { get; set; }

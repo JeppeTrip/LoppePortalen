@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
-    internal class GetUsersOrganisersRequestValidator
+    internal class GetUsersOrganisersQueryValidator
     {
     }
 }

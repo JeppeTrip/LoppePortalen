@@ -3,6 +3,7 @@ using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
 using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Application.Organisers.Queries.GetOrganiser;
+using Application.Organisers.Queries.GetUsersOrganisers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,6 +46,12 @@ namespace Web.Controllers
                 {
                     Dto = new GetOrganiserQueryRequest() { Id = organiserId }
                 });
+        }
+
+        [HttpGet("user/current")]
+        public async Task<ActionResult<List<GetUsersOrganisersResponse>>> GetCurrentUsersOrganisers()
+        {
+            return await Mediator.Send(new GetUsersOrganisersQuery() { Dto= new GetUsersOrganisersRequest() { UserId = CurrentUserService.UserId } });
         }
     }
 }

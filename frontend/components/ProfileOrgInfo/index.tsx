@@ -20,7 +20,7 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
 
     //Componentmounts
     useEffect(() => {
-
+        stores.userStore.getUsersOrganisations(props.user);
     }, [])
 
     //Component unmounts
@@ -31,8 +31,7 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
     }, [])
 
     const handleOnNewOrganiser = () => {
-        if(router.isReady)
-        {
+        if (router.isReady) {
             router.push('/organiser/create', undefined, { shallow: true })
         }
     }

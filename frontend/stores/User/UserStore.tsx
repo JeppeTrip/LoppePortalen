@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import { IUser, User } from '../../@types/User';
-import { AuthenticateUserRequest, AuthorizationClient, RegisterUserRequest, RegisterUserResponse, UserClient } from '../models';
+import { AuthenticateUserRequest, AuthorizationClient, OrganiserClient, RegisterUserRequest, RegisterUserResponse, UserClient } from '../models';
 import { RootStore } from '../RootStore';
 
 class UserStore {
@@ -114,6 +114,31 @@ class UserStore {
     }
 
     @action
+    getUsersOrganisations(user: IUser) {
+        const client = new OrganiserClient();
+        client.getCurrentUsersOrganisers()
+            .then(res => {
+                const organisations = res.map(x => {
+                    return (
+                        {
+                            id: x.id,
+                            name: x.name,
+                            description: x.description,
+                            street: x.street,
+                            streetNumber: x.number,
+                            appartment: x.appartment,
+                            postalCode: x.postalCode,
+                            city: x.city
+                        }
+                    )
+                })
+                user.setOrganisations(organisations);
+            }).catch(error => {
+                //don't do much for now.
+            });
+    }
+
+    @action
     resetNewUser() {
         this.newUser = new User("", "", "", "", "", null, "", "", [])
     }
@@ -150,8 +175,7 @@ class UserStore {
     }
 
     @action
-    resetCurrentUser()
-    {
+    resetCurrentUser() {
         const data = new User(
             this.oldUserData.id,
             this.oldUserData.firstname,

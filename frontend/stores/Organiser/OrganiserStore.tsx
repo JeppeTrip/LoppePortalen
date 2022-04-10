@@ -63,12 +63,14 @@ class OrganiserStore {
 
 
     @action
+    //TODO: Don't know that it is a good idea to add new organiser here as it becomes dependent on state in the user store.
     addOrganiser(organiser: IOrganiser) {
         this.isSubmitting = true;
         const client = new OrganiserClient();
         this.newOrganiser = organiser
 
         client.createOrganiser({
+            userId: this.rootStore.userStore.currentUser.id,
             name: organiser.name,
             description: organiser.description,
             street: organiser.street,

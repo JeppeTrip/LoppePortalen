@@ -30,6 +30,9 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             RuleFor(e => e.Dto.Description)
                 .NotNull();
+
+            RuleFor(e => e.Dto.UserId)
+                .NotEmpty();
         }
     }
 }

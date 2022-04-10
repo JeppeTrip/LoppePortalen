@@ -397,6 +397,8 @@ export interface IOrganiserClient {
     getOrganisers(pageNumber: number, pageSize: number): Promise<GetOrganisersWithPaginationResponse>;
 
     getOrganiser(id: string | null): Promise<GetOrganiserQueryResponse>;
+
+    getCurrentUsersOrganisers(): Promise<GetUsersOrganisersResponse[]>;
 }
 
 export class OrganiserClient extends ClientBase implements IOrganiserClient {
@@ -600,6 +602,41 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
             });
         }
         return Promise.resolve<GetOrganiserQueryResponse>(null as any);
+    }
+
+    getCurrentUsersOrganisers(): Promise<GetUsersOrganisersResponse[]> {
+        let url_ = this.baseUrl + "/api/Organiser/user/current";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetCurrentUsersOrganisers(_response));
+        });
+    }
+
+    protected processGetCurrentUsersOrganisers(response: Response): Promise<GetUsersOrganisersResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetUsersOrganisersResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetUsersOrganisersResponse[]>(null as any);
     }
 }
 
@@ -868,6 +905,7 @@ export interface CreateOrganiserResponse {
 }
 
 export interface CreateOrganiserRequest {
+    userId?: string | null;
     name?: string | null;
     description?: string | null;
     street?: string | null;
@@ -925,6 +963,17 @@ export interface Organiser {
 }
 
 export interface GetOrganiserQueryResponse {
+    id?: number;
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    number?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+}
+
+export interface GetUsersOrganisersResponse {
     id?: number;
     name?: string | null;
     description?: string | null;

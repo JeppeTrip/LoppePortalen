@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -25,6 +26,12 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             public async Task<CreateOrganiserResponse> Handle(CreateOrganiserCommand request, CancellationToken cancellationToken)
             {
+                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.ToString().Equals(request.Dto.UserId));
+                if(user == null)
+                {
+                    throw new ValidationException();
+                }
+
                 Address newAddress = new Address {
                     Street = request.Dto.Street,
                     Number = request.Dto.Number,
@@ -35,6 +42,7 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
                 Organiser newOrganiser = new Organiser
                 {
+                    User = user,
                     Name = request.Dto.Name,
                     Description = request.Dto.Description,
                     Address = newAddress

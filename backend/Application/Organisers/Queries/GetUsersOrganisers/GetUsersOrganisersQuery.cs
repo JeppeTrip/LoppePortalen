@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +25,16 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
             }
             public async Task<List<GetUsersOrganisersResponse>> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
             {
-                var organisers = await _context.Organisers.Where(x => x.UserId.ToString().Equals(request.Dto.UserId)).ToListAsync();
+                if(request.Dto.UserId == "" || request.Dto.UserId == null)
+                {
+                    throw new ForbiddenAccessException();
+                }
+
+                var organisers = await _context.Organisers
+                    .Include(x => x.Address)
+                    .Where(x => x.UserId.ToString().Equals(request.Dto.UserId))
+                    .ToListAsync();
+
                 var result = organisers.Select(x => new GetUsersOrganisersResponse()
                 {
                     Id = x.Id,
@@ -35,7 +45,7 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
                     Number = x.Address.Number,
                     PostalCode = x.Address.PostalCode,
                     Street = x.Address.Street
-                }).ToList();
+                }).OrderBy(x => x.Name).ToList();
 
                 return result;
             }
