@@ -36,7 +36,8 @@ namespace Application.Organisers.Commands.EditOrganiser
                 .NotEmpty();
 
             RuleFor(e => e.Dto.OrganiserId)
-                .NotEmpty();
+                .NotEmpty()
+                .GreaterThan(0);
         }
     }
 }

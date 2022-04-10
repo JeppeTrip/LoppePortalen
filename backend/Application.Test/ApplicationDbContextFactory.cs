@@ -49,7 +49,7 @@ namespace Application.Test
             });
             context.SaveChanges();
 
-            context.UserInfo.Add(new Domain.Entities.User
+            var User1 = new Domain.Entities.User()
             {
                 IdentityId = Guid.Empty.ToString(),
                 Email = "test@test",
@@ -58,7 +58,8 @@ namespace Application.Test
                 LastName = "Test_Lastname",
                 FirstName = "Test_Firstname",
                 Phone = "12345678"
-            });
+            };
+            context.UserInfo.Add(User1);
             context.SaveChanges();
 
             context.Organisers.Add(new Organiser()
@@ -66,6 +67,8 @@ namespace Application.Test
                 Id = 1,
                 Name = "Testaniser",
                 Description = "Test organiser.",
+                User = User1,
+                UserId = User1.IdentityId,
                 Address = new Address()
                 {
                     Street = "Test street 1",
@@ -74,7 +77,6 @@ namespace Application.Test
                     Number = "2",
                     Appartment = "st tv"
                 }
-
             });
             context.SaveChanges();
             List<Organiser> organisers = new List<Organiser>()
