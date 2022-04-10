@@ -1,5 +1,6 @@
 ﻿using Application.ContactInformation.Commands.AddContactsToOrganiser;
 using Application.Organisers.Commands.CreateOrganiser;
+using Application.Organisers.Commands.EditOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
 using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Application.Organisers.Queries.GetOrganiser;
@@ -52,6 +53,12 @@ namespace Web.Controllers
         public async Task<ActionResult<List<GetUsersOrganisersResponse>>> GetCurrentUsersOrganisers()
         {
             return await Mediator.Send(new GetUsersOrganisersQuery() { Dto= new GetUsersOrganisersRequest() { UserId = CurrentUserService.UserId } });
+        }
+
+        [HttpPut("edit")]
+        public async Task<ActionResult<EditOrganiserResponse>> EditOrganiser(EditOrganiserRequest dto)
+        {
+            return await Mediator.Send(new EditOrganiserCommand() { Dto = dto });
         }
     }
 }

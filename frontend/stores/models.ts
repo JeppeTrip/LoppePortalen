@@ -9,10 +9,10 @@
 // ReSharper disable InconsistentNaming
 
 export class ClientBase {
-    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
+    baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
-        const token = localStorage.getItem("user");
+        const token = localStorage.getItem("loppeportalen_jwt");
 
         options.mode = 'cors';
         options.headers = {
@@ -399,6 +399,8 @@ export interface IOrganiserClient {
     getOrganiser(id: string | null): Promise<GetOrganiserQueryResponse>;
 
     getCurrentUsersOrganisers(): Promise<GetUsersOrganisersResponse[]>;
+
+    editOrganiser(dto: EditOrganiserRequest): Promise<EditOrganiserResponse>;
 }
 
 export class OrganiserClient extends ClientBase implements IOrganiserClient {
@@ -637,6 +639,45 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
             });
         }
         return Promise.resolve<GetUsersOrganisersResponse[]>(null as any);
+    }
+
+    editOrganiser(dto: EditOrganiserRequest): Promise<EditOrganiserResponse> {
+        let url_ = this.baseUrl + "/api/Organiser/edit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processEditOrganiser(_response));
+        });
+    }
+
+    protected processEditOrganiser(response: Response): Promise<EditOrganiserResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as EditOrganiserResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<EditOrganiserResponse>(null as any);
     }
 }
 
@@ -975,6 +1016,21 @@ export interface GetOrganiserQueryResponse {
 
 export interface GetUsersOrganisersResponse {
     id?: number;
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    number?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+}
+
+export interface EditOrganiserResponse extends Result {
+}
+
+export interface EditOrganiserRequest {
+    userId?: string | null;
+    organiserId?: number;
     name?: string | null;
     description?: string | null;
     street?: string | null;

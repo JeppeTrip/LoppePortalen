@@ -1,8 +1,8 @@
 export class ClientBase {
-    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
+    baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
-        const token = localStorage.getItem("user");
+        const token = localStorage.getItem("loppeportalen_jwt");
 
         options.mode = 'cors';
         options.headers = {
