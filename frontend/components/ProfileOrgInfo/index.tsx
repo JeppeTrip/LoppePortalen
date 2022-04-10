@@ -8,6 +8,7 @@ import { Autocomplete, Container, Divider, Grid, List, Paper, Stack, TextField }
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import OrganiserListItem from '../OrganiserListItem';
+import { useRouter } from 'next/router';
 
 type Props = {
     user: IUser
@@ -15,6 +16,7 @@ type Props = {
 
 const ProfileOrgInfo: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
+    const router = useRouter();
 
     //Componentmounts
     useEffect(() => {
@@ -28,12 +30,23 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
         }
     }, [])
 
+    const handleOnNewOrganiser = () => {
+        if(router.isReady)
+        {
+            router.push('/organiser/create', undefined, { shallow: true })
+        }
+    }
+
     return (
         <Stack spacing={1} >
             <Typography variant="h2">
                 Your Organisations
             </Typography>
             <Divider />
+            <Button
+                onClick={() => handleOnNewOrganiser()}>
+                New Organistions
+            </Button>
             {
                 props.user.organisations.length == 0 ?
                     <Typography variant="subtitle2">
