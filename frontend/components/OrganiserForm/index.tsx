@@ -11,49 +11,12 @@ import { StoreContext } from "../../stores/StoreContext";
 import { IOrganiser } from "../../@types/Organiser";
 import SaveIcon from '@mui/icons-material/Save';
 
-type Props = {}
+type Props = {
+    organiser: IOrganiser;
+}
 
 const OrganiserForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
-    const [newOrganiser, setNewOrganiser] = useState<IOrganiser>(
-        {
-            id: undefined,
-            name: "",
-            description: "",
-            street: "",
-            streetNumber: "",
-            appartment: "",
-            postalCode: "",
-            city: ""
-        }
-    );
-
-    const handleUpdate = (key, value) => {
-        setNewOrganiser(prevState => ({
-            ...prevState,
-            [key]: value
-        }));
-    }
-
-    const handleSubmit = (event) => {
-        stores.organiserStore.addOrganiser(newOrganiser);
-    }
-
-    //TODO: This seems like a little bit of a filthy work around probably do something a little smarter.
-    useEffect(() => {
-        if (stores.organiserStore.newOrganiser.id > 0) {
-            setNewOrganiser({
-                id: undefined,
-                name: "",
-                description: "",
-                street: "",
-                streetNumber: "",
-                appartment: "",
-                postalCode: "",
-                city: ""
-            })
-        }
-    }, [stores.organiserStore.newOrganiser.id])
 
     return (
         <Grid container spacing={1}>
@@ -63,8 +26,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserName"
                     label="Name"
                     variant="outlined"
-                    value={newOrganiser.name}
-                    onChange={(event => handleUpdate("name", event.target.value))}
+                    value={props.organiser.name}
+                    onChange={event => props.organiser.setName(event.target.value)}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -73,8 +36,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserStreet"
                     label="Street"
                     variant="outlined"
-                    value={newOrganiser.street}
-                    onChange={(event => handleUpdate("street", event.target.value))}
+                    value={props.organiser.street}
+                    onChange={event => props.organiser.setStreet(event.target.value)}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -83,8 +46,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserNumber"
                     label="Street Number"
                     variant="outlined"
-                    value={newOrganiser.streetNumber}
-                    onChange={(event => handleUpdate("streetNumber", event.target.value))}
+                    value={props.organiser.streetNumber}
+                    onChange={event => props.organiser.setStreetNumber(event.target.value)}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -93,8 +56,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserAppartment"
                     label="Appartment"
                     variant="outlined"
-                    value={newOrganiser.appartment}
-                    onChange={(event => handleUpdate("appartment", event.target.value))}
+                    value={props.organiser.appartment}
+                    onChange={event => props.organiser.setAppartment(event.target.value)}
                 />
             </Grid>
             <Grid item xs={4}>
@@ -103,8 +66,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserPostal"
                     label="Postal Code"
                     variant="outlined"
-                    value={newOrganiser.postalCode}
-                    onChange={(event => handleUpdate("postalCode", event.target.value))}
+                    value={props.organiser.postalCode}
+                    onChange={event => props.organiser.setPostalCode(event.target.value)}
                 />
             </Grid>
             <Grid item xs={8}>
@@ -113,8 +76,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="organiserCity"
                     label="City"
                     variant="outlined"
-                    value={newOrganiser.city}
-                    onChange={(event => handleUpdate("city", event.target.value))}
+                    value={props.organiser.city}
+                    onChange={event => props.organiser.setCity(event.target.value)}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -122,34 +85,12 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     className={styles.descriptionInput}
                     id="outlined-multiline-static"
                     label="Description"
-                    value={newOrganiser.description}
-                    onChange={(event => handleUpdate("description", event.target.value))}
+                    value={props.organiser.description}
+                    onChange={event => props.organiser.setDescription(event.target.value)}
                     multiline
                     rows={10}
                 />
             </Grid>
-            <Grid item xs={12}>
-                <LoadingButton
-                    onClick={handleSubmit}
-                    loading={stores.organiserStore.isSubmitting}
-                    loadingPosition="start"
-                    startIcon={<SaveIcon />}
-                    variant="contained"
-
-                >
-                    Submit
-                </LoadingButton>
-            </Grid>
-            {
-                //TODO: Make error handling waaay the fuck better.
-                stores.organiserStore.hadSubmissionError &&
-                <Grid item xs={12}>
-                    <Typography variant="caption" color={"red"}>
-                        Could not submit.
-                    </Typography>
-                </Grid>
-            }
-
         </Grid>
 
     )

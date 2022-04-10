@@ -1,13 +1,14 @@
-import { action, makeAutoObservable } from 'mobx';
-import { IOrganiser } from '../../@types/Organiser';
+import { action, makeAutoObservable, observable } from 'mobx';
+import { IOrganiser, Organiser } from '../../@types/Organiser';
 import { OrganiserClient } from '../models';
 import { RootStore } from '../RootStore';
 
 class OrganiserStore {
     rootStore: RootStore;
-    organisers: IOrganiser[] = [];
-    newOrganiser: IOrganiser;
-    selectedOrganiser: IOrganiser | null = null;
+    @observable organisers: IOrganiser[] = [];
+    @observable newOrganiser: IOrganiser;
+    @observable selectedOrganiser: IOrganiser | null = null;
+    @observable editedOrganiser: IOrganiser;
 
     isLoading = true;
     hadLoadingError = false;
@@ -17,16 +18,16 @@ class OrganiserStore {
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
-        this.newOrganiser = {
-            id: null,
-            name: "",
-            description: "",
-            street: "",
-            streetNumber: "",
-            appartment: "",
-            postalCode: "",
-            city: ""
-        }
+        this.newOrganiser = new Organiser(
+            undefined,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        )
         this.rootStore = rootStore;
     }
 
@@ -38,17 +39,16 @@ class OrganiserStore {
         client.getAllOrganisers().then(res => {
             var result = res.map<IOrganiser>(org => {
                 return (
-                    {
-                        //TODO: Fix this so the backend call actually returns all the organiser information, can do this when I get around to needing to show the organiser profile.
-                        id: org.id,
-                        name: org.name,
-                        description: "",
-                        street: "",
-                        streetNumber: "",
-                        appartment: "",
-                        postalCode: "",
-                        city: ""
-                    }
+                    new Organiser(
+                        org.id,
+                        org.name,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    )
                 )
             })
             this.organisers = result
@@ -95,17 +95,16 @@ class OrganiserStore {
 
         const client = new OrganiserClient();
         client.getOrganiser(organiserId + "").then(res => {
-            const org = 
-            {
-                id: res.id,
-                name: res.name,
-                description: res.description,
-                street: res.street,
-                streetNumber: res.number,
-                appartment: res.appartment,
-                postalCode: res.postalCode,
-                city: res.city
-            }
+            const org = new Organiser(
+                res.id,
+                res.name,
+                res.description,
+                res.street,
+                res.number,
+                res.appartment,
+                res.postalCode,
+                res.city
+            )
             this.setSelectedOrganiser(org);
             this.setIsLoading(false);
             this.setHadLoadingError(false);
@@ -117,20 +116,53 @@ class OrganiserStore {
     }
 
     @action
+    //TODO: Don't know that it is a good idea to add new organiser here as it becomes dependent on state in the user store.
+    editOrganiser(organiser: IOrganiser) {
+        this.isSubmitting = true;
+        const client = new OrganiserClient();
+        this.newOrganiser = organiser
+
+        client.editOrganiser({
+            userId: this.rootStore.userStore.currentUser.id,
+            organiserId: organiser.id,
+            name: organiser.name,
+            description: organiser.description,
+            street: organiser.street,
+            number: organiser.streetNumber,
+            appartment: organiser.appartment,
+            postalCode: organiser.postalCode,
+            city: organiser.city
+        }).then(res => {
+            this.isSubmitting = false;
+        }).catch(error => {
+            this.hadSubmissionError = true;
+            this.isSubmitting = false;
+        })
+    }
+
+    @action
     setIsLoading(isLoading: boolean) {
         this.isLoading = isLoading
     }
 
     @action
-    setHadLoadingError(hadError : boolean)
-    {
+    setHadLoadingError(hadError: boolean) {
         this.hadLoadingError = hadError;
     }
 
     @action
-    setSelectedOrganiser(organiser : IOrganiser)
-    {
+    setSelectedOrganiser(organiser: IOrganiser) {
         this.selectedOrganiser = organiser
+    }
+
+    @action
+    setNewOrganiser(organiser: IOrganiser) {
+        this.newOrganiser = organiser;
+    }
+
+    @action
+    setEditedOrganiser(organiser: IOrganiser) {
+        this.editedOrganiser = organiser;
     }
 }
 

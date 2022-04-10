@@ -1,28 +1,78 @@
-import {CircularProgress, Container} from "@mui/material";
+import { CircularProgress, Container, Stack, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import OrganiserForm from "../../../components/OrganiserForm";
 import { NextPageAuth } from "../../../@types/NextAuthPage";
+import { useContext, useEffect } from "react";
+import { StoreContext } from "../../../stores/StoreContext";
+import { Organiser } from "../../../@types/Organiser";
+import { LoadingButton } from "@mui/lab";
+import SaveIcon from '@mui/icons-material/Save';
 
 const CreateOrganiserPage: NextPageAuth = observer(() => {
+    const stores = useContext(StoreContext);
 
-    const loading = () => {
-        return (
-            <CircularProgress />
-        )
+    //mount
+    useEffect(() => {
+        stores.organiserStore.setNewOrganiser(new Organiser(
+            undefined,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ))
+    }, [])
+
+    //Unmount
+    useEffect(() => {
+        return () => {
+            stores.organiserStore.setNewOrganiser(new Organiser(
+                undefined,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ))
+        }
+    }, [])
+
+    const handleSubmit = () => {
+        stores.organiserStore.addOrganiser(stores.organiserStore.newOrganiser);
     }
 
     return (
-        <>
-            <Container
-                style={{ paddingTop: "25px" }}
-                maxWidth="sm">
+        <Container
+            style={{ paddingTop: "25px" }}
+            maxWidth="sm">
+            <Stack spacing={1}>
                 {
-                    <OrganiserForm/>
+                    <OrganiserForm organiser={stores.organiserStore.newOrganiser} />
                 }
-            </Container>
+                <LoadingButton
+                    onClick={handleSubmit}
+                    loading={stores.organiserStore.isSubmitting}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
 
-        </>
+                >
+                    Submit
+                </LoadingButton>
+                {
+                    //TODO: Make error handling waaay the fuck better.
+                    stores.organiserStore.hadSubmissionError &&
+                    <Typography variant="caption" color={"red"}>
+                        Could not submit.
+                    </Typography>
+                }
+            </Stack>
+        </Container>
     )
 })
 

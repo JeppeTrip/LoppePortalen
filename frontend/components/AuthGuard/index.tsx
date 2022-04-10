@@ -14,11 +14,11 @@ const AuthGuard: React.FunctionComponent<Props> = props => {
       //auth is initialized and there is no user
       if (!authStore.signedIn) {
         // remember the page that user tried to access
-        console.log("AuthGuard redirect route: "+router.route)
-        authStore.setRedirect(router.route)
+        authStore.setRedirect(router.asPath)
         // redirect
         router.push('/login', undefined, { shallow: true });
       }
+
     }
   }, [authStore.initializing, router, authStore.signedIn, authStore.setRedirect])
 

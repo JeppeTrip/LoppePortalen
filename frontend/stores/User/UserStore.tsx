@@ -12,8 +12,8 @@ class UserStore {
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
-        this.newUser = new User("", "", "", "", "", null, "", "", [])
-        this.currentUser = new User("", "", "", "", "", null, "", "", [])
+        this.newUser = undefined
+        this.currentUser = undefined
     }
 
     @action
@@ -106,7 +106,7 @@ class UserStore {
 
     @action
     resetNewUser() {
-        this.newUser = new User("", "", "", "", "", null, "", "", [])
+        this.newUser = undefined;
     }
 
     @action
