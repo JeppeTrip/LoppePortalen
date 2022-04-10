@@ -1,11 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
@@ -24,6 +19,11 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasMany(x => x.MarketTemplates)
                 .WithOne(x => x.Organiser)
                 .IsRequired(false);
+
+            builder.HasOne(x => x.User)
+                .WithMany(x => x.Organisers)
+                .HasForeignKey(x => x.UserId)
+                .IsRequired(true);
         }
     }
 }

@@ -14,6 +14,10 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.IdentityId);
+
+            builder.HasMany<Organiser>(x => x.Organisers)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
         }
     }
 }
