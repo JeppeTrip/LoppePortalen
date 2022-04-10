@@ -20,7 +20,7 @@ const AuthGuard: React.FunctionComponent<Props> = props => {
       }
 
     }
-  }, [authStore.initializing, router, authStore.signedIn, authStore.setRedirect])
+  }, [authStore.initializing, router, authStore.signedIn])
 
   /* show loading indicator while the auth provider is still initializing */
   if (authStore.initializing) {

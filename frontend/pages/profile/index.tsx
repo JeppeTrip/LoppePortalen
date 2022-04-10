@@ -100,15 +100,6 @@ const UserProfile: NextPageAuth = observer(() => {
         }
     }
 
-    //Don't know if this is the way to do this.
-    useEffect(() => {
-        if (stores.authStore.signedIn) {
-            if (stores.userStore.currentUser == null || stores.userStore.currentUser.id == "") {
-                stores.userStore.getCurrentUser()
-            }
-        }
-    }, [])
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />

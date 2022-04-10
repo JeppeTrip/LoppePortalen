@@ -8,12 +8,15 @@ import { StoreContext } from "../../../stores/StoreContext";
 import { Organiser } from "../../../@types/Organiser";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
+import { useRouter } from "next/router";
 
 const CreateOrganiserPage: NextPageAuth = observer(() => {
     const stores = useContext(StoreContext);
+    const router = useRouter();
 
     //mount
     useEffect(() => {
+        stores.organiserStore.resetSubmitState()
         stores.organiserStore.setNewOrganiser(new Organiser(
             undefined,
             "",
@@ -41,6 +44,13 @@ const CreateOrganiserPage: NextPageAuth = observer(() => {
             ))
         }
     }, [])
+
+    //go back when submission is done.
+    useEffect(() => {
+        if (stores.organiserStore.submitSuccess) {
+            router.back()
+        }
+    }, [stores.organiserStore.submitSuccess])
 
     const handleSubmit = () => {
         stores.organiserStore.addOrganiser(stores.organiserStore.newOrganiser);

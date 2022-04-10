@@ -21,12 +21,13 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
 
     //mount
     useEffect(() => {
-
+        stores.organiserStore.resetSubmitState()
     }, [])
 
     //Unmount
     useEffect(() => {
         return () => {
+            setOrganiserId(undefined);
             stores.organiserStore.setSelectedOrganiser(undefined);
             stores.organiserStore.setEditedOrganiser(undefined);
         }
@@ -79,6 +80,14 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
                     org.city));
         }
     }, [stores.organiserStore.selectedOrganiser])
+
+    //go back when submission is done.
+    useEffect(() => {
+        if(stores.organiserStore.submitSuccess)
+        {
+            router.back()
+        }
+    }, [stores.organiserStore.submitSuccess])
 
     const handleSubmit = () => {
         stores.organiserStore.editOrganiser(stores.organiserStore.editedOrganiser);

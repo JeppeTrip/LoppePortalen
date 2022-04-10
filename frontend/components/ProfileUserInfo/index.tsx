@@ -15,6 +15,7 @@ type Props = {
 const ProfileUserInfo: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [countries, setCountries] = useState([]);
+
     /**
      * Component will mount.
      * Load in all of the countries for the dropdown.
@@ -24,13 +25,12 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
             .then(response => response.json())
             .then(data => data.map(x => x.name.common))
             .then(names => setCountries(names));
-
     }, []);
 
     //Component unmounts
     useEffect(() => {
         return () => {
-
+            setCountries([]);
         }
     }, [])
 

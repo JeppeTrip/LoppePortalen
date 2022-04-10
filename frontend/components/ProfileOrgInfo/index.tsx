@@ -57,7 +57,7 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
                             props.user.organisations.map(organiser =>
                                 <>
                                     {
-                                        <OrganiserListItem Organiser={organiser} />
+                                        <OrganiserListItem Organiser={organiser} showEdit={true} />
                                     }
                                 </>)
                         }

@@ -30,50 +30,33 @@ class AuthStore {
         this.authenticating = true;
         var key = localStorage.getItem(jwtPath);
         if (key != null) {
-            var authClient = new AuthorizationClient();
-            authClient.refreshToken({
-                token: localStorage.getItem(jwtPath),
-                refreshToken: localStorage.getItem(refreshPath)
-            }).then(res => {
-                //if success set token and get user data.
-                if (res.succeeded) {
-                    localStorage.setItem(jwtPath, res.token);
-                    localStorage.setItem(refreshPath, res.refreshToken);
-
-                    //if there's no user in the store attempte to fetch it
-                    if (!this.rootStore.userStore.currentUser) {
-                        const client = new UserClient();
-                        client.getUserInfo()
-                            //if user data fetched correctly we are signed in.
-                            .then(res => {
-                                if (res.succeeded) {
-                                    this.rootStore.userStore.setCurrentUser(new User(
-                                        res.id,
-                                        res.firstName,
-                                        res.lastName,
-                                        res.email,
-                                        res.phoneNumber,
-                                        res.dateOfBirth,
-                                        res.country,
-                                        "",
-                                        []
-                                    ));
-                                }
-                                this.signedIn = res.succeeded;
-                            }).catch(error => {
-                                this.signedIn = false;
-                            })
-                    } else {
-                        this.signedIn = true;
-                    }
-                }
-                else {
-                    //if token exists but authentication fails reset the state (logout)
-                    this.logout()
-                }
-            }).catch(error => {
-                this.signedIn = false;
-            });
+            if (!this.rootStore.userStore.currentUser) {
+                console.log("Get user info")
+                const client = new UserClient();
+                client.getUserInfo()
+                    //if user data fetched correctly we are signed in.
+                    .then(res => {
+                        console.log("User info result: "+res.succeeded);
+                        if (res.succeeded) {
+                            this.rootStore.userStore.setCurrentUser(new User(
+                                res.id,
+                                res.firstName,
+                                res.lastName,
+                                res.email,
+                                res.phoneNumber,
+                                res.dateOfBirth,
+                                res.country,
+                                "",
+                                []
+                            ));
+                        }
+                        this.signedIn = res.succeeded;
+                    }).catch(error => {
+                        this.signedIn = false;
+                    })
+            } else {
+                this.signedIn = true;
+            }
         } else {
             //if key doesn't exist we aren't signed in.
             this.signedIn = false;

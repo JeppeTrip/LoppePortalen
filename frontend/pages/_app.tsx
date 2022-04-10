@@ -37,9 +37,6 @@ function MyApp(props: AppProps) {
         <CssBaseline />
         <TopBar />
         {
-          console.log(typeof Component)
-        }
-        {
           Component.requireAuth ? (
             <AuthGuard>
               <Component {...pageProps} />

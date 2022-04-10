@@ -10,11 +10,12 @@ class OrganiserStore {
     @observable selectedOrganiser: IOrganiser | null = null;
     @observable editedOrganiser: IOrganiser;
 
-    isLoading = true;
-    hadLoadingError = false;
+    @observable isLoading = true;
+    @observable hadLoadingError = false;
 
-    isSubmitting = false;
-    hadSubmissionError = false;
+    @observable isSubmitting = false;
+    @observable hadSubmissionError = false;
+    @observable submitSuccess = true;
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -82,7 +83,9 @@ class OrganiserStore {
             this.newOrganiser.id = res.id
             this.organisers.push(this.newOrganiser);
             this.isSubmitting = false;
+            this.submitSuccess = true;
         }).catch(error => {
+            this.submitSuccess = false;
             this.hadSubmissionError = true;
             this.isSubmitting = false;
             this.newOrganiser.id = -1;
@@ -134,8 +137,10 @@ class OrganiserStore {
             city: organiser.city
         }).then(res => {
             this.isSubmitting = false;
+            this.submitSuccess = true;
         }).catch(error => {
             this.hadSubmissionError = true;
+            this.submitSuccess = false;
             this.isSubmitting = false;
         })
     }
@@ -163,6 +168,14 @@ class OrganiserStore {
     @action
     setEditedOrganiser(organiser: IOrganiser) {
         this.editedOrganiser = organiser;
+    }
+
+    @action
+    resetSubmitState()
+    {
+        this.submitSuccess = false;
+        this.isSubmitting = false;
+        this.hadSubmissionError = false;
     }
 }
 
