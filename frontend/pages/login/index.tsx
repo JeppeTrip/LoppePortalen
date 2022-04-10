@@ -99,7 +99,7 @@ const LoginPage: NextPage = observer(() => {
                     }
                     <LoadingButton
                         type="submit"
-                        loading={stores.userStore.isLoggingIn}
+                        loading={stores.authStore.authenticating}
                         loadingPosition="start"
                         startIcon={<LoginIcon />}
                         variant="contained"
