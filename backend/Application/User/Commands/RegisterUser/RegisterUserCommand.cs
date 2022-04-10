@@ -37,7 +37,7 @@ namespace Application.User.Commands.CreateUser
 
                 var newUser = new Domain.Entities.User()
                 {
-                    IdentityId = new Guid(createRes.UserId),
+                    IdentityId = createRes.UserId,
                     FirstName = request.Dto.FirstName,
                     LastName = request.Dto.LastName,
                     Email = request.Dto.Email,
@@ -55,7 +55,7 @@ namespace Application.User.Commands.CreateUser
                     createRes.Result.Succeeded, 
                     createRes.Result.Errors, 
                     token.Tokens.JwtToken, 
-                    token.Tokens.RefreshToken.Token) { Id=newUser.IdentityId.ToString()};
+                    token.Tokens.RefreshToken.Token) { Id=newUser.IdentityId};
             }
         }
     }

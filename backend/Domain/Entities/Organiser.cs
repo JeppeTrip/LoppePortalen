@@ -17,6 +17,6 @@ namespace Domain.Entities
         public virtual List<MarketTemplate> MarketTemplates { get; set; }
         
         public virtual User User { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

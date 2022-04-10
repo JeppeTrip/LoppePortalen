@@ -26,7 +26,7 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             public async Task<CreateOrganiserResponse> Handle(CreateOrganiserCommand request, CancellationToken cancellationToken)
             {
-                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.ToString().Equals(request.Dto.UserId));
+                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(request.Dto.UserId));
                 if(user == null)
                 {
                     throw new ValidationException();

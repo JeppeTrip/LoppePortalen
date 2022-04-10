@@ -26,14 +26,14 @@ namespace Application.User.Queries.GetUser
 
             public async Task<GetUserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _context.UserInfo.Where(x => x.IdentityId.ToString().Equals(request.Dto.UserId)).FirstOrDefaultAsync();
+                var user = await _context.UserInfo.Where(x => x.IdentityId.Equals(request.Dto.UserId)).FirstOrDefaultAsync();
                 if(user == null)
                 {
                     throw new NotFoundException("No such user.");
                 }
                 return new GetUserResponse(true, new List<string>())
                 {
-                    Id = user.IdentityId.ToString(),
+                    Id = user.IdentityId,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,

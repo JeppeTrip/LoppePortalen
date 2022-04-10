@@ -11,7 +11,7 @@ namespace Domain.Entities
     //TODO: Update with more address information
     public class User : AuditableEntity
     {
-        public Guid IdentityId { get; set; }
+        public string IdentityId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

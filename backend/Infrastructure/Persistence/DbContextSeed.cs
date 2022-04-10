@@ -31,7 +31,7 @@ namespace Infrastructure.Persistence
 
                 var newUser = new User()
                 {
-                    IdentityId = new Guid(administrator.Id),
+                    IdentityId = administrator.Id,
                     FirstName = "Admin",
                     LastName = "Admin",
                     Email = administrator.Email,

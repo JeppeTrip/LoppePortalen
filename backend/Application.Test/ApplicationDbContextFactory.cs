@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Domain.Entities;
 using Microsoft.Extensions.Options;
 using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Test
 {
@@ -41,6 +42,25 @@ namespace Application.Test
         /*Add Tets Data here.*/
         public static void SeedSampleData(ApplicationDbContext context)
         {
+            context.Users.Add(new Domain.Common.ApplicationUser()
+            {
+                Id = Guid.Empty.ToString(),
+                Email = "test@test"
+            });
+            context.SaveChanges();
+
+            context.UserInfo.Add(new Domain.Entities.User
+            {
+                IdentityId = Guid.Empty.ToString(),
+                Email = "test@test",
+                Country = "Test Country",
+                DateOfBirth = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                LastName = "Test_Lastname",
+                FirstName = "Test_Firstname",
+                Phone = "12345678"
+            });
+            context.SaveChanges();
+
             context.Organisers.Add(new Organiser()
             {
                 Id = 1,
