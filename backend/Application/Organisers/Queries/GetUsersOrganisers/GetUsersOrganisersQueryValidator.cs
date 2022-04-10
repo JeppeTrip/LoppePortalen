@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
-    internal class GetUsersOrganisersQueryValidator
+    public class GetUsersOrganisersQueryValidator : AbstractValidator<GetUsersOrganisersQuery>
     {
+        public GetUsersOrganisersQueryValidator()
+        {
+            RuleFor(e => e.Dto.UserId)
+                .NotEmpty();
+        }
     }
 }

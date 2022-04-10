@@ -25,11 +25,6 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
             }
             public async Task<List<GetUsersOrganisersResponse>> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
             {
-                if(request.Dto.UserId == "" || request.Dto.UserId == null)
-                {
-                    throw new ForbiddenAccessException();
-                }
-
                 var organisers = await _context.Organisers
                     .Include(x => x.Address)
                     .Where(x => x.UserId.ToString().Equals(request.Dto.UserId))
