@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import '../styles.css'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Script from 'next/script';
 import { Box, CssBaseline, Drawer, Stack } from '@mui/material'
 import { StoreProvider } from '../stores/StoreContext';
@@ -19,6 +19,11 @@ function MyApp(props: AppProps) {
     Component,
     pageProps,
   }: { Component: NextPageAuth; pageProps: any } = props
+
+  useEffect(() => {
+    rootStore.authStore.initialize();
+  }, [])
+
   return (
     <>
       <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />

@@ -31,9 +31,12 @@ const LoginPage: NextPage = observer(() => {
     useEffect(() => {
         if(stores.authStore.signedIn)
         {
-            router.push(stores.authStore.redirect ? stores.authStore.consumeRedirect() : "profile", undefined, { shallow: true })
+            console.log("login authstore.Redirect: "+stores.authStore.redirect);
+            var path = stores.authStore.redirect != null ? stores.authStore.consumeRedirect() : "profile";
+            console.log("Login redirect path: "+path)
+            router.push(path, undefined, { shallow: true })
         }
-    }, [stores.authStore.signedIn, stores.authStore.redirect, stores.authStore.consumeRedirect()])
+    }, [stores.authStore.signedIn])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
