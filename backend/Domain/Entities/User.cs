@@ -18,5 +18,7 @@ namespace Domain.Entities
         public string Phone { get; set; }
         public DateTimeOffset DateOfBirth { get; set; }
         public string Country { get; set; }
+
+        public virtual List<Organiser> Organisers { get; set; }
     }
 }

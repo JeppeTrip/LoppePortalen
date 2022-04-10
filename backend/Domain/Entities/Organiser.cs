@@ -15,5 +15,8 @@ namespace Domain.Entities
         public Address Address { get; set; }
         public virtual List<ContactInfo> ContactInfoList { get; set; }
         public virtual List<MarketTemplate> MarketTemplates { get; set; }
+        
+        public virtual User User { get; set; }
+        public int UserId { get; set; }
     }
 }
