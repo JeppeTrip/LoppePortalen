@@ -18,6 +18,7 @@ import { StoreContext } from "../../stores/StoreContext";
 import ProfileUserInfo from "../../components/ProfileUserInfo";
 import { NextPageAuth } from "../../@types/NextAuthPage";
 import { useContext, useEffect, useState } from "react";
+import ProfileOrgInfo from "../../components/ProfileOrgInfo";
 
 const drawerWidth = 240;
 
@@ -92,7 +93,7 @@ const UserProfile: NextPageAuth = observer(() => {
             case 0:
                 return <ProfileUserInfo user={stores.userStore.currentUser} />;
             case 1:
-                return <div>Organisation management</div>;
+                return <ProfileOrgInfo user={stores.userStore.currentUser} />;
             case 2: return <div>Sales management</div>;
             default:
                 throw new Error('Unknown step');

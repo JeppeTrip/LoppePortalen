@@ -3,8 +3,9 @@ import {CircularProgress, Container } from "@mui/material";
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import MarketForm from "../../../components/MarketForm";
+import { NextPageAuth } from "../../../@types/NextAuthPage";
 
-const CreateMarketPage: NextPage = observer(() => {
+const CreateMarketPage: NextPageAuth = observer(() => {
 
     const loading = () => {
         return (
@@ -24,5 +25,7 @@ const CreateMarketPage: NextPage = observer(() => {
         </>
     )
 })
+
+CreateMarketPage.requireAuth = true;
 
 export default CreateMarketPage;

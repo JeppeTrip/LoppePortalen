@@ -2,8 +2,9 @@ import {CircularProgress, Container} from "@mui/material";
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import OrganiserForm from "../../../components/OrganiserForm";
+import { NextPageAuth } from "../../../@types/NextAuthPage";
 
-const CreateOrganiserPage: NextPage = observer(() => {
+const CreateOrganiserPage: NextPageAuth = observer(() => {
 
     const loading = () => {
         return (
@@ -24,5 +25,7 @@ const CreateOrganiserPage: NextPage = observer(() => {
         </>
     )
 })
+
+CreateOrganiserPage.requireAuth = true;
 
 export default CreateOrganiserPage;

@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { IOrganiser } from "./Organiser";
 
 export interface IUser {
     id : string;
@@ -9,6 +10,7 @@ export interface IUser {
     dateOfBirth : Date;
     country : string;
     password : string;
+    organisations : IOrganiser[];
 
     setId : (string) => void;
     setFirstName : (string) => void;
@@ -18,7 +20,7 @@ export interface IUser {
     setDateOfBirth : (Date) => void;
     setCountry : (string) => void;
     setPassword : (string) => void;
-    
+    setOrganisations : (organisations : IOrganiser[]) => void; //todo fix the typing here
 }
 
 export class User implements IUser {
@@ -30,6 +32,7 @@ export class User implements IUser {
     @observable dateOfBirth : Date;
     @observable country: string;
     @observable password : string;
+    @observable organisations : IOrganiser[]
 
     constructor(id, 
         firstname : string, 
@@ -38,7 +41,8 @@ export class User implements IUser {
         phonenumber : string,
         dateOfBirth : Date,
         country : string,
-        password : string ){
+        password : string,
+        organisations : IOrganiser[] ){
         makeAutoObservable(this);
         this.id = id;
         this.firstname = firstname;
@@ -48,6 +52,7 @@ export class User implements IUser {
         this.dateOfBirth = dateOfBirth;
         this.country = country;
         this.password = password;
+        this.organisations = organisations
     }
 
     @action
@@ -94,5 +99,11 @@ export class User implements IUser {
     setPassword(password : string)
     {
         this.password = password;
+    }
+
+    @action
+    setOrganisations(organisations : IOrganiser[])
+    {
+        this.organisations = organisations;
     }
 }

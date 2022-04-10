@@ -12,7 +12,7 @@ type Props = {
     user: IUser
 }
 
-const MarketForm: FC<Props> = (props: Props) => {
+const ProfileUserInfo: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [countries, setCountries] = useState([]);
     /**
@@ -136,4 +136,4 @@ const MarketForm: FC<Props> = (props: Props) => {
 }
 
 
-export default observer(MarketForm);
+export default observer(ProfileUserInfo);

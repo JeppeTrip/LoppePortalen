@@ -18,8 +18,8 @@ class UserStore {
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
-        this.newUser = new User("", "", "", "", "", null, "", "")
-        this.currentUser = new User("", "", "", "", "", null, "", "")
+        this.newUser = new User("", "", "", "", "", null, "", "", [])
+        this.currentUser = new User("", "", "", "", "", null, "", "", [])
     }
 
     @action
@@ -90,7 +90,8 @@ class UserStore {
                         res.phoneNumber,
                         res.dateOfBirth,
                         res.country,
-                        ""
+                        "",
+                        []
                     ))
                     this.setOldUser(
                         new User(
@@ -101,7 +102,8 @@ class UserStore {
                             res.phoneNumber,
                             res.dateOfBirth,
                             res.country,
-                            ""
+                            "",
+                            []
                         ))
                 } else {
 
@@ -113,7 +115,7 @@ class UserStore {
 
     @action
     resetNewUser() {
-        this.newUser = new User("", "", "", "", "", null, "", "")
+        this.newUser = new User("", "", "", "", "", null, "", "", [])
     }
 
     @action
@@ -158,7 +160,8 @@ class UserStore {
             this.oldUserData.phonenumber,
             this.oldUserData.dateOfBirth,
             this.oldUserData.country,
-            this.oldUserData.password
+            this.oldUserData.password,
+            this.oldUserData.organisations
         )
         this.setCurrentUser(data);
     }
