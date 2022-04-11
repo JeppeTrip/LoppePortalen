@@ -19,20 +19,28 @@ namespace Application.Organisers.Commands.EditOrganiser
         public class EditOrganiserCommandHandler : IRequestHandler<EditOrganiserCommand, EditOrganiserResponse>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public EditOrganiserCommandHandler(IApplicationDbContext context)
+            public EditOrganiserCommandHandler(
+                IApplicationDbContext context,
+                ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<EditOrganiserResponse> Handle(EditOrganiserCommand request, CancellationToken cancellationToken)
             {
+                if (!request.Dto.UserId.Equals(_currentUserService.UserId))
+                {
+                    throw new UnauthorizedAccessException();
+                }
                 var organiser = await _context.Organisers
                     .Include(x => x.Address)
                     .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(request.Dto.UserId) && x.Id == request.Dto.OrganiserId);
                 if(organiser == null)
                 {
-                    throw new NotFoundException();
+                    throw new UnauthorizedAccessException();
                 }
 
                 organiser.Name = request.Dto.Name;

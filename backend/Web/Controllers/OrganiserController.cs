@@ -51,8 +51,9 @@ namespace Web.Controllers
 
         [HttpGet("user/current")]
         public async Task<ActionResult<List<GetUsersOrganisersResponse>>> GetCurrentUsersOrganisers()
-        {
-            return await Mediator.Send(new GetUsersOrganisersQuery() { Dto= new GetUsersOrganisersRequest() { UserId = CurrentUserService.UserId } });
+        { 
+            var userid = CurrentUserService.UserId;
+            return await Mediator.Send(new GetUsersOrganisersQuery() { Dto= new GetUsersOrganisersRequest() { UserId =  userid} });
         }
 
         [HttpPut("edit")]

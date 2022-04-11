@@ -18,16 +18,25 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
         public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, List<GetUsersOrganisersResponse>>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetUsersOrganisersQueryHandler(IApplicationDbContext context)
+            public GetUsersOrganisersQueryHandler(
+                IApplicationDbContext context,
+                ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
             public async Task<List<GetUsersOrganisersResponse>> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
             {
+                if (!request.Dto.UserId.Equals(_currentUserService.UserId))
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
                 var organisers = await _context.Organisers
                     .Include(x => x.Address)
-                    .Where(x => x.UserId.ToString().Equals(request.Dto.UserId))
+                    .Where(x => x.UserId.Equals(request.Dto.UserId))
                     .ToListAsync();
 
                 var result = organisers.Select(x => new GetUsersOrganisersResponse()

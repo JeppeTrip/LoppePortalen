@@ -18,20 +18,24 @@ namespace Application.Organisers.Commands.CreateOrganiser
         public class CreateOrganiserCommandHandler : IRequestHandler<CreateOrganiserCommand, CreateOrganiserResponse>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public CreateOrganiserCommandHandler(IApplicationDbContext context)
+            public CreateOrganiserCommandHandler(
+                IApplicationDbContext context,
+                ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<CreateOrganiserResponse> Handle(CreateOrganiserCommand request, CancellationToken cancellationToken)
             {
-                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(request.Dto.UserId));
-                if(user == null)
+                if(!request.Dto.UserId.Equals(_currentUserService.UserId))
                 {
-                    throw new NotFoundException("No such users.");
+                    throw new UnauthorizedAccessException();
                 }
 
+                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(request.Dto.UserId));
                 Address newAddress = new Address {
                     Street = request.Dto.Street,
                     Number = request.Dto.Number,
@@ -39,7 +43,6 @@ namespace Application.Organisers.Commands.CreateOrganiser
                     PostalCode = request.Dto.PostalCode,
                     City = request.Dto.City
                 };
-
                 Organiser newOrganiser = new Organiser
                 {
                     User = user,

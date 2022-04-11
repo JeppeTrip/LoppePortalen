@@ -1,11 +1,13 @@
 using Application;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security.Test;
 using Domain.Entities;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -104,6 +106,13 @@ namespace Web
             {
                 jwt.SaveToken = true; //save inside authentication properties.
                 jwt.TokenValidationParameters = tokenValidationParameters;
+            });
+
+            services.AddTransient<IAuthorizationHandler, TestHandler>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("TestPolicy", policy => policy.Requirements.Add(new TestRequirement("TestPolicy")));
             });
         }
 
