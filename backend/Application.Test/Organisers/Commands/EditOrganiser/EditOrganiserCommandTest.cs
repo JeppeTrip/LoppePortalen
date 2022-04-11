@@ -97,7 +97,7 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId)));
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {
                 await handler.Handle(command, CancellationToken.None);
