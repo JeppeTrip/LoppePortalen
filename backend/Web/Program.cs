@@ -40,6 +40,11 @@ namespace Web
 
                     if (context.Database.IsNpgsql())
                     {
+                        var freshMigration = Environment.GetEnvironmentVariable("FRESH_MIGRATION");
+                        if(freshMigration != null && freshMigration.ToLower().Equals("true"))
+                        {
+                            context.Database.EnsureDeleted();
+                        }
                         context.Database.Migrate();
                     }
 
