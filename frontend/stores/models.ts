@@ -9,7 +9,7 @@
 // ReSharper disable InconsistentNaming
 
 export class ClientBase {
-    baseApiUrl : string = "https://localhost:5001";
+    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("loppeportalen_jwt");

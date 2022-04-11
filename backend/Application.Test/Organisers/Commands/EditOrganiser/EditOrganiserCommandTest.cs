@@ -32,7 +32,7 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context);
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
             var result = await handler.Handle(command, CancellationToken.None);
 
             result.Succeeded.Should().BeTrue();
@@ -69,7 +69,7 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context);
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {
                 await handler.Handle(command, CancellationToken.None);
@@ -97,7 +97,7 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context);
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId)));
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {
                 await handler.Handle(command, CancellationToken.None);

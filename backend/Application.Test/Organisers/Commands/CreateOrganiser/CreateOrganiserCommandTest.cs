@@ -30,7 +30,7 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context);
+            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
             var result = await handler.Handle(command, CancellationToken.None);
 
             result.Id.Should().BePositive();
@@ -64,7 +64,7 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context);
+            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {
                 await handler.Handle(command, CancellationToken.None);

@@ -18,7 +18,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
         {
             var dto = new GetUsersOrganisersRequest() { UserId = Guid.Empty.ToString() };
             var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context);
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
@@ -30,7 +30,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
         {
             var dto = new GetUsersOrganisersRequest() { UserId = "-1" };
             var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context);
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
@@ -42,7 +42,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
         {
             var dto = new GetUsersOrganisersRequest() { UserId = null};
             var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context);
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
