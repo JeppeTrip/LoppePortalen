@@ -290,7 +290,7 @@
         "tags": [
           "Market"
         ],
-        "operationId": "Market_GetCurrentUsersOrganisers",
+        "operationId": "Market_GetCurrentUsersMarkets",
         "responses": {
           "200": {
             "description": "",

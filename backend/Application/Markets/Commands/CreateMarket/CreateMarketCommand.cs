@@ -18,19 +18,22 @@ namespace Application.Markets.Commands.CreateMarket
         public class CreateMarketCommandHandler : IRequestHandler<CreateMarketCommand, CreateMarketResponse>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public CreateMarketCommandHandler(IApplicationDbContext context)
+            public CreateMarketCommandHandler(
+                IApplicationDbContext context,
+                ICurrentUserService currentUserService)
             {
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<CreateMarketResponse> Handle(CreateMarketCommand request, CancellationToken cancellationToken)
             {
                 
-                var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId);
+                var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId && x.UserId.Equals(_currentUserService.UserId));
                 if (organiser == null)
                 {
-                    //TODO: Add some text to this.
                     throw new NotFoundException();
                 }
 

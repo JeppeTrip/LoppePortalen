@@ -123,23 +123,6 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid container
-                                            item
-                                            xs={4}
-                                            justifyContent="flex-end"
-                                            alignContent="center">
-                                            <LoadingButton
-                                                style={{ height: "40px" }}
-                                                onClick={handleCancel}
-                                                loading={stores.marketStore.isCancelling}
-                                                loadingPosition="start"
-                                                startIcon={<CancelIcon />}
-                                                variant="outlined"
-                                                disabled={stores.marketStore.selectedMarket == null || stores.marketStore.selectedMarket.isCancelled}
-                                            >
-                                                Cancel
-                                            </LoadingButton>
-                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>

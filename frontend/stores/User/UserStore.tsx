@@ -1,7 +1,8 @@
 import { action, makeAutoObservable, observable } from 'mobx';
+import { Market } from '../../@types/Market';
 import { Organiser } from '../../@types/Organiser';
 import { IUser, User } from '../../@types/User';
-import { AuthenticateUserRequest, AuthorizationClient, OrganiserClient, RegisterUserRequest, RegisterUserResponse, UserClient } from '../models';
+import { AuthenticateUserRequest, AuthorizationClient, MarketClient, OrganiserClient, RegisterUserRequest, RegisterUserResponse, UserClient } from '../models';
 import { RootStore } from '../RootStore';
 
 class UserStore {
@@ -13,7 +14,7 @@ class UserStore {
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
         this.rootStore = rootStore;
-        this.newUser = new User(undefined, "", "", "", "", null, "", "", [])
+        this.newUser = new User(undefined, "", "", "", "", null, "", "", [], [])
         this.currentUser = undefined
     }
 
@@ -58,6 +59,7 @@ class UserStore {
                         res.dateOfBirth,
                         res.country,
                         "",
+                        [],
                         []
                     ))
                     this.setOldUser(
@@ -70,6 +72,7 @@ class UserStore {
                             res.dateOfBirth,
                             res.country,
                             "",
+                            [],
                             []
                         ))
                 } else {
@@ -106,8 +109,33 @@ class UserStore {
     }
 
     @action
+    getUsersMarkets(user: IUser) {
+        const client = new MarketClient();
+        client.getCurrentUsersMarkets()
+            .then(res => {
+                const markets = res.markets.map(x => {
+                    return (
+                        new Market(
+                            x.marketId,
+                            x.organiserId,
+                            x.marketName,
+                            new Date(x.startDate),
+                            new Date(x.endDate),
+                            x.description,
+                            x.isCancelled,
+                            []
+                        )
+                    )
+                })
+                user.setMarkets(markets);
+            }).catch(error => {
+                //don't do much for now.
+            });
+    }
+
+    @action
     resetNewUser() {
-        this.newUser = new User(undefined, "", "", "", "", null, "", "", []);
+        this.newUser = new User(undefined, "", "", "", "", null, "", "", [], []);
     }
 
     @action
@@ -131,7 +159,8 @@ class UserStore {
             this.oldUserData.dateOfBirth,
             this.oldUserData.country,
             this.oldUserData.password,
-            this.oldUserData.organisations
+            this.oldUserData.organisations,
+            this.oldUserData.markets
         )
         this.setCurrentUser(data);
     }

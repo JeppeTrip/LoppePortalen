@@ -18,7 +18,7 @@ namespace Application.Test.Markets.Commands.CancelMarket
         {
             var request = new CancelMarketInstanceRequest() { MarketId = 1 };
             var command = new CancelMarketInstanceCommand() { Dto = request };
-            var Handler = new CancelMarketInstanceCommand.CancelMarketInstanceCommandHandler(Context);
+            var Handler = new CancelMarketInstanceCommand.CancelMarketInstanceCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
 
             var result = await Handler.Handle(command, CancellationToken.None);
             
@@ -36,7 +36,20 @@ namespace Application.Test.Markets.Commands.CancelMarket
         {
             var request = new CancelMarketInstanceRequest() { MarketId = -1 };
             var command = new CancelMarketInstanceCommand() { Dto = request };
-            var Handler = new CancelMarketInstanceCommand.CancelMarketInstanceCommandHandler(Context);
+            var Handler = new CancelMarketInstanceCommand.CancelMarketInstanceCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
+
+            await Assert.ThrowsAsync<NotFoundException>(async () =>
+            {
+                await Handler.Handle(command, CancellationToken.None);
+            });
+        }
+
+        [Fact]
+        public async Task Handle_WrongUserId()
+        {
+            var request = new CancelMarketInstanceRequest() { MarketId = 1 };
+            var command = new CancelMarketInstanceCommand() { Dto = request };
+            var Handler = new CancelMarketInstanceCommand.CancelMarketInstanceCommandHandler(Context, new CurrentUserService("-1"));
 
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {

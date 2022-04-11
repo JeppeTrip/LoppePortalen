@@ -215,6 +215,21 @@ class MarketStore {
 
             })
     }
+
+    @action
+    cancelMarket(market : IMarket)
+    {
+        const client = new MarketClient();
+        client.cancelMarketInstance(market.id + "")
+            .then(res => {
+                if (res.marketId == market.id) {
+                    this.selectedMarket.isCancelled = res.isCancelled;
+                }
+            })
+            .catch(error => {
+
+            });
+    }
 }
 
 export { MarketStore }

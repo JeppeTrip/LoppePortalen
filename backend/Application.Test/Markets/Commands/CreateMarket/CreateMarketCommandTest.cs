@@ -29,7 +29,7 @@ namespace Application.Test.Markets.Commands.CreateMarket
                 }}};
 
             var command = new CreateMarketCommand() { Dto = request };
-            var handler = new CreateMarketCommand.CreateMarketCommandHandler(Context);
+            var handler = new CreateMarketCommand.CreateMarketCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
 
             var result = await handler.Handle(command, CancellationToken.None);
 

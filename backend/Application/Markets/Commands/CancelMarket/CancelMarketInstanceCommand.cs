@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,30 @@ namespace Application.Markets.Commands.CancelMarket
         public class CancelMarketInstanceCommandHandler : IRequestHandler<CancelMarketInstanceCommand, CancelMarketInstanceResponse>
         {
             private readonly IApplicationDbContext _context;
+            private readonly ICurrentUserService _currentUserService;
 
-            public CancelMarketInstanceCommandHandler(IApplicationDbContext context)
+            public CancelMarketInstanceCommandHandler(
+                IApplicationDbContext context,
+                ICurrentUserService currentUserService)
             { 
                 _context = context;
+                _currentUserService = currentUserService;
             }
 
             public async Task<CancelMarketInstanceResponse> Handle(CancelMarketInstanceCommand request, CancellationToken cancellationToken)
             {
-                var marketInstance = _context.MarketInstances.FirstOrDefault(x => x.Id == request.Dto.MarketId);
+                if (_currentUserService.UserId.Length == 0 || _currentUserService.UserId == null)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                var marketInstance = _context.MarketInstances
+                    .Include(x => x.MarketTemplate.Organiser)
+                    .Where(x => x.MarketTemplate.Organiser.UserId.Equals(_currentUserService.UserId))
+                    .FirstOrDefault(x => x.Id == request.Dto.MarketId);
                 if(marketInstance == null)
                 {
-                    throw new NotFoundException($"No market instance with id {request.Dto.MarketId}.");
+                    throw new NotFoundException();
                 }
 
                 marketInstance.IsCancelled = true;

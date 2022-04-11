@@ -18,7 +18,7 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const router = useRouter();
 
-    //Componentmounts
+    //Component mounts
     useEffect(() => {
         stores.userStore.getUsersOrganisations(props.user);
     }, [])
@@ -59,7 +59,8 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
                                     {
                                         <OrganiserListItem Organiser={organiser} showEdit={true} />
                                     }
-                                </>)
+                                </>
+                            )
                         }
                     </List>
             }

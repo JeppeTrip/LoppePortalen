@@ -75,7 +75,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("user/current")]
-        public async Task<ActionResult<GetUsersMarketsResponse>> GetCurrentUsersOrganisers()
+        public async Task<ActionResult<GetUsersMarketsResponse>> GetCurrentUsersMarkets()
         {
             var userid = CurrentUserService.UserId;
             return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });

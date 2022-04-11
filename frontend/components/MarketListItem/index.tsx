@@ -8,6 +8,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import { StoreContext } from '../../stores/StoreContext';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { observer } from 'mobx-react-lite';
 
 type Props = {
     Market: IMarket,
@@ -34,7 +35,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
     }
 
     const handleClickCancel = (event) => {
-        console.log("cancel market")
+        stores.marketStore.cancelMarket(props.Market);
     }
 
     return (
@@ -50,7 +51,8 @@ const MarketListItem: FC<Props> = (props: Props) => {
                     </Grid>
                     <Grid item>
                         <IconButton edge="end"
-                            onClick={handleClickCancel}>
+                            onClick={handleClickCancel}
+                            disabled={props.Market.isCancelled}>
                             <CancelIcon />
                         </IconButton>
                     </Grid>
@@ -73,4 +75,4 @@ const MarketListItem: FC<Props> = (props: Props) => {
     )
 }
 
-export default MarketListItem
+export default observer(MarketListItem);

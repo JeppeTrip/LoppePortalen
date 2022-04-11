@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { IMarket } from "./Market";
 import { IOrganiser } from "./Organiser";
 
 export interface IUser {
@@ -11,6 +12,7 @@ export interface IUser {
     country : string;
     password : string;
     organisations : IOrganiser[];
+    markets : IMarket[];
 
     setId : (string) => void;
     setFirstName : (string) => void;
@@ -20,7 +22,8 @@ export interface IUser {
     setDateOfBirth : (Date) => void;
     setCountry : (string) => void;
     setPassword : (string) => void;
-    setOrganisations : (organisations : IOrganiser[]) => void; //todo fix the typing here
+    setOrganisations : (organisations : IOrganiser[]) => void;
+    setMarkets : (markets : IMarket[]) => void;
 }
 
 export class User implements IUser {
@@ -32,7 +35,8 @@ export class User implements IUser {
     @observable dateOfBirth : Date;
     @observable country: string;
     @observable password : string;
-    @observable organisations : IOrganiser[]
+    @observable organisations : IOrganiser[];
+    @observable markets : IMarket[];
 
     constructor(id, 
         firstname : string, 
@@ -42,7 +46,8 @@ export class User implements IUser {
         dateOfBirth : Date,
         country : string,
         password : string,
-        organisations : IOrganiser[] ){
+        organisations : IOrganiser[],
+        markets : IMarket[] ){
         makeAutoObservable(this);
         this.id = id;
         this.firstname = firstname;
@@ -52,7 +57,8 @@ export class User implements IUser {
         this.dateOfBirth = dateOfBirth;
         this.country = country;
         this.password = password;
-        this.organisations = organisations
+        this.organisations = organisations;
+        this.markets = markets;
     }
 
     @action
@@ -105,5 +111,11 @@ export class User implements IUser {
     setOrganisations(organisations : IOrganiser[])
     {
         this.organisations = organisations;
+    }
+
+    @action
+    setMarkets(markets : IMarket[])
+    {
+        this.markets = markets;
     }
 }

@@ -47,6 +47,7 @@ class AuthStore {
                                 res.dateOfBirth,
                                 res.country,
                                 "",
+                                [],
                                 []
                             ));
                         }
@@ -94,6 +95,7 @@ class AuthStore {
                                     res.dateOfBirth,
                                     res.country,
                                     "",
+                                    [],
                                     []
                                 ));
                             }

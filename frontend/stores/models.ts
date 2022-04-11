@@ -180,7 +180,7 @@ export interface IMarketClient {
 
     getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
 
-    getCurrentUsersOrganisers(): Promise<GetUsersMarketsResponse>;
+    getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -387,7 +387,7 @@ export class MarketClient extends ClientBase implements IMarketClient {
         return Promise.resolve<GetFilteredMarketsQueryResponse[]>(null as any);
     }
 
-    getCurrentUsersOrganisers(): Promise<GetUsersMarketsResponse> {
+    getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse> {
         let url_ = this.baseUrl + "/api/Market/user/current";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -401,11 +401,11 @@ export class MarketClient extends ClientBase implements IMarketClient {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.transformResult(url_, _response, (_response: Response) => this.processGetCurrentUsersOrganisers(_response));
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetCurrentUsersMarkets(_response));
         });
     }
 
-    protected processGetCurrentUsersOrganisers(response: Response): Promise<GetUsersMarketsResponse> {
+    protected processGetCurrentUsersMarkets(response: Response): Promise<GetUsersMarketsResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {

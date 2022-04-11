@@ -9,6 +9,7 @@ import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import OrganiserListItem from '../OrganiserListItem';
 import { useRouter } from 'next/router';
+import MarketListItem from '../MarketListItem';
 
 type Props = {
     user: IUser
@@ -20,7 +21,7 @@ const ProfileMarketInfo: FC<Props> = (props: Props) => {
 
     //Componentmounts
     useEffect(() => {
-        stores.userStore.getUsersOrganisations(props.user);
+        stores.userStore.getUsersMarkets(props.user);
     }, [])
 
     //Component unmounts
@@ -47,14 +48,20 @@ const ProfileMarketInfo: FC<Props> = (props: Props) => {
                 New Market
             </Button>
             {
-                props.user.organisations.length == 0 ?
+                props.user.markets.length == 0 ?
                     <Typography variant="subtitle2">
                         You have no markets. Start by creating a new one.
                     </Typography>
                     :
                     <List>
                         {
-                            /**markets here */
+                            props.user.markets.map(market =>
+                                <>
+                                    {
+                                        <MarketListItem Market={market} showControls={true} />
+                                    }
+                                </>
+                            )
                         }
                     </List>
             }
