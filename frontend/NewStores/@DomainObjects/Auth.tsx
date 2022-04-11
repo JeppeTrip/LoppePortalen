@@ -36,7 +36,7 @@ export class Auth {
                     localStorage.setItem(this.refreshPath, res.refreshToken);
                     this.signedIn = true
                 }),
-                action("authError", error => {
+                action("authFailed", error => {
                     this.signedIn = false;
                 })
             )
@@ -57,19 +57,24 @@ export class Auth {
             dateOfBirth: this.user.dateOfBirth,
             phoneNumber: this.user.phoneNumber,
             country: this.user.country
-        }).then( res => {
-                console.log("register success")
-                console.log(res)
+        }).then(
+            action("registerUserSuccess", res => {
                 if (res.succeeded) {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
                 }
                 this.signedIn = res.succeeded;
                 this.authStore.isLoading = false;
-            }).catch(error => {
+            }),
+            action("registerUserFailed", res => {
+                if (res.succeeded) {
+                    localStorage.setItem(this.jwtPath, res.token);
+                    localStorage.setItem(this.refreshPath, res.refreshToken);
+                }
+                this.signedIn = res.succeeded;
                 this.authStore.isLoading = false;
-                this.signedIn = false;
             })
+        )
     }
 
     @action
