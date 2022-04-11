@@ -38,7 +38,7 @@ const Markets: NextPage = observer(() => {
                         <List>
                             {
                                 stores.marketStore.markets.map(
-                                    market => <> <MarketListItem Market={market} /> <Divider /> </>)
+                                    market => <> <MarketListItem Market={market} showControls={true}/> <Divider /> </>)
                             }
                         </List>
                 }

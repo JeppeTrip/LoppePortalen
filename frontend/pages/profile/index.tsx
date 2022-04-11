@@ -19,6 +19,10 @@ import ProfileUserInfo from "../../components/ProfileUserInfo";
 import { NextPageAuth } from "../../@types/NextAuthPage";
 import { useContext, useEffect, useState } from "react";
 import ProfileOrgInfo from "../../components/ProfileOrgInfo";
+import StoreIcon from '@mui/icons-material/Store';
+import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
+import ProfileMarketInfo from "../../components/ProfileMarketInfo";
+
 
 const drawerWidth = 240;
 
@@ -79,8 +83,16 @@ const profileNavs = [
         icon: <CorporateFareIcon />
     },
     {
+        text: 'Manage Markets',
+        icon: <StoreIcon />
+    },
+    {
         text: 'Manage Salesprofiles',
         icon: <SellIcon />
+    },
+    {
+        text: 'Manage Stalls',
+        icon: <TableRestaurantIcon />
     }
 ]
 
@@ -94,7 +106,10 @@ const UserProfile: NextPageAuth = observer(() => {
                 return <ProfileUserInfo user={stores.userStore.currentUser} />;
             case 1:
                 return <ProfileOrgInfo user={stores.userStore.currentUser} />;
-            case 2: return <div>Sales management</div>;
+            case 2:
+                return <ProfileMarketInfo user={stores.userStore.currentUser} />;
+            case 3:
+                return <div>Sales management</div>;
             default:
                 throw new Error('Unknown step');
         }
