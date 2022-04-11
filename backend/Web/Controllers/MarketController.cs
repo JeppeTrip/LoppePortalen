@@ -3,6 +3,7 @@ using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
+using Application.Markets.Queries.GetUsersMarkets;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,13 @@ namespace Web.Controllers
                 {
                     Dto = request
                 });
+        }
+
+        [HttpGet("user/current")]
+        public async Task<ActionResult<GetUsersMarketsResponse>> GetCurrentUsersOrganisers()
+        {
+            var userid = CurrentUserService.UserId;
+            return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });
         }
     }
 }

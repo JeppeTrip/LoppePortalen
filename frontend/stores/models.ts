@@ -179,6 +179,8 @@ export interface IMarketClient {
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
 
     getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
+
+    getCurrentUsersOrganisers(): Promise<GetUsersMarketsResponse>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -383,6 +385,41 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<GetFilteredMarketsQueryResponse[]>(null as any);
+    }
+
+    getCurrentUsersOrganisers(): Promise<GetUsersMarketsResponse> {
+        let url_ = this.baseUrl + "/api/Market/user/current";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetCurrentUsersOrganisers(_response));
+        });
+    }
+
+    protected processGetCurrentUsersOrganisers(response: Response): Promise<GetUsersMarketsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetUsersMarketsResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetUsersMarketsResponse>(null as any);
     }
 }
 
@@ -925,6 +962,20 @@ export interface CancelMarketInstanceResponse {
 }
 
 export interface GetFilteredMarketsQueryResponse {
+    marketId?: number;
+    organiserId?: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate?: Date;
+    endDate?: Date;
+    isCancelled?: boolean;
+}
+
+export interface GetUsersMarketsResponse extends Result {
+    markets?: Market[] | null;
+}
+
+export interface Market {
     marketId?: number;
     organiserId?: number;
     marketName?: string | null;

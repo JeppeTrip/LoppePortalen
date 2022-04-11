@@ -285,6 +285,26 @@
         }
       }
     },
+    "/api/Market/user/current": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetCurrentUsersOrganisers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -858,6 +878,59 @@
         }
       },
       "GetFilteredMarketsQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GetUsersMarketsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "markets": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Market"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Market": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
