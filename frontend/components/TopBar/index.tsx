@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { AppBar, Button, Container, Grid, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { StoreContext } from '../../stores/StoreContext';
+import { StoreContext } from '../../NewStores/StoreContext';
 import { observer } from 'mobx-react-lite';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
@@ -67,7 +67,7 @@ const TopBar: FC<Props> = (props: Props) => {
   }
 
   const handleLogout = () => {
-    stores.authStore.logout()
+    
   }
 
 
@@ -143,7 +143,7 @@ const TopBar: FC<Props> = (props: Props) => {
             ))}
           </Box>
           {
-            stores.authStore.signedIn ? <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
+            stores.authStore.auth.signedIn ? <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
             : <Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>
           }
           

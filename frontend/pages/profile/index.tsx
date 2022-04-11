@@ -97,17 +97,16 @@ const profileNavs = [
 ]
 
 const UserProfile: NextPageAuth = observer(() => {
-    const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
 
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <ProfileUserInfo user={stores.userStore.currentUser} />;
+                return /*<ProfileUserInfo user={stores.userStore.currentUser} /> */ <div>profile user info</div> ;
             case 1:
-                return <ProfileOrgInfo user={stores.userStore.currentUser} />;
+                return /*<ProfileOrgInfo user={stores.userStore.currentUser} /> */ <div>profile org info</div> ;
             case 2:
-                return <ProfileMarketInfo user={stores.userStore.currentUser} />;
+                return /*<ProfileMarketInfo user={stores.userStore.currentUser} /> */ <div>profile market info</div>;
             case 3:
                 return <div>Sales management</div>;
             default:

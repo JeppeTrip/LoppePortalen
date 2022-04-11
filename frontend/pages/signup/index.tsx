@@ -12,7 +12,12 @@ const SingupPage: NextPage = observer(() => {
     const router = useRouter()
 
     useEffect(() => {
+        
+    }, [])
+
+    useEffect(() => {
         console.log("should redirect")
+        console.log(stores.authStore.auth.signedIn)
         if(stores.authStore.auth.signedIn)
         {
             console.log("auth is signed in.")
@@ -28,7 +33,7 @@ const SingupPage: NextPage = observer(() => {
                 style={{ paddingTop: "25px" }}
                 maxWidth="sm">
                 {
-                    <UserForm auth={stores.authStore.createAuth()}/>
+                    !stores.authStore.auth.signedIn && <UserForm auth={stores.authStore.createAuth()}/>
                 }
             </Container>
         </>

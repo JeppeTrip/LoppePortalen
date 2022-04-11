@@ -57,20 +57,19 @@ export class Auth {
             dateOfBirth: this.user.dateOfBirth,
             phoneNumber: this.user.phoneNumber,
             country: this.user.country
-        }).then(
-            action("registerSuccess", res => {
+        }).then( res => {
+                console.log("register success")
+                console.log(res)
                 if (res.succeeded) {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
                 }
                 this.signedIn = res.succeeded;
                 this.authStore.isLoading = false;
-            }),
-            action("registerError", res => {
-                this.signedIn = false
+            }).catch(error => {
                 this.authStore.isLoading = false;
+                this.signedIn = false;
             })
-        )
     }
 
     @action
