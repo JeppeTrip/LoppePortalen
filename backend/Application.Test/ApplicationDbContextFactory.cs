@@ -47,6 +47,11 @@ namespace Application.Test
                 Id = Guid.Empty.ToString(),
                 Email = "test@test"
             });
+            context.Users.Add(new Domain.Common.ApplicationUser()
+            {
+                Id = "user2",
+                Email = "user2@test"
+            });
             context.SaveChanges();
 
             var User1 = new Domain.Entities.User()
@@ -59,7 +64,18 @@ namespace Application.Test
                 FirstName = "Test_Firstname",
                 Phone = "12345678"
             };
+            var User2 = new Domain.Entities.User()
+            {
+                IdentityId = "user2",
+                Email = "user2@test",
+                Country = "Test Country",
+                DateOfBirth = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                LastName = "Test_Lastname",
+                FirstName = "Test_Firstname",
+                Phone = "12345678"
+            };
             context.UserInfo.Add(User1);
+            context.UserInfo.Add(User2);
             context.SaveChanges();
 
             context.Organisers.Add(new Organiser()
@@ -92,7 +108,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 1",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -105,7 +122,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 2",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -118,7 +136,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 3",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -131,7 +150,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 4",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -144,7 +164,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 5",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -157,7 +178,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 6",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -170,7 +192,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 7",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -183,7 +206,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 8",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 },
                 new Organiser()
                 {
@@ -196,7 +220,8 @@ namespace Application.Test
                         PostalCode = "1234"
                     },
                     Name = "Organiser 9",
-                    Description = "Description 1"
+                    Description = "Description 1",
+                    User = User2
                 }
             };
             context.Organisers.AddRange(organisers);

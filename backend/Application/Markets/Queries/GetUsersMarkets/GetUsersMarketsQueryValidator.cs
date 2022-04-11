@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetUsersMarkets
 {
-    public class GetUsersMarketsQueryValidator : AbstractValidator<GetUsersMArketsQuery>
+    public class GetUsersMarketsQueryValidator : AbstractValidator<GetUsersMarketsQuery>
     {
         public GetUsersMarketsQueryValidator()
         {

@@ -41,7 +41,7 @@ namespace Application.Markets.Queries.GetUsersMarkets
 
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
-                    .Where(x => marketTemplates.Contains(x.Id))
+                    .Where(x => marketTemplates.Contains(x.MarketTemplateId))
                     .Select(x => new Market() {
                         MarketId = x.Id,
                         OrganiserId = x.MarketTemplate.OrganiserId,
