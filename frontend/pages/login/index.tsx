@@ -89,14 +89,6 @@ const LoginPage: NextPage = observer(() => {
                         id="password"
                         autoComplete="current-password"
                     />
-                    {
-                        /*
-                                    <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    />
-                        */
-                    }
                     <LoadingButton
                         type="submit"
                         loading={stores.authStore.authenticating}
@@ -111,15 +103,6 @@ const LoginPage: NextPage = observer(() => {
                 </Box>
             </Box>
             <Grid container>
-                {
-                    /*
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                */
-                }
                 <Grid item>
                     <Link
                         component={"button"}

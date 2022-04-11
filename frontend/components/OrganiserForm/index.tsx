@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite";
 import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import styles from './styles.module.css'
-import { IMarket } from "../../@types/Market";
 import { StoreContext } from "../../stores/StoreContext";
 import { IOrganiser } from "../../@types/Organiser";
 import SaveIcon from '@mui/icons-material/Save';

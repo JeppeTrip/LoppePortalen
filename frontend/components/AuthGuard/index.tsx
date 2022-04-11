@@ -1,34 +1,38 @@
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router"
 import { useContext, useEffect } from "react"
-import { StoreContext } from "../../stores/StoreContext"
+import { StoreContext } from "../../NewStores/StoreContext";
 
-type Props = {}
+type Props = {
+ 
+}
 
 const AuthGuard: React.FunctionComponent<Props> = props => {
   const authStore = useContext(StoreContext).authStore;
   const router = useRouter()
 
   useEffect(() => {
-    if (!authStore.initializing) {
+    console.log("AuthGuard")
+    console.log(authStore.auth)
+    if (!authStore.auth.initializing) {
       //auth is initialized and there is no user
-      if (!authStore.signedIn) {
+      if (!authStore.auth.signedIn) {
         // remember the page that user tried to access
-        authStore.setRedirect(router.asPath)
+        //authStore.setRedirect(router.asPath)
         // redirect
         router.push('/login', undefined, { shallow: true });
       }
 
     }
-  }, [authStore.initializing, router, authStore.signedIn])
+  }, [authStore.auth.initializing, router, authStore.auth.signedIn])
 
   /* show loading indicator while the auth provider is still initializing */
-  if (authStore.initializing) {
+  if (authStore.auth.initializing) {
     return <h1>Application Loading</h1>
   }
 
   // if auth initialized with a valid user show protected page
-  if (!authStore.initializing && authStore.signedIn) {
+  if (!authStore.auth.initializing && authStore.auth.signedIn) {
     return <>{props.children}</>
   }
 

@@ -1,16 +1,22 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import * as React from 'react';
-import { IMarket, Market } from '../../@types/Market';
+import { Market } from '../../@types/Market';
+import { Request } from '../../@types/Request';
 import { Stall } from '../../@types/Stall';
 import { MarketClient, StallClient, StallDto } from '../models';
 import { RootStore } from '../RootStore';
 
 class MarketStore {
     rootStore: RootStore;
-    @observable markets: IMarket[];
-    @observable selectedMarket: IMarket;
+    @observable markets: Market[];
+    @observable selectedMarket: Market;
     @observable newMarket: Market 
-    @observable editedMarket: IMarket
+    @observable editedMarket: Market
+
+    @observable newMarketRequest : Request = new Request()
+    @observable editMarketRequest : Request = new Request()
+    @observable loadMarketsRequest : Request = new Request()
+    @observable loadSelectedMarket : Request = new Request()
 
     //TODO: Move all UI state out of here.
     isLoading = true;
@@ -24,15 +30,7 @@ class MarketStore {
         //TODO: Something else I can do but magic numbers to signify that this is an uncreated market?
         this.rootStore = rootStore;
         this.newMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, []);
-        this.selectedMarket = new Market(
-            -1,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            []);
+        this.selectedMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, []);
         this.markets = [];
     }
 
@@ -91,14 +89,7 @@ class MarketStore {
                         []);
                 }).catch(error => {
                     this.selectedMarket = new Market(
-                        -1,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        []);
+                        -1, -1, "", new Date(), new Date(), "", false, []);
                 })
         }
     }
@@ -194,12 +185,12 @@ class MarketStore {
     }
 
     @action
-    setMarkets(markets: IMarket[]) {
+    setMarkets(markets: Market[]) {
         this.markets = markets
     }
 
     @action
-    fetchStallsForMarket(market: IMarket) {
+    fetchStallsForMarket(market: Market) {
         const client = new StallClient()
 
         client.getStallsForMarket(market.id)
@@ -218,7 +209,7 @@ class MarketStore {
     }
 
     @action
-    cancelMarket(market : IMarket)
+    cancelMarket(market : Market)
     {
         const client = new MarketClient();
         client.cancelMarketInstance(market.id + "")
@@ -233,15 +224,21 @@ class MarketStore {
     }
 
     @action
-    setEditedMarket(market : IMarket)
+    setEditedMarket(market : Market)
     {
         this.editedMarket = market;
     }
 
     @action
-    setSelectedMarketObject(market : IMarket)
+    setSelectedMarketObject(market : Market)
     {
         this.selectedMarket = market
+    }
+
+    @action
+    resetEditedMarket()
+    {
+        this.selectedMarket = new Market(-1, -1, "", new Date(), new Date(), "", false, [])
     }
 }
 

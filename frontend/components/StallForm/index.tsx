@@ -1,6 +1,6 @@
 import { Button, Grid, IconButton, Input, ListItem, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 
 import List from '@mui/material/List';
 import AddIcon from '@mui/icons-material/Add';
@@ -17,6 +17,14 @@ type Props = {
 
 const StallForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
+
+    //if the market is currently being edited and not created fetch its stalls
+    useEffect(() => {
+        if(stores.marketStore.editedMarket.id === props.market.id)
+        {
+            stores.marketStore.fetchStallsForMarket(props.market);
+        }
+    }, [])
 
     const handleOnClick = (event) => {
         stores.stallFormUiStore.setIsAddingNewStall(true);
@@ -42,9 +50,7 @@ const StallForm: FC<Props> = (props: Props) => {
                     }
                 </List>
             </Grid>
-
         </Grid>
-
     );
 }
 

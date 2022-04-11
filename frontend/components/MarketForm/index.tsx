@@ -14,7 +14,7 @@ import StallForm from '../StallForm';
 import { StoreContext } from "../../stores/StoreContext";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
-import { IMarket, Market } from '../../@types/Market';
+import { Market } from '../../@types/Market';
 import { Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { MarketStore } from '../../stores/Markets/MarketStore';

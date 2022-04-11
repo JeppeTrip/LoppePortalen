@@ -5,10 +5,10 @@ import { FC, useContext } from "react";
 import List from '@mui/material/List';
 import { StoreContext } from "../../stores/StoreContext";
 import StallTypeInfoListItem from "../StallTypeInfoListItem";
-import { IMarket } from "../../@types/Market";
+import { Market } from "../../@types/Market";
 
 type Props = {
-    market: IMarket
+    market: Market
 }
 
 

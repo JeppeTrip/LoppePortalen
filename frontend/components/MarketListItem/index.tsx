@@ -1,7 +1,7 @@
 import { Avatar, ButtonGroup, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { IMarket } from '../../@types/Market';
+import { Market } from '../../@types/Market';
 import DateDisplay from '../DateDisplay';
 import styles from './styles.module.css';
 import ImageIcon from '@mui/icons-material/Image'
@@ -11,7 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { observer } from 'mobx-react-lite';
 
 type Props = {
-    Market: IMarket,
+    Market: Market,
     showControls?: boolean
 }
 
@@ -27,10 +27,9 @@ const MarketListItem: FC<Props> = (props: Props) => {
     }
 
     const handleClickEdit = (event) => {
-        console.log("navigate to edit page.")
         event.preventDefault();
         if (router.isReady) {
-
+            router.push('/market/edit/' + props.Market.id, undefined, { shallow: true });
         }
     }
 

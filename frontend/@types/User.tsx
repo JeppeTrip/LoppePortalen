@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { IMarket } from "./Market";
+import { Market } from "./Market";
 import { IOrganiser } from "./Organiser";
 
 export interface IUser {
@@ -12,7 +12,7 @@ export interface IUser {
     country : string;
     password : string;
     organisations : IOrganiser[];
-    markets : IMarket[];
+    markets : Market[];
 
     setId : (string) => void;
     setFirstName : (string) => void;
@@ -23,7 +23,7 @@ export interface IUser {
     setCountry : (string) => void;
     setPassword : (string) => void;
     setOrganisations : (organisations : IOrganiser[]) => void;
-    setMarkets : (markets : IMarket[]) => void;
+    setMarkets : (markets : Market[]) => void;
 }
 
 export class User implements IUser {
@@ -36,7 +36,7 @@ export class User implements IUser {
     @observable country: string;
     @observable password : string;
     @observable organisations : IOrganiser[];
-    @observable markets : IMarket[];
+    @observable markets : Market[];
 
     constructor(id, 
         firstname : string, 
@@ -47,7 +47,7 @@ export class User implements IUser {
         country : string,
         password : string,
         organisations : IOrganiser[],
-        markets : IMarket[] ){
+        markets : Market[] ){
         makeAutoObservable(this);
         this.id = id;
         this.firstname = firstname;
@@ -114,7 +114,7 @@ export class User implements IUser {
     }
 
     @action
-    setMarkets(markets : IMarket[])
+    setMarkets(markets : Market[])
     {
         this.markets = markets;
     }

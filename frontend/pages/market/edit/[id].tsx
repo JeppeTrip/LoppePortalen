@@ -23,15 +23,17 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
 
     //mount
     useEffect(() => {
-        stores.organiserStore.resetSubmitState()
+        stores.marketStore.resetEditedMarket();
+        stores.marketFormUiStore.resetState();
+        stores.stallFormUiStore.resetState();
     }, [])
 
     //Unmount
     useEffect(() => {
         return () => {
-            setMarketId(undefined);
-            stores.marketStore.setSelectedMarket(undefined);
-            stores.marketStore.setSelectedMarket(undefined);
+            stores.marketStore.resetEditedMarket();
+            stores.marketFormUiStore.resetState();
+            stores.stallFormUiStore.resetState();
         }
     }, [])
 
@@ -44,14 +46,14 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     }, [router.isReady]);
 
     /**
-     * If you come here directly and edit organiser in the organiser store hasn't been set to anything
+     * If you come here directly and edit market in the market store hasn't been set to anything
      * check if there is something in the current user. 
      * else go and check the backend
      * if nothing in the backend go to error page.
      */
     useEffect(() => {
         if (marketId) {
-            if (!stores.marketStore.selectedMarket) {
+            if (stores.marketStore.selectedMarket.id === -1) {
                 const market = stores.userStore.currentUser.markets.find(x => x.id === parseInt(marketId));
                 if (market) {
                     stores.marketStore.setSelectedMarketObject(market);
@@ -64,7 +66,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     }, [marketId])
 
     /**
-     * When selected organiser has been set, create the edited organiser
+     * When selected market has been set, create the edited market
      */
     useEffect(() => {
         if(stores.marketStore.selectedMarket)
@@ -83,13 +85,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
         }
     }, [stores.marketStore.selectedMarket])
 
-    //go back when submission is done.
-    useEffect(() => {
-        if(stores.marketFormUiStore.submitSuccess)
-        {
-            router.back()
-        }
-    }, [stores.marketFormUiStore.submitSuccess])
+
 
     const handleSubmit = () => {
         //edit market command

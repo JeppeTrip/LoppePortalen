@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import '../styles.css'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { Box, CssBaseline, Drawer, Stack } from '@mui/material'
 import { StoreProvider } from '../stores/StoreContext';
@@ -11,18 +11,18 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import AuthGuard from '../components/AuthGuard';
 import { NextPageAuth } from '../@types/NextAuthPage';
+import dynamic from 'next/dynamic'
 
-const rootStore = new RootStore();
+const oldRootStore = new RootStore();
 
 function MyApp(props: AppProps) {
   const {
     Component,
     pageProps,
   }: { Component: NextPageAuth; pageProps: any } = props
-
-  useEffect(() => {
-    rootStore.authStore.initialize();
-  }, [])
+  const NewStoreProvider = dynamic(() => import('../NewStores/StoreContext').then(prov => prov.StoreProvider), {
+    ssr: false,
+  });
 
   return (
     <>
@@ -33,19 +33,20 @@ function MyApp(props: AppProps) {
       </Head>
 
 
-      <StoreProvider store={rootStore}>
-        <CssBaseline />
-        <TopBar />
-        {
-          Component.requireAuth ? (
-            <AuthGuard>
+      <StoreProvider store={oldRootStore}>
+        <NewStoreProvider>
+          <CssBaseline />
+          <TopBar />
+          {
+            Component.requireAuth ? (
+              <AuthGuard>
+                <Component {...pageProps} />
+              </AuthGuard>
+            ) : (
               <Component {...pageProps} />
-            </AuthGuard>
-          ) : (
-            <Component {...pageProps} />
-          )
-        }
-
+            )
+          }
+        </NewStoreProvider>
       </StoreProvider>
 
     </>

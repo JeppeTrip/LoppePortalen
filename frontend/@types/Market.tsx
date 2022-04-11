@@ -1,22 +1,7 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { IStall, Stall } from "./Stall";
 
-export interface IMarket {
-    id : number;
-    organiserId : number;
-    name : string;
-    startDate : Date;
-    endDate : Date;
-    description : string;
-    isCancelled : boolean;
-    stalls: IStall[];
-
-    uniqueStalls : () => IStall[]
-    stallCount : (type : string) => number
-    setStalls : (stalls : IStall[]) => void
-}
-
-export class Market implements IMarket {
+export class Market{
     @observable id : number;
     @observable organiserId : number;
     @observable name : string;

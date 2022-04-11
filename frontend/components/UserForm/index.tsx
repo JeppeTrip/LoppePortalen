@@ -15,8 +15,11 @@ import SaveIcon from "@mui/icons-material/Save"
 import { Grid } from '@mui/material';
 import UserInfoForm from '../UserInfoForm';
 import UserAccountForm from '../UserAccountForm';
+import { Auth } from '../../NewStores/@DomainObjects/Auth';
 
-type Props = {}
+type Props = {
+    auth : Auth
+}
 
 const steps = ['User Info', 'Account Info'];
 
@@ -29,30 +32,16 @@ const UserForm: FC<Props> = (props: Props) => {
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <UserInfoForm user={stores.userStore.newUser}/>;
+                return <UserInfoForm user={props.auth.user}/>;
             case 1:
-                return <UserAccountForm user={stores.userStore.newUser} />
+                return <UserAccountForm auth={props.auth} />
             default:
                 throw new Error('Unknown step');
         }
     }
 
-    //Component mounts
-    useEffect(() => {
-        stores.userFormUiStore.resetState()
-        stores.userStore.resetNewUser()
-    }, [])
-
-    //Component unmounts
-    useEffect(() => {
-        return () => {
-            stores.userFormUiStore.resetState()
-            stores.userStore.resetNewUser()
-        }
-    }, [])
-
     const handleSubmit = () => {
-        stores.userStore.registerUser()   
+        props.auth.registerUser();
     }
 
     const handleNext = () => {
@@ -71,7 +60,7 @@ const UserForm: FC<Props> = (props: Props) => {
 
     const loadingButton = () => <LoadingButton
         onClick={handleSubmit}
-        loading={stores.userFormUiStore.isSubmittingForm}
+        loading={props.auth.authStore.isLoading}
         loadingPosition="start"
         startIcon={<SaveIcon />}
         variant="contained"

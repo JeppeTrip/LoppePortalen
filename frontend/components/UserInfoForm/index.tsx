@@ -1,16 +1,16 @@
 import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
 
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { StoreContext } from "../../stores/StoreContext";
 import { IUser } from "../../@types/User";
 import styles from "./styles.module.css";
+import { User } from "../../NewStores/@DomainObjects/User";
 
 type Props = {
-    user: IUser
+    user: User
 }
 
 const UserInfoForm: FC<Props> = (props: Props) => {
@@ -29,23 +29,23 @@ const UserInfoForm: FC<Props> = (props: Props) => {
     }, []);
 
     const handleFirstNameChange = (event) => {
-        props.user.setFirstName(event.target.value)
+        props.user.firstName = event.target.value
     }
 
     const handleLastNameChange = (event) => {
-        props.user.setLastName(event.target.value)
+        props.user.lastName = event.target.value
     }
 
     const handlePhoneNumberChange = (event) => {
-        props.user.setPhoneNumber(event.target.value)
+        props.user.phoneNumber = event.target.value
     }
 
     const handleDateOfBirthChange = (value) => {
-        props.user.setDateOfBirth(value)
+        props.user.dateOfBirth = value
     }
 
     const handleCountryChange = (value) => {
-        props.user.setCountry(value)
+        props.user.country = value
     }
 
     return (
@@ -57,7 +57,7 @@ const UserInfoForm: FC<Props> = (props: Props) => {
                     label="First Name"
                     variant="outlined"
                     onChange={(event) => handleFirstNameChange(event)}
-                    value={props.user.firstname} />
+                    value={props.user.firstName} />
             </Grid>
             <Grid item xs={6}>
                 <TextField
@@ -66,7 +66,7 @@ const UserInfoForm: FC<Props> = (props: Props) => {
                     label="Last Name"
                     variant="outlined"
                     onChange={(event) => handleLastNameChange(event)}
-                    value={props.user.lastname} />
+                    value={props.user.lastName} />
             </Grid>
             <Grid item xs={12}>
                 <TextField
@@ -75,7 +75,7 @@ const UserInfoForm: FC<Props> = (props: Props) => {
                     label="Phone Number"
                     variant="outlined"
                     onChange={(event) => handlePhoneNumberChange(event)}
-                    value={props.user.phonenumber} />
+                    value={props.user.phoneNumber} />
             </Grid>
             <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
