@@ -7,17 +7,20 @@ import AddIcon from '@mui/icons-material/Add';
 import { StoreContext } from "../../stores/StoreContext";
 import StallTypeListItem from "../StallTypeListItem";
 import StallTypeInputListItem from "../StallTypeInputListItem";
+import { Market } from "../../@types/Market";
 
-type Props = {}
+type Props = {
+    market: Market
+}
 
 
 
 const StallForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
-    
+
     const handleOnClick = (event) => {
         stores.stallFormUiStore.setIsAddingNewStall(true);
-        stores.marketStore.newMarket.setNewStall()
+        props.market.setNewStall()
     }
 
     return (
@@ -30,11 +33,12 @@ const StallForm: FC<Props> = (props: Props) => {
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {
-                        stores.stallFormUiStore.isAddingNewStall && 
-                        <StallTypeInputListItem stall={stores.marketStore.newMarket.newStall} />
+                        stores.stallFormUiStore.isAddingNewStall &&
+                        <StallTypeInputListItem stall={props.market.newStall} />
                     }
                     {
-                        stores.marketStore.newMarket.uniqueStalls().map(x => {console.log(x); return(<StallTypeListItem stall={x}/>)})
+                        props.market.uniqueStalls().map(x => <StallTypeListItem stall={x} count={props.market.stallCount(x.type)} 
+                        onChange={(event) => props.market.setNumberOfStalls(x.type, event.target.value === "" ? 0 : parseInt(event.target.value))}/>)
                     }
                 </List>
             </Grid>

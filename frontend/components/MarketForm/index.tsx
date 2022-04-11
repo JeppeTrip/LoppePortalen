@@ -14,25 +14,18 @@ import StallForm from '../StallForm';
 import { StoreContext } from "../../stores/StoreContext";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
-import { IMarket } from '../../@types/Market';
+import { IMarket, Market } from '../../@types/Market';
 import { Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { MarketStore } from '../../stores/Markets/MarketStore';
 
-type Props = {}
+type Props = {
+    market: Market
+}
 
 const steps = ['Market Information', 'Stalls'];
 
-function getStepContent(step: number) {
-    switch (step) {
-        case 0:
-            return <MarketDetailsForm />;
-        case 1:
-            return <StallForm />;
-        default:
-            throw new Error('Unknown step');
-    }
-}
+
 
 
 const theme = createTheme();
@@ -40,31 +33,7 @@ const theme = createTheme();
 const MarketForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
-    const router = useRouter();
 
-    //Component mounts
-    useEffect(() => {
-        stores.marketStore.resetNewMarket();
-        stores.marketFormUiStore.resetState();
-        stores.stallFormUiStore.resetState();
-    }, [])
-
-    //Component unmounts
-    useEffect(() => {
-        return () => {
-            stores.marketStore.resetNewMarket();
-            stores.marketFormUiStore.resetState();
-            stores.stallFormUiStore.resetState();
-        }
-    }, [])
-
-    useEffect(() => {
-        if(stores.marketFormUiStore.redirect)
-        {
-            if(router.isReady && stores.marketStore.newMarket.id > 0)
-                router.push(`${stores.marketStore.newMarket.id}`, undefined, { shallow: true });
-        }
-    }, [stores.marketFormUiStore.redirect])
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -82,6 +51,17 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         var result = stores.marketStore.addNewMarket();
+    }
+
+    const getStepContent = (step: number) => {
+        switch (step) {
+            case 0:
+                return <MarketDetailsForm market={props.market} />;
+            case 1:
+                return <StallForm market={props.market}/>;
+            default:
+                throw new Error('Unknown step');
+        }
     }
 
     const loadingButton = () => <LoadingButton

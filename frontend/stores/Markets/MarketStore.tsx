@@ -9,7 +9,8 @@ class MarketStore {
     rootStore: RootStore;
     @observable markets: IMarket[];
     @observable selectedMarket: IMarket;
-    @observable newMarket: Market //reaction?????
+    @observable newMarket: Market 
+    @observable editedMarket: IMarket
 
     //TODO: Move all UI state out of here.
     isLoading = true;
@@ -229,6 +230,18 @@ class MarketStore {
             .catch(error => {
 
             });
+    }
+
+    @action
+    setEditedMarket(market : IMarket)
+    {
+        this.editedMarket = market;
+    }
+
+    @action
+    setSelectedMarketObject(market : IMarket)
+    {
+        this.selectedMarket = market
     }
 }
 

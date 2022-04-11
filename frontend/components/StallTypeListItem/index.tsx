@@ -8,7 +8,9 @@ import { StoreContext } from "../../stores/StoreContext";
 import { IStall } from "../../@types/Stall";
 
 type Props = {
-    stall: IStall
+    stall: IStall,
+    count: number,
+    onChange: any
 }
 
 
@@ -38,8 +40,8 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                 <Grid item xs={4}>
                     <Input
                         type="number"
-                        value={stores.marketStore.newMarket.stallCount(props.stall.type)}
-                        onChange={(event) => {stores.marketStore.newMarket.setNumberOfStalls(props.stall.type, event.target.value === "" ? 0 : parseInt(event.target.value)) }}
+                        value={props.count}
+                        onChange={props.onChange}
                     />
                 </Grid>
             </Grid>

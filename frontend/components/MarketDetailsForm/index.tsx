@@ -6,12 +6,14 @@ import { observer } from "mobx-react-lite";
 import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import styles from './styles.module.css'
-import { IMarket } from "../../@types/Market";
+import { IMarket, Market } from "../../@types/Market";
 import { StoreContext } from "../../stores/StoreContext";
 import SaveIcon from '@mui/icons-material/Save';
 import { computed } from "mobx";
 
-type Props = {}
+type Props = {
+    market : Market
+}
 
 const MarketDetailsForm: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
@@ -32,9 +34,9 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={stores.marketStore.newMarket.organiserId < 1 ? '' : stores.marketStore.newMarket.organiserId}
+                        value={props.market.organiserId < 1 ? '' : props.market.organiserId}
                         label="Organiser"
-                        onChange={event => stores.marketStore.newMarket.setOrganiserId(event.target.value as number)}
+                        onChange={event => props.market.setOrganiserId(event.target.value as number)}
                     >
                         {
                             stores.organiserStore.organisers.map(o =>
@@ -51,17 +53,17 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketName"
                     label="Name"
                     variant="outlined"
-                    onChange={(event) => stores.marketStore.newMarket.setName(event.target.value)}
-                    value={stores.marketStore.newMarket.name} />
+                    onChange={(event) =>  props.market.setName(event.target.value)}
+                    value={ props.market.name} />
             </Grid>
             <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                         renderInput={(props) => <TextField {...props} />}
                         label="Start Date"
-                        value={stores.marketStore.newMarket.startDate}
+                        value={ props.market.startDate}
                         onChange={(newValue) => {
-                            stores.marketStore.newMarket.setStartDate(newValue);
+                            props.market.setStartDate(newValue);
                         }
                         }
                     />
@@ -72,9 +74,9 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     <DateTimePicker
                         renderInput={(props) => <TextField {...props} />}
                         label="End Date"
-                        value={stores.marketStore.newMarket.endDate}
+                        value={ props.market.endDate}
                         onChange={(newValue) => {
-                            stores.marketStore.newMarket.setEndDate(newValue);
+                            props.market.setEndDate(newValue);
                         }
                         }
                     />
@@ -86,8 +88,8 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     className={styles.descriptionInput}
                     id="outlined-multiline-static"
                     label="Description"
-                    value={stores.marketStore.newMarket.description}
-                    onChange={(event) => stores.marketStore.newMarket.setDescription(event.target.value)}
+                    value={ props.market.description}
+                    onChange={(event) =>  props.market.setDescription(event.target.value)}
                     multiline
                     rows={10}
                 />
