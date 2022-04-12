@@ -1,6 +1,7 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, computed, makeAutoObservable, observable } from "mobx";
 import { Market as Dto } from "../../stores/models";
 import { MarketStore } from "../stores/MarketStore";
+import { Stall } from "./Stall";
 
 export class Market {
     store: MarketStore
@@ -11,10 +12,14 @@ export class Market {
     @observable startDate: Date
     @observable endDate: Date
     @observable isCancelled: boolean
+    @observable stalls : Stall[]
+    @observable selectedStall : Stall
 
     constructor(store: MarketStore) {
         makeAutoObservable(this);
         this.store = store
+        this.stalls = [] as Stall[]
+        this.selectedStall = null
     }
 
     @action
@@ -53,5 +58,30 @@ export class Market {
                 })
             )
         }
+    }
+
+    @computed
+    get stallCounts()
+    {
+        var unique = this.uniqueStalls;
+        var stallCounts = unique.map(stall => [stall, this.stalls.filter(x => x.name === stall.name).length])
+        return stallCounts;
+    }
+
+    @computed
+    get uniqueStalls(){
+        var result : Stall[] = []
+        var stallTypeSet = new Set<string>(this.stalls.map(x => x.name));
+        stallTypeSet.forEach(type => {
+            result.push(this.stalls.find(x => x.name == type))
+        });
+        return result;
+    }
+
+    @action
+    createStall(){
+        const stall = new Stall();
+        this.selectedStall = stall;
+        return stall;
     }
 }

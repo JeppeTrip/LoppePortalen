@@ -10,6 +10,7 @@ export class RootStore {
     userStore : UserStore
     organiserStore : OrganiserStore
     marketStore : MarketStore
+    stallStore : StallStore
 
     constructor(){
         makeAutoObservable(this)

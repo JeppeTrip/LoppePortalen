@@ -52,7 +52,7 @@ const MarketForm: FC<Props> = (props: Props) => {
             case 0:
                 return <MarketDetailsForm market={props.market} />;
             case 1:
-                return <div>stall form</div>//<StallForm market={props.market}/>;
+                return //<StallForm market={props.market}/>;
             default:
                 throw new Error('Unknown step');
         }

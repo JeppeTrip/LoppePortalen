@@ -4,11 +4,10 @@ import { observer } from "mobx-react-lite";
 import OrganiserForm from "../../../components/OrganiserForm";
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../../stores/StoreContext";
-import { Organiser } from "../../../@types/Organiser";
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
+import { StoreContext } from "../../../NewStores/StoreContext";
 
 type Props = {
     id: string
@@ -21,15 +20,13 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
 
     //mount
     useEffect(() => {
-        stores.organiserStore.resetSubmitState()
+
     }, [])
 
     //Unmount
     useEffect(() => {
         return () => {
             setOrganiserId(undefined);
-            stores.organiserStore.setSelectedOrganiser(undefined);
-            stores.organiserStore.setEditedOrganiser(undefined);
         }
     }, [])
 
@@ -49,62 +46,18 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
      */
     useEffect(() => {
         if (organiserId) {
-            if (!stores.organiserStore.selectedOrganiser) {
-                const org = stores.userStore.currentUser.organisations.find(x => x.id === parseInt(organiserId));
-                if (org) {
-                    stores.organiserStore.setSelectedOrganiser(org);
-                }
-                else {
-                    stores.organiserStore.loadOrganiser(parseInt(organiserId))
-                }
+            if (!stores.organiserStore.selectedOrganiser || stores.organiserStore.selectedOrganiser == null) {
+                
             }
         }
     }, [organiserId])
 
-    /**
-     * When selected organiser has been set, create the edited organiser
-     */
-    useEffect(() => {
-        if(stores.organiserStore.selectedOrganiser)
-        {
-            const org = stores.organiserStore.selectedOrganiser;
-            stores.organiserStore.setEditedOrganiser(
-                new Organiser(
-                    org.id, 
-                    org.name, 
-                    org.description, 
-                    org.street, 
-                    org.streetNumber, 
-                    org.appartment, 
-                    org.postalCode, 
-                    org.city));
-        }
-    }, [stores.organiserStore.selectedOrganiser])
-
-    //go back when submission is done.
-    useEffect(() => {
-        if(stores.organiserStore.submitSuccess)
-        {
-            router.back()
-        }
-    }, [stores.organiserStore.submitSuccess])
-
     const handleSubmit = () => {
-        stores.organiserStore.editOrganiser(stores.organiserStore.editedOrganiser);
+        
     }
 
     const handleReset = () => {
-        const org = stores.organiserStore.selectedOrganiser;
-        stores.organiserStore.setEditedOrganiser(
-            new Organiser(
-                org.id, 
-                org.name, 
-                org.description, 
-                org.street, 
-                org.streetNumber, 
-                org.appartment, 
-                org.postalCode, 
-                org.city));
+
     }
 
     return (

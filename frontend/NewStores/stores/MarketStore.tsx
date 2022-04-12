@@ -89,6 +89,7 @@ export class MarketStore {
     createMarket()
     {
         const market = new Market(this);
+        this.selectedMarket = market;
         return market;
     }
 }

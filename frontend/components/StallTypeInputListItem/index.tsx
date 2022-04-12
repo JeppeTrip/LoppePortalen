@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite";
 import { FC, useContext } from "react";
 
 import { StoreContext } from "../../stores/StoreContext";
-import { IStall, Stall } from "../../@types/Stall";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { Stall } from "../../NewStores/@DomainObjects/Stall";
 
 type Props = {
-    stall: IStall
+    stall: Stall
 }
 
 

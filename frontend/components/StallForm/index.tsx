@@ -1,13 +1,12 @@
 import { Button, Grid, IconButton, Input, ListItem, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useContext, useEffect, useState } from "react";
-
 import List from '@mui/material/List';
 import AddIcon from '@mui/icons-material/Add';
-import { StoreContext } from "../../stores/StoreContext";
 import StallTypeListItem from "../StallTypeListItem";
 import StallTypeInputListItem from "../StallTypeInputListItem";
-import { Market } from "../../@types/Market";
+import { Market } from "../../NewStores/@DomainObjects/Market";
+
 
 type Props = {
     market: Market
@@ -16,32 +15,22 @@ type Props = {
 
 
 const StallForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
-
-    //if the market is currently being edited and not created fetch its stalls
-    useEffect(() => {
-        if(stores.marketStore.editedMarket.id === props.market.id)
-        {
-            stores.marketStore.fetchStallsForMarket(props.market);
-        }
-    }, [])
 
     const handleOnClick = (event) => {
-        stores.stallFormUiStore.setIsAddingNewStall(true);
-        props.market.setNewStall()
+        props.market.store.rootStore.stallStore.createStall()
+
     }
 
     return (
         <Grid>
             <Grid item>
-                <Button disabled={stores.stallFormUiStore.isAddingNewStall} size="small" startIcon={<AddIcon />} onClick={handleOnClick}>
+                <Button disabled={false} size="small" startIcon={<AddIcon />} onClick={handleOnClick}>
                     Add Stall
                 </Button>
             </Grid>
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {
-                        stores.stallFormUiStore.isAddingNewStall &&
                         <StallTypeInputListItem stall={props.market.newStall} />
                     }
                     {

@@ -34,7 +34,7 @@ export class User {
 
     //TODO: load user information automatically.
     @action
-    getOrganisers() {
+    resolveOwnedOrganisers() {
         flowResult(this.store.rootStore.organiserStore.resolveOrganisersFiltered(this.id))
             .then(
                 action("resolvedUsersOrganisers", orgs => {
