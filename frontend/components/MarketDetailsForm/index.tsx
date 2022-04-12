@@ -6,24 +6,19 @@ import { observer } from "mobx-react-lite";
 import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import styles from './styles.module.css'
-import { Market } from "../../@types/Market";
-import { StoreContext } from "../../stores/StoreContext";
-import SaveIcon from '@mui/icons-material/Save';
-import { computed } from "mobx";
+import { Market } from "../../NewStores/@DomainObjects/Market";
+
+
 
 type Props = {
     market : Market
 }
 
 const MarketDetailsForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
-
     //TODO: Insert a loading indicator if the oragnisers doesn't exist in the store yet.
     //TODO: This will be a perforamnce nightmare if there ends up being a huge amount of organisers. this is likely temporary so will be fixed.
     useEffect(() => {
-        if (stores.organiserStore.organisers.length === 0) {
-            stores.organiserStore.loadOrganisers()
-        }
+        props.market.store.rootStore.userStore.user.getOrganisers()
     }, []);
     
     return (
@@ -36,10 +31,10 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         id="demo-simple-select"
                         value={props.market.organiserId < 1 ? '' : props.market.organiserId}
                         label="Organiser"
-                        onChange={event => props.market.setOrganiserId(event.target.value as number)}
+                        onChange={event => props.market.organiserId = (event.target.value as number)}
                     >
                         {
-                            stores.organiserStore.organisers.map(o =>
+                            props.market.store.rootStore.userStore.user.organisers.map(o =>
                                 <MenuItem value={o.id}>{o.name}</MenuItem>
                             )
                         }
@@ -53,7 +48,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketName"
                     label="Name"
                     variant="outlined"
-                    onChange={(event) =>  props.market.setName(event.target.value)}
+                    onChange={(event) =>  props.market.name = event.target.value}
                     value={ props.market.name} />
             </Grid>
             <Grid item xs={6}>
@@ -63,7 +58,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         label="Start Date"
                         value={ props.market.startDate}
                         onChange={(newValue) => {
-                            props.market.setStartDate(newValue);
+                            props.market.startDate = newValue;
                         }
                         }
                     />
@@ -76,7 +71,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         label="End Date"
                         value={ props.market.endDate}
                         onChange={(newValue) => {
-                            props.market.setEndDate(newValue);
+                            props.market.endDate = newValue;
                         }
                         }
                     />
@@ -89,7 +84,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="outlined-multiline-static"
                     label="Description"
                     value={ props.market.description}
-                    onChange={(event) =>  props.market.setDescription(event.target.value)}
+                    onChange={(event) =>  props.market.description = event.target.value}
                     multiline
                     rows={10}
                 />

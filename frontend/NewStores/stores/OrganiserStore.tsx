@@ -33,7 +33,7 @@ export class OrganiserStore {
             const organisers = result.organisers.map(x => {
                 console.log(x)
                 const organiser = new Organiser(this)
-                organiser.update(x)
+                organiser.updateFromServer(x)
                 return organiser
             });
             console.log("organisers\n"+organisers)
@@ -87,4 +87,13 @@ export class OrganiserStore {
                 })
             )
     }
+
+    @action
+    createOrganiser(){
+        const organiser = new Organiser(this);
+        this.selectedOrganiser = organiser;
+        return this.selectedOrganiser;
+    }
+
+    //TODO :Update organisers from server.
 }

@@ -14,10 +14,9 @@ import StallForm from '../StallForm';
 import { StoreContext } from "../../stores/StoreContext";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
-import { Market } from '../../@types/Market';
 import { Grid } from '@mui/material';
-import { useRouter } from 'next/router';
-import { MarketStore } from '../../stores/Markets/MarketStore';
+import { Market } from '../../NewStores/@DomainObjects/Market';
+
 
 type Props = {
     market: Market
@@ -25,15 +24,10 @@ type Props = {
 
 const steps = ['Market Information', 'Stalls'];
 
-
-
-
 const theme = createTheme();
 
 const MarketForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
-
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -50,7 +44,7 @@ const MarketForm: FC<Props> = (props: Props) => {
     }
 
     const handleSubmit = (event) => {
-        var result = stores.marketStore.addNewMarket();
+        props.market.save();
     }
 
     const getStepContent = (step: number) => {
@@ -58,7 +52,7 @@ const MarketForm: FC<Props> = (props: Props) => {
             case 0:
                 return <MarketDetailsForm market={props.market} />;
             case 1:
-                return <StallForm market={props.market}/>;
+                return <div>stall form</div>//<StallForm market={props.market}/>;
             default:
                 throw new Error('Unknown step');
         }
@@ -66,7 +60,7 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     const loadingButton = () => <LoadingButton
         onClick={handleSubmit}
-        loading={stores.marketFormUiStore.isSubmittingForm}
+        loading={false}
         loadingPosition="start"
         startIcon={<SaveIcon />}
         variant="contained"
@@ -102,21 +96,12 @@ const MarketForm: FC<Props> = (props: Props) => {
                             {getStepContent(activeStep)}
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 {activeStep !== 0 && (
-                                    <Button disabled={stores.marketFormUiStore.isSubmittingForm} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                    <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                                         Back
                                     </Button>
                                 )}
                                 {getButton()}
                             </Box>
-                            {
-                                //TODO: Make error handling waaay the fuck better.
-                                stores.marketFormUiStore.showError &&
-                                <Grid item xs={12}>
-                                    <Typography variant="caption" color={"red"}>
-                                        Could not submit.
-                                    </Typography>
-                                </Grid>
-                            }
                         </Fragment>
                     </Fragment>
                 </Paper>

@@ -3,8 +3,8 @@ import { observer } from "mobx-react-lite";
 import MarketForm from "../../../components/MarketForm";
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { useContext, useEffect } from "react";
-import { StoreContext } from "../../../stores/StoreContext";
 import { useRouter } from "next/router";
+import { StoreContext } from "../../../NewStores/StoreContext";
 
 const CreateMarketPage: NextPageAuth = observer(() => {
     const stores = useContext(StoreContext);
@@ -13,26 +13,15 @@ const CreateMarketPage: NextPageAuth = observer(() => {
 
     //Component mounts
     useEffect(() => {
-        stores.marketStore.resetNewMarket();
-        stores.marketFormUiStore.resetState();
-        stores.stallFormUiStore.resetState();
+
     }, [])
 
     //Component unmounts
     useEffect(() => {
         return () => {
-            stores.marketStore.resetNewMarket();
-            stores.marketFormUiStore.resetState();
-            stores.stallFormUiStore.resetState();
+
         }
     }, [])
-
-    useEffect(() => {
-        if (stores.marketFormUiStore.redirect) {
-            if (router.isReady && stores.marketStore.newMarket.id > 0)
-                router.push(`${stores.marketStore.newMarket.id}`, undefined, { shallow: true });
-        }
-    }, [stores.marketFormUiStore.redirect])
 
     const loading = () => {
         return (
@@ -46,7 +35,7 @@ const CreateMarketPage: NextPageAuth = observer(() => {
                 style={{ paddingTop: "25px" }}
                 maxWidth="sm">
                 {
-                    <MarketForm market={stores.marketStore.newMarket}/>
+                    <MarketForm market={stores.marketStore.createMarket()}/>
                 }
             </Container>
         </>

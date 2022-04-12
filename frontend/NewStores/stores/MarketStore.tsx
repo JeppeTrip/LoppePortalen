@@ -84,4 +84,11 @@ export class MarketStore {
                 })
             )
     }
+
+    @action
+    createMarket()
+    {
+        const market = new Market(this);
+        return market;
+    }
 }
