@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
 import {Organiser as Dto } from "../../stores/models";
+import { Market } from "./Market";
 
 export class Organiser{
     store : OrganiserStore
@@ -13,6 +14,7 @@ export class Organiser{
     @observable appartment : string = ""
     @observable postalCode : string = ""
     @observable city : string = ""
+    @observable markets : Market[]
 
     constructor(store : OrganiserStore, id? : number, userId? : string)
     {
@@ -20,6 +22,7 @@ export class Organiser{
         this.store = store
         this.id = id
         this.userId = userId
+        this.markets = [] as Market[]
     }
 
     /**
@@ -36,6 +39,7 @@ export class Organiser{
         this.appartment = dto.appartment
         this.postalCode = dto.postalCode
         this.city = dto.city
+        this.markets = this.store.rootStore.marketStore.updateMarketstFromServer(dto.markets)
     }
 
     @action

@@ -1082,6 +1082,7 @@ export interface Organiser {
     appartment?: string | null;
     postalCode?: string | null;
     city?: string | null;
+    markets?: Market[] | null;
 }
 
 export interface GetOrganisersWithPaginationResponse {

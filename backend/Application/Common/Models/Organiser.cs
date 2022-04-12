@@ -1,4 +1,6 @@
-﻿namespace Application.Common.Models
+﻿using System.Collections.Generic;
+
+namespace Application.Common.Models
 {
     public class Organiser
     {
@@ -11,5 +13,6 @@
         public string Appartment { get; set; }
         public string PostalCode { get; set; }  
         public string City { get; set; }    
+        public List<Market> Markets { get; set; }
     }
 }

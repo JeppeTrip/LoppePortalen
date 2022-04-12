@@ -28,11 +28,15 @@ export class OrganiserStore {
         console.log("resolve all organisers")
         try {
             const result = yield this.transportLayer.getAllOrganisers()
+            console.log("fetchResult\n")
+            console.log(result)
             const organisers = result.organisers.map(x => {
+                console.log(x)
                 const organiser = new Organiser(this)
                 organiser.update(x)
                 return organiser
             });
+            console.log("organisers\n"+organisers)
             this.organisers = organisers;
         }
         catch (error) {
