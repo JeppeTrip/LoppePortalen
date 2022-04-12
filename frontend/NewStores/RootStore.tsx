@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { AuthorizationClient } from "../stores/models"
+import { AuthorizationClient, UserClient } from "../stores/models"
 import { AuthStore } from "./stores/AuthStore"
 import { UserStore } from "./stores/UserStore"
 
@@ -15,6 +15,6 @@ export class RootStore {
     constructor(){
         makeAutoObservable(this)
         this.authStore = new AuthStore(this, new AuthorizationClient())
-        this.userStore = new UserStore(this, null)
+        this.userStore = new UserStore(this, new UserClient())
     }
 }

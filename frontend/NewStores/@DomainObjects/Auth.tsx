@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, flowResult, makeAutoObservable, observable } from "mobx";
 import { AuthStore } from "../stores/AuthStore";
 import { User } from "./User";
 
@@ -88,12 +88,29 @@ export class Auth {
          * Otherwises we are not.
          */
         if (key != null) {
-            this.signedIn = true;
-        } else {
-            this.signedIn = false;
+            console.log("Resolving user.")
+            flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
+                .then(
+                    action("resolvedUserSuccess", user => {
+                        console.log("resolve success")
+                        console.log(user)
+                        if (user != null) {
+                            this.user = user
+                            this.signedIn = true;
+                        }
+                        else {
+                            this.user = null
+                            this.signedIn = false;
+                        }
+                        this.initializing = false;
+                    }),
+                    action("resolvedUserFailed", user => {
+                        this.user = null
+                        this.signedIn = false;
+                        this.initializing = false;
+                    })
+                );
         }
-
-        this.initializing = false;
     }
 
     set setEmail(email: string) {
