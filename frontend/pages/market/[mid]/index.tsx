@@ -2,12 +2,10 @@ import { CircularProgress, Container, Divider, Grid, Paper, Typography } from "@
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../../stores/StoreContext";
 import styles from './styles.module.css'
 import { useRouter } from "next/router";
-import { LoadingButton } from "@mui/lab";
-import CancelIcon from '@mui/icons-material/Cancel';
 import StallTypeInfoList from "../../../components/StallTypeInfoList";
+import { StoreContext } from "../../../NewStores/StoreContext";
 
 type Props = {
     mid: string
@@ -20,22 +18,17 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
 
     /**
      * Comoponent will mount.
-     * Reset the UI State to make sure that the state is at least consistent
-     * when the market profile is loaded in.
      */
     useEffect(() => {
-        stores.marketProfileUiStore.resetState();
+
     }, [])
 
     /**
      * Component will unmount.
-     * Clean up after, to make sure the state is left in a somewhat consistent state when 
-     * we are moving away from this market.
      */
     useEffect(() => {
         return () => {
-            stores.marketProfileUiStore.resetState();
-            stores.marketStore.selectedMarket = null;
+
         }
     }, [])
 
@@ -51,48 +44,18 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
     }, [router.isReady]);
 
     /**
-     * When the market id has been updated search for the market through the market store.
+     * If selected market is empty in the stores search for it.
      */
-    useEffect(() => {
-        if (!(marketId == "")) {
-            stores.marketProfileUiStore.loadMarket();
-            stores.marketStore.setSelectedMarket(parseInt(marketId))
-        }
-    }, [marketId])
-
-
-    /**
-     * When selected market is changed.
-     * Update UI State.
-     * If selected market is an actual market start the fetching of stalls.
-     * TODO: load in the stalls with the initial load of the market, would make this 
-     * more transaction safe, and would at least provide a consistent look at thet market
-     * information.
-     */
-    useEffect(() => {
-        console.log("Market success.")
-        if (stores.marketStore.selectedMarket != null && stores.marketStore.selectedMarket.id > 0) {
-            if (stores.marketStore.selectedMarket.id > 0) {
-                stores.marketProfileUiStore.marketLoadingSuccess();
-                //TODO: Set loading stalls state in the ui store.
-                stores.marketProfileUiStore.loadStalls();
-                stores.marketStore.fetchStallsForMarket(stores.marketStore.selectedMarket);
-            }
-            else {
-                stores.marketProfileUiStore.hadMarketLoadingError();
+     useEffect(() => {
+        if (stores.marketStore.selectedMarket == null) {
+            if (!(marketId == "")) {
+                stores.marketStore.resolveSelectedMarket(parseInt(marketId))
             }
         }
-    }, [stores.marketStore.selectedMarket])
-
-    //When the selected market stalls have been updated change the state to show the stall information.
-    useEffect(() => {
-        console.log("update stalls")
-        stores.marketProfileUiStore.stallLoadingSuccess()
-    }, [stores.marketStore.selectedMarket])
-
+    }, [marketId, stores.marketStore.selectedMarket])
 
     const handleCancel = () => {
-        stores.marketStore.cancelSelectedMarket()
+        console.log("NOT IMPLEMENTED YET")
     }
 
     const profileContent = () => {
@@ -154,8 +117,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                                         </Typography>
                                         <Divider />
                                         {
-                                            stores.marketProfileUiStore.loadingStalls ? loadingContent() :
-                                                <StallTypeInfoList market={stores.marketStore.selectedMarket} />
+                                                //<StallTypeInfoList market={stores.marketStore.selectedMarket} />
                                         }
                                     </div>
                                 </Paper>
@@ -185,7 +147,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
     return (
         <>
             {
-                stores.marketProfileUiStore.loadingMarket ? loadingContent() : profileContent()
+                stores.marketStore.selectedMarket == null ? loadingContent() :profileContent()
             }
         </>
     )

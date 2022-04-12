@@ -29,4 +29,9 @@ export class Market {
         this.endDate = new Date(dto.endDate)
         this.isCancelled = dto.isCancelled
     }
+
+    @action
+    select(){
+        this.store.selectedMarket = this;
+    }
 }

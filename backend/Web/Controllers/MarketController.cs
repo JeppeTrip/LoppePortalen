@@ -31,7 +31,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("instance/all")]
-        public async Task<ActionResult<List<GetAllMarketInstancesQueryResponse>>> GetAllMarketInstances()
+        public async Task<ActionResult<GetAllMarketInstancesQueryResponse>> GetAllMarketInstances()
         {
             return await Mediator.Send(new GetAllMarketInstancesQuery());
         }

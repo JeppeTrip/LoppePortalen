@@ -174,7 +174,7 @@ export interface IMarketClient {
 
     getMarketInstance(id: string | null): Promise<GetMarketInstanceQueryResponse>;
 
-    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]>;
+    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse>;
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
 
@@ -271,7 +271,7 @@ export class MarketClient extends ClientBase implements IMarketClient {
         return Promise.resolve<GetMarketInstanceQueryResponse>(null as any);
     }
 
-    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse[]> {
+    getAllMarketInstances(): Promise<GetAllMarketInstancesQueryResponse> {
         let url_ = this.baseUrl + "/api/Market/instance/all";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -289,13 +289,13 @@ export class MarketClient extends ClientBase implements IMarketClient {
         });
     }
 
-    protected processGetAllMarketInstances(response: Response): Promise<GetAllMarketInstancesQueryResponse[]> {
+    protected processGetAllMarketInstances(response: Response): Promise<GetAllMarketInstancesQueryResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAllMarketInstancesQueryResponse[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAllMarketInstancesQueryResponse;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -303,7 +303,7 @@ export class MarketClient extends ClientBase implements IMarketClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GetAllMarketInstancesQueryResponse[]>(null as any);
+        return Promise.resolve<GetAllMarketInstancesQueryResponse>(null as any);
     }
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse> {
@@ -984,6 +984,10 @@ export interface GetMarketInstanceQueryResponse {
 }
 
 export interface GetAllMarketInstancesQueryResponse {
+    markets?: Market[] | null;
+}
+
+export interface Market {
     marketId?: number;
     organiserId?: number;
     marketName?: string | null;
@@ -1010,16 +1014,6 @@ export interface GetFilteredMarketsQueryResponse {
 
 export interface GetUsersMarketsResponse extends Result {
     markets?: Market[] | null;
-}
-
-export interface Market {
-    marketId?: number;
-    organiserId?: number;
-    marketName?: string | null;
-    description?: string | null;
-    startDate?: Date;
-    endDate?: Date;
-    isCancelled?: boolean;
 }
 
 export interface CreateOrganiserResponse {

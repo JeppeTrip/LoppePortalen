@@ -1,5 +1,6 @@
 ﻿
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetAllMarkets
 {
-    public class GetAllMarketInstancesQuery : IRequest<List<GetAllMarketInstancesQueryResponse>>
+    public class GetAllMarketInstancesQuery : IRequest<GetAllMarketInstancesQueryResponse>
     {
-        public class GetAllMarketInstancesQueryHandler : IRequestHandler<GetAllMarketInstancesQuery, List<GetAllMarketInstancesQueryResponse>>
+        public class GetAllMarketInstancesQueryHandler : IRequestHandler<GetAllMarketInstancesQuery, GetAllMarketInstancesQueryResponse>
         {
             private readonly IApplicationDbContext _context;
 
@@ -22,11 +23,11 @@ namespace Application.Markets.Queries.GetAllMarkets
                 _context = context;
             }
 
-            public async Task<List<GetAllMarketInstancesQueryResponse>> Handle(GetAllMarketInstancesQuery request, CancellationToken cancellationToken)
+            public async Task<GetAllMarketInstancesQueryResponse> Handle(GetAllMarketInstancesQuery request, CancellationToken cancellationToken)
             {
                 var instances = await _context.MarketInstances.Include(x => x.MarketTemplate).ToListAsync();
 
-                var result = instances.Select(x => new GetAllMarketInstancesQueryResponse {
+                var result = instances.Select(x => new Market() {
                     MarketId = x.Id,
                     Description = x.MarketTemplate.Description,
                     MarketName = x.MarketTemplate.Name,
@@ -36,7 +37,7 @@ namespace Application.Markets.Queries.GetAllMarkets
                     IsCancelled = x.IsCancelled
                 }).ToList();
 
-                return result;
+                return new GetAllMarketInstancesQueryResponse() { Markets = result };
             }
         }
     }

@@ -178,10 +178,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllMarketInstancesQueryResponse"
-                  }
+                  "$ref": "#/components/schemas/GetAllMarketInstancesQueryResponse"
                 }
               }
             }
@@ -850,6 +847,19 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Market"
+            }
+          }
+        }
+      },
+      "Market": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "marketId": {
             "type": "integer",
             "format": "int32"
@@ -944,39 +954,6 @@
             }
           }
         ]
-      },
-      "Market": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "marketId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "organiserId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "marketName": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isCancelled": {
-            "type": "boolean"
-          }
-        }
       },
       "CreateOrganiserResponse": {
         "type": "object",

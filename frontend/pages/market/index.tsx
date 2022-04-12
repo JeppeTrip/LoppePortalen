@@ -1,17 +1,18 @@
-import {Box, CircularProgress, Container, Divider, List, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, List, Paper, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useContext, useEffect } from "react";
-import { StoreContext } from "../../stores/StoreContext";
 import MarketListItem from "../../components/MarketListItem";
 import { observer } from "mobx-react-lite";
 import ErrorIcon from '@mui/icons-material/Error';
 import MarketFilter from "../../components/MarketFilter";
+import { StoreContext } from "../../NewStores/StoreContext";
+import { flowResult } from "mobx";
 
 const Markets: NextPage = observer(() => {
-    const stores = useContext(StoreContext);
+    const stores = useContext(StoreContext)
 
     useEffect(() => {
-        stores.marketStore.loadMarkets()
+        flowResult(stores.marketStore.resolveMarketsAll())
     }, [])
 
     const error = () => {
@@ -38,7 +39,7 @@ const Markets: NextPage = observer(() => {
                         <List>
                             {
                                 stores.marketStore.markets.map(
-                                    market => <> <MarketListItem Market={market}/> <Divider /> </>)
+                                    market => <> <MarketListItem Market={market} /> <Divider /> </>)
                             }
                         </List>
                 }
@@ -53,8 +54,8 @@ const Markets: NextPage = observer(() => {
                 <MarketFilter />
                 <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     {
-                        stores.marketStore.isLoading ? loading() :
-                            stores.marketStore.hadLoadingError ? error() : content()}
+                        content()
+                    }
                 </Box>
             </Box>
         </Container>
