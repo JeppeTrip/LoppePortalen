@@ -44,6 +44,8 @@ export class Organiser{
 
     @action
     select(){
+        console.log("Select organiser")
+        console.log(this)
         this.store.selectedOrganiser = this;
     }
 

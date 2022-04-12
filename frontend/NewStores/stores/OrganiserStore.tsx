@@ -78,9 +78,6 @@ export class OrganiserStore {
                         return null;
                     }
                     else {
-                        const organiser = new Organiser(this)
-                        organiser.update(organiser)
-                        this.organisers.push(organiser);
                         organiser.select()
                         return organiser
                     }

@@ -1,14 +1,12 @@
 import { Avatar, ButtonGroup, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { Market } from '../../@types/Market';
-import DateDisplay from '../DateDisplay';
-import styles from './styles.module.css';
+import React, { FC, useContext} from 'react';
 import ImageIcon from '@mui/icons-material/Image'
 import { StoreContext } from '../../stores/StoreContext';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { observer } from 'mobx-react-lite';
+import { Market } from '../../NewStores/@DomainObjects/Market';
 
 type Props = {
     Market: Market,
@@ -16,7 +14,6 @@ type Props = {
 }
 
 const MarketListItem: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const router = useRouter();
 
     const handleOnClick = (event) => {
@@ -34,7 +31,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
     }
 
     const handleClickCancel = (event) => {
-        stores.marketStore.cancelMarket(props.Market);
+        console.log("NOT IMPLEMENTED YET")
     }
 
     return (

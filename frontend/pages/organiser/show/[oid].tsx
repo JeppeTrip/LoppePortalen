@@ -7,6 +7,7 @@ import styles from './styles.module.css'
 import { useRouter } from "next/router";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import { flowResult } from "mobx";
+import MarketListItem from "../../../components/MarketListItem";
 
 type Props = {
     oid: string
@@ -48,14 +49,16 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                     <Divider />
                     <List>
                         {
-                            /*
-                            stores.marketStore.markets.map(
-                                market => <> <MarketListItem Market={market} /> <Divider /> </>)
-                                */
+                            stores.organiserStore.selectedOrganiser.markets.map(x =>
+                                <>
+                                    <MarketListItem Market={x} /> <Divider />
+                                </>
+                            )
+
                         }
                     </List>
                 </Container>
-            </Paper>
+            </Paper >
         );
     }
 
