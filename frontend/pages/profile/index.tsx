@@ -14,14 +14,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import SellIcon from '@mui/icons-material/Sell';
 import { Container, Tooltip } from "@mui/material";
-import { StoreContext } from "../../stores/StoreContext";
 import ProfileUserInfo from "../../components/ProfileUserInfo";
 import { NextPageAuth } from "../../@types/NextAuthPage";
-import { useContext, useEffect, useState } from "react";
-import ProfileOrgInfo from "../../components/ProfileOrgInfo";
+import { useContext, useState } from "react";
 import StoreIcon from '@mui/icons-material/Store';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
-import ProfileMarketInfo from "../../components/ProfileMarketInfo";
+import { StoreContext } from "../../NewStores/StoreContext";
+import ProfileOrgInfo from "../../components/ProfileOrgInfo";
 
 
 const drawerWidth = 240;
@@ -97,14 +96,15 @@ const profileNavs = [
 ]
 
 const UserProfile: NextPageAuth = observer(() => {
+    const stores = useContext(StoreContext)
     const [activeStep, setActiveStep] = useState(0);
 
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return /*<ProfileUserInfo user={stores.userStore.currentUser} /> */ <div>profile user info</div> ;
+                return <ProfileUserInfo user={stores.userStore.user} />;
             case 1:
-                return /*<ProfileOrgInfo user={stores.userStore.currentUser} /> */ <div>profile org info</div> ;
+                return <ProfileOrgInfo user={stores.userStore.user} />;
             case 2:
                 return /*<ProfileMarketInfo user={stores.userStore.currentUser} /> */ <div>profile market info</div>;
             case 3:

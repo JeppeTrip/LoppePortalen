@@ -26,7 +26,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<GetAllOrganisersResponse>>> GetAllOrganisers()
+        public async Task<ActionResult<GetAllOrganisersResponse>> GetAllOrganisers()
         {
             return await Mediator.Send(new GetAllOrganisersQuery());
         }

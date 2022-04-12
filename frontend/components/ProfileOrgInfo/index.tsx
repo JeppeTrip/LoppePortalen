@@ -1,17 +1,15 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { StoreContext } from "../../stores/StoreContext";
-import { IUser } from '../../@types/User';
-import { Autocomplete, Container, Divider, Grid, List, Paper, Stack, TextField } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Divider, List, Stack } from '@mui/material';
 import OrganiserListItem from '../OrganiserListItem';
 import { useRouter } from 'next/router';
+import { User } from '../../NewStores/@DomainObjects/User';
 
 type Props = {
-    user: IUser
+    user: User
 }
 
 const ProfileOrgInfo: FC<Props> = (props: Props) => {
@@ -20,7 +18,11 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
 
     //Component mounts
     useEffect(() => {
-        stores.userStore.getUsersOrganisations(props.user);
+        console.log("mount profile org info")
+        console.log(props.user)
+        if (!props.user.organisers || props.user.organisers.length === 0) {
+            props.user.getOrganisers()
+        }
     }, [])
 
     //Component unmounts
@@ -44,17 +46,17 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
             <Divider />
             <Button
                 onClick={() => handleOnNewOrganiser()}>
-                New Organistions
+                New Organisation
             </Button>
             {
-                props.user.organisations.length == 0 ?
+                (props.user.organisers == null) && (props.user.organisers.length == 0) ?
                     <Typography variant="subtitle2">
                         You have no organisers. Start by creating a new one.
                     </Typography>
                     :
                     <List>
                         {
-                            props.user.organisations.map(organiser =>
+                            props.user.organisers.map(organiser =>
                                 <>
                                     {
                                         <OrganiserListItem Organiser={organiser} showEdit={true} />

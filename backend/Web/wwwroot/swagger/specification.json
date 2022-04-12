@@ -381,10 +381,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetAllOrganisersResponse"
-                  }
+                  "$ref": "#/components/schemas/GetAllOrganisersResponse"
                 }
               }
             }
@@ -582,6 +579,24 @@
           "User"
         ],
         "operationId": "User_GetUserInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_UpdateUserInfo",
         "responses": {
           "200": {
             "description": "",
@@ -1109,11 +1124,52 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "organisers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            }
+          }
+        }
+      },
+      "Organiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "id": {
             "type": "integer",
             "format": "int32"
           },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
             "type": "string",
             "nullable": true
           }
@@ -1141,7 +1197,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Organiser"
+              "$ref": "#/components/schemas/Organiser2"
             }
           },
           "pageNumber": {
@@ -1164,7 +1220,7 @@
           }
         }
       },
-      "Organiser": {
+      "Organiser2": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

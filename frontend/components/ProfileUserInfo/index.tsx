@@ -1,19 +1,17 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
-import { FC, useContext, useEffect, useState } from 'react';
-import { StoreContext } from "../../stores/StoreContext";
-import { IUser } from '../../@types/User';
+import { FC, useEffect, useState } from 'react';
 import { Autocomplete, Divider, Grid, Stack, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { User } from '../../NewStores/@DomainObjects/User';
 
 type Props = {
-    user: IUser
+    user: User
 }
 
 const ProfileUserInfo: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const [countries, setCountries] = useState([]);
 
     /**
@@ -35,23 +33,23 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
     }, [])
 
     const handleFirstNameChange = (event) => {
-        props.user.setFirstName(event.target.value)
+        props.user.firstName = event.target.value
     }
 
     const handleLastNameChange = (event) => {
-        props.user.setLastName(event.target.value)
+        props.user.lastName = event.target.value
     }
 
     const handlePhoneNumberChange = (event) => {
-        props.user.setPhoneNumber(event.target.value)
+        props.user.phoneNumber = event.target.value
     }
 
     const handleDateOfBirthChange = (value) => {
-        props.user.setDateOfBirth(value)
+        props.user.dateOfBirth = value
     }
 
     const handleCountryChange = (value) => {
-        props.user.setCountry(value)
+
     }
 
     return (
@@ -76,7 +74,7 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
                         fullWidth={true}
                         label="Firstname"
                         id="profile-first-name"
-                        value={props.user.firstname}
+                        value={props.user.firstName}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -85,11 +83,12 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
                         fullWidth={true}
                         label="Lastname"
                         id="profile-first-name"
-                        value={props.user.lastname}
+                        value={props.user.lastName}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Autocomplete
+                        value={props.user.country}
                         onChange={(event, value) => handleCountryChange(value)}
                         freeSolo={false}
                         disablePortal
@@ -104,7 +103,7 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
                         fullWidth={true}
                         label="Phone number"
                         id="profile-phone-number"
-                        value={props.user.phonenumber}
+                        value={props.user.phoneNumber}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -122,12 +121,14 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
 
             <Grid container spacing={1}>
                 <Grid item>
-                    <Button variant={"contained"}>
+                    <Button 
+                        variant={"contained"}
+                        onClick={() => props.user.save()}>
                         Save Changes
                     </Button>
                 </Grid>
                 <Grid item>
-                    <Button onClick={() => stores.userStore.resetCurrentUser()}>Cancel</Button>
+                    <Button onClick={() => props.user.resetChanges()}>Cancel</Button>
                 </Grid>
             </Grid>
 

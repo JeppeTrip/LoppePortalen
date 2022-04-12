@@ -12,5 +12,12 @@ namespace Web.Controllers
             var userId = CurrentUserService.UserId;
             return await Mediator.Send(new GetUserQuery() { Dto = new GetUserRequest() { UserId = userId } });
         }
+
+        [HttpPut]
+        public async Task<ActionResult<GetUserResponse>> UpdateUserInfo()
+        {
+            var userId = CurrentUserService.UserId;
+            return await Mediator.Send(new GetUserQuery() { Dto = new GetUserRequest() { UserId = userId } });
+        }
     }
 }
