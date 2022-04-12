@@ -1,4 +1,4 @@
-import { action, flow, flowResult, makeAutoObservable } from "mobx";
+import { action, flow, flowResult, makeAutoObservable, observable } from "mobx";
 import { OrganiserClient, Organiser as dto } from "../../stores/models";
 import { Organiser } from "../@DomainObjects/Organiser";
 import { User } from "../@DomainObjects/User";
@@ -7,12 +7,15 @@ import { RootStore } from "../RootStore";
 export class OrganiserStore {
     rootStore: RootStore
     transportLayer: OrganiserClient
-    organisers: Organiser[]
+    @observable organisers: Organiser[]
+    @observable selectedOrganiser: Organiser
 
     constructor(rootStore: RootStore, transportLayer: OrganiserClient) {
         makeAutoObservable(this)
         this.rootStore = rootStore
         this.transportLayer = transportLayer
+        this.organisers = []
+        this.selectedOrganiser = null
     }
 
     /**
@@ -25,22 +28,11 @@ export class OrganiserStore {
         console.log("resolve all organisers")
         try {
             const result = yield this.transportLayer.getAllOrganisers()
-            console.log(result)
             const organisers = result.organisers.map(x => {
-                const organiser = new Organiser(this, x.id, x.userId)
-                organiser.name = x.name
-                organiser.description = x.description
-                organiser.street = x.street
-                organiser.streetNumber = x.streetNumber
-                organiser.appartment = x.appartment
-                organiser.postalCode = x.postalCode
-                organiser.city = x.city
-
+                const organiser = new Organiser(this)
+                organiser.update(x)
                 return organiser
             });
-            console.log(organisers)
-            console.log("post fetch organisers")
-            console.log(organisers)
             this.organisers = organisers;
         }
         catch (error) {
@@ -58,15 +50,40 @@ export class OrganiserStore {
     @flow
     *resolveOrganisersFiltered(userId?: string) {
         console.log("TODO: UPDATE THE ORGANISATIONS FILTER TO FILTER IN THE BACKEND!")
-
-        try{
+        try {
             const allOrgs = yield flowResult(this.resolveOrganisersAll())
-        } 
-        catch(error){
+        }
+        catch (error) {
 
         }
-        finally{
+        finally {
             return this.organisers.filter(x => x.userId === userId)
         }
+    }
+
+    @action
+    resolveSelectedOrganiser(organiserId: number) {
+        flowResult(this.resolveOrganisersAll())
+            .then(
+                action("fetchSuccess", result => {
+                    console.log(result)
+                    const organiser = result.find(x => x.id === organiserId);
+                    console.log("find the one I'm looking for")
+                    console.log(organiser)
+                    if (!organiser) {
+                        return null;
+                    }
+                    else {
+                        const organiser = new Organiser(this)
+                        organiser.update(organiser)
+                        this.organisers.push(organiser);
+                        organiser.select()
+                        return organiser
+                    }
+                }),
+                action("fetchFailed", error => {
+                    return null;
+                })
+            )
     }
 }

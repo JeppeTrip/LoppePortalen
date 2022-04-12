@@ -2,15 +2,16 @@ import {Typography, Box, CircularProgress, Container, List, Paper} from "@mui/ma
 import { NextPage } from "next";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect } from "react";
-import { StoreContext } from '../../stores/StoreContext'
 import OrganiserListItem from "../../components/OrganiserListItem";
 import ErrorIcon from '@mui/icons-material/Error';
+import { StoreContext } from "../../NewStores/StoreContext";
+import { flowResult } from "mobx";
 
 const OrganiserListPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);
 
     useEffect(() => {
-        stores.organiserStore.loadOrganisers()
+        stores.organiserStore.resolveOrganisersAll()
     }, [])
 
     const loading = () => {
@@ -55,8 +56,8 @@ const OrganiserListPage: NextPage = observer(() => {
                 <Box sx={{ display: 'flex' }}>
                     <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                         {
-                            stores.organiserStore.isLoading ? loading() :
-                                stores.organiserStore.hadLoadingError ? error() : content()
+                            //put loading and error content back here.
+                            content()
                         }
                     </Box>
                 </Box>

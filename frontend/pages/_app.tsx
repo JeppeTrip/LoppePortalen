@@ -14,6 +14,9 @@ import { NextPageAuth } from '../@types/NextAuthPage';
 import dynamic from 'next/dynamic'
 
 const oldRootStore = new RootStore();
+const NewStoreProvider = dynamic(() => import('../NewStores/StoreContext').then(prov => prov.StoreProvider), {
+  ssr: false,
+});
 
 function MyApp(props: AppProps) {
   const {

@@ -1,10 +1,11 @@
-import { makeAutoObservable, observable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
+import {Organiser as Dto } from "../../stores/models";
 
 export class Organiser{
     store : OrganiserStore
-    id : number = null
-    userId : string = null
+    @observable id : number = null
+    @observable userId : string = null
     @observable name : string = ""
     @observable description : string = ""
     @observable street : string = ""
@@ -19,6 +20,27 @@ export class Organiser{
         this.store = store
         this.id = id
         this.userId = userId
+    }
+
+    /**
+     * Updates the entity itself based on the generated model in the backend. 
+     */
+    @action
+    update(dto : Dto){
+        this.id = dto.id
+        this.userId = dto.userId
+        this.name = dto.name
+        this.description = dto.description
+        this.street = dto.street
+        this.streetNumber = dto.streetNumber
+        this.appartment = dto.appartment
+        this.postalCode = dto.postalCode
+        this.city = dto.city
+    }
+
+    @action
+    select(){
+        this.store.selectedOrganiser = this;
     }
 
     set setName(name : string)

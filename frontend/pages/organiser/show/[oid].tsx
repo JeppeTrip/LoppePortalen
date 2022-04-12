@@ -2,10 +2,11 @@ import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } f
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../../stores/StoreContext";
+
 import styles from './styles.module.css'
 import { useRouter } from "next/router";
-import MarketListItem from "../../../components/MarketListItem";
+import { StoreContext } from "../../../NewStores/StoreContext";
+import { flowResult } from "mobx";
 
 type Props = {
     oid: string
@@ -13,7 +14,6 @@ type Props = {
 
 const OrganiserProfilePage: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
-    const [selectedOrganiser, setSelectedOrganiser] = useState(null)
     const [organiserId, setOrganiserId] = useState<string>("");
     const router = useRouter();
 
@@ -21,38 +21,22 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
         if (!router.isReady) { return };
         var { oid } = router.query
         setOrganiserId(oid + "")
-
     }, [router.isReady]);
 
     useEffect(() => {
         if (stores.organiserStore.selectedOrganiser == null) {
             if (!(organiserId == "")) {
-                stores.organiserStore.loadOrganiser(parseInt(organiserId));
+                stores.organiserStore.resolveSelectedOrganiser(parseInt(organiserId))
             }
         }
-    }, [organiserId])
-
-    useEffect(() => {
-        if (stores.organiserStore.selectedOrganiser != null) {
-            setSelectedOrganiser(stores.organiserStore.selectedOrganiser)
-        }
-    }, [stores.organiserStore.selectedOrganiser])
+    }, [organiserId, stores.organiserStore.selectedOrganiser])
 
     //Adding a return statement is the same as componentWillUnMount - that is pretty damn obscure.
     useEffect(() => {
         return () => {
-            stores.organiserStore.selectedOrganiser = null;
-            stores.marketStore.markets = [];
+
         }
     }, [])
-
-    //Load markets when component mounts
-    useEffect(() => {
-        //Todo: error handling with shitty organiser id.
-        const id = parseInt(organiserId)
-        if (organiserId != "" && !isNaN(id))
-            stores.marketStore.getFilteredMarkets(id, true, new Date(), new Date("2200-12-31T23:59:00"),);
-    }, [organiserId])
 
     const markets = () => {
         return (
@@ -64,8 +48,10 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                     <Divider />
                     <List>
                         {
+                            /*
                             stores.marketStore.markets.map(
                                 market => <> <MarketListItem Market={market} /> <Divider /> </>)
+                                */
                         }
                     </List>
                 </Container>
@@ -76,7 +62,7 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
     return (
         <>
             {
-                selectedOrganiser == null ? <CircularProgress /> :
+                stores.organiserStore.selectedOrganiser == null ? <CircularProgress /> :
                     <Grid container columns={1} spacing={1}>
                         <Grid item xs={1}>
                             <Paper square={true} elevation={1}>
@@ -91,7 +77,7 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                                                     <Grid>
                                                         <Grid item xs={12}>
                                                             <Typography variant="h5">
-                                                                {selectedOrganiser.name}
+                                                                {stores.organiserStore.selectedOrganiser.name}
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -114,7 +100,7 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                                                 </Typography>
                                                 <Divider />
                                                 <Typography variant="body1">
-                                                    {selectedOrganiser.description}
+                                                    {stores.organiserStore.selectedOrganiser.description}
                                                 </Typography>
                                             </Container>
                                         </Paper>
