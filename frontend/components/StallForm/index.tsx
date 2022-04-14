@@ -17,7 +17,7 @@ type Props = {
 const StallForm: FC<Props> = (props: Props) => {
 
     const handleOnClick = (event) => {
-        props.market.store.rootStore.stallStore.createStall()
+        props.market.createStall()
 
     }
 
@@ -31,11 +31,11 @@ const StallForm: FC<Props> = (props: Props) => {
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {
-                        <StallTypeInputListItem stall={props.market.newStall} />
+                        props.market.selectedStall != null && <StallTypeInputListItem stall={props.market.selectedStall} />
                     }
                     {
-                        props.market.uniqueStalls().map(x => <StallTypeListItem stall={x} count={props.market.stallCount(x.type)} 
-                        onChange={(event) => props.market.setNumberOfStalls(x.type, event.target.value === "" ? 0 : parseInt(event.target.value))}/>)
+                        props.market.uniqueStalls.map(x => <StallTypeListItem stall={x} count={props.market.stallCount(x.name)} 
+                        onChange={(event) => props.market.setNumberOfStalls(x.name, event.target.value === "" ? 0 : parseInt(event.target.value))}/>)
                     }
                 </List>
             </Grid>

@@ -2,11 +2,11 @@ import { Grid, IconButton, ListItem, Paper, Stack, TextField, Typography } from 
 import { observer } from "mobx-react-lite";
 import { FC, useContext } from "react";
 
-import { StoreContext } from "../../stores/StoreContext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Stall } from "../../NewStores/@DomainObjects/Stall";
+import { StoreContext } from "../../NewStores/StoreContext";
 
 type Props = {
     stall: Stall
@@ -18,19 +18,11 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
 
     const handleOnAdd = (event) => {
-        var added = stores.marketStore.newMarket.addStall(props.stall);
-        if (added) {
-            stores.stallFormUiStore.setIsAddingNewStall(false);
-            stores.marketStore.newMarket.setNewStall();
-        } else {
-            stores.stallFormUiStore.setIsInvalidStall(true);
-        }
+        stores.marketStore.selectedMarket.stalls.push(stores.marketStore.selectedMarket.selectedStall)
     }
 
     const handleOnDelete = (event) => {
-        stores.marketStore.newMarket.setNewStall()
-        stores.stallFormUiStore.setIsAddingNewStall(false);
-        stores.stallFormUiStore.setIsInvalidStall(false);
+
     }
 
     return (
@@ -45,8 +37,8 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 id="stallNameInput"
                                 label="Name"
                                 variant="outlined"
-                                value={props.stall.type}
-                                onChange={(event) => props.stall.setType(event.target.value)} />
+                                value={props.stall.name}
+                                onChange={(event) => props.stall.name = event.target.value} />
 
                             <TextField
                                 size="small"
@@ -54,7 +46,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 label="Description"
                                 variant="outlined"
                                 value={props.stall.description}
-                                onChange={(event) => props.stall.setDescription(event.target.value)} />
+                                onChange={(event) => props.stall.description = event.target.value} />
                         </Stack>
 
                     </Grid>
@@ -73,7 +65,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                     </Grid>
                     {
                         //TODO: Make error handling waaay the fuck better.
-                        stores.stallFormUiStore.isInvalidStall &&
+                        props.stall.name === "" || props.stall.description === "" &&
                         <Grid item xs={12}>
                             <Typography variant="caption" color={"red"}>
                                 Stall must have a unique name, and a description.

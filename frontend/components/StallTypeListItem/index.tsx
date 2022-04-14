@@ -6,9 +6,10 @@ import List from '@mui/material/List';
 import AddIcon from '@mui/icons-material/Add';
 import { StoreContext } from "../../stores/StoreContext";
 import { IStall } from "../../@types/Stall";
+import { Stall } from "../../NewStores/@DomainObjects/Stall";
 
 type Props = {
-    stall: IStall,
+    stall: Stall,
     count: number,
     onChange: any
 }
@@ -26,7 +27,7 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                         <Typography
                             variant="h6">
                             {
-                                props.stall.type
+                                props.stall.name
                             }
                         </Typography>
                         <Typography variant="caption">
