@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -54,25 +55,19 @@ namespace Application.Markets.Commands.CreateMarket
                     EndDate = request.Dto.EndDate
                 };
                 _context.MarketInstances.Add(instance);
-                
-                foreach(var stall in request.Dto.Stalls)
-                {
-                    var type = new StallType() { Name = stall.Name, Description = stall.Description, MarketTemplate = template};
-                    _context.StallTypes.Add(type);
-                    for (int i = 0; i < stall.Count; i++)
-                    {
-                        _context.Stalls.Add(new Stall()
-                        {
-                            StallType = type
-                        });
-                    }
-                }
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateMarketResponse()
+                Market market = new Market()
                 {
                     MarketId = instance.Id,
+                    Description = instance.MarketTemplate.Description,
+                    MarketName = instance.MarketTemplate.Name,
+                    StartDate = instance.StartDate,
+                    EndDate = instance.EndDate,
+                    IsCancelled = instance.IsCancelled
                 };
+
+                return new CreateMarketResponse(Result.Success()) { Market = market };
             }
         }
 

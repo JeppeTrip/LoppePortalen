@@ -1,15 +1,14 @@
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid, IconButton, ListItem, Paper, Stack, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useContext } from "react";
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Stall } from "../../NewStores/@DomainObjects/Stall";
+import { StallType } from "../../NewStores/@DomainObjects/StallType";
 import { StoreContext } from "../../NewStores/StoreContext";
 
+
 type Props = {
-    stall: Stall
+    stallType: StallType
 }
 
 
@@ -18,7 +17,8 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
 
     const handleOnAdd = (event) => {
-        stores.marketStore.selectedMarket.stalls.push(stores.marketStore.selectedMarket.selectedStall)
+        props.stallType.save()
+        props.stallType.deselect()
     }
 
     const handleOnDelete = (event) => {
@@ -37,16 +37,16 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 id="stallNameInput"
                                 label="Name"
                                 variant="outlined"
-                                value={props.stall.name}
-                                onChange={(event) => props.stall.name = event.target.value} />
+                                value={props.stallType.name}
+                                onChange={(event) => props.stallType.name = event.target.value} />
 
                             <TextField
                                 size="small"
                                 id="stallDescInput"
                                 label="Description"
                                 variant="outlined"
-                                value={props.stall.description}
-                                onChange={(event) => props.stall.description = event.target.value} />
+                                value={props.stallType.description}
+                                onChange={(event) => props.stallType.description = event.target.value} />
                         </Stack>
 
                     </Grid>
@@ -65,7 +65,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                     </Grid>
                     {
                         //TODO: Make error handling waaay the fuck better.
-                        props.stall.name === "" || props.stall.description === "" &&
+                        props.stallType.name === "" || props.stallType.description === "" &&
                         <Grid item xs={12}>
                             <Typography variant="caption" color={"red"}>
                                 Stall must have a unique name, and a description.

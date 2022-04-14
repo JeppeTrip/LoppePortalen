@@ -1,24 +1,22 @@
-import { Button, Grid, IconButton, Input, ListItem, Typography } from "@mui/material";
-import { observer } from "mobx-react-lite";
-import { FC, useContext, useEffect, useState } from "react";
-import List from '@mui/material/List';
 import AddIcon from '@mui/icons-material/Add';
-import StallTypeListItem from "../StallTypeListItem";
-import StallTypeInputListItem from "../StallTypeInputListItem";
+import { Button, Grid } from "@mui/material";
+import List from '@mui/material/List';
+import { observer } from "mobx-react-lite";
+import { FC } from "react";
 import { Market } from "../../NewStores/@DomainObjects/Market";
+import StallTypeInputListItem from "../StallTypeInputListItem";
+import StallTypeListItem from "../StallTypeListItem";
 
 
 type Props = {
     market: Market
 }
 
-
-
 const StallForm: FC<Props> = (props: Props) => {
 
     const handleOnClick = (event) => {
-        props.market.createStall()
-
+        const type = props.market.addNewStallType()
+        type.select()
     }
 
     return (
@@ -31,11 +29,10 @@ const StallForm: FC<Props> = (props: Props) => {
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {
-                        props.market.selectedStall != null && <StallTypeInputListItem stall={props.market.selectedStall} />
+                        (props.market.store.rootStore.stallTypeStore.selected || props.market.store.rootStore.stallTypeStore.selected != null) && <StallTypeInputListItem stallType={props.market.store.rootStore.stallTypeStore.selected} />
                     }
                     {
-                        props.market.uniqueStalls.map(x => <StallTypeListItem stall={x} count={props.market.stallCount(x.name)} 
-                        onChange={(event) => props.market.setNumberOfStalls(x.name, event.target.value === "" ? 0 : parseInt(event.target.value))}/>)
+                        props.market.stallTypes.length != 0 && props.market.savedStallTypes.map(type => <StallTypeListItem stallType={type} />)
                     }
                 </List>
             </Grid>

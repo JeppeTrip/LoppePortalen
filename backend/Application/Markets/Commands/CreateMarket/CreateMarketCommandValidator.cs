@@ -25,28 +25,6 @@ namespace Application.Markets.Commands.CreateMarket
             RuleFor(e => e.Dto.StartDate)
                 .LessThan(e => e.Dto.EndDate)
                 .NotEmpty();
-
-            RuleFor(e => e.Dto.Stalls)
-                .NotEmpty();
-
-            RuleForEach(e => e.Dto.Stalls)
-                .SetValidator(new StallDtoValidator());
-        }
-    }
-
-    public class StallDtoValidator : AbstractValidator<StallDto>
-    {
-        public StallDtoValidator()
-        {
-            RuleFor(e => e.Name)
-                .NotEmpty();
-
-            RuleFor(e => e.Description)
-                .NotEmpty();
-
-            RuleFor(e => e.Count)
-                .NotNull()
-                .GreaterThan(0);
         }
     }
 }

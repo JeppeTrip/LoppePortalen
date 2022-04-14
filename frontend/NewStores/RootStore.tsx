@@ -3,6 +3,7 @@ import { AuthorizationClient, MarketClient, OrganiserClient, UserClient } from "
 import { AuthStore } from "./stores/AuthStore"
 import { MarketStore } from "./stores/MarketStore"
 import { OrganiserStore } from "./stores/OrganiserStore"
+import { StallTypeStore } from "./stores/StallTypeStore"
 import { UserStore } from "./stores/UserStore"
 
 export class RootStore {
@@ -10,6 +11,7 @@ export class RootStore {
     userStore : UserStore
     organiserStore : OrganiserStore
     marketStore : MarketStore
+    stallTypeStore : StallTypeStore
 
     constructor(){
         makeAutoObservable(this)
@@ -17,5 +19,6 @@ export class RootStore {
         this.userStore = new UserStore(this, new UserClient())
         this.organiserStore = new OrganiserStore(this, new OrganiserClient())
         this.marketStore = new MarketStore(this, new MarketClient())
+        this.stallTypeStore = new StallTypeStore(this, null)
     }
 }

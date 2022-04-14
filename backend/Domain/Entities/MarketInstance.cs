@@ -18,7 +18,6 @@ namespace Domain.Entities
         //TODO: Is this the correct place to put this?
         public bool IsCancelled { get; set; } = false;
 
-
         public virtual MarketTemplate MarketTemplate { get; set; }
         public int MarketTemplateId { get; set; }
     }

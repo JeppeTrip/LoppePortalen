@@ -1,23 +1,87 @@
-﻿using Application.Markets.Commands.CancelMarket;
+﻿using Application.Common.Models;
+using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
 using Application.Markets.Queries.GetUsersMarkets;
+using Application.Stalls.Commands.AddStallsToMarket;
+using Application.StallTypes.CreateStallType;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Web.Bodies;
 
 namespace Web.Controllers
 {
     public class MarketController : ApiBase
     {
         [HttpPost("new")]
-        public async Task<ActionResult<CreateMarketResponse>> CreateMarket(CreateMarketRequest dto)
+        public async Task<ActionResult<CreateMarketResponse>> CreateMarket(NewMarketInfo body)
         {
-            return await Mediator.Send(new CreateMarketCommand() { Dto = dto });
+            try
+            {
+                Context.Database.BeginTransaction();
+                CreateMarketRequest marketRequest = new CreateMarketRequest()
+                {
+                    MarketName = body.MarketName,
+                    Description = body.Description,
+                    StartDate = body.StartDate,
+                    EndDate = body.EndDate,
+                    OrganiserId = body.OrganiserId
+                };
+                CreateMarketResponse marketResponse = await Mediator.Send(new CreateMarketCommand() { Dto = marketRequest });
+                if (!marketResponse.Succeeded)
+                {
+                    Context.Database.RollbackTransaction();
+                    return BadRequest();
+                }
+
+                var types = body.StallTypes.Select(x => (x.name.Trim(), x.description.Trim())).ToList();
+                CreateStallTypesRequest stallTypesRequest = new CreateStallTypesRequest()
+                {
+                    MarketId = marketResponse.Market.MarketId,
+                    Types = types
+                };
+                CreateStallTypesResponse stallTypesResponse = await Mediator.Send(new CreateStallTypesCommand() { Dto = stallTypesRequest });
+                if (!stallTypesResponse.Succeeded)
+                {
+                    Context.Database.RollbackTransaction();
+                    return BadRequest();
+                }
+                marketResponse.Market.StallTypes = stallTypesResponse.StallTypes;
+
+                marketResponse.Market.Stalls = new List<Stall>();
+                AddStallsToMarketResponse addStallsResponse;
+                foreach (var type in stallTypesResponse.StallTypes)
+                {
+                    addStallsResponse = await Mediator.Send(new AddStallsToMarketCommand()
+                    {
+                        Dto = new AddStallsToMarketRequest()
+                        {
+                            MarketId = marketResponse.Market.MarketId,
+                            StallTypeId = type.Id,
+                            Number = body.StallTypes.First(x => x.name.Equals(type.Name)).count
+                        }
+                    });
+                    if (!addStallsResponse.Succeeded)
+                    {
+                        Context.Database.RollbackTransaction();
+                        return BadRequest();
+                    }
+                    marketResponse.Market.Stalls.AddRange(addStallsResponse.Stalls);
+                }
+                Context.Database.CommitTransaction();
+                return Ok(marketResponse);
+            }
+            catch (Exception ex)
+            {
+                Context.Database.RollbackTransaction();
+                throw;
+            }
         }
 
         [HttpGet("instance/{id}")]

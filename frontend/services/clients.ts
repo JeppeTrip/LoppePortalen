@@ -170,7 +170,7 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
 
 export interface IMarketClient {
 
-    createMarket(dto: CreateMarketRequest): Promise<CreateMarketResponse>;
+    createMarket(body: NewMarketInfo): Promise<CreateMarketResponse>;
 
     getMarketInstance(id: string | null): Promise<GetMarketInstanceQueryResponse>;
 
@@ -196,11 +196,11 @@ export class MarketClient extends ClientBase implements IMarketClient {
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    createMarket(dto: CreateMarketRequest): Promise<CreateMarketResponse> {
+    createMarket(body: NewMarketInfo): Promise<CreateMarketResponse> {
         let url_ = this.baseUrl + "/api/Market/new";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(dto);
+        const content_ = JSON.stringify(body);
 
         let options_: RequestInit = {
             body: content_,
@@ -1069,26 +1069,7 @@ export interface RefreshJwtRequest {
     refreshToken?: string | null;
 }
 
-export interface CreateMarketResponse {
-    marketId?: number;
-}
-
-export interface CreateMarketRequest {
-    organiserId?: number;
-    marketName?: string | null;
-    description?: string | null;
-    startDate?: Date;
-    endDate?: Date;
-    stalls?: StallDto[] | null;
-}
-
-export interface StallDto {
-    name?: string | null;
-    description?: string | null;
-    count?: number;
-}
-
-export interface GetMarketInstanceQueryResponse {
+export interface CreateMarketResponse extends Result {
     market?: Market | null;
 }
 
@@ -1100,6 +1081,8 @@ export interface Market {
     startDate?: Date;
     endDate?: Date;
     isCancelled?: boolean;
+    stallTypes?: StallType[] | null;
+    stalls?: Stall[] | null;
 }
 
 export interface Organiser {
@@ -1113,6 +1096,37 @@ export interface Organiser {
     postalCode?: string | null;
     city?: string | null;
     markets?: Market[] | null;
+}
+
+export interface StallType {
+    id?: number;
+    name?: string | null;
+    description?: string | null;
+    market?: Market | null;
+}
+
+export interface Stall {
+    id?: number;
+    market?: Market | null;
+}
+
+export interface NewMarketInfo {
+    organiserId?: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate?: Date;
+    endDate?: Date;
+    stallTypes?: ValueTupleOfStringAndStringAndInteger[] | null;
+}
+
+export interface ValueTupleOfStringAndStringAndInteger {
+    item1?: string;
+    item2?: string;
+    item3?: number;
+}
+
+export interface GetMarketInstanceQueryResponse {
+    market?: Market | null;
 }
 
 export interface GetAllMarketInstancesQueryResponse {

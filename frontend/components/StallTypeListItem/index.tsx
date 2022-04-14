@@ -1,12 +1,10 @@
 import { Grid, Input, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
-import { Stall } from "../../NewStores/@DomainObjects/Stall";
+import { StallType } from "../../NewStores/@DomainObjects/StallType";
 
 type Props = {
-    stall: Stall,
-    count: number,
-    onChange: any
+    stallType: StallType
 }
 
 
@@ -21,12 +19,12 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                         <Typography
                             variant="h6">
                             {
-                                props.stall.name
+                                props.stallType.name
                             }
                         </Typography>
                         <Typography variant="caption">
                             {
-                                props.stall.description
+                                props.stallType.description
                             }
                         </Typography>
                     </Stack>
@@ -35,8 +33,8 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                 <Grid item xs={4}>
                     <Input
                         type="number"
-                        value={props.count}
-                        onChange={props.onChange}
+                        value={0}
+                        onChange={() => console.log("changed")}
                     />
                 </Grid>
             </Grid>

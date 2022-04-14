@@ -3,6 +3,7 @@ import { Market as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
+import { StallType } from "./StallType";
 
 export class Market {
     store: MarketStore
@@ -16,8 +17,7 @@ export class Market {
     @observable startDate: Date
     @observable endDate: Date
     @observable isCancelled: boolean
-    @observable stalls : Stall[]
-    @observable selectedStall : Stall
+    @observable stallTypes : StallType[]
 
     @action
     set setId(id : number)
@@ -59,18 +59,11 @@ export class Market {
     {
         this.isCancelled = isCancelled
     }
-
-    @action
-    set setSelectedStall(stall : Stall)
-    {
-        this.selectedStall = stall
-    }
     
     constructor(store: MarketStore) {
         makeAutoObservable(this);
         this.store = store
-        this.stalls = [] as Stall[]
-        this.selectedStall = null
+        this.stallTypes = [] as StallType[]
         this.startDate = null
         this.endDate = null
         this.oldState = null
@@ -119,10 +112,9 @@ export class Market {
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate,
-                stalls: this.uniqueStalls.map(x => {return {name: x.name, description: x.description, count: this.stallCount(x.name)}})//TODO :Update
             }).then(
                 action("submitSuccess", res => {
-                    this.id = res.marketId,
+                    this.id = res.market.marketId,
                     this.setOldState();
                     this.store.markets.push(this);
                 }),
@@ -154,71 +146,17 @@ export class Market {
         }
     }
 
-    @computed
-    get stallCounts()
-    {
-        var unique = this.uniqueStalls;
-        var stallCounts = unique.map(stall => [stall, this.stalls.filter(x => x.name === stall.name).length])
-        return stallCounts;
-    }
-
-    @computed
-    get uniqueStalls(){
-        var result : Stall[] = []
-        var stallTypeSet = new Set<string>(this.stalls.map(x => x.name));
-        stallTypeSet.forEach(type => {
-            result.push(this.stalls.find(x => x.name == type))
-        });
-        return result;
-    }
-
-    @computed
-    stallCount(type : string)
-    {
-        return this.stalls.filter(x => x.name === type).length;
-    }
-
     @action
-    createStall(){
-        const stall = new Stall();
-        this.selectedStall = stall;
-        return stall;
+    addNewStallType(){
+        const type = this.store.rootStore.stallTypeStore.createStallType()
+        this.stallTypes.push(type);
+        return type;
     }
 
-        //TODO: This is temporary (likely)
-        @action
-        setNumberOfStalls(type : string, count : number)
-        {
-            var unique = this.stalls.filter(x => x.name === type);
-            var stall = unique[0];
-    
-            if(stall === null ||stall === undefined)
-            {
-                return;
-            }
-            count = count < 1 ? 1 : count;
-            const currentCount = unique.length;
-            const diff = count - currentCount;
-    
-            if(diff > 0)
-            {
-                var newStalls : Stall[] = [];
-                for(var i = 0; i<diff; i++)
-                {
-                    newStalls.push(stall)
-                }
-                this.stalls = this.stalls.concat(newStalls);
-            }
-            else if(diff < 0)
-            {
-                this.stalls = this.stalls.slice(0, diff);
-            }
-        }
-
-        /**
-         * Used internally to store the state of the component.
-         * This is used for editing if you want to cancel your changes.
-         */
+    /**
+     * Used internally to store the state of the component.
+     * This is used for editing if you want to cancel your changes.
+     */
     private setOldState()
     {
         const state = new Market(null);
@@ -241,5 +179,11 @@ export class Market {
             this.endDate = new Date(this.oldState.endDate);
             this.isCancelled = this.oldState.isCancelled; 
         }
+    }
+
+    @computed
+    get savedStallTypes()
+    {
+        return this.stallTypes.filter(x => x.id > 0)
     }
 }

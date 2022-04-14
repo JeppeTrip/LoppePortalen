@@ -15,5 +15,7 @@ namespace Application.Common.Models
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public bool IsCancelled { get; set; }
+        public List<StallType> StallTypes { get; set; }
+        public List<Stall> Stalls { get; set; }
     }
 }
