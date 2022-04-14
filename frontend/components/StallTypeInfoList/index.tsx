@@ -1,9 +1,8 @@
-import { Button, Grid, IconButton, Input, ListItem, Typography } from "@mui/material";
+import {Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useContext } from "react";
 
 import List from '@mui/material/List';
-import { StoreContext } from "../../stores/StoreContext";
 import StallTypeInfoListItem from "../StallTypeInfoListItem";
 import { Market } from "../../@types/Market";
 
@@ -14,8 +13,6 @@ type Props = {
 
 
 const StallTypeInfoList: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
-
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {

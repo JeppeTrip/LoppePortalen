@@ -53,7 +53,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("instance/filtered")]
-        public async Task<ActionResult<List<GetFilteredMarketsQueryResponse>>> GetFilteredMarketInstances(
+        public async Task<ActionResult<GetFilteredMarketsQueryResponse>> GetFilteredMarketInstances(
             bool? isCancelled,
             int? organiserId,
             DateTimeOffset? startDate,

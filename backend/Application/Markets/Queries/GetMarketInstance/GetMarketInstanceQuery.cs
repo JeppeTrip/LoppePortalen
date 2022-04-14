@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,19 +28,38 @@ namespace Application.Markets.Queries.GetMarket
             {
                 var marketInstance = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
+                    .Include(x => x.MarketTemplate.Organiser)
+                    .Include(x => x.MarketTemplate.Organiser.Address)
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
                 if (marketInstance == null)
                 {
                     throw new NotFoundException("No such market.");
                 }
-                GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse() { 
+
+                Organiser organiser = new Organiser()
+                {
+                    Id = marketInstance.MarketTemplate.Organiser.Id,
+                    UserId = marketInstance.MarketTemplate.Organiser.UserId,
+                    Name = marketInstance.MarketTemplate.Organiser.Name,
+                    Description = marketInstance.MarketTemplate.Organiser.Description,
+                    Street = marketInstance.MarketTemplate.Organiser.Address.Street,
+                    StreetNumber = marketInstance.MarketTemplate.Organiser.Address.Number,
+                    Appartment = marketInstance.MarketTemplate.Organiser.Address.Appartment,
+                    PostalCode = marketInstance.MarketTemplate.Organiser.Address.PostalCode,
+                    City = marketInstance.MarketTemplate.Organiser.Address.City
+                };
+                Market market = new Market()
+                {
                     MarketId = marketInstance.Id,
                     Description = marketInstance.MarketTemplate.Description,
                     MarketName = marketInstance.MarketTemplate.Name,
-                    OrganiserId = marketInstance.MarketTemplate.OrganiserId,
+                    Organiser = organiser,
                     StartDate = marketInstance.StartDate,
                     EndDate = marketInstance.EndDate,
                     IsCancelled = marketInstance.IsCancelled
+                };
+                GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse() { 
+                    Market = market
                 };
                 return response;
             }

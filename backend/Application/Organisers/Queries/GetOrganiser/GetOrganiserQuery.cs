@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -35,19 +36,38 @@ namespace Application.Organisers.Queries.GetOrganiser
                     throw new NotFoundException($"No organiser with ID {request.Dto.Id}");
                 }
 
-                var result = new GetOrganiserQueryResponse()
+                var instances = _context.MarketInstances
+                    .Include(m => m.MarketTemplate);
+
+                var organiserInstances = instances
+                    .Where(m => m.MarketTemplate.OrganiserId == organiser.Id);
+
+                var markets = organiserInstances.Select(m => new Market()
+                {
+                    MarketId = m.Id,
+                    MarketName = m.MarketTemplate.Name,
+                    Description = m.MarketTemplate.Description,
+                    StartDate = m.StartDate,
+                    EndDate = m.EndDate,
+                    IsCancelled = m.IsCancelled
+                }).ToList();
+
+                Organiser result = new Organiser()
                 {
                     Id = organiser.Id,
+                    UserId = organiser.UserId,
                     Name = organiser.Name,
                     Description = organiser.Description,
                     Street = organiser.Address.Street,
-                    Number = organiser.Address.Number,
+                    StreetNumber = organiser.Address.Number,
                     Appartment = organiser.Address.Appartment,
                     PostalCode = organiser.Address.PostalCode,
-                    City = organiser.Address.City
+                    City = organiser.Address.City,
+                    Markets = markets
                 };
 
-                return result;
+
+                return new GetOrganiserQueryResponse() { Organiser = result};
             }
         }
     }

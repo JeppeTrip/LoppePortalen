@@ -2,7 +2,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
 import { FC, useContext, useEffect } from 'react';
-import { StoreContext } from "../../stores/StoreContext";
 import { Divider, List, Stack } from '@mui/material';
 import OrganiserListItem from '../OrganiserListItem';
 import { useRouter } from 'next/router';
@@ -13,7 +12,6 @@ type Props = {
 }
 
 const ProfileOrgInfo: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const router = useRouter();
 
     //Component mounts

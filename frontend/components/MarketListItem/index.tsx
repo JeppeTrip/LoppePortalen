@@ -1,8 +1,7 @@
-import { Avatar, ButtonGroup, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
+import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { FC, useContext} from 'react';
+import React, { FC} from 'react';
 import ImageIcon from '@mui/icons-material/Image'
-import { StoreContext } from '../../stores/StoreContext';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { observer } from 'mobx-react-lite';

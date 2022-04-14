@@ -1,8 +1,7 @@
-import { action, flow, flowResult, makeAutoObservable, observable } from "mobx";
-import { MarketClient } from "../../stores/models";
-import { RootStore } from "../RootStore";
-import { Market as Dto } from "../../stores/models";
+import { action, makeAutoObservable, observable } from "mobx";
+import { Market as Dto, MarketClient } from "../../stores/models";
 import { Market } from "../@DomainObjects/Market";
+import { RootStore } from "../RootStore";
 
 
 export class MarketStore {
@@ -24,61 +23,71 @@ export class MarketStore {
      */
     @action
     updateMarketFromServer(dto: Dto) {
-        console.log("market store: update market from server")
         let market = this.markets.find(x => x.id === dto.marketId)
         if (!market) {
             market = new Market(this)
             this.markets.push(market)
         }
-        console.log("either found or created new market")
-        console.log(market)
         market.updateFromServer(dto)
-        console.log("done updating market from server")
-        console.log(market)
         return market
     }
 
     /**
-    * Tries to fetch all organisations from the backend.
+    * Tries to fetch all markets from the backend.
     * Force updates the entire organiser list.
-    * TODO: Ensure that all the organisers in this list also removes it from the listening objects.
     */
     @action
     fetchAllMarkets() {
-        console.log("fetch all markets")
         this.transportLayer.getAllMarketInstances()
-        .then(
-            action("fetchSuccess", result => {
-                console.log("fetchResult\n")
-                console.log(result)
-                result.markets.forEach(dto => {
-                    console.log("iterate through markets")
-                    console.log(dto)
-                    this.updateMarketFromServer(dto)
-                });
-            }),
-            action("fetchError", error => {
-                this.markets = []
-            })
-        )
-    }
-
-    @action
-    resolveSelectedMarket(marketId: number) {
-        flowResult(this.fetchAllMarkets())
             .then(
                 action("fetchSuccess", result => {
-                    const market = result.find(x => x.id === marketId);
-                    if (!market) {
-                        return null;
-                    }
-                    else {
-                        market.select()
-                        return market
-                    }
+                    result.markets.forEach(dto => {
+                        this.updateMarketFromServer(dto)
+                    });
+                }),
+                action("fetchError", error => {
+                    this.markets = []
+                })
+            )
+    }
+
+    /**
+    * Tries to fetch filtered markets from the backend.
+    * For now this resets the current markets instances and then fetches a whole new list.
+    */
+    @action
+    fetchFilteredMarkets(organiserId?: number, isCancelled?: boolean, startDate?: Date, endDate?: Date) {
+        this.markets = []
+        this.transportLayer.getFilteredMarketInstances(isCancelled, organiserId, startDate, endDate)
+            .then(
+                action("fetchSuccess", result => {
+                    result.markets.forEach(dto => {
+                        this.updateMarketFromServer(dto)
+                    });
+                }),
+                action("fetchError", error => {
+                    this.markets = []
+                })
+            )
+    }
+
+    /**
+     * Find market instance.
+     * Right now it just forces a fetch every time, we could in principal make two versions.
+     * 1 that looks through the currently loaded markets and are content with that. 
+     * and 1 that forces an update of the information.
+     * @param marketId id of the market to find.
+     */
+    @action
+    resolveSelectedMarket(marketId: number) {
+        this.transportLayer.getMarketInstance(marketId + "")
+            .then(
+                action("fetchSuccess", result => {
+                    let market = this.updateMarketFromServer(result.market);
+                    market.select()
                 }),
                 action("fetchFailed", error => {
-                    return null;
+                    //do something with this.
                 })
             )
     }

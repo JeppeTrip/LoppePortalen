@@ -1,10 +1,8 @@
 import { Grid, TextField} from "@mui/material";
 
-import { FC, useContext} from "react";
+import { FC} from "react";
 
 import { observer } from "mobx-react-lite";
-import { StoreContext } from "../../stores/StoreContext";
-import { IUser } from "../../@types/User";
 import { Auth } from "../../NewStores/@DomainObjects/Auth";
 
 type Props = {

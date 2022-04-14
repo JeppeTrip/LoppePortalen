@@ -3,10 +3,12 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import { Button, Checkbox, Drawer, FormControlLabel, FormGroup, ListItem, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { StoreContext } from '../../stores/StoreContext';
 import { observer } from 'mobx-react-lite';
 import { DateTimePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { StoreContext } from '../../NewStores/StoreContext';
+
+const drawerWidth = 240
 
 type Props = {}
 
@@ -24,7 +26,7 @@ const MarketFilter: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         //Todo: expand with organiser filter
-        stores.marketStore.getFilteredMarkets(null, hideCancelledEvents, startDate, endDate)
+        stores.marketStore.fetchFilteredMarkets(null, hideCancelledEvents, startDate, endDate)
     }
 
     return (
@@ -35,9 +37,9 @@ const MarketFilter: FC<Props> = (props: Props) => {
                 variant="permanent"
                 sx={{
                     zIndex: 1,
-                    width: stores.uiStateStore.filterDrawerWidth,
+                    width: drawerWidth,
                     flexShrink: 1,
-                    [`& .MuiDrawer-paper`]: { width: stores.uiStateStore.filterDrawerWidth, boxSizing: 'border-box' },
+                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
                 }}
             >
                 <Toolbar />

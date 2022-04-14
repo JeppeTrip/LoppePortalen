@@ -26,15 +26,10 @@ export class OrganiserStore {
     */
     @action
     fetchAllOrganisers() {
-        console.log("fetch all organisers")
         this.transportLayer.getAllOrganisers()
         .then(
             action("fetchSuccess", result => {
-                console.log("fetchResult\n")
-                console.log(result)
                 result.organisers.forEach(dto => {
-                    console.log("iterate through organisers")
-                    console.log(dto)
                     this.updateOrganiserFromServer(dto)
                 });
             }),
@@ -64,23 +59,14 @@ export class OrganiserStore {
 
     @action
     resolveSelectedOrganiser(organiserId: number) {
-        flowResult(this.fetchAllOrganisers())
+        this.transportLayer.getOrganiser(organiserId+"")
             .then(
                 action("fetchSuccess", result => {
-                    console.log(result)
-                    const organiser = result.find(x => x.id === organiserId);
-                    console.log("find the one I'm looking for")
-                    console.log(organiser)
-                    if (!organiser) {
-                        return null;
-                    }
-                    else {
-                        organiser.select()
-                        return organiser
-                    }
+                    let organiser = this.updateOrganiserFromServer(result.organiser);
+                    organiser.select()
                 }),
                 action("fetchFailed", error => {
-                    return null;
+                    //do somehting with this
                 })
             )
     }
@@ -94,10 +80,7 @@ export class OrganiserStore {
 
     @action
     updateOrganiserFromServer(dto: Dto) {
-        console.log("update organiser from server")
-        console.log(dto)
         let organiser = this.organisers.find(x => x.id === dto.id);
-        console.log(organiser)
         if (!organiser) {
             organiser = new Organiser(this);
             this.organisers.push(organiser);

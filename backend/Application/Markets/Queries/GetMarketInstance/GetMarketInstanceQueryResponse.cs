@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Markets.Queries.GetFilteredMarkets
+namespace Application.Markets.Queries.GetMarket
 {
-    public class GetFilteredMarketsQueryResponse
+    public class GetMarketInstanceQueryResponse
     {
-        public List<Market> Markets { get; set; }
+        public Market Market { get; set; }
     }
 }

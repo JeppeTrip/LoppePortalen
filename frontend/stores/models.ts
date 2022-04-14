@@ -178,7 +178,7 @@ export interface IMarketClient {
 
     cancelMarketInstance(id: string | null): Promise<CancelMarketInstanceResponse>;
 
-    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]>;
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse>;
 
     getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse>;
 }
@@ -344,7 +344,7 @@ export class MarketClient extends ClientBase implements IMarketClient {
         return Promise.resolve<CancelMarketInstanceResponse>(null as any);
     }
 
-    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse[]> {
+    getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse> {
         let url_ = this.baseUrl + "/api/Market/instance/filtered?";
         if (isCancelled !== undefined && isCancelled !== null)
             url_ += "isCancelled=" + encodeURIComponent("" + isCancelled) + "&";
@@ -370,13 +370,13 @@ export class MarketClient extends ClientBase implements IMarketClient {
         });
     }
 
-    protected processGetFilteredMarketInstances(response: Response): Promise<GetFilteredMarketsQueryResponse[]> {
+    protected processGetFilteredMarketInstances(response: Response): Promise<GetFilteredMarketsQueryResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFilteredMarketsQueryResponse[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetFilteredMarketsQueryResponse;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -384,7 +384,7 @@ export class MarketClient extends ClientBase implements IMarketClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GetFilteredMarketsQueryResponse[]>(null as any);
+        return Promise.resolve<GetFilteredMarketsQueryResponse>(null as any);
     }
 
     getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse> {
@@ -974,17 +974,7 @@ export interface StallDto {
 }
 
 export interface GetMarketInstanceQueryResponse {
-    marketId?: number;
-    organiserId?: number;
-    marketName?: string | null;
-    description?: string | null;
-    startDate?: Date;
-    endDate?: Date;
-    isCancelled?: boolean;
-}
-
-export interface GetAllMarketInstancesQueryResponse {
-    markets?: Market[] | null;
+    market?: Market | null;
 }
 
 export interface Market {
@@ -1010,19 +1000,17 @@ export interface Organiser {
     markets?: Market[] | null;
 }
 
+export interface GetAllMarketInstancesQueryResponse {
+    markets?: Market[] | null;
+}
+
 export interface CancelMarketInstanceResponse {
     marketId?: number;
     isCancelled?: boolean;
 }
 
 export interface GetFilteredMarketsQueryResponse {
-    marketId?: number;
-    organiserId?: number;
-    marketName?: string | null;
-    description?: string | null;
-    startDate?: Date;
-    endDate?: Date;
-    isCancelled?: boolean;
+    markets?: Market[] | null;
 }
 
 export interface GetUsersMarketsResponse extends Result {
@@ -1098,14 +1086,7 @@ export interface Organiser2 {
 }
 
 export interface GetOrganiserQueryResponse {
-    id?: number;
-    name?: string | null;
-    description?: string | null;
-    street?: string | null;
-    number?: string | null;
-    appartment?: string | null;
-    postalCode?: string | null;
-    city?: string | null;
+    organiser?: Organiser | null;
 }
 
 export interface GetUsersOrganisersResponse {
