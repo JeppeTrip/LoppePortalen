@@ -8,11 +8,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { observer } from 'mobx-react-lite';
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
-import { StoreContext } from "../../stores/StoreContext";
+import { FC, Fragment, useState } from 'react';
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
-import { Grid } from '@mui/material';
 import UserInfoForm from '../UserInfoForm';
 import UserAccountForm from '../UserAccountForm';
 import { Auth } from '../../NewStores/@DomainObjects/Auth';
@@ -26,7 +24,6 @@ const steps = ['User Info', 'Account Info'];
 const theme = createTheme();
 
 const UserForm: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const [activeStep, setActiveStep] = useState(0);
 
     const getStepContent = (step: number) => {
@@ -96,21 +93,12 @@ const UserForm: FC<Props> = (props: Props) => {
                             {getStepContent(activeStep)}
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 {activeStep !== 0 && (
-                                    <Button disabled={stores.userFormUiStore.isSubmittingForm} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                    <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                                         Back
                                     </Button>
                                 )}
                                 {getButton()}
                             </Box>
-                            {
-                                //TODO: Make error handling waaay the fuck better.
-                                stores.userFormUiStore.showError &&
-                                <Grid item xs={12}>
-                                    <Typography variant="caption" color={"red"}>
-                                        Could not submit.
-                                    </Typography>
-                                </Grid>
-                            }
                         </Fragment>
                     </Fragment>
                 </Paper>

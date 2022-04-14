@@ -1,27 +1,22 @@
+import { Divider, List, Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
-import { FC, useContext, useEffect, useState } from 'react';
-import { StoreContext } from "../../stores/StoreContext";
-import { IUser } from '../../@types/User';
-import { Autocomplete, Container, Divider, Grid, List, Paper, Stack, TextField } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import OrganiserListItem from '../OrganiserListItem';
 import { useRouter } from 'next/router';
+import { FC, useEffect } from 'react';
+import { User } from '../../NewStores/@DomainObjects/User';
 import MarketListItem from '../MarketListItem';
 
 type Props = {
-    user: IUser
+    user: User
 }
 
 const ProfileMarketInfo: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
     const router = useRouter();
 
     //Componentmounts
     useEffect(() => {
-        stores.userStore.getUsersMarkets(props.user);
+        
     }, [])
 
     //Component unmounts

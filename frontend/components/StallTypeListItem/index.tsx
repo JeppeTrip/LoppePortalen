@@ -1,7 +1,6 @@
 import { Grid, Input, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useContext } from "react";
-import { StoreContext } from "../../stores/StoreContext";
+import { FC } from "react";
 import { Stall } from "../../NewStores/@DomainObjects/Stall";
 
 type Props = {

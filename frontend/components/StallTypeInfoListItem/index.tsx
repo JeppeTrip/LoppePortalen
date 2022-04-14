@@ -1,9 +1,8 @@
 import { Grid, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { IStall } from "../../@types/Stall";
 
-import { StoreContext } from "../../stores/StoreContext";
 
 type Props = {
     stall: IStall,
@@ -12,13 +11,6 @@ type Props = {
 }
 
 const StallTypeInfoListItem: FC<Props> = (props: Props) => {
-    const stores = useContext(StoreContext);
-
-    const handleOnClick = (event) => {
-        stores.stallFormUiStore.setIsAddingNewStall(true);
-        stores.marketStore.newMarket.setNewStall()
-    }
-
     return (
         <ListItem>
             <Grid container spacing={2} alignItems="center">
