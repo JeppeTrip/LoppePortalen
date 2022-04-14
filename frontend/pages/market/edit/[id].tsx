@@ -1,16 +1,13 @@
-import { Button, CircularProgress, Container, Stack, Typography } from "@mui/material";
-import { NextPage } from "next";
-import { observer } from "mobx-react-lite";
-import OrganiserForm from "../../../components/OrganiserForm";
-import { NextPageAuth } from "../../../@types/NextAuthPage";
-import { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../../stores/StoreContext";
-import { Organiser } from "../../../@types/Organiser";
-import { useRouter } from "next/router";
-import { LoadingButton } from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
-import { Market } from "../../../@types/Market";
+import { LoadingButton } from "@mui/lab";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { NextPageAuth } from "../../../@types/NextAuthPage";
 import MarketForm from "../../../components/MarketForm";
+import { StoreContext } from '../../../NewStores/StoreContext';
+
 
 type Props = {
     id: string
@@ -23,17 +20,13 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
 
     //mount
     useEffect(() => {
-        stores.marketStore.resetEditedMarket();
-        stores.marketFormUiStore.resetState();
-        stores.stallFormUiStore.resetState();
+
     }, [])
 
     //Unmount
     useEffect(() => {
         return () => {
-            stores.marketStore.resetEditedMarket();
-            stores.marketFormUiStore.resetState();
-            stores.stallFormUiStore.resetState();
+
         }
     }, [])
 
@@ -46,63 +39,22 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     }, [router.isReady]);
 
     /**
-     * If you come here directly and edit market in the market store hasn't been set to anything
-     * check if there is something in the current user. 
-     * else go and check the backend
-     * if nothing in the backend go to error page.
+     * If selected market is empty in the stores search for it.
      */
-    useEffect(() => {
-        if (marketId) {
-            if (stores.marketStore.selectedMarket.id === -1) {
-                const market = stores.userStore.currentUser.markets.find(x => x.id === parseInt(marketId));
-                if (market) {
-                    stores.marketStore.setSelectedMarketObject(market);
-                }
-                else {
-                    stores.marketStore.setSelectedMarket(parseInt(marketId))
-                }
+     useEffect(() => {
+        if (stores.marketStore.selectedMarket == null) {
+            if (!(marketId == "")) {
+                stores.marketStore.resolveSelectedMarket(parseInt(marketId))
             }
         }
-    }, [marketId])
-
-    /**
-     * When selected market has been set, create the edited market
-     */
-    useEffect(() => {
-        if(stores.marketStore.selectedMarket)
-        {
-            const market = stores.marketStore.selectedMarket;
-            stores.marketStore.setEditedMarket(
-                new Market(
-                    market.id, 
-                    market.organiserId,
-                    market.name,
-                    market.startDate,
-                    market.endDate,
-                    market.description,
-                    market.isCancelled,
-                    market.stalls));
-        }
-    }, [stores.marketStore.selectedMarket])
-
-
+    }, [marketId, stores.marketStore.selectedMarket])
 
     const handleSubmit = () => {
-        //edit market command
+        stores.marketStore.selectedMarket.save()
     }
 
     const handleReset = () => {
-        const market = stores.marketStore.selectedMarket;
-        stores.marketStore.setEditedMarket(
-            new Market(
-                market.id, 
-                market.organiserId,
-                market.name,
-                market.startDate,
-                market.endDate,
-                market.description,
-                market.isCancelled,
-                market.stalls));
+        stores.marketStore.selectedMarket.resetState()
     }
 
     return (
@@ -111,12 +63,12 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
             maxWidth="sm">
             <Stack spacing={1}>
                 {
-                    (stores.marketStore.editedMarket) 
-                    && <MarketForm market={stores.marketStore.editedMarket} />
+                    (stores.marketStore.selectedMarket) 
+                    && <MarketForm market={stores.marketStore.selectedMarket} />
                 }
                 <LoadingButton
                     onClick={handleSubmit}
-                    loading={stores.organiserStore.isSubmitting}
+                    loading={false}
                     loadingPosition="start"
                     startIcon={<SaveIcon />}
                     variant="contained"
@@ -131,10 +83,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                 </Button>
                 {
                     //TODO: Make error handling waaay the fuck better.
-                    stores.organiserStore.hadSubmissionError &&
-                    <Typography variant="caption" color={"red"}>
-                        Could not submit.
-                    </Typography>
+
                 }
             </Stack>
         </Container>

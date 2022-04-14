@@ -1,5 +1,5 @@
 import { action, flow, makeAutoObservable } from "mobx";
-import { UserClient } from "../../stores/models";
+import { UserClient } from "../../services/clients";
 import { User } from "../@DomainObjects/User";
 import { RootStore } from "../RootStore";
 

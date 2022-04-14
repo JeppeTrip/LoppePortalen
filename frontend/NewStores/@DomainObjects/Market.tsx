@@ -7,6 +7,7 @@ import { Stall } from "./Stall";
 export class Market {
     store: MarketStore
     state : string = "idle"
+    oldState : Market 
     @observable id: number
     @observable organiserId: number
     @observable organiser : Organiser
@@ -64,6 +65,7 @@ export class Market {
     {
         this.selectedStall = stall
     }
+    
     constructor(store: MarketStore) {
         makeAutoObservable(this);
         this.store = store
@@ -71,6 +73,7 @@ export class Market {
         this.selectedStall = null
         this.startDate = null
         this.endDate = null
+        this.oldState = null
     }
 
     @action
@@ -96,6 +99,7 @@ export class Market {
                 dto.organiser.markets = [dto]
             }
             this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+            this.setOldState()
             this.state = "idle"
         }
         return this;
@@ -119,7 +123,8 @@ export class Market {
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.marketId,
-                        this.store.markets.push(this);
+                    this.setOldState();
+                    this.store.markets.push(this);
                 }),
                 action("submitError", error => {
                     //do something with the error.
@@ -188,4 +193,32 @@ export class Market {
                 this.stalls = this.stalls.slice(0, diff);
             }
         }
+
+        /**
+         * Used internally to store the state of the component.
+         * This is used for editing if you want to cancel your changes.
+         */
+    private setOldState()
+    {
+        const state = new Market(null);
+        state.name = this.name;
+        state.description = this.description;
+        state.startDate = new Date(this.startDate);
+        state.endDate = new Date(this.endDate);
+        state.isCancelled = this.isCancelled;
+        this.oldState = state;
+    } 
+
+    @action
+    resetState()
+    {
+        if(this.oldState && this.oldState != null)
+        {
+            this.name = this.oldState.name;
+            this.description = this.oldState.description;
+            this.startDate = new Date(this.oldState.startDate);
+            this.endDate = new Date(this.oldState.endDate);
+            this.isCancelled = this.oldState.isCancelled; 
+        }
+    }
 }

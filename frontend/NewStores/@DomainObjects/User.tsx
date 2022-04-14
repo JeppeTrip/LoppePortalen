@@ -7,6 +7,7 @@ import {User as Dto} from "../../stores/models";
 export class User {
     store: UserStore = null
     id: string = null
+    state = "idle"
     @observable firstName: string = ""
     @observable lastName: string = ""
     @observable email: string = "" //get this from the auth object?
@@ -73,12 +74,14 @@ export class User {
 
     @action
     updateFromServer(dto : Dto){
+        this.state = "updating"
         this.firstName = dto.firstName
         this.lastName = dto.lastName
         this.dateOfBirth = new Date(dto.dateOfBirth)
         this.email = dto.email //duplicate information probably bad.
         this.phoneNumber = dto.phoneNumber
         this.country = dto.country
+        this.state = "idle"
         return this;
     }
 

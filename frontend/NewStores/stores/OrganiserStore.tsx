@@ -1,9 +1,7 @@
 import { action, flow, flowResult, makeAutoObservable, observable } from "mobx";
-import { OrganiserClient, Organiser as dto } from "../../stores/models";
+import { Organiser as Dto, OrganiserClient } from "../../services/clients";
 import { Organiser } from "../@DomainObjects/Organiser";
-import { User } from "../@DomainObjects/User";
 import { RootStore } from "../RootStore";
-import { Organiser as Dto } from "../../stores/models";
 
 export class OrganiserStore {
     rootStore: RootStore

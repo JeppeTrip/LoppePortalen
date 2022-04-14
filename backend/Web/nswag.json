@@ -120,7 +120,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": "",
       "serviceSchemes": null,
-      "output": "../../frontend/stores/models.ts",
+      "output": "../../frontend/services/clients.ts",
       "newLineBehavior": "LF"
     }
   }

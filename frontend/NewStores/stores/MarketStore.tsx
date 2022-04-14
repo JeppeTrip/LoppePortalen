@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { Market as Dto, MarketClient } from "../../stores/models";
+import { Market as Dto, MarketClient } from "../../services/clients";
 import { Market } from "../@DomainObjects/Market";
 import { RootStore } from "../RootStore";
 
@@ -79,18 +79,20 @@ export class MarketStore {
      * @param marketId id of the market to find.
      */
     @action
-    resolveSelectedMarket(marketId: number) {
+    resolveSelectedMarket(marketId: number, editing? : boolean) {
         this.transportLayer.getMarketInstance(marketId + "")
             .then(
                 action("fetchSuccess", result => {
                     let market = this.updateMarketFromServer(result.market);
                     market.select()
+
                 }),
                 action("fetchFailed", error => {
                     //do something with this.
                 })
             )
     }
+    
 
     @action
     createMarket() {

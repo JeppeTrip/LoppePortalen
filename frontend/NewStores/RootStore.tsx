@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { AuthorizationClient, MarketClient, OrganiserClient, UserClient } from "../stores/models"
+import { AuthorizationClient, MarketClient, OrganiserClient, UserClient } from "../services/clients"
 import { AuthStore } from "./stores/AuthStore"
 import { MarketStore } from "./stores/MarketStore"
 import { OrganiserStore } from "./stores/OrganiserStore"
@@ -10,7 +10,6 @@ export class RootStore {
     userStore : UserStore
     organiserStore : OrganiserStore
     marketStore : MarketStore
-    stallStore : StallStore
 
     constructor(){
         makeAutoObservable(this)

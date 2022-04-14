@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Auth } from '../@DomainObjects/Auth'
-import { AuthenticateUserRequest, AuthorizationClient } from '../../stores/models';
+import { AuthenticateUserRequest, AuthorizationClient } from '../../services/clients';
 
 export class AuthStore {
     //Todo: maybe put these in the auth object?
