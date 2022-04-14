@@ -35,7 +35,7 @@ const CreateMarketPage: NextPageAuth = observer(() => {
                 style={{ paddingTop: "25px" }}
                 maxWidth="sm">
                 {
-                    <MarketForm market={stores.marketStore.createMarket()}/>
+                    <MarketForm market={stores.marketStore.createMarket()} title={"Create Market"}/>
                 }
             </Container>
         </>

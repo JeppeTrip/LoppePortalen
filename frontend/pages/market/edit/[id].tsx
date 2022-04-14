@@ -41,7 +41,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     /**
      * If selected market is empty in the stores search for it.
      */
-     useEffect(() => {
+    useEffect(() => {
         if (stores.marketStore.selectedMarket == null) {
             if (!(marketId == "")) {
                 stores.marketStore.resolveSelectedMarket(parseInt(marketId))
@@ -49,43 +49,14 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
         }
     }, [marketId, stores.marketStore.selectedMarket])
 
-    const handleSubmit = () => {
-        stores.marketStore.selectedMarket.save()
-    }
-
-    const handleReset = () => {
-        stores.marketStore.selectedMarket.resetState()
-    }
-
     return (
         <Container
             style={{ paddingTop: "25px" }}
             maxWidth="sm">
-            <Stack spacing={1}>
-                {
-                    (stores.marketStore.selectedMarket) 
-                    && <MarketForm market={stores.marketStore.selectedMarket} />
-                }
-                <LoadingButton
-                    onClick={handleSubmit}
-                    loading={false}
-                    loadingPosition="start"
-                    startIcon={<SaveIcon />}
-                    variant="contained"
-
-                >
-                    Submit
-                </LoadingButton>
-                <Button
-                    onClick={() => handleReset()}
-                >
-                    Reset
-                </Button>
-                {
-                    //TODO: Make error handling waaay the fuck better.
-
-                }
-            </Stack>
+            {
+                (stores.marketStore.selectedMarket)
+                && <MarketForm market={stores.marketStore.selectedMarket} title={"Edit Market"} />
+            }
         </Container>
     )
 })

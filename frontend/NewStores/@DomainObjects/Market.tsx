@@ -7,7 +7,7 @@ import { Stall } from "./Stall";
 export class Market {
     store: MarketStore
     state : string = "idle"
-    oldState : Market 
+    @observable oldState : Market 
     @observable id: number
     @observable organiserId: number
     @observable organiser : Organiser

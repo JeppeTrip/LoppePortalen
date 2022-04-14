@@ -19,6 +19,7 @@ import { Market } from '../../NewStores/@DomainObjects/Market';
 
 type Props = {
     market: Market
+    title?: string
 }
 
 const steps = ['Market Information', 'Stalls'];
@@ -51,7 +52,7 @@ const MarketForm: FC<Props> = (props: Props) => {
             case 0:
                 return <MarketDetailsForm market={props.market} />;
             case 1:
-                return <StallForm market={props.market}/>;
+                return <StallForm market={props.market} />;
             default:
                 throw new Error('Unknown step');
         }
@@ -76,12 +77,16 @@ const MarketForm: FC<Props> = (props: Props) => {
         Next
     </Button>
 
+    const handleReset = () => {
+        props.market.resetState()
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="md">
                 <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
-                        Create Market
+                        {props.title}
                     </Typography>
                     <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                         {steps.map((label) => (
@@ -93,14 +98,25 @@ const MarketForm: FC<Props> = (props: Props) => {
                     <Fragment>
                         <Fragment>
                             {getStepContent(activeStep)}
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                {activeStep !== 0 && (
-                                    <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                        Back
-                                    </Button>
-                                )}
-                                {getButton()}
-                            </Box>
+                            <Grid container>
+                                {
+                                    props.market.oldState != null && <Grid item container xs>
+                                        <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                            Reset
+                                        </Button>
+                                    </Grid>
+                                }
+                                <Grid item>
+                                        {activeStep !== 0 && (
+                                            <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                                Back
+                                            </Button>
+                                        )}
+                                        {getButton()}
+                                </Grid>
+                            </Grid>
+
+
                         </Fragment>
                     </Fragment>
                 </Paper>
