@@ -1,19 +1,19 @@
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LoginIcon from '@mui/icons-material/Login';
+import { LoadingButton } from "@mui/lab";
 import { Avatar, Box, Container, Grid, Link } from "@mui/material";
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
-import { useContext, useEffect } from "react";
-import { StoreContext } from "../../stores/StoreContext";
-
-import TextField from '@mui/material/TextField';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { LoadingButton } from "@mui/lab";
-import LoginIcon from '@mui/icons-material/Login';
 import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import { StoreContext } from '../../NewStores/StoreContext';
+
 
 
 const LoginPage: NextPage = observer(() => {
-    const stores = useContext(StoreContext);
+    const stores = useContext(StoreContext)
     const router = useRouter();
 
     //component mount
@@ -29,21 +29,15 @@ const LoginPage: NextPage = observer(() => {
     }, [])
 
     useEffect(() => {
-        if(stores.authStore.signedIn)
+        if(stores.authStore.auth.signedIn)
         {
-            console.log("login authstore.Redirect: "+stores.authStore.redirect);
-            var path = stores.authStore.redirect != null ? stores.authStore.consumeRedirect() : "profile";
-            console.log("Login redirect path: "+path)
-            router.push(path, undefined, { shallow: true })
+            router.push("profile", undefined, { shallow: true })
         }
-    }, [stores.authStore.signedIn])
+    }, [stores.authStore.auth.signedIn])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const email = data.get('email').toString();
-        const password = data.get('password').toString();
-        stores.authStore.login(email, password);
+        stores.authStore.auth.signIn();
     };
 
     const handleClickSignup = (event) => {
@@ -78,6 +72,8 @@ const LoginPage: NextPage = observer(() => {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={stores.authStore.auth.email}
+                        onChange={event => stores.authStore.auth.email = event.target.value}
                     />
                     <TextField
                         margin="normal"
@@ -88,10 +84,12 @@ const LoginPage: NextPage = observer(() => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={stores.authStore.auth.password}
+                        onChange={event => stores.authStore.auth.password = event.target.value}
                     />
                     <LoadingButton
                         type="submit"
-                        loading={stores.authStore.authenticating}
+                        loading={false}
                         loadingPosition="start"
                         startIcon={<LoginIcon />}
                         variant="contained"

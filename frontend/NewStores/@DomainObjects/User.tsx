@@ -1,6 +1,8 @@
 import { action, flowResult, makeAutoObservable, observable } from "mobx";
 import { UserStore } from "../stores/UserStore";
+import { Market } from "./Market";
 import { Organiser } from "./Organiser";
+import {User as Dto} from "../../stores/models";
 
 export class User {
     store: UserStore = null
@@ -12,6 +14,7 @@ export class User {
     @observable dateOfBirth: Date = null
     @observable country: string = ""
     @observable organisers: Organiser[]
+    @observable markets: Market[]
 
     //organisers form a organiser store
 
@@ -20,6 +23,7 @@ export class User {
         this.store = store
         this.id = id
         this.organisers = [] as Organiser[]
+        this.markets = [] as Market[]
     }
 
     @action
@@ -34,7 +38,7 @@ export class User {
 
     //TODO: load user information automatically.
     @action
-    resolveOwnedOrganisers() {
+    fetchOwnedOrganisers() {
         flowResult(this.store.rootStore.organiserStore.resolveOrganisersFiltered(this.id))
             .then(
                 action("resolvedUsersOrganisers", orgs => {
@@ -47,6 +51,35 @@ export class User {
                 })
             ).catch(error => this.organisers = null)
         return null
+    }
+
+    @action
+    fetchOwnedMarkets(){
+        this.markets = []
+        this.store.transportLayer.getUsersMarkets()
+        .then(
+            action("fetchSuccess", result => {
+                result.markets.forEach(x => {
+                    let market = this.store.rootStore.marketStore.updateMarketFromServer(x)
+                    this.markets.push(market)
+                })
+            }),
+            action("fetchFailed", result => {
+                //do something with this.
+            })
+        )
+        .catch(error => this.organisers = null)
+    }
+
+    @action
+    updateFromServer(dto : Dto){
+        this.firstName = dto.firstName
+        this.lastName = dto.lastName
+        this.dateOfBirth = new Date(dto.dateOfBirth)
+        this.email = dto.email //duplicate information probably bad.
+        this.phoneNumber = dto.phoneNumber
+        this.country = dto.country
+        return this;
     }
 
     set setFirstName(name: string) {

@@ -41,17 +41,11 @@ export class UserStore {
             console.log(result);
             if (result.succeeded) {
                 const user = new User(this, result.id)
-                user.firstName = result.firstName
-                user.lastName = result.lastName
-                user.dateOfBirth = new Date(result.dateOfBirth)
-                user.email = result.email //duplicate information probably bad.
-                user.phoneNumber = result.phoneNumber
-                user.country = result.country
-                this.user = user
+                this.user = user;
+                user.updateFromServer(result.user)
             } else {
                 this.user = null
             }
-
         }
         catch (error) {
             this.user = null
@@ -59,6 +53,12 @@ export class UserStore {
         finally {
             return this.user;
         }
+    }
+
+    @action
+    fetchOwnedMarkets()
+    {
+
     }
 
 }

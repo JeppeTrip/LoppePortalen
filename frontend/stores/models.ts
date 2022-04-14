@@ -830,6 +830,10 @@ export interface IUserClient {
     getUserInfo(): Promise<GetUserResponse>;
 
     updateUserInfo(): Promise<GetUserResponse>;
+
+    getUsersMarkets(): Promise<GetUsersMarketsResponse>;
+
+    getUsersOrganisers(): Promise<GetUsersMarketsResponse>;
 }
 
 export class UserClient extends ClientBase implements IUserClient {
@@ -911,6 +915,76 @@ export class UserClient extends ClientBase implements IUserClient {
             });
         }
         return Promise.resolve<GetUserResponse>(null as any);
+    }
+
+    getUsersMarkets(): Promise<GetUsersMarketsResponse> {
+        let url_ = this.baseUrl + "/api/User/markets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetUsersMarkets(_response));
+        });
+    }
+
+    protected processGetUsersMarkets(response: Response): Promise<GetUsersMarketsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetUsersMarketsResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetUsersMarketsResponse>(null as any);
+    }
+
+    getUsersOrganisers(): Promise<GetUsersMarketsResponse> {
+        let url_ = this.baseUrl + "/api/User/oragnisers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetUsersOrganisers(_response));
+        });
+    }
+
+    protected processGetUsersOrganisers(response: Response): Promise<GetUsersMarketsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetUsersMarketsResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetUsersMarketsResponse>(null as any);
     }
 }
 
@@ -1126,13 +1200,18 @@ export interface TestCommandResponse {
 }
 
 export interface GetUserResponse extends Result {
+    user?: User | null;
+}
+
+export interface User {
     id?: string | null;
-    email?: string | null;
     firstName?: string | null;
     lastName?: string | null;
-    phoneNumber?: string | null;
+    email?: string | null;
+    phone?: string | null;
     dateOfBirth?: Date;
     country?: string | null;
+    phoneNumber?: string | null;
 }
 
 export class SwaggerException extends Error {

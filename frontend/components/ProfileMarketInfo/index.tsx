@@ -16,7 +16,7 @@ const ProfileMarketInfo: FC<Props> = (props: Props) => {
 
     //Componentmounts
     useEffect(() => {
-        
+        props.user.fetchOwnedMarkets()
     }, [])
 
     //Component unmounts

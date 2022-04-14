@@ -21,6 +21,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { StoreContext } from "../../NewStores/StoreContext";
 import ProfileOrgInfo from "../../components/ProfileOrgInfo";
+import ProfileMarketInfo from "../../components/ProfileMarketInfo";
 
 
 const drawerWidth = 240;
@@ -106,7 +107,7 @@ const UserProfile: NextPageAuth = observer(() => {
             case 1:
                 return <ProfileOrgInfo user={stores.userStore.user} />;
             case 2:
-                return /*<ProfileMarketInfo user={stores.userStore.currentUser} /> */ <div>profile market info</div>;
+                return <ProfileMarketInfo user={stores.userStore.user} />;
             case 3:
                 return <div>Sales management</div>;
             default:
@@ -155,7 +156,7 @@ const UserProfile: NextPageAuth = observer(() => {
                 <DrawerHeader />
                 <Container>
                     {
-                        getStepContent(activeStep)
+                        stores.authStore.auth.signedIn && getStepContent(activeStep)
                     }
                 </Container>
             </Box>

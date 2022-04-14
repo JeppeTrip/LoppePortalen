@@ -34,14 +34,16 @@ namespace Application.Markets.Queries.GetUsersMarkets
                 }
 
                 var marketTemplates = await _context.MarketTemplates
-                    .Include(x => x.Organiser)
-                    .Where(x => x.Organiser.UserId.Equals(request.Dto.UserId))
+                    
                     .Select(x => x.Id)
                     .ToListAsync();
 
                 Organiser organiser;
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
+                    .Include(x => x.MarketTemplate.Organiser)
+                    .Include(x => x.MarketTemplate.Organiser.Address)
+                    .Where(x => x.MarketTemplate.Organiser.UserId.Equals(request.Dto.UserId))
                     .Where(x => marketTemplates.Contains(x.MarketTemplateId))
                     .ToListAsync();
 

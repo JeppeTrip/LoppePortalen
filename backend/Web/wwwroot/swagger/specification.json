@@ -604,6 +604,46 @@
           }
         }
       }
+    },
+    "/api/User/markets": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersMarkets",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/oragnisers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersOrganisers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1322,37 +1362,55 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "id": {
-                "type": "string",
-                "nullable": true
-              },
-              "email": {
-                "type": "string",
-                "nullable": true
-              },
-              "firstName": {
-                "type": "string",
-                "nullable": true
-              },
-              "lastName": {
-                "type": "string",
-                "nullable": true
-              },
-              "phoneNumber": {
-                "type": "string",
-                "nullable": true
-              },
-              "dateOfBirth": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "country": {
-                "type": "string",
-                "nullable": true
+              "user": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/User"
+                  }
+                ]
               }
             }
           }
         ]
+      },
+      "User": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       }
     },
     "securitySchemes": {

@@ -33,13 +33,17 @@ namespace Application.User.Queries.GetUser
                 }
                 return new GetUserResponse(true, new List<string>())
                 {
-                    Id = user.IdentityId,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Country = user.Country,
-                    DateOfBirth = user.DateOfBirth,
-                    PhoneNumber = user.Phone
+                    User = new Common.Models.User()
+                    {
+                        Id = user.IdentityId,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Country = user.Country,
+                        DateOfBirth = user.DateOfBirth,
+                        PhoneNumber = user.Phone
+                    }
+
                 };
             }
         }

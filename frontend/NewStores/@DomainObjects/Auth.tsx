@@ -34,9 +34,12 @@ export class Auth {
                 action("authSuccess", res => {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
+                    
                     this.signedIn = true
                 }),
                 action("authFailed", error => {
+                    this.email = ""
+                    this.password = ""
                     this.signedIn = false;
                 })
             )

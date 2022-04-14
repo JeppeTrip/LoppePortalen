@@ -18,7 +18,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
     //TODO: Insert a loading indicator if the oragnisers doesn't exist in the store yet.
     //TODO: This will be a perforamnce nightmare if there ends up being a huge amount of organisers. this is likely temporary so will be fixed.
     useEffect(() => {
-        props.market.store.rootStore.userStore.user.resolveOwnedOrganisers()
+        props.market.store.rootStore.userStore.user.fetchOwnedOrganisers()
     }, []);
     
     return (

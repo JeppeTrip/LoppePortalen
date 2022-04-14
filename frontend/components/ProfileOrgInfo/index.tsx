@@ -19,7 +19,7 @@ const ProfileOrgInfo: FC<Props> = (props: Props) => {
         console.log("mount profile org info")
         console.log(props.user)
         if (!props.user.organisers || props.user.organisers.length === 0) {
-            props.user.resolveOwnedOrganisers()
+            props.user.fetchOwnedOrganisers()
         }
     }, [])
 
