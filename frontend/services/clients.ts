@@ -181,6 +181,8 @@ export interface IMarketClient {
     getFilteredMarketInstances(isCancelled?: boolean | null | undefined, organiserId?: number | null | undefined, startDate?: Date | null | undefined, endDate?: Date | null | undefined): Promise<GetFilteredMarketsQueryResponse>;
 
     getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse>;
+
+    updateMarket(dto: EditMarketRequest): Promise<EditMarketResponse>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -420,6 +422,45 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<GetUsersMarketsResponse>(null as any);
+    }
+
+    updateMarket(dto: EditMarketRequest): Promise<EditMarketResponse> {
+        let url_ = this.baseUrl + "/api/Market";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processUpdateMarket(_response));
+        });
+    }
+
+    protected processUpdateMarket(response: Response): Promise<EditMarketResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as EditMarketResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<EditMarketResponse>(null as any);
     }
 }
 
@@ -1089,6 +1130,18 @@ export interface GetFilteredMarketsQueryResponse {
 
 export interface GetUsersMarketsResponse extends Result {
     markets?: Market[] | null;
+}
+
+export interface EditMarketResponse extends Result {
+}
+
+export interface EditMarketRequest {
+    marketId?: number;
+    organiserId?: number;
+    marketName?: string | null;
+    description?: string | null;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface CreateOrganiserResponse {

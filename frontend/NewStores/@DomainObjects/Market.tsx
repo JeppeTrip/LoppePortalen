@@ -130,6 +130,27 @@ export class Market {
                     //do something with the error.
                 })
             )
+        } 
+        else 
+        {
+            this.store.transportLayer.updateMarket({
+                marketId: this.id,
+                organiserId: this.organiserId,
+                marketName: this.name,
+                description: this.description,
+                startDate: this.startDate,
+                endDate: this.endDate
+            }).then(
+                action("submitSuccess", res => {
+                    if(res.succeeded)
+                    {
+                        this.setOldState();
+                    }
+                }),
+                action("submitError", error => {
+                    //do something with the error.
+                })
+            )
         }
     }
 

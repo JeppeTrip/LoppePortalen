@@ -1,5 +1,6 @@
 ﻿using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
+using Application.Markets.Commands.EditMarket;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
@@ -79,6 +80,12 @@ namespace Web.Controllers
         {
             var userid = CurrentUserService.UserId;
             return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<EditMarketResponse>> UpdateMarket(EditMarketRequest dto)
+        {
+            return await Mediator.Send(new EditMarketCommand() { Dto = dto });
         }
     }
 }

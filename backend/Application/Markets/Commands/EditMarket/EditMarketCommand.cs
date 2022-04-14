@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -50,32 +51,8 @@ namespace Application.Markets.Commands.EditMarket
                 instance.MarketTemplate.Description = request.Dto.Description;
                 instance.MarketTemplate.Organiser = organiser;
 
-
-
-                foreach (var stall in request.Dto.Stalls)
-                {
-                    var entity = _context.Stalls.Include(x => x.StallType).FirstOrDefault(x => x.Id == stall.Id);
-                    if(entity == null)
-                    {
-                        var type = new StallType() { Name = stall.Name, Description = stall.Description, MarketTemplate = instance.MarketTemplate };
-                        _context.StallTypes.Add(type);
-                        for (int i = 0; i < stall.Count; i++)
-                        {
-                            _context.Stalls.Add(new Stall()
-                            {
-                                StallType = type
-                            });
-                        }
-                    } 
-                    else
-                    {
-
-                    }
-                    
-                }
-
                 await _context.SaveChangesAsync(cancellationToken);
-                return null;
+                return new EditMarketResponse(Result.Success());
             }
         }
 

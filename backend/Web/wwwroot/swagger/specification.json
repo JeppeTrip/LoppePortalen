@@ -299,6 +299,38 @@
         }
       }
     },
+    "/api/Market": {
+      "put": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_UpdateMarket",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditMarketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -1005,6 +1037,47 @@
             }
           }
         ]
+      },
+      "EditMarketResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "EditMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       },
       "CreateOrganiserResponse": {
         "type": "object",
