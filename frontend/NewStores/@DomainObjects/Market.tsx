@@ -1,12 +1,15 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { Market as Dto } from "../../stores/models";
 import { MarketStore } from "../stores/MarketStore";
+import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
 
 export class Market {
     store: MarketStore
+    state : string = "idle"
     @observable id: number
     @observable organiserId: number
+    @observable organiser : Organiser
     @observable name: string
     @observable description: string
     @observable startDate: Date
@@ -72,13 +75,20 @@ export class Market {
 
     @action
     update(dto: Dto) {
-        this.id = dto.marketId
-        this.organiserId = dto.organiserId
-        this.name = dto.marketName
-        this.description = dto.description
-        this.startDate = new Date(dto.startDate)
-        this.endDate = new Date(dto.endDate)
-        this.isCancelled = dto.isCancelled
+        if(this.state != "updating")
+        {
+            this.state = "updating"
+            this.id = dto.marketId
+            this.organiserId = dto.organiserId
+            this.name = dto.marketName
+            this.description = dto.description
+            this.startDate = new Date(dto.startDate)
+            this.endDate = new Date(dto.endDate)
+            this.isCancelled = dto.isCancelled
+            this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromDb(dto.organiser)
+            this.state = "idle"
+        }
+        return this;
     }
 
     @action
