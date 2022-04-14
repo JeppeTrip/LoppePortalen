@@ -3,6 +3,7 @@ import { OrganiserClient, Organiser as dto } from "../../stores/models";
 import { Organiser } from "../@DomainObjects/Organiser";
 import { User } from "../@DomainObjects/User";
 import { RootStore } from "../RootStore";
+import { Organiser as Dto } from "../../stores/models";
 
 export class OrganiserStore {
     rootStore: RootStore
@@ -95,5 +96,15 @@ export class OrganiserStore {
         return this.selectedOrganiser;
     }
 
-    //TODO :Update organisers from server.
+    @action
+    updateOrganiserFromServer(dto : Dto)
+    {
+        let organiser = this.organisers.find(x => x.id === dto.id);
+        if(!organiser)
+        {
+            organiser = new Organiser(this);
+            this.organisers.push(organiser);
+        }
+        return organiser.updateFromServer(dto);
+    }
 }

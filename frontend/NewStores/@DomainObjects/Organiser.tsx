@@ -42,7 +42,7 @@ export class Organiser {
             this.postalCode = dto.postalCode
             this.city = dto.city
             dto.markets.forEach(mDto => {
-                let res = this.store.rootStore.marketStore.updateMarketstFromServer(dto.markets)
+                let res = this.store.rootStore.marketStore.updateMarketFromServer(dto.markets)
                 let market = this.markets.find(x => x.id === res.id);
                 if(!market)
                 {

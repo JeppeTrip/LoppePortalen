@@ -74,7 +74,7 @@ export class Market {
     }
 
     @action
-    update(dto: Dto) {
+    updateFromServer(dto: Dto) {
         if(this.state != "updating")
         {
             this.state = "updating"
@@ -85,7 +85,7 @@ export class Market {
             this.startDate = new Date(dto.startDate)
             this.endDate = new Date(dto.endDate)
             this.isCancelled = dto.isCancelled
-            this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromDb(dto.organiser)
+            this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
             this.state = "idle"
         }
         return this;

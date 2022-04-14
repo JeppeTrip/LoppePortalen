@@ -20,27 +20,17 @@ export class MarketStore {
     }
 
     /**
-     * Update the market list when markets are received from the server 
-     * For example called when the update function on an organiser Entity is called.
-     * @param dtos the market dto
-     * @returns the list of markets corresponding to the dtos put into it.
+     * Update market when new data is received from the server.
      */
     @action
-    updateMarketstFromServer(dtos: Dto[]) {
-        console.log("resolve markets from server")
-        console.log(dtos)
-        const markets = dtos.map(dto => {
-            let market = this.markets.find(m => m.id === dto.marketId)
-            if (!market) {
-                market = new Market(this)
-                market.update(dto);
-                this.markets.push(market)
-            } else {
-                market.update(dto)
-            }
-            return (market);
-        });
-        return markets;
+    updateMarketFromServer(dto: Dto) {
+        let market = this.markets.find(x => x.id === dto.marketId)
+        if (!market) {
+            market = new Market(this)
+            this.markets.push(market)
+        }
+        market.updateFromServer(dto)
+        return market
     }
 
     /**
@@ -53,9 +43,9 @@ export class MarketStore {
         console.log("resolve all markets")
         try {
             const result = yield this.transportLayer.getAllMarketInstances()
-            console.log(result)
-            this.updateMarketstFromServer(result.markets);
-            return this.markets
+            result.forEach(element => {
+                this.updateMarketFromServer(element)
+            });
         }
         catch (error) {
             this.markets = []
@@ -86,8 +76,7 @@ export class MarketStore {
     }
 
     @action
-    createMarket()
-    {
+    createMarket() {
         const market = new Market(this);
         this.selectedMarket = market;
         return market;
