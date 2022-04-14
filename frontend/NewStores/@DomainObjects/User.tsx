@@ -2,7 +2,7 @@ import { action, flowResult, makeAutoObservable, observable } from "mobx";
 import { UserStore } from "../stores/UserStore";
 import { Market } from "./Market";
 import { Organiser } from "./Organiser";
-import {User as Dto} from "../../stores/models";
+import {User as Dto} from "../../services/clients";
 
 export class User {
     store: UserStore = null

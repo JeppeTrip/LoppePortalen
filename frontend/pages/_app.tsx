@@ -1,22 +1,14 @@
-import Head from 'next/head'
-import '../styles.css'
-import React, { useEffect, useState } from 'react';
-import Script from 'next/script';
-import { Box, CssBaseline, Drawer, Stack } from '@mui/material'
-import { StoreProvider } from '../stores/StoreContext';
-import { RootStore } from '../stores/RootStore';
+import { CssBaseline } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import TopBar from '../components/TopBar';
-import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import AuthGuard from '../components/AuthGuard';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import Script from 'next/script';
+import React from 'react';
 import { NextPageAuth } from '../@types/NextAuthPage';
-import dynamic from 'next/dynamic'
-
-const oldRootStore = new RootStore();
-const NewStoreProvider = dynamic(() => import('../NewStores/StoreContext').then(prov => prov.StoreProvider), {
-  ssr: false,
-});
+import AuthGuard from '../components/AuthGuard';
+import TopBar from '../components/TopBar';
+import '../styles.css';
 
 function MyApp(props: AppProps) {
   const {
@@ -35,23 +27,19 @@ function MyApp(props: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
-
-      <StoreProvider store={oldRootStore}>
-        <NewStoreProvider>
-          <CssBaseline />
-          <TopBar />
-          {
-            Component.requireAuth ? (
-              <AuthGuard>
-                <Component {...pageProps} />
-              </AuthGuard>
-            ) : (
+      <NewStoreProvider>
+        <CssBaseline />
+        <TopBar />
+        {
+          Component.requireAuth ? (
+            <AuthGuard>
               <Component {...pageProps} />
-            )
-          }
-        </NewStoreProvider>
-      </StoreProvider>
-
+            </AuthGuard>
+          ) : (
+            <Component {...pageProps} />
+          )
+        }
+      </NewStoreProvider>
     </>
 
 

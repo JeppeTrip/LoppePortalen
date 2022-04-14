@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { Organiser as Dto } from "../../stores/models";
+import { Organiser as Dto } from "../../services/clients";
 import { Market } from "./Market";
 
 export class Organiser {

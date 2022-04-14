@@ -34,13 +34,30 @@ export class Auth {
                 action("authSuccess", res => {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
-                    
-                    this.signedIn = true
-                }),
-                action("authFailed", error => {
-                    this.email = ""
-                    this.password = ""
-                    this.signedIn = false;
+                    flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
+                        .then(
+                            action("resolvedUserSuccess", user => {
+                                console.log("resolve success")
+                                console.log(user)
+                                if (user != null) {
+                                    this.user = user
+                                    this.signedIn = true;
+                                }
+                                else {
+                                    this.user = null
+                                    this.signedIn = false;
+                                }
+                            }),
+                            action("resolvedUserFailed", user => {
+                                this.user = null
+                                this.signedIn = false;
+                            })
+                        )
+                    action("authFailed", error => {
+                        this.email = ""
+                        this.password = ""
+                        this.signedIn = false;
+                    })
                 })
             )
     }
@@ -65,14 +82,33 @@ export class Auth {
                 if (res.succeeded) {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
+                    flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
+                        .then(
+                            action("resolvedUserSuccess", user => {
+                                console.log("resolve success")
+                                console.log(user)
+                                if (user != null) {
+                                    this.user = user
+                                    this.signedIn = true;
+                                }
+                                else {
+                                    this.user = null
+                                    this.signedIn = false;
+                                }
+                            }),
+                            action("resolvedUserFailed", user => {
+                                this.user = null
+                                this.signedIn = false;
+                            })
+                        )
                 }
                 this.signedIn = res.succeeded;
                 this.authStore.isLoading = false;
             }),
             action("registerUserFailed", res => {
                 if (res.succeeded) {
-                    localStorage.setItem(this.jwtPath, res.token);
-                    localStorage.setItem(this.refreshPath, res.refreshToken);
+                    localStorage.removeItem(this.jwtPath);
+                    localStorage.removeItem(this.refreshPath);
                 }
                 this.signedIn = res.succeeded;
                 this.authStore.isLoading = false;
@@ -114,6 +150,15 @@ export class Auth {
                     })
                 );
         }
+    }
+
+    @action
+    logOut(){
+        this.email = ""
+        this.password = ""
+        localStorage.removeItem(this.jwtPath);
+        localStorage.removeItem(this.refreshPath);
+        this.signedIn = false;
     }
 
     set setEmail(email: string) {

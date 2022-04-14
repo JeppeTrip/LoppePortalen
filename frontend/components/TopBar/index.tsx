@@ -67,7 +67,7 @@ const TopBar: FC<Props> = (props: Props) => {
   }
 
   const handleLogout = () => {
-    
+    stores.authStore.auth.logOut()
   }
 
 

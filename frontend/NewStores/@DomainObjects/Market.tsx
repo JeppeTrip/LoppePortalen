@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
-import { Market as Dto } from "../../stores/models";
+import { Market as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
