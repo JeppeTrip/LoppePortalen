@@ -5,6 +5,7 @@ import { Market } from "./Market";
 
 export class Organiser {
     store: OrganiserStore
+    state: string = "idle"
     @observable id: number = null
     @observable userId: string = null
     @observable name: string = ""
@@ -29,16 +30,28 @@ export class Organiser {
      */
     @action
     updateFromServer(dto: Dto) {
-        this.id = dto.id
-        this.userId = dto.userId
-        this.name = dto.name
-        this.description = dto.description
-        this.street = dto.street
-        this.streetNumber = dto.streetNumber
-        this.appartment = dto.appartment
-        this.postalCode = dto.postalCode
-        this.city = dto.city
-        this.markets = this.store.rootStore.marketStore.updateMarketstFromServer(dto.markets)
+        if (this.state != "updating") {
+            this.state = "updating"
+            this.id = dto.id
+            this.userId = dto.userId
+            this.name = dto.name
+            this.description = dto.description
+            this.street = dto.street
+            this.streetNumber = dto.streetNumber
+            this.appartment = dto.appartment
+            this.postalCode = dto.postalCode
+            this.city = dto.city
+            dto.markets.forEach(mDto => {
+                let res = this.store.rootStore.marketStore.updateMarketstFromServer(dto.markets)
+                let market = this.markets.find(x => x.id === res.id);
+                if(!market)
+                {
+                    this.markets.push(market)
+                }
+            })
+            this.state = "idle"
+        }
+        return this;
     }
 
     @action
