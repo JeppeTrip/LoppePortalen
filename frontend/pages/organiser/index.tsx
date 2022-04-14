@@ -11,7 +11,7 @@ const OrganiserListPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);
 
     useEffect(() => {
-        stores.organiserStore.resolveOrganisersAll()
+        stores.organiserStore.fetchAllOrganisers()
     }, [])
 
     const loading = () => {

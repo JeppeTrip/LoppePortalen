@@ -24,28 +24,24 @@ export class OrganiserStore {
     * Force updates the entire organiser list.
     * TODO: Ensure that all the organisers in this list also removes it from the listening objects.
     */
-    @flow
-    *resolveOrganisersAll() {
-        console.log("resolve all organisers")
-        try {
-            const result = yield this.transportLayer.getAllOrganisers()
-            console.log("fetchResult\n")
-            console.log(result)
-            const organisers = result.organisers.map(x => {
-                console.log(x)
-                const organiser = new Organiser(this)
-                organiser.updateFromServer(x)
-                return organiser
-            });
-            console.log("organisers\n"+organisers)
-            this.organisers = organisers;
-        }
-        catch (error) {
-            this.organisers = []
-        }
-        finally {
-            return this.organisers
-        }
+    @action
+    fetchAllOrganisers() {
+        console.log("fetch all organisers")
+        this.transportLayer.getAllOrganisers()
+        .then(
+            action("fetchSuccess", result => {
+                console.log("fetchResult\n")
+                console.log(result)
+                result.organisers.forEach(dto => {
+                    console.log("iterate through organisers")
+                    console.log(dto)
+                    this.updateOrganiserFromServer(dto)
+                });
+            }),
+            action("fetchError", error => {
+                this.organisers = []
+            })
+        )
     }
 
     /**
@@ -56,7 +52,7 @@ export class OrganiserStore {
     *resolveOrganisersFiltered(userId?: string) {
         console.log("TODO: UPDATE THE ORGANISATIONS FILTER TO FILTER IN THE BACKEND!")
         try {
-            const allOrgs = yield flowResult(this.resolveOrganisersAll())
+            const allOrgs = yield flowResult(this.fetchAllOrganisers())
         }
         catch (error) {
 
@@ -68,7 +64,7 @@ export class OrganiserStore {
 
     @action
     resolveSelectedOrganiser(organiserId: number) {
-        flowResult(this.resolveOrganisersAll())
+        flowResult(this.fetchAllOrganisers())
             .then(
                 action("fetchSuccess", result => {
                     console.log(result)
@@ -90,18 +86,19 @@ export class OrganiserStore {
     }
 
     @action
-    createOrganiser(){
+    createOrganiser() {
         const organiser = new Organiser(this);
         this.selectedOrganiser = organiser;
         return this.selectedOrganiser;
     }
 
     @action
-    updateOrganiserFromServer(dto : Dto)
-    {
+    updateOrganiserFromServer(dto: Dto) {
+        console.log("update organiser from server")
+        console.log(dto)
         let organiser = this.organisers.find(x => x.id === dto.id);
-        if(!organiser)
-        {
+        console.log(organiser)
+        if (!organiser) {
             organiser = new Organiser(this);
             this.organisers.push(organiser);
         }

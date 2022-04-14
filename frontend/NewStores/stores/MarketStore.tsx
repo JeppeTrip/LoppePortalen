@@ -24,12 +24,17 @@ export class MarketStore {
      */
     @action
     updateMarketFromServer(dto: Dto) {
+        console.log("market store: update market from server")
         let market = this.markets.find(x => x.id === dto.marketId)
         if (!market) {
             market = new Market(this)
             this.markets.push(market)
         }
+        console.log("either found or created new market")
+        console.log(market)
         market.updateFromServer(dto)
+        console.log("done updating market from server")
+        console.log(market)
         return market
     }
 

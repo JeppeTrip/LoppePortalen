@@ -21,12 +21,12 @@ export class Organiser {
         makeAutoObservable(this)
         this.store = store
         this.id = id
-        this.userId = this.store.rootStore.userStore.user.id
+        this.userId = ""
         this.markets = [] as Market[]
     }
 
     /**
-     * Updates the entity itself based on the generated model in the backend. 
+     * Updates the entity itself based on the generated model in the backend.
      */
     @action
     updateFromServer(dto: Dto) {
@@ -42,11 +42,11 @@ export class Organiser {
             this.postalCode = dto.postalCode
             this.city = dto.city
             dto.markets.forEach(mDto => {
-                let res = this.store.rootStore.marketStore.updateMarketFromServer(dto.markets)
-                let market = this.markets.find(x => x.id === res.id);
+                let res = this.store.rootStore.marketStore.updateMarketFromServer(mDto)
+                let market = this.markets.length === 0 ? undefined :  this.markets.find(x => x.id === res.id);
                 if(!market)
                 {
-                    this.markets.push(market)
+                    this.markets.push(res)
                 }
             })
             this.state = "idle"
