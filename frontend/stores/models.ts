@@ -989,12 +989,25 @@ export interface GetAllMarketInstancesQueryResponse {
 
 export interface Market {
     marketId?: number;
-    organiserId?: number;
+    organiser?: Organiser | null;
     marketName?: string | null;
     description?: string | null;
     startDate?: Date;
     endDate?: Date;
     isCancelled?: boolean;
+}
+
+export interface Organiser {
+    id?: number;
+    userId?: string | null;
+    name?: string | null;
+    description?: string | null;
+    street?: string | null;
+    streetNumber?: string | null;
+    appartment?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    markets?: Market[] | null;
 }
 
 export interface CancelMarketInstanceResponse {
@@ -1064,19 +1077,6 @@ export interface AddContactsToOrganiserRequest {
 
 export interface GetAllOrganisersResponse {
     organisers?: Organiser[] | null;
-}
-
-export interface Organiser {
-    id?: number;
-    userId?: string | null;
-    name?: string | null;
-    description?: string | null;
-    street?: string | null;
-    streetNumber?: string | null;
-    appartment?: string | null;
-    postalCode?: string | null;
-    city?: string | null;
-    markets?: Market[] | null;
 }
 
 export interface GetOrganisersWithPaginationResponse {

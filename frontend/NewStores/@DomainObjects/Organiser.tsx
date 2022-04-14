@@ -42,6 +42,17 @@ export class Organiser {
             this.postalCode = dto.postalCode
             this.city = dto.city
             dto.markets.forEach(mDto => {
+                /**
+                 * Backend tries to minimize the amount of duplicate data that is sends. 
+                 * If market dto instance is empty, set it as this organiser would 
+                 * only have the markets in its list if it owned it.
+                 */
+                console.log("organiser mdto:")
+                console.log(mDto);
+                if(!mDto.organiser || mDto.organiser == null )
+                {
+                    mDto.organiser = dto;
+                }
                 let res = this.store.rootStore.marketStore.updateMarketFromServer(mDto)
                 let market = this.markets.length === 0 ? undefined :  this.markets.find(x => x.id === res.id);
                 if(!market)

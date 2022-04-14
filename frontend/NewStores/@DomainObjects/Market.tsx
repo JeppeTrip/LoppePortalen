@@ -81,13 +81,21 @@ export class Market {
         {
             this.state = "updating"
             this.id = dto.marketId
-            this.organiserId = dto.organiserId
             this.name = dto.marketName
             this.description = dto.description
             this.startDate = new Date(dto.startDate)
             this.endDate = new Date(dto.endDate)
             this.isCancelled = dto.isCancelled
-            //this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+            /**
+             * Backend doesn't set the market value for the organiser 
+             * if we are fetching markets as this would return A LOT of duplicate data.
+             * Therefor check if the dto value for markets if so, add in an array with this market dto in it.
+             */
+            if(dto.organiser.markets === null)
+            {
+                dto.organiser.markets = [dto]
+            }
+            this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
             this.state = "idle"
         }
         return this;

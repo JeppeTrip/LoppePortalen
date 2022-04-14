@@ -49,12 +49,11 @@ namespace Application.Organisers.Queries.GetAllOrganisers
                     var result = organiserInstances.Select(m => new Market()
                     {
                         MarketId = m.Id,
-                        OrganiserId = o.Id,
                         MarketName = m.MarketTemplate.Name,
                         Description = m.MarketTemplate.Description,
                         StartDate = m.StartDate,
                         EndDate = m.EndDate,
-                        IsCancelled = m.IsCancelled,
+                        IsCancelled = m.IsCancelled
                     }).ToList();
                     o.Markets = result;
                 });

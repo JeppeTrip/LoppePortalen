@@ -25,16 +25,37 @@ namespace Application.Markets.Queries.GetAllMarkets
 
             public async Task<GetAllMarketInstancesQueryResponse> Handle(GetAllMarketInstancesQuery request, CancellationToken cancellationToken)
             {
-                var instances = await _context.MarketInstances.Include(x => x.MarketTemplate).ToListAsync();
+                //TODO: this must be horrible performance. Might need update.
+                var instances = await _context.MarketInstances
+                    .Include(x => x.MarketTemplate)
+                    .Include(x => x.MarketTemplate.Organiser)
+                    .Include(x => x.MarketTemplate.Organiser.Address)
+                    .ToListAsync();
 
-                var result = instances.Select(x => new Market() {
-                    MarketId = x.Id,
-                    Description = x.MarketTemplate.Description,
-                    MarketName = x.MarketTemplate.Name,
-                    OrganiserId = x.MarketTemplate.OrganiserId,
-                    StartDate = x.StartDate,
-                    EndDate = x.EndDate,
-                    IsCancelled = x.IsCancelled
+                Organiser organiser;
+                var result = instances.Select(x => {
+                    organiser = new Organiser
+                    {
+                        Id = x.MarketTemplate.Organiser.Id,
+                        UserId = x.MarketTemplate.Organiser.UserId,
+                        Name = x.MarketTemplate.Organiser.Name,
+                        Description = x.MarketTemplate.Organiser.Description,
+                        Street = x.MarketTemplate.Organiser.Address.Street,
+                        StreetNumber = x.MarketTemplate.Organiser.Address.Number,
+                        Appartment = x.MarketTemplate.Organiser.Address.Appartment,
+                        PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
+                        City = x.MarketTemplate.Organiser.Address.City
+                    };
+                    return new Market()
+                    {
+                        MarketId = x.Id,
+                        Description = x.MarketTemplate.Description,
+                        MarketName = x.MarketTemplate.Name,
+                        Organiser = organiser,
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate,
+                        IsCancelled = x.IsCancelled
+                    };
                 }).ToList();
 
                 return new GetAllMarketInstancesQueryResponse() { Markets = result };

@@ -12,7 +12,7 @@ const Markets: NextPage = observer(() => {
     const stores = useContext(StoreContext)
 
     useEffect(() => {
-        flowResult(stores.marketStore.resolveMarketsAll())
+        flowResult(stores.marketStore.fetchAllMarkets())
     }, [])
 
     const error = () => {

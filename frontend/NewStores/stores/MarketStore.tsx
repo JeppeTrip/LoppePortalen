@@ -43,26 +43,29 @@ export class MarketStore {
     * Force updates the entire organiser list.
     * TODO: Ensure that all the organisers in this list also removes it from the listening objects.
     */
-    @flow
-    *resolveMarketsAll() {
-        console.log("resolve all markets")
-        try {
-            const result = yield this.transportLayer.getAllMarketInstances()
-            result.forEach(element => {
-                this.updateMarketFromServer(element)
-            });
-        }
-        catch (error) {
-            this.markets = []
-        }
-        finally {
-            return this.markets
-        }
+    @action
+    fetchAllMarkets() {
+        console.log("fetch all markets")
+        this.transportLayer.getAllMarketInstances()
+        .then(
+            action("fetchSuccess", result => {
+                console.log("fetchResult\n")
+                console.log(result)
+                result.markets.forEach(dto => {
+                    console.log("iterate through markets")
+                    console.log(dto)
+                    this.updateMarketFromServer(dto)
+                });
+            }),
+            action("fetchError", error => {
+                this.markets = []
+            })
+        )
     }
 
     @action
     resolveSelectedMarket(marketId: number) {
-        flowResult(this.resolveMarketsAll())
+        flowResult(this.fetchAllMarkets())
             .then(
                 action("fetchSuccess", result => {
                     const market = result.find(x => x.id === marketId);

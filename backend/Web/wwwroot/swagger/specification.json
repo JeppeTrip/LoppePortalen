@@ -864,9 +864,13 @@
             "type": "integer",
             "format": "int32"
           },
-          "organiserId": {
-            "type": "integer",
-            "format": "int32"
+          "organiser": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Organiser"
+              }
+            ]
           },
           "marketName": {
             "type": "string",
@@ -886,6 +890,55 @@
           },
           "isCancelled": {
             "type": "boolean"
+          }
+        }
+      },
+      "Organiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Market"
+            }
           }
         }
       },
@@ -1106,55 +1159,6 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Organiser"
-            }
-          }
-        }
-      },
-      "Organiser": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "street": {
-            "type": "string",
-            "nullable": true
-          },
-          "streetNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "appartment": {
-            "type": "string",
-            "nullable": true
-          },
-          "postalCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          },
-          "markets": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Market"
             }
           }
         }

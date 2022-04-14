@@ -9,7 +9,7 @@ namespace Application.Common.Models
     public class Market
     {
         public int MarketId { get; set; }
-        public int OrganiserId { get; set; }
+        public Organiser? Organiser { get; set; }
         public string MarketName { get; set; }
         public string Description { get; set; }
         public DateTimeOffset StartDate { get; set; }

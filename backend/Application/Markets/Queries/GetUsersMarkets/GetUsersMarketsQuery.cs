@@ -39,21 +39,40 @@ namespace Application.Markets.Queries.GetUsersMarkets
                     .Select(x => x.Id)
                     .ToListAsync();
 
+                Organiser organiser;
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
                     .Where(x => marketTemplates.Contains(x.MarketTemplateId))
-                    .Select(x => new Market() {
+                    .ToListAsync();
+
+                var result = instances.Select(x =>
+                {
+                    organiser = new Organiser
+                    {
+                        Id = x.MarketTemplate.Organiser.Id,
+                        UserId = x.MarketTemplate.Organiser.UserId,
+                        Name = x.MarketTemplate.Organiser.Name,
+                        Description = x.MarketTemplate.Organiser.Description,
+                        Street = x.MarketTemplate.Organiser.Address.Street,
+                        StreetNumber = x.MarketTemplate.Organiser.Address.Number,
+                        Appartment = x.MarketTemplate.Organiser.Address.Appartment,
+                        PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
+                        City = x.MarketTemplate.Organiser.Address.City
+                    };
+                    return new Market()
+                    {
                         MarketId = x.Id,
-                        OrganiserId = x.MarketTemplate.OrganiserId,
-                        MarketName = x.MarketTemplate.Name,
                         Description = x.MarketTemplate.Description,
+                        MarketName = x.MarketTemplate.Name,
+                        Organiser = organiser,
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
                         IsCancelled = x.IsCancelled
-                    })
-                    .ToListAsync();
+                    };
+                }).ToList();
 
-                return new GetUsersMarketsResponse(Result.Success()) { Markets = instances };
+
+                return new GetUsersMarketsResponse(Result.Success()) { Markets = result };
             }
         }
     }
