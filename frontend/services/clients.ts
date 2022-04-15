@@ -1107,6 +1107,7 @@ export interface StallType {
 
 export interface Stall {
     id?: number;
+    stallType?: StallType | null;
     market?: Market | null;
 }
 

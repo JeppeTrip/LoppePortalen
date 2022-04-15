@@ -1,23 +1,28 @@
-import { makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
+import { StallStore } from "../stores/StallStore";
+import { StallType } from "./StallType";
 
 
 export class Stall{
-    @observable id
-    @observable name : string = ""
-    @observable description : string = ""
+    store : StallStore
+    @observable id : number
+    @observable type : StallType
 
-    constructor()
+    constructor(store : StallStore)
     {
         makeAutoObservable(this)
+        this.store = store
     }
 
-    set setName(name : string)
+    @action
+    set setId(id : number)
     {
-        this.name = name
+        this.id = id
     }
 
-    set setDescription(description)
+    @action
+    set setType(stallType : StallType)
     {
-        this.description = description
+        this.type = stallType
     }
 }

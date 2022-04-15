@@ -56,7 +56,15 @@ namespace Application.Stalls.Commands.AddStallsToMarket
 
                 return new AddStallsToMarketResponse(Result.Success())
                 {
-                    Stalls = stalls.Select(x => new Common.Models.Stall() { Id = x.Id }).ToList()
+                    Stalls = stalls.Select(x => new Common.Models.Stall() { 
+                        Id = x.Id,
+                        StallType = new Common.Models.StallType()
+                        {
+                            Id = stallType.Id,
+                            Name = stallType.Name,
+                            Description = stallType.Description
+                        }
+                    }).ToList()
                 };
                     
             }

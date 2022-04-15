@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable } from "mobx";
+import { Stall } from "../../@types/Stall";
 import { StallType } from "../@DomainObjects/StallType";
 import { RootStore } from "../RootStore";
 
@@ -7,7 +8,7 @@ export class StallTypeStore {
     rootStore : RootStore
     transportLayer
     @observable stallTypes : StallType[]
-    @observable selected : StallType
+    @observable selectedStallType : StallType
 
     constructor(rootStore : RootStore, transportLayer?)
     {

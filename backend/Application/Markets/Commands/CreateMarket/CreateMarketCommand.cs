@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,9 @@ namespace Application.Markets.Commands.CreateMarket
             public async Task<CreateMarketResponse> Handle(CreateMarketCommand request, CancellationToken cancellationToken)
             {
                 
-                var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId && x.UserId.Equals(_currentUserService.UserId));
+                var organiser = _context.Organisers
+                    .Include(x => x.Address)
+                    .FirstOrDefault(x => x.Id == request.Dto.OrganiserId && x.UserId.Equals(_currentUserService.UserId));
                 if (organiser == null)
                 {
                     throw new NotFoundException();
@@ -64,7 +67,18 @@ namespace Application.Markets.Commands.CreateMarket
                     MarketName = instance.MarketTemplate.Name,
                     StartDate = instance.StartDate,
                     EndDate = instance.EndDate,
-                    IsCancelled = instance.IsCancelled
+                    IsCancelled = instance.IsCancelled,
+                    Organiser = new Common.Models.Organiser()
+                    {
+                        Id = organiser.Id,
+                        Name = organiser.Name,
+                        Description = organiser.Description,
+                        Street = organiser.Address.Street,
+                        StreetNumber = organiser.Address.Number,
+                        Appartment = organiser.Address.Appartment,
+                        PostalCode = organiser.Address.PostalCode,
+                        City = organiser.Address.City
+                    }
                 };
 
                 return new CreateMarketResponse(Result.Success()) { Market = market };

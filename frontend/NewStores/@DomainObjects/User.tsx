@@ -40,7 +40,7 @@ export class User {
     //TODO: load user information automatically.
     @action
     fetchOwnedOrganisers() {
-        flowResult(this.store.rootStore.organiserStore.resolveOrganisersFiltered(this.id))
+        this.store.rootStore.organiserStore.transportLayer.getCurrentUsersOrganisers()
             .then(
                 action("resolvedUsersOrganisers", orgs => {
                     console.log("back in user")
@@ -51,7 +51,6 @@ export class User {
                     this.organisers = null
                 })
             ).catch(error => this.organisers = null)
-        return null
     }
 
     @action

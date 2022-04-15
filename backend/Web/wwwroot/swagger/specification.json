@@ -973,6 +973,14 @@
             "type": "integer",
             "format": "int32"
           },
+          "stallType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/StallType"
+              }
+            ]
+          },
           "market": {
             "nullable": true,
             "oneOf": [

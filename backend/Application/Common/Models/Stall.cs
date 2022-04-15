@@ -9,6 +9,7 @@ namespace Application.Common.Models
     public class Stall
     {
         public int Id { get; set; }
+        public StallType StallType { get; set; }
         public Market? Market { get; set; }
     }
 }

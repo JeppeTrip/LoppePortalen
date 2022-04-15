@@ -29,7 +29,7 @@ const StallForm: FC<Props> = (props: Props) => {
             <Grid item xs={12}>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {
-                        (props.market.store.rootStore.stallTypeStore.selected || props.market.store.rootStore.stallTypeStore.selected != null) && <StallTypeInputListItem stallType={props.market.store.rootStore.stallTypeStore.selected} />
+                        (props.market.store.rootStore.stallTypeStore.selectedStallType || props.market.store.rootStore.stallTypeStore.selectedStallType != null) && <StallTypeInputListItem stallType={props.market.store.rootStore.stallTypeStore.selectedStallType} />
                     }
                     {
                         props.market.stallTypes.length != 0 && props.market.savedStallTypes.map(type => <StallTypeListItem stallType={type} />)
