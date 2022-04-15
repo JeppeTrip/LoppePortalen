@@ -1,4 +1,5 @@
 ﻿using Application.Markets.Queries.GetUsersMarkets;
+using Application.Organisers.Queries.GetUsersOrganisers;
 using Application.User.Queries.GetUser;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,10 +30,11 @@ namespace Web.Controllers
             return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });
         }
 
-        [HttpGet("oragnisers")]
-        public async Task<ActionResult<GetUsersMarketsResponse>> GetUsersOrganisers()
+        [HttpGet("organisers")]
+        public async Task<ActionResult<GetUsersOrganisersResponse>> GetUsersOrganisers()
         {
-            throw new NotImplementedException();
+            var userid = CurrentUserService.UserId;
+            return await Mediator.Send(new GetUsersOrganisersQuery() { Dto = new GetUsersOrganisersRequest() { UserId = userid } });
         }
     }
 }

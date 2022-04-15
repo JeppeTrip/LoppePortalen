@@ -97,6 +97,7 @@ export class MarketStore {
     @action
     createMarket() {
         const market = new Market(this);
+        this.markets.push(market)
         this.selectedMarket = market;
         return market;
     }

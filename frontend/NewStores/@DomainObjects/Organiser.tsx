@@ -41,7 +41,7 @@ export class Organiser {
             this.appartment = dto.appartment
             this.postalCode = dto.postalCode
             this.city = dto.city
-            dto.markets.forEach(mDto => {
+            dto.markets?.forEach(mDto => {
                 /**
                  * Backend tries to minimize the amount of duplicate data that is sends. 
                  * If market dto instance is empty, set it as this organiser would 

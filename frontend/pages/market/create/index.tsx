@@ -2,14 +2,14 @@ import { CircularProgress, Container } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import MarketForm from "../../../components/MarketForm";
 import { NextPageAuth } from "../../../@types/NextAuthPage";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { useRouter } from "next/router";
 import { StoreContext } from "../../../NewStores/StoreContext";
+import { ModelState } from "../../../@types/ModelState";
 
 const CreateMarketPage: NextPageAuth = observer(() => {
     const stores = useContext(StoreContext);
     const router = useRouter();
-
 
     //Component mounts
     useEffect(() => {
@@ -28,6 +28,8 @@ const CreateMarketPage: NextPageAuth = observer(() => {
             <CircularProgress />
         )
     }
+
+
 
     return (
         <>

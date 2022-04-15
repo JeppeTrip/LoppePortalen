@@ -15,11 +15,14 @@ import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save"
 import { Grid } from '@mui/material';
 import { Market } from '../../NewStores/@DomainObjects/Market';
+import { useRouter } from 'next/router';
+import { ModelState } from '../../@types/ModelState';
 
 
 type Props = {
     market: Market
     title?: string
+    editing?: boolean
 }
 
 const steps = ['Market Information', 'Stalls'];
@@ -28,6 +31,29 @@ const theme = createTheme();
 
 const MarketForm: FC<Props> = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
+    const router = useRouter()
+
+    //on mount
+    useEffect(() => {
+
+    },[])
+
+    //unmount
+    useEffect(() => {
+        return () => {
+
+        }
+    },[])
+
+    useEffect(() => {
+        if(props.market.state === ModelState.IDLE)
+        {
+            if(router.isReady)
+            {
+                router.push('/market/' + props.market.id, undefined, { shallow: true });
+            }
+        }
+    }, [props.market.state])
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -100,7 +126,7 @@ const MarketForm: FC<Props> = (props: Props) => {
                             {getStepContent(activeStep)}
                             <Grid container>
                                 {
-                                    props.market.oldState != null && <Grid item container xs>
+                                    props.editing && <Grid item container xs>
                                         <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                                             Reset
                                         </Button>

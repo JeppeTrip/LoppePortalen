@@ -40,17 +40,16 @@ export class User {
     //TODO: load user information automatically.
     @action
     fetchOwnedOrganisers() {
-        this.store.rootStore.organiserStore.transportLayer.getCurrentUsersOrganisers()
+        this.store.transportLayer.getUsersOrganisers()
             .then(
-                action("resolvedUsersOrganisers", orgs => {
+                action("resolvedUsersOrganisers", result => {
                     console.log("back in user")
-                    console.log(orgs)
-                    this.organisers = orgs;
+                    this.organisers = result.organisers.map(x => this.store.rootStore.organiserStore.updateOrganiserFromServer(x));
                 }),
                 action("resolvedUsersOrganisersFailed", orgs => {
-                    this.organisers = null
+                    this.organisers = [] as Organiser[]
                 })
-            ).catch(error => this.organisers = null)
+            )
     }
 
     @action

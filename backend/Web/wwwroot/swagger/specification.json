@@ -489,29 +489,6 @@
         }
       }
     },
-    "/api/Organiser/user/current": {
-      "get": {
-        "tags": [
-          "Organiser"
-        ],
-        "operationId": "Organiser_GetCurrentUsersOrganisers",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetUsersOrganisersResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Organiser/edit": {
       "put": {
         "tags": [
@@ -657,7 +634,7 @@
         }
       }
     },
-    "/api/User/oragnisers": {
+    "/api/User/organisers": {
       "get": {
         "tags": [
           "User"
@@ -669,7 +646,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                  "$ref": "#/components/schemas/GetUsersOrganisersResponse"
                 }
               }
             }
@@ -1382,44 +1359,6 @@
           }
         }
       },
-      "GetUsersOrganisersResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "street": {
-            "type": "string",
-            "nullable": true
-          },
-          "number": {
-            "type": "string",
-            "nullable": true
-          },
-          "appartment": {
-            "type": "string",
-            "nullable": true
-          },
-          "postalCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "EditOrganiserResponse": {
         "allOf": [
           {
@@ -1557,6 +1496,19 @@
           "phoneNumber": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "GetUsersOrganisersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organisers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            }
           }
         }
       }

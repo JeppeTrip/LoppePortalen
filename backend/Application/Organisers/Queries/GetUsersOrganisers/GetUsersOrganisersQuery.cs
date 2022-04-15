@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
-    public class GetUsersOrganisersQuery : IRequest<List<GetUsersOrganisersResponse>>
+    public class GetUsersOrganisersQuery : IRequest<GetUsersOrganisersResponse>
     {
         public GetUsersOrganisersRequest Dto { get; set; }
 
-        public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, List<GetUsersOrganisersResponse>>
+        public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, GetUsersOrganisersResponse>
         {
             private readonly IApplicationDbContext _context;
             private readonly ICurrentUserService _currentUserService;
@@ -27,7 +28,7 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
                 _context = context;
                 _currentUserService = currentUserService;
             }
-            public async Task<List<GetUsersOrganisersResponse>> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
+            public async Task<GetUsersOrganisersResponse> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
             {
                 if (!request.Dto.UserId.Equals(_currentUserService.UserId))
                 {
@@ -39,19 +40,19 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
                     .Where(x => x.UserId.Equals(request.Dto.UserId))
                     .ToListAsync();
 
-                var result = organisers.Select(x => new GetUsersOrganisersResponse()
+                var result = organisers.Select(x => new Organiser()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Appartment = x.Address.Appartment,
                     City = x.Address.City,
-                    Number = x.Address.Number,
+                    StreetNumber = x.Address.Number,
                     PostalCode = x.Address.PostalCode,
                     Street = x.Address.Street
                 }).OrderBy(x => x.Name).ToList();
 
-                return result;
+                return new GetUsersOrganisersResponse() { Organisers = result };
             }
         }
     }

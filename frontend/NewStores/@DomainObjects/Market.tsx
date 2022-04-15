@@ -1,4 +1,5 @@
 import { action, autorun, computed, makeAutoObservable, observable } from "mobx";
+import { ModelState } from "../../@types/ModelState";
 import { Market as Dto, ValueTupleOfStringAndStringAndInteger } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
@@ -7,7 +8,7 @@ import { StallType } from "./StallType";
 
 export class Market {
     store: MarketStore
-    @observable state: string = "idle"
+    @observable state: symbol
     @observable oldState: Market
     @observable id: number
     @observable organiserId: number
@@ -57,6 +58,7 @@ export class Market {
 
     constructor(store: MarketStore) {
         makeAutoObservable(this);
+        this.state = ModelState.NEW
         this.store = store
         this.stallTypes = [] as StallType[]
         this.startDate = null
@@ -68,8 +70,8 @@ export class Market {
     updateFromServer(dto: Dto) {
         console.log("market update from server:")
         console.log(dto)
-        if (this.state != "updating") {
-            this.state = "updating"
+        if (this.state != ModelState.UPDATING) {
+            this.state = ModelState.UPDATING
             this.id = dto.marketId
             this.name = dto.marketName
             this.description = dto.description
@@ -86,7 +88,7 @@ export class Market {
             }
             this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
             this.setOldState()
-            this.state = "idle"
+            this.state = ModelState.IDLE
         }
         return this;
     }
@@ -115,8 +117,8 @@ export class Market {
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
-                        this.setOldState();
-                    this.store.markets.push(this);
+                    this.setOldState();
+                    this.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
                     //do something with the error.
@@ -191,7 +193,6 @@ export class Market {
         console.log("stalls in those types")
         console.log(typeStalls)
         return typeStalls
-
     }
 
 
