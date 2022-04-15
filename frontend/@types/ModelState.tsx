@@ -5,4 +5,5 @@ export class ModelState {
     static IDLE = Symbol("idle")
     static NEW = Symbol("new")
     static UPDATING = Symbol("updating")
+    static EDITING = Symbol("editing")
 }

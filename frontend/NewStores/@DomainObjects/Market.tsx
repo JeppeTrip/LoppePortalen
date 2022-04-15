@@ -99,6 +99,14 @@ export class Market {
     }
 
     @action
+    deselect() {
+        if(this.store.selectedMarket?.id === this.id)
+        {
+            this.store.selectedMarket = null;
+        }
+    }
+
+    @action
     save() {
         if (!this.id) {
             this.store.transportLayer.createMarket({

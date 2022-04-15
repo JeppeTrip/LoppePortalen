@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { observer } from 'mobx-react-lite';
 import { Market } from '../../NewStores/@DomainObjects/Market';
+import { ModelState } from '../../@types/ModelState';
 
 type Props = {
     Market: Market,
@@ -25,6 +26,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
     const handleClickEdit = (event) => {
         event.preventDefault();
         if (router.isReady) {
+            props.Market.state = ModelState.EDITING
             router.push('/market/edit/' + props.Market.id, undefined, { shallow: true });
         }
     }

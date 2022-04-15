@@ -19,7 +19,11 @@ const CreateMarketPage: NextPageAuth = observer(() => {
     //Component unmounts
     useEffect(() => {
         return () => {
-
+            if(stores.marketStore.selectedMarket?.state != ModelState.IDLE)
+            {
+                stores.marketStore.selectedMarket.deselect()
+                stores.marketStore.removeUnsavedMarketsFromList()
+            }
         }
     }, [])
 

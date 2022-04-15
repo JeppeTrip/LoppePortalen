@@ -1,6 +1,4 @@
-import SaveIcon from '@mui/icons-material/Save';
-import { LoadingButton } from "@mui/lab";
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -55,7 +53,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
             maxWidth="sm">
             {
                 (stores.marketStore.selectedMarket)
-                && <MarketForm market={stores.marketStore.selectedMarket} title={"Edit Market"} />
+                && <MarketForm market={stores.marketStore.selectedMarket} title={"Edit Market"} editing={true}/>
             }
         </Container>
     )

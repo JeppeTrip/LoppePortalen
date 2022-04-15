@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { ModelState } from "../../@types/ModelState";
 import { Market as Dto, MarketClient } from "../../services/clients";
 import { Market } from "../@DomainObjects/Market";
 import { RootStore } from "../RootStore";
@@ -100,5 +101,10 @@ export class MarketStore {
         this.markets.push(market)
         this.selectedMarket = market;
         return market;
+    }
+
+    @action
+    removeUnsavedMarketsFromList(){
+        this.markets = this.markets.filter(x => x.state != ModelState.NEW);
     }
 }

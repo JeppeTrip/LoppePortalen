@@ -29,7 +29,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={props.market.organiserId < 1 ? '' : props.market.organiserId}
+                        value={props.market.organiser?.id < 1 ? '' : props.market.organiser.id}
                         label="Organiser"
                         onChange={event => props.market.organiserId = (event.target.value as number)}
                     >

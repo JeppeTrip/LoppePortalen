@@ -35,7 +35,14 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     //on mount
     useEffect(() => {
-
+        if(props.editing)
+        {
+            props.market.state = ModelState.EDITING
+        }
+        else 
+        {
+            props.market.state = ModelState.NEW
+        }
     },[])
 
     //unmount
