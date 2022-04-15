@@ -10,19 +10,6 @@ type Props = {
 
 
 const StallTypeListItem: FC<Props> = (props: Props) => {
-    const handleChange = (event) => {
-        const newValue = event.target.value;
-        const oldValue = props.stallType.stalls.length;
-        const diff = newValue - oldValue;
-        if(diff > 0)
-        {
-            props.stallType.addStalls(diff)
-        }
-        else if(diff < 0)
-        {
-            props.stallType.removeStalls(Math.abs(diff))
-        }
-    }
     return (
         <ListItem>
             <Grid container spacing={2} alignItems="center">
@@ -40,14 +27,6 @@ const StallTypeListItem: FC<Props> = (props: Props) => {
                             }
                         </Typography>
                     </Stack>
-
-                </Grid>
-                <Grid item xs={4}>
-                    <Input
-                        type="number"
-                        value={props.stallType.stalls.length}
-                        onChange={handleChange}
-                    />
                 </Grid>
             </Grid>
         </ListItem>

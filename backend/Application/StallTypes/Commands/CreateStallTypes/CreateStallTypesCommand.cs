@@ -11,18 +11,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.StallTypes.CreateStallType
+namespace Application.StallTypes.Commands.CreateStallTypes
 {
     public class CreateStallTypesCommand : IRequest<CreateStallTypesResponse>
     {
         public CreateStallTypesRequest Dto { get; set; }
 
-        public class CreateStallTypeCommandHandler : IRequestHandler<CreateStallTypesCommand, CreateStallTypesResponse>
+        public class CreateStallTypesCommandHandler : IRequestHandler<CreateStallTypesCommand, CreateStallTypesResponse>
         {
             private readonly IApplicationDbContext _context;
             private readonly ICurrentUserService _currentUserService;
 
-            public CreateStallTypeCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+            public CreateStallTypesCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _currentUserService = currentUserService;
@@ -35,13 +35,14 @@ namespace Application.StallTypes.CreateStallType
                     .Include(x => x.MarketTemplate.StallTypes)
                     .FirstOrDefault(x => x.Id == request.Dto.MarketId).MarketTemplate;
 
-                if(template == null)
+                if (template == null)
                 {
                     throw new NotFoundException("Market could not be found.");
                 }
 
                 HashSet<string> templateTypeSet = template.StallTypes.Select(x => x.Name).ToHashSet();
-                request.Dto.Types.ForEach(x => {
+                request.Dto.Types.ForEach(x =>
+                {
                     x.name = x.name.Trim();
                     x.description = x.description.Trim();
                 });
@@ -49,7 +50,7 @@ namespace Application.StallTypes.CreateStallType
 
                 if (templateTypeSet.Overlaps(dtoTypeSet))
                 {
-                    return new CreateStallTypesResponse(Result.Failure( new List<string>() { "Stall type names for this event overlaps with the new ones." }));
+                    return new CreateStallTypesResponse(Result.Failure(new List<string>() { "Stall type names for this event overlaps with the new ones." }));
                 }
 
                 var types = request.Dto.Types.Select(x => new Domain.Entities.StallType()
@@ -63,13 +64,14 @@ namespace Application.StallTypes.CreateStallType
 
                 _context.StallTypes.AddRange(types);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateStallTypesResponse(Result.Success()) { 
+                return new CreateStallTypesResponse(Result.Success())
+                {
                     StallTypes = types.Select(x => new Common.Models.StallType()
                     {
                         Id = x.Id,
                         Name = x.Name,
-                        Description= x.Description,
-                    }).ToList() 
+                        Description = x.Description,
+                    }).ToList()
                 };
             }
         }

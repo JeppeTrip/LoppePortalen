@@ -7,8 +7,11 @@ using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
+using Application.Stalls.Commands.RemoveStallsFromMarket;
 using Application.Stalls.Queries.GetMarketStalls;
-using Application.StallTypes.CreateStallType;
+using Application.StallTypes.Commands.CreateStallType;
+using Application.StallTypes.Commands.CreateStallTypes;
+using Application.StallTypes.Commands.EditStallTypes;
 using Application.StallTypes.Queries.GetMarketStallTypes;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -167,7 +170,9 @@ namespace Web.Controllers
         [HttpPut]
         public async Task<ActionResult<EditMarketResponse>> UpdateMarket(EditMarketRequest dto)
         {
-            return await Mediator.Send(new EditMarketCommand() { Dto = dto });
+
+            return await Mediator.Send(new EditMarketCommand() { Dto = dto }); ;
+
         }
     }
 }

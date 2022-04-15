@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.StallTypes.CreateStallType
+namespace Application.StallTypes.Commands.EditStallTypes
 {
-    public class CreateStallTypesCommandValidator
+    public class EditStallTypeResponse
     {
+
     }
 }

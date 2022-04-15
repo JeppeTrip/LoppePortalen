@@ -94,6 +94,7 @@ export class Market {
              */
              dto.stallTypes?.forEach(
                  x => {
+                    x.market = dto
                     const type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
                     if(!this.stallTypes.find(t => t.id === type.id))
                     {
@@ -161,11 +162,11 @@ export class Market {
         else {
             this.store.transportLayer.updateMarket({
                 marketId: this.id,
-                organiserId: this.organiserId,
+                organiserId: this.organiser.id,
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
-                endDate: this.endDate
+                endDate: this.endDate,
             }).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {
@@ -182,6 +183,7 @@ export class Market {
     @action
     addNewStallType() {
         const type = this.store.rootStore.stallTypeStore.createStallType()
+        type.market = this
         this.stallTypes.push(type);
         return type;
     }

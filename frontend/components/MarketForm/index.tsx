@@ -1,22 +1,21 @@
-import Box from '@mui/material/Box';
+import SaveIcon from "@mui/icons-material/Save";
+import { LoadingButton } from "@mui/lab";
+import { Grid } from '@mui/material';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
-import MarketDetailsForm from '../MarketDetailsForm';
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
-import StallForm from '../StallForm';
-import { LoadingButton } from "@mui/lab";
-import SaveIcon from "@mui/icons-material/Save"
-import { Grid } from '@mui/material';
-import { Market } from '../../NewStores/@DomainObjects/Market';
 import { useRouter } from 'next/router';
+import { FC, Fragment, useEffect, useState } from 'react';
 import { ModelState } from '../../@types/ModelState';
+import { Market } from '../../NewStores/@DomainObjects/Market';
+import MarketDetailsForm from '../MarketDetailsForm';
+import StallForm from '../StallForm';
 
 
 type Props = {

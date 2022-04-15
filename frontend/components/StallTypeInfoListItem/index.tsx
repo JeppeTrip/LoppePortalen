@@ -1,13 +1,11 @@
 import { Grid, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
-import { IStall } from "../../@types/Stall";
+import { StallType } from "../../NewStores/@DomainObjects/StallType";
 
 
 type Props = {
-    stall: IStall,
-    available: number,
-    total: number
+    stallType: StallType
 }
 
 const StallTypeInfoListItem: FC<Props> = (props: Props) => {
@@ -19,7 +17,7 @@ const StallTypeInfoListItem: FC<Props> = (props: Props) => {
                         <Typography
                             variant="h6">
                             {
-                                props.stall.type
+                                props.stallType.name
                             }
                         </Typography>
                         <Typography variant="caption">

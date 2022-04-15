@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.EditMarket
 {
+    /** Command to update the market information.
+        This only covers the details of the market, not the actual stalls and such.
+     */
     public class EditMarketCommand : IRequest<EditMarketResponse>
     {
         public EditMarketRequest Dto { get; set; }
@@ -30,11 +33,10 @@ namespace Application.Markets.Commands.EditMarket
 
             public async Task<EditMarketResponse> Handle(EditMarketCommand request, CancellationToken cancellationToken)
             {
-                throw new NotImplementedException();
                 var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId && x.UserId.Equals(_currentUserService.UserId));
                 if (organiser == null)
                 {
-                    throw new NotFoundException();
+                    throw new UnauthorizedAccessException();
                 }
 
                 var instance = _context.MarketInstances
@@ -49,7 +51,6 @@ namespace Application.Markets.Commands.EditMarket
                 instance.EndDate = request.Dto.EndDate;
                 instance.MarketTemplate.Name = request.Dto.MarketName;
                 instance.MarketTemplate.Description = request.Dto.Description;
-                instance.MarketTemplate.Organiser = organiser;
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return new EditMarketResponse(Result.Success());

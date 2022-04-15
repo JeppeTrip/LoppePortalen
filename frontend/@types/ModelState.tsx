@@ -6,4 +6,6 @@ export class ModelState {
     static NEW = Symbol("new")
     static UPDATING = Symbol("updating")
     static EDITING = Symbol("editing")
+    static SAVING = Symbol("saving")
+    static ERROR = Symbol("error")
 }

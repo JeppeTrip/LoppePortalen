@@ -1,8 +1,9 @@
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Grid, IconButton, ListItem, Paper, Stack, TextField, Typography } from "@mui/material";
+import { CircularProgress, Grid, IconButton, ListItem, Paper, Stack, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useContext } from "react";
+import { ModelState } from '../../@types/ModelState';
 import { StallType } from "../../NewStores/@DomainObjects/StallType";
 import { StoreContext } from "../../NewStores/StoreContext";
 
@@ -18,7 +19,6 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
 
     const handleOnAdd = (event) => {
         props.stallType.save()
-        props.stallType.deselect()
     }
 
     const handleOnDelete = (event) => {
@@ -51,21 +51,34 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
 
                     </Grid>
                     <Grid container item xs={4} justifyContent="end" >
-                        <IconButton
-                            color="success"
-                            aria-label="stallAdd"
-                            onClick={handleOnAdd}>
-                            <AddBoxIcon />
-                        </IconButton>
-                        <IconButton
-                            aria-label="stallDelete"
-                            onClick={handleOnDelete}>
-                            <DeleteIcon />
-                        </IconButton>
+                        {
+                            props.stallType.state === ModelState.SAVING ?
+                                (
+                                    <CircularProgress />
+                                )
+                                :
+                                (
+                                    <>
+                                        <IconButton
+                                            color="success"
+                                            aria-label="stallAdd"
+                                            onClick={handleOnAdd}>
+                                            <AddBoxIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            aria-label="stallDelete"
+                                            onClick={handleOnDelete}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </>
+
+                                )
+                        }
+
                     </Grid>
                     {
                         //TODO: Make error handling waaay the fuck better.
-                        props.stallType.name === "" || props.stallType.description === "" &&
+                        props.stallType.state === ModelState.ERROR &&
                         <Grid item xs={12}>
                             <Typography variant="caption" color={"red"}>
                                 Stall must have a unique name, and a description.
