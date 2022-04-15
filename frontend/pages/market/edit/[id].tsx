@@ -1,6 +1,6 @@
 import { DateTimePicker, LoadingButton, LocalizationProvider, TabContext, TabList, TabPanel } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { Button, Container, Grid, List, Paper, Tab, TextField, Typography } from "@mui/material";
+import { Button, Container, FormControl, Grid, InputLabel, List, Paper, Select, Tab, TextField, Typography, MenuItem } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -11,6 +11,8 @@ import { Box } from "@mui/system";
 import AddIcon from '@mui/icons-material/Add';
 import StallTypeInputListItem from "../../../components/StallTypeNewListItem";
 import StallTypeListItem from "../../../components/StallType";
+import { StallType } from "../../../NewStores/@DomainObjects/StallType";
+import { reaction } from "mobx";
 
 
 type Props = {
@@ -19,6 +21,8 @@ type Props = {
 
 const EditMarketPage: NextPageAuth<Props> = observer(() => {
     const [tabValue, setTabValue] = useState('1')
+    const [selectedType, setSelectedType] = useState<StallType>(null)
+    const [stallDiff, setStallDiff] = useState(0)
     const stores = useContext(StoreContext);
     const [marketId, setMarketId] = useState<string>(undefined);
     const router = useRouter();
@@ -54,13 +58,23 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
         }
     }, [marketId, stores.marketStore.selectedMarket])
 
-    const handleSubmit = () => {
-
+    const handleAddNewStalls = () => {
+        if(stallDiff > 0)
+        {
+            selectedType.saveNewStallsToMarket(stallDiff)
+        }
     }
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
+
+    reaction(
+        () => selectedType.totalStallCount,
+        count => {
+            setStallDiff(0)
+        }
+    )
 
     return (
         <Container >
@@ -175,7 +189,57 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                         )
                         }
                     </TabPanel>
-                    <TabPanel value="3">Functions to edit stalls here.</TabPanel>
+                    <TabPanel value="3">
+                        {stores.marketStore.selectedMarket != null && (
+                            <Grid container spacing={2} alignItems="center">
+                                <Grid item xs={8}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="stall-type-select-label">Stall Type</InputLabel>
+                                        <Select
+                                            labelId="stall-type-select-label"
+                                            id="stall-type-select"
+                                            value={selectedType == null ? "" : selectedType.id}
+                                            label="Age"
+                                            onChange={(event) => {
+                                                setStallDiff(0)
+                                                setSelectedType(stores.marketStore.selectedMarket.stallTypes.find(x => x.id === parseInt(event.target.value))
+                                            )}}
+                                        >
+                                            {
+                                                stores.marketStore.selectedMarket.stallTypes.map(x =>
+                                                    <MenuItem value={x.id}>{x.name}</MenuItem>
+                                                )
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <TextField 
+                                        fullWidth={true} 
+                                        type="number"
+                                        value={selectedType && (selectedType.totalStallCount+stallDiff)}
+                                        onChange={(event) => {
+                                            let diff = parseInt(event.target.value) - selectedType.totalStallCount
+                                            setStallDiff(diff >= 0 ? diff : Math.abs(diff)>selectedType.totalStallCount ? -selectedType.totalStallCount : diff)
+                                        }
+                                        }
+                                        />
+                                </Grid>
+                                <Grid item>
+                                    <LoadingButton
+                                        onClick={() => handleAddNewStalls()}
+                                        loading={false}
+                                        loadingPosition="start"
+                                        startIcon={<SaveIcon />}
+                                        variant="contained"
+                                    >
+                                        Add Stalls
+                                    </LoadingButton>
+                                </Grid>
+                            </Grid>
+                        )
+                        }
+                    </TabPanel>
                 </TabContext>
             </Paper>
 

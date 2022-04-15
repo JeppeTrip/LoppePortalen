@@ -174,5 +174,11 @@ namespace Web.Controllers
             return await Mediator.Send(new EditMarketCommand() { Dto = dto }); ;
 
         }
+
+        [HttpPost("addStalls")]
+        public async Task<ActionResult<AddStallsToMarketResponse>> AddStallsToMarket(AddStallsToMarketRequest dto)
+        {
+            return await Mediator.Send(new AddStallsToMarketCommand() { Dto = dto });
+        }
     }
 }

@@ -331,6 +331,38 @@
         }
       }
     },
+    "/api/Market/addStalls": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_AddStallsToMarket",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddStallsToMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddStallsToMarketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -961,6 +993,10 @@
             "type": "string",
             "nullable": true
           },
+          "totalStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "market": {
             "nullable": true,
             "oneOf": [
@@ -1164,6 +1200,44 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "AddStallsToMarketResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stalls": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Stall"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "AddStallsToMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stallTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

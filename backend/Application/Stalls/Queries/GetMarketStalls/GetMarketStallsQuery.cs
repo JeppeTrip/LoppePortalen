@@ -41,6 +41,7 @@ namespace Application.Stalls.Queries.GetMarketStalls
                     .ToListAsync();
 
                 var result = new List<Stall>();
+
                 foreach(var stall in stalls)
                 {
                     result.Add(new Stall()
@@ -50,7 +51,8 @@ namespace Application.Stalls.Queries.GetMarketStalls
                         {
                             Id = stall.StallType.Id,
                             Name = stall.StallType.Name,
-                            Description = stall.StallType.Description
+                            Description = stall.StallType.Description,
+                            TotalStallCount = _context.Stalls.Where(x => x.StallTypeId == stall.StallTypeId).Count()
                         }
                     });
                 }

@@ -34,7 +34,7 @@ namespace Application.StallTypes.Queries.GetMarketStallTypes
 
                 return new GetMarketStallTypesResponse()
                 {
-                    StallTypes = stallTypes.Select(x => new Common.Models.StallType() { Id = x.Id, Name = x.Name, Description = x.Description }).ToList(),
+                    StallTypes = stallTypes.Select(x => new Common.Models.StallType() { Id = x.Id, Name = x.Name, Description = x.Description, TotalStallCount= _context.Stalls.Where(s => s.StallTypeId == x.Id).Count() }).ToList(),
                 };
             }
         }

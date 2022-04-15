@@ -36,4 +36,6 @@ export class StallStore{
         this.stalls.push(stall)
         return stall
     }
+
+    
 }

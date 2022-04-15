@@ -25,10 +25,10 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Organiser</InputLabel>
+                    <InputLabel id="organiser-select">Organiser</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="organiser-select"
+                        id="organiser-select"
                         value={(props.market.organiser == null || props.market.organiser.id < 1) ? "" : props.market.organiser.id}
                         label="Organiser"
                         onChange={event => props.market.organiserId = (event.target.value as number)}

@@ -53,7 +53,7 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                 }
                 _context.Stalls.AddRange(stalls);
                 await _context.SaveChangesAsync(cancellationToken);
-
+                int stallsCount = _context.Stalls.Where(x => x.StallTypeId == stallType.Id).Count();
                 return new AddStallsToMarketResponse(Result.Success())
                 {
                     Stalls = stalls.Select(x => new Common.Models.Stall() { 
@@ -62,7 +62,8 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                         {
                             Id = stallType.Id,
                             Name = stallType.Name,
-                            Description = stallType.Description
+                            Description = stallType.Description,
+                            TotalStallCount = stallsCount
                         }
                     }).ToList()
                 };

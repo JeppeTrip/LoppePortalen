@@ -71,6 +71,7 @@ namespace Application.StallTypes.Commands.CreateStallTypes
                         Id = x.Id,
                         Name = x.Name,
                         Description = x.Description,
+                        TotalStallCount = 0
                     }).ToList()
                 };
             }

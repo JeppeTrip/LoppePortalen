@@ -218,17 +218,4 @@ export class Market {
         return this.stallTypes.filter(x => x.id > 0)
     }
 
-    @computed
-    stallTypeChangeReaction() {
-        const typeStalls = this.stallTypes.reduce(function (a, b) {
-            return a + b.stalls.length;
-        }, 0)
-        console.log("stall types")
-        console.log(this.stallTypes.length)
-        console.log("stalls in those types")
-        console.log(typeStalls)
-        return typeStalls
-    }
-
-
 }

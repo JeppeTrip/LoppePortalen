@@ -14,6 +14,7 @@ export class StallType {
     @observable description: string
     @observable stalls: Stall[]
     @observable market: Market
+    @observable totalStallCount: number
 
 
     constructor(store) {
@@ -24,6 +25,7 @@ export class StallType {
         this.stalls = [] as Stall[]
         this.state = ModelState.NEW
         this.market = null
+        this.totalStallCount = -1
     }
 
     @action
@@ -32,6 +34,7 @@ export class StallType {
             this.state = ModelState.UPDATING
             this.id = dto.id
             this.name = dto.name
+            this.totalStallCount = dto.totalStallCount
             this.description = dto.description
             dto.stalls?.forEach(x => {
                 const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
@@ -75,7 +78,7 @@ export class StallType {
                         description: res.description
                     })
                     this.state = ModelState.IDLE
-                    if(this.store.newStallType?.id === this.id)
+                    if (this.store.newStallType?.id === this.id)
                         this.store.newStallType = null
                 } else {
                     this.state = ModelState.ERROR
@@ -103,6 +106,31 @@ export class StallType {
             stalls.push(stall)
         }
         this.stalls = this.stalls.concat(stalls)
+    }
+
+    @action
+    saveNewStallsToMarket(count: number) {
+        this.state = ModelState.SAVING
+        this.store.rootStore.marketStore.transportLayer.addStallsToMarket(
+            {
+                marketId: this.market.id,
+                stallTypeId: this.id,
+                number: count
+            }
+        ).then(
+            action("submitSuccess", res => {
+                if (res.succeeded) {
+                    res.stalls.forEach(x => this.store.rootStore.stallStore.updateStallFromServer(x))
+                    this.state = ModelState.IDLE
+                }
+                else {
+                    this.state = ModelState.ERROR
+                }
+            }),
+            action("submitError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
     }
 
     @action

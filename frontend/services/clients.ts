@@ -183,6 +183,8 @@ export interface IMarketClient {
     getCurrentUsersMarkets(): Promise<GetUsersMarketsResponse>;
 
     updateMarket(dto: EditMarketRequest): Promise<EditMarketResponse>;
+
+    addStallsToMarket(dto: AddStallsToMarketRequest): Promise<AddStallsToMarketResponse>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -461,6 +463,45 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<EditMarketResponse>(null as any);
+    }
+
+    addStallsToMarket(dto: AddStallsToMarketRequest): Promise<AddStallsToMarketResponse> {
+        let url_ = this.baseUrl + "/api/Market/addStalls";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processAddStallsToMarket(_response));
+        });
+    }
+
+    protected processAddStallsToMarket(response: Response): Promise<AddStallsToMarketResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AddStallsToMarketResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AddStallsToMarketResponse>(null as any);
     }
 }
 
@@ -1121,6 +1162,7 @@ export interface StallType {
     id?: number;
     name?: string | null;
     description?: string | null;
+    totalStallCount?: number;
     market?: Market | null;
     stalls?: Stall[] | null;
 }
@@ -1177,6 +1219,16 @@ export interface EditMarketRequest {
     description?: string | null;
     startDate?: Date;
     endDate?: Date;
+}
+
+export interface AddStallsToMarketResponse extends Result {
+    stalls?: Stall[] | null;
+}
+
+export interface AddStallsToMarketRequest {
+    marketId?: number;
+    stallTypeId?: number;
+    number?: number;
 }
 
 export interface CreateOrganiserResponse {
