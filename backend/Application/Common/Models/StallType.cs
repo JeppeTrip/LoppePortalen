@@ -12,5 +12,6 @@ namespace Application.Common.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public Market? Market { get; set; }
+        public List<Stall> Stalls { get; set; }
     }
 }

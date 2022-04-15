@@ -724,7 +724,7 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
 
 export interface IStallClient {
 
-    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse[]>;
+    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse>;
 }
 
 export class StallClient extends ClientBase implements IStallClient {
@@ -738,7 +738,7 @@ export class StallClient extends ClientBase implements IStallClient {
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse[]> {
+    getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse> {
         let url_ = this.baseUrl + "/api/Stall/{marketId}";
         if (marketId === undefined || marketId === null)
             throw new Error("The parameter 'marketId' must be defined.");
@@ -759,13 +759,13 @@ export class StallClient extends ClientBase implements IStallClient {
         });
     }
 
-    protected processGetStallsForMarket(response: Response): Promise<GetMarketStallsResponse[]> {
+    protected processGetStallsForMarket(response: Response): Promise<GetMarketStallsResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetMarketStallsResponse[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetMarketStallsResponse;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -773,7 +773,7 @@ export class StallClient extends ClientBase implements IStallClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GetMarketStallsResponse[]>(null as any);
+        return Promise.resolve<GetMarketStallsResponse>(null as any);
     }
 }
 
@@ -1066,6 +1066,7 @@ export interface StallType {
     name?: string | null;
     description?: string | null;
     market?: Market | null;
+    stalls?: Stall[] | null;
 }
 
 export interface Stall {
@@ -1210,9 +1211,7 @@ export interface EditOrganiserRequest {
 }
 
 export interface GetMarketStallsResponse {
-    stallId?: number;
-    stallName?: string | null;
-    stallDescription?: string | null;
+    stalls?: Stall[] | null;
 }
 
 export interface TestCommandResponse {

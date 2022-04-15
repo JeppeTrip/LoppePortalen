@@ -1,17 +1,45 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { ModelState } from "../../@types/ModelState";
 import { StallStore } from "../stores/StallStore";
 import { StallType } from "./StallType";
+import { Stall as Dto} from '../../services/clients'
+import { Market } from "../../@types/Market";
 
 
 export class Stall{
     store : StallStore
+    @observable state : symbol
     @observable id : number
     @observable type : StallType
+    @observable market : Market
 
     constructor(store : StallStore)
     {
         makeAutoObservable(this)
         this.store = store
+        this.state = ModelState.NEW
+    }
+
+    @action
+    updateFromServer(dto : Dto)
+    {
+        if(this.state != ModelState.UPDATING)
+        {
+            this.state = ModelState.UPDATING
+            this.id = dto.id
+            /**
+             * Backend is not sending everything back as it would cause a lot of duplicate data
+             * So if the dto doesn't contain any stalls add the dto object for this specific stall to the 
+             * type dto. This is to make sure that the types have a complete list of the related stalls.
+             */
+            if(dto.stallType.stalls == null || dto.stallType.stalls.length === 0 )
+            {
+                dto.stallType.stalls = [dto]
+            }
+            this.type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(dto.stallType);
+            this.state = ModelState.IDLE
+        }
+        return this;
     }
 
     @action

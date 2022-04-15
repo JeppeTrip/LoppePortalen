@@ -1,10 +1,13 @@
-import { action, makeAutoObservable, observable, reaction, autorun  } from "mobx"
+import { action, makeAutoObservable, observable, reaction, autorun, computed  } from "mobx"
+import { ModelState } from "../../@types/ModelState"
 import { StallTypeStore } from "../stores/StallTypeStore"
 import { Stall } from "./Stall"
+import {StallType as Dto } from '../../services/clients'
 
 
 export class StallType {
     store : StallTypeStore
+    @observable state : symbol
     @observable id : number
     @observable name : string
     @observable description : string
@@ -18,12 +21,28 @@ export class StallType {
         this.description = ""
         this.store = store
         this.stalls = [] as Stall[]
+        this.state = ModelState.NEW
     }
 
     @action
-    updateFromServer(dto)
+    updateFromServer(dto : Dto)
     {
-        //TODO: Implement
+        if(this.state != ModelState.UPDATING)
+        {
+            this.state = ModelState.UPDATING
+            this.id = dto.id
+            this.name = dto.name
+            this.description = dto.description
+            dto.stalls?.forEach(x => {
+                const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
+                if(!this.stalls.find(s => s.id === stall.id))
+                {
+                    this.stalls.push(stall)
+                }
+            })
+            this.state = ModelState.IDLE
+        }
+        return this
     }
 
     @action

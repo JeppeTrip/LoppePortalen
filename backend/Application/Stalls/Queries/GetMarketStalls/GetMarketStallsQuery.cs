@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Queries.GetMarketStalls
 {
-    public class GetMarketStallsQuery : IRequest<List<GetMarketStallsResponse>>
+    public class GetMarketStallsQuery : IRequest<GetMarketStallsResponse>
     {
         public GetMarketStallsRequest Dto { get; set; }
 
-        public class GetMarketStallsQueryHandler : IRequestHandler<GetMarketStallsQuery, List<GetMarketStallsResponse>>
+        public class GetMarketStallsQueryHandler : IRequestHandler<GetMarketStallsQuery, GetMarketStallsResponse>
         {
             private readonly IApplicationDbContext _context;
 
@@ -23,7 +24,7 @@ namespace Application.Stalls.Queries.GetMarketStalls
             {
                 _context = context;
             }
-            public async Task<List<GetMarketStallsResponse>> Handle(GetMarketStallsQuery request, CancellationToken cancellationToken)
+            public async Task<GetMarketStallsResponse> Handle(GetMarketStallsQuery request, CancellationToken cancellationToken)
             {
                 var marketInstance = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
@@ -39,7 +40,25 @@ namespace Application.Stalls.Queries.GetMarketStalls
                     .Where(x => x.StallType.MarketTemplateId == marketInstance.MarketTemplateId)
                     .ToListAsync();
 
-                return stalls.Select(x => new GetMarketStallsResponse() { StallId = x.Id, StallName = x.StallType.Name, StallDescription = x.StallType.Description }).ToList();
+                var result = new List<Stall>();
+                foreach(var stall in stalls)
+                {
+                    result.Add(new Stall()
+                    {
+                        Id = stall.Id,
+                        StallType = new StallType()
+                        {
+                            Id = stall.StallType.Id,
+                            Name = stall.StallType.Name,
+                            Description = stall.StallType.Description
+                        }
+                    });
+                }
+
+                return new GetMarketStallsResponse()
+                {
+                    Stalls = result
+                };
             }
 
             

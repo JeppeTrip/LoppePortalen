@@ -1,12 +1,12 @@
-import { Avatar, Button, CircularProgress, Container, Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, Typography } from "@mui/material";
-
-import { FC, useContext, useEffect, useState } from "react";
-
-import { observer } from "mobx-react-lite";
-import { DateTimePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
+import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import styles from './styles.module.css'
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { FC, useEffect } from "react";
 import { Market } from "../../NewStores/@DomainObjects/Market";
+import styles from './styles.module.css';
+
+
 
 
 
@@ -29,7 +29,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={props.market.organiser?.id < 1 ? '' : props.market.organiser.id}
+                        value={(props.market.organiser == null || props.market.organiser.id < 1) ? "" : props.market.organiser.id}
                         label="Organiser"
                         onChange={event => props.market.organiserId = (event.target.value as number)}
                     >

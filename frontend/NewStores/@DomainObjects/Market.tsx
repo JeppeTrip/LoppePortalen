@@ -64,6 +64,8 @@ export class Market {
         this.startDate = null
         this.endDate = null
         this.oldState = null
+        this.organiser = null
+        this.stalls = [] as Stall[]
     }
 
     @action
@@ -87,6 +89,29 @@ export class Market {
                 dto.organiser.markets = [dto]
             }
             this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+            /**
+             * Update the stall types.
+             */
+             dto.stallTypes?.forEach(
+                 x => {
+                    const type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
+                    if(!this.stallTypes.find(t => t.id === type.id))
+                    {
+                        this.stallTypes.push(type)
+                    }
+                 })
+            
+            /**
+             * Update the stalls.
+             */
+            dto.stalls?.forEach(
+                x => {
+                    const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
+                    if(!this.stalls.find(s => s.id === stall.id))
+                    {
+                        this.stalls.push(stall)
+                    }
+                 })
             this.setOldState()
             this.state = ModelState.IDLE
         }

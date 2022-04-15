@@ -7,7 +7,9 @@ using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarket;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
+using Application.Stalls.Queries.GetMarketStalls;
 using Application.StallTypes.CreateStallType;
+using Application.StallTypes.Queries.GetMarketStallTypes;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -88,12 +90,28 @@ namespace Web.Controllers
         public async Task<ActionResult<GetMarketInstanceQueryResponse>> GetMarketInstance([FromRoute] string id)
         { 
             int marketId = int.Parse(id);
-            return await Mediator.Send(
+            var marketResponse = await Mediator.Send(
                 new GetMarketInstanceQuery()
                 {
                     Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId }
                 });
+            var stallResponse = await Mediator.Send(
+                new GetMarketStallsQuery()
+                {
+                    Dto = new GetMarketStallsRequest() { MarketId = marketId }
+                });
+            
+            marketResponse.Market.Stalls = stallResponse.Stalls;
+            var stallTypeResponse = await Mediator.Send(
+                    new GetMarketStallTypesQuery()
+                    {
+                        Dto = new GetMarketStallTypesRequest() { MarketId= marketId }
+                    }
+                );
+            marketResponse.Market.StallTypes = stallTypeResponse.StallTypes;
+            return marketResponse;
         }
+            
 
         [HttpGet("instance/all")]
         public async Task<ActionResult<GetAllMarketInstancesQueryResponse>> GetAllMarketInstances()

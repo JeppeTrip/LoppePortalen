@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Stalls.Queries.GetMarketStalls
+namespace Application.StallTypes.Queries.GetMarketStallTypes
 {
-    public class GetMarketStallsResponse
+    public class GetMarketStallTypesResponse
     {
-        public List<Stall> Stalls;
+        public List<StallType> StallTypes { get; set; }
     }
 }

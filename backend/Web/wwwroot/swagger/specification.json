@@ -545,10 +545,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetMarketStallsResponse"
-                  }
+                  "$ref": "#/components/schemas/GetMarketStallsResponse"
                 }
               }
             }
@@ -939,6 +936,13 @@
                 "$ref": "#/components/schemas/Market"
               }
             ]
+          },
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Stall"
+            }
           }
         }
       },
@@ -1416,17 +1420,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "stallId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stallName": {
-            "type": "string",
-            "nullable": true
-          },
-          "stallDescription": {
-            "type": "string",
-            "nullable": true
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Stall"
+            }
           }
         }
       },

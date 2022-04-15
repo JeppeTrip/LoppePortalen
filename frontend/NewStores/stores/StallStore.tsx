@@ -17,6 +17,19 @@ export class StallStore{
     }
 
     @action
+    updateStallFromServer(dto)
+    {
+        let stall = this.stalls.find(x => x.id === dto.id)
+        if(!stall)
+        {
+            stall = new Stall(this);
+            this.stalls.push(stall)
+        }
+        stall.updateFromServer(dto)
+        return stall;
+    }
+
+    @action
     createStall()
     {
         const stall = new Stall(this)
