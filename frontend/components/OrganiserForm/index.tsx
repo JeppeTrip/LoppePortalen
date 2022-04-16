@@ -1,8 +1,9 @@
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
+import { ModelState } from '../../@types/ModelState';
 import { Organiser } from "../../NewStores/@DomainObjects/Organiser";
 import styles from './styles.module.css';
 
@@ -23,7 +24,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Name"
                     variant="outlined"
                     value={props.organiser.name}
-                    onChange={event => props.organiser.name = event.target.value}
+                    onChange={event => props.organiser.setName = event.target.value}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -33,7 +34,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Street"
                     variant="outlined"
                     value={props.organiser.street}
-                    onChange={event => props.organiser.street = event.target.value}
+                    onChange={event => props.organiser.setStreet = event.target.value}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -43,7 +44,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Street Number"
                     variant="outlined"
                     value={props.organiser.streetNumber}
-                    onChange={event => props.organiser.streetNumber = event.target.value}
+                    onChange={event => props.organiser.setStreetNumber = event.target.value}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -53,7 +54,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Appartment"
                     variant="outlined"
                     value={props.organiser.appartment}
-                    onChange={event => props.organiser.appartment = event.target.value}
+                    onChange={event => props.organiser.setAppartment = event.target.value}
                 />
             </Grid>
             <Grid item xs={4}>
@@ -63,7 +64,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Postal Code"
                     variant="outlined"
                     value={props.organiser.postalCode}
-                    onChange={event => props.organiser.postalCode = event.target.value}
+                    onChange={event => props.organiser.setPostalCode = event.target.value}
                 />
             </Grid>
             <Grid item xs={8}>
@@ -73,7 +74,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="City"
                     variant="outlined"
                     value={props.organiser.city}
-                    onChange={event => props.organiser.city = event.target.value}
+                    onChange={event => props.organiser.setCity = event.target.value}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -82,7 +83,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="outlined-multiline-static"
                     label="Description"
                     value={props.organiser.description}
-                    onChange={event => props.organiser.description = event.target.value}
+                    onChange={event => props.organiser.setDescription = event.target.value}
                     multiline
                     rows={10}
                 />
@@ -90,7 +91,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
             <Grid item>
                 <LoadingButton
                     onClick={() => props.organiser.save()}
-                    loading={false}
+                    loading={props.organiser.state === ModelState.SAVING}
                     loadingPosition="start"
                     startIcon={<SaveIcon />}
                     variant="contained"
@@ -99,6 +100,17 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     Submit
                 </LoadingButton>
             </Grid>
+            {
+                (props.organiser.state === ModelState.ERROR) &&
+                <Grid item>
+                    <Typography variant="caption" color={"red"}>
+                        Something went wrong.
+                        Could not submit organiser
+                    </Typography>
+                </Grid>
+
+
+            }
         </Grid>
 
     )

@@ -2,10 +2,11 @@ import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
 import { Organiser as Dto } from "../../services/clients";
 import { Market } from "./Market";
+import { ModelState } from "../../@types/ModelState";
 
 export class Organiser {
     store: OrganiserStore
-    state: string = "idle"
+    @observable state: symbol
     @observable id: number = null
     @observable userId: string = null
     @observable name: string = ""
@@ -23,6 +24,7 @@ export class Organiser {
         this.id = id
         this.userId = ""
         this.markets = [] as Market[]
+        this.state = ModelState.NEW
     }
 
     /**
@@ -30,8 +32,8 @@ export class Organiser {
      */
     @action
     updateFromServer(dto: Dto) {
-        if (this.state != "updating") {
-            this.state = "updating"
+        if (this.state != ModelState.UPDATING) {
+            this.state = ModelState.UPDATING
             this.id = dto.id
             this.userId = dto.userId
             this.name = dto.name
@@ -60,7 +62,7 @@ export class Organiser {
                     this.markets.push(res)
                 }
             })
-            this.state = "idle"
+            this.state = ModelState.IDLE
         }
         return this;
     }
@@ -77,6 +79,7 @@ export class Organiser {
      */
     @action
     save() {
+        this.state = ModelState.SAVING
         if (!this.id) {
             this.store.transportLayer.createOrganiser({
                 userId: this.userId,
@@ -90,10 +93,11 @@ export class Organiser {
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.id,
-                        this.store.organisers.push(this);
+                    this.store.organisers.push(this);
+                    this.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
-                    //do something with the error.
+                    this.state = ModelState.ERROR
                 })
             )
         }
