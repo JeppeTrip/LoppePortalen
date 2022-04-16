@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import List from '@mui/material/List';
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
-import { Market } from "../../@types/Market";
+import { Market } from "../../NewStores/@DomainObjects/Market";
 import StallTypeInfoListItem from "../StallTypeInfoListItem";
 
 
@@ -21,12 +21,10 @@ const StallTypeInfoList: FC<Props> = (props: Props) => {
                     No stalls.
                 </Typography> :
                 //TODO: remember to update available once renting has been implemented.
-                props.market.uniqueStalls().map(x => {
+                props.market.stallTypes.map(x => {
                     return (
                         <StallTypeInfoListItem
-                            stall={x}
-                            available={props.market.stallCount(x.type)}
-                            total={props.market.stallCount(x.type)}
+                            stallType={x}
                         />
                     )
                 })

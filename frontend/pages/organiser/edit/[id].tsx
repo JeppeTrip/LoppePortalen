@@ -65,11 +65,11 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
             maxWidth="sm">
             <Stack spacing={1}>
                 {
-                    (stores.organiserStore.editedOrganiser) && <OrganiserForm organiser={stores.organiserStore.editedOrganiser} />
+                    (stores.organiserStore.selectedOrganiser) && <OrganiserForm organiser={stores.organiserStore.selectedOrganiser} />
                 }
                 <LoadingButton
                     onClick={handleSubmit}
-                    loading={stores.organiserStore.isSubmitting}
+                    loading={false}
                     loadingPosition="start"
                     startIcon={<SaveIcon />}
                     variant="contained"
@@ -84,7 +84,7 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
                 </Button>
                 {
                     //TODO: Make error handling waaay the fuck better.
-                    stores.organiserStore.hadSubmissionError &&
+                    false &&
                     <Typography variant="caption" color={"red"}>
                         Could not submit.
                     </Typography>

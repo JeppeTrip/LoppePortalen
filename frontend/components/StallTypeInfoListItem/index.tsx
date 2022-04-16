@@ -22,7 +22,7 @@ const StallTypeInfoListItem: FC<Props> = (props: Props) => {
                         </Typography>
                         <Typography variant="caption">
                             {
-                                props.stall.description
+                                props.stallType.description
                             }
                         </Typography>
                     </Stack>
@@ -31,13 +31,13 @@ const StallTypeInfoListItem: FC<Props> = (props: Props) => {
                 <Grid container item xs={4}>
                     <Grid item xs={12}>
                         <Typography variant="caption">
-                            {`Available ${props.available}`}
+                            {`Available ${props.stallType.totalStallCount}`}
                         </Typography>
 
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="caption">
-                            {`Total ${props.total}`}
+                            {`Total ${props.stallType.totalStallCount}`}
                         </Typography>
 
                     </Grid>
