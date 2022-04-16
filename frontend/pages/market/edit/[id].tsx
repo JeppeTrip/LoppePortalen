@@ -13,6 +13,7 @@ import StallTypeInputListItem from "../../../components/StallTypeNewListItem";
 import StallTypeListItem from "../../../components/StallType";
 import { StallType } from "../../../NewStores/@DomainObjects/StallType";
 import { reaction } from "mobx";
+import StallListItem from "../../../components/StallListItem";
 
 
 type Props = {
@@ -59,8 +60,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     }, [marketId, stores.marketStore.selectedMarket])
 
     const handleAddNewStalls = () => {
-        if(stallDiff > 0)
-        {
+        if (stallDiff > 0) {
             selectedType.saveNewStallsToMarket(stallDiff)
         }
     }
@@ -203,7 +203,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                             onChange={(event) => {
                                                 setStallDiff(0)
                                                 setSelectedType(stores.marketStore.selectedMarket.stallTypes.find(x => x.id === parseInt(event.target.value))
-                                            )}}
+                                                )
+                                            }}
                                         >
                                             {
                                                 stores.marketStore.selectedMarket.stallTypes.map(x =>
@@ -214,16 +215,16 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <TextField 
-                                        fullWidth={true} 
+                                    <TextField
+                                        fullWidth={true}
                                         type="number"
-                                        value={selectedType && (selectedType.totalStallCount+stallDiff)}
+                                        value={selectedType && (selectedType.totalStallCount + stallDiff)}
                                         onChange={(event) => {
                                             let diff = parseInt(event.target.value) - selectedType.totalStallCount
-                                            setStallDiff(diff >= 0 ? diff : Math.abs(diff)>selectedType.totalStallCount ? -selectedType.totalStallCount : diff)
+                                            setStallDiff(diff >= 0 ? diff : Math.abs(diff) > selectedType.totalStallCount ? -selectedType.totalStallCount : diff)
                                         }
                                         }
-                                        />
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <LoadingButton
@@ -235,6 +236,14 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                     >
                                         Add Stalls
                                     </LoadingButton>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                                        {
+                                            stores.marketStore.selectedMarket.stalls.length != 0
+                                            && stores.marketStore.selectedMarket.stalls.map(stall => <StallListItem stall={stall} />)
+                                        }
+                                    </List>
                                 </Grid>
                             </Grid>
                         )
