@@ -1,13 +1,12 @@
 import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
-import { useContext, useEffect, useState } from "react";
-
-import styles from './styles.module.css'
 import { useRouter } from "next/router";
-import { StoreContext } from "../../../NewStores/StoreContext";
-import { flowResult } from "mobx";
+import { useContext, useEffect, useState } from "react";
 import MarketListItem from "../../../components/MarketListItem";
+import { StoreContext } from "../../../NewStores/StoreContext";
+import styles from './styles.module.css';
+
 
 type Props = {
     oid: string

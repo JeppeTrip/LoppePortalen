@@ -1,11 +1,10 @@
 import { CircularProgress, Container, Divider, Grid, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
-import { useContext, useEffect, useState } from "react";
-import styles from './styles.module.css'
 import { useRouter } from "next/router";
-import StallTypeInfoList from "../../../components/StallTypeInfoList";
+import { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../../NewStores/StoreContext";
+import styles from './styles.module.css';
 
 type Props = {
     mid: string

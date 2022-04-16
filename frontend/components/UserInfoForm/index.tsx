@@ -1,13 +1,12 @@
-import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
-
-import { FC, useEffect, useState } from "react";
-
-import { observer } from "mobx-react-lite";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { IUser } from "../../@types/User";
-import styles from "./styles.module.css";
+import { Autocomplete, Grid, TextField } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { FC, useEffect, useState } from "react";
 import { User } from "../../NewStores/@DomainObjects/User";
+import styles from "./styles.module.css";
+
+
 
 type Props = {
     user: User

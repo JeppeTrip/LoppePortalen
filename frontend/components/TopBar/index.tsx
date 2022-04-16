@@ -1,14 +1,14 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { AppBar, Button, Container, Grid, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { StoreContext } from '../../NewStores/StoreContext';
-import { observer } from 'mobx-react-lite';
-import StorefrontIcon from '@mui/icons-material/Storefront';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import DeckIcon from '@mui/icons-material/Deck';
+import MenuIcon from '@mui/icons-material/Menu';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
+import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
+import React, { FC, useContext } from 'react';
+import { StoreContext } from '../../NewStores/StoreContext';
 import styles from './styles.module.css';
 
 type Props = {

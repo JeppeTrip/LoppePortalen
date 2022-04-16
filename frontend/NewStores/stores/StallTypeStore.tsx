@@ -1,7 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { Stall } from "../../@types/Stall";
 import { StallTypeClient } from "../../services/clients";
-import { Market } from "../@DomainObjects/Market";
 import { StallType } from "../@DomainObjects/StallType";
 import { RootStore } from "../RootStore";
 

@@ -1,11 +1,11 @@
+import { Divider, List, Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
-import { FC, useContext, useEffect } from 'react';
-import { Divider, List, Stack } from '@mui/material';
-import OrganiserListItem from '../OrganiserListItem';
 import { useRouter } from 'next/router';
+import { FC, useEffect } from 'react';
 import { User } from '../../NewStores/@DomainObjects/User';
+import OrganiserListItem from '../OrganiserListItem';
 
 type Props = {
     user: User

@@ -1,8 +1,8 @@
+import CorporateFareIcon from '@mui/icons-material/CorporateFare';
+import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import EditIcon from '@mui/icons-material/Edit';
 import { Organiser } from '../../NewStores/@DomainObjects/Organiser';
 
 type Props = {

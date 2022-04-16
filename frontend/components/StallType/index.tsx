@@ -1,4 +1,4 @@
-import { Grid, Input, ListItem, Stack, Typography } from "@mui/material";
+import { Grid, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import { StallType } from "../../NewStores/@DomainObjects/StallType";

@@ -1,11 +1,10 @@
-import {Typography, Box, CircularProgress, Container, List, Paper} from "@mui/material";
-import { NextPage } from "next";
+import ErrorIcon from '@mui/icons-material/Error';
+import { Box, CircularProgress, Container, List, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { NextPage } from "next";
 import { useContext, useEffect } from "react";
 import OrganiserListItem from "../../components/OrganiserListItem";
-import ErrorIcon from '@mui/icons-material/Error';
 import { StoreContext } from "../../NewStores/StoreContext";
-import { flowResult } from "mobx";
 
 const OrganiserListPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);

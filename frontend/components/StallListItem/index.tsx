@@ -1,9 +1,9 @@
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { CircularProgress, Grid, IconButton, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
-import { Stall } from "../../NewStores/@DomainObjects/Stall";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ModelState } from "../../@types/ModelState";
+import { Stall } from "../../NewStores/@DomainObjects/Stall";
 type Props = {
     stall: Stall
 }

@@ -1,10 +1,10 @@
-import {Typography } from "@mui/material";
-import { observer } from "mobx-react-lite";
-import { FC, useContext } from "react";
-
+import { Typography } from "@mui/material";
 import List from '@mui/material/List';
-import StallTypeInfoListItem from "../StallTypeInfoListItem";
+import { observer } from "mobx-react-lite";
+import { FC } from "react";
 import { Market } from "../../@types/Market";
+import StallTypeInfoListItem from "../StallTypeInfoListItem";
+
 
 type Props = {
     market: Market

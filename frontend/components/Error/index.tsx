@@ -1,6 +1,5 @@
-import { type } from 'os';
-import React, {FC} from 'react'
-import styles from './styles.module.css'
+import React, { FC } from 'react';
+import styles from './styles.module.css';
 
 type Props = {
     message : string;

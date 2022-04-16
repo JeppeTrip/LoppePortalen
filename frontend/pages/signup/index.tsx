@@ -1,11 +1,11 @@
-import {CircularProgress, Container } from "@mui/material";
-
-import { NextPage } from "next";
+import { Container } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
 import UserForm from "../../components/UserForm";
 import { StoreContext } from "../../NewStores/StoreContext";
-import { useContext, useEffect } from "react";
-import { useRouter } from "next/router";
+
 
 const SingupPage: NextPage = observer(() => {
     const stores = useContext(StoreContext);

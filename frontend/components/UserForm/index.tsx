@@ -1,19 +1,19 @@
+import SaveIcon from "@mui/icons-material/Save";
+import { LoadingButton } from "@mui/lab";
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
 import { FC, Fragment, useState } from 'react';
-import { LoadingButton } from "@mui/lab";
-import SaveIcon from "@mui/icons-material/Save"
-import UserInfoForm from '../UserInfoForm';
-import UserAccountForm from '../UserAccountForm';
 import { Auth } from '../../NewStores/@DomainObjects/Auth';
+import UserAccountForm from '../UserAccountForm';
+import UserInfoForm from '../UserInfoForm';
 
 type Props = {
     auth : Auth

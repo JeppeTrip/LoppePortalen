@@ -4,8 +4,8 @@ import List from '@mui/material/List';
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import { Market } from "../../NewStores/@DomainObjects/Market";
-import StallTypeInputListItem from "../StallTypeNewListItem";
 import StallTypeListItem from "../StallTypeListItem";
+import StallTypeInputListItem from "../StallTypeNewListItem";
 
 
 type Props = {

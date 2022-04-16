@@ -1,6 +1,6 @@
-import { Typography, Container} from "@mui/material";
-import { NextPage } from "next";
+import { Container, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { NextPage } from "next";
 
 const ErrorPage: NextPage = observer(() => {
     return (

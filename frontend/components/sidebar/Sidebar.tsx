@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import styles from './styles.module.css';
 import MenuItem from './MenuItem/MenuItem';
+import styles from './styles.module.css';
 
 type Props = {
     menuItems : any[],
