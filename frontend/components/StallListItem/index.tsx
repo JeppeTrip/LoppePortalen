@@ -1,9 +1,8 @@
-import { Grid, Input, ListItem, Stack, Typography } from "@mui/material";
+import { Grid, IconButton, ListItem, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import { Stall } from "../../NewStores/@DomainObjects/Stall";
-import { StallType } from "../../NewStores/@DomainObjects/StallType";
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 type Props = {
     stall: Stall
 }
@@ -12,8 +11,14 @@ type Props = {
 
 const StallListItem: FC<Props> = (props: Props) => {
     return (
-        <ListItem>
-            <Grid container spacing={2} alignItems="center">
+        <ListItem
+            secondaryAction={
+                <IconButton edge="end"
+                    onClick={() => console.log("delete forever")}>
+                    <DeleteForeverIcon />
+                </IconButton>}
+        >
+            <Grid container spacing={2} sx={{ flexirection: "row" }} alignItems="center">
                 <Grid item xs={8}>
                     <Stack>
                         <Typography

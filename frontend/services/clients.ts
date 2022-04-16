@@ -766,6 +766,8 @@ export class OrganiserClient extends ClientBase implements IOrganiserClient {
 export interface IStallClient {
 
     getStallsForMarket(marketId: number): Promise<GetMarketStallsResponse>;
+
+    deleteStall(id: number): Promise<DeleteStallResponse>;
 }
 
 export class StallClient extends ClientBase implements IStallClient {
@@ -815,6 +817,44 @@ export class StallClient extends ClientBase implements IStallClient {
             });
         }
         return Promise.resolve<GetMarketStallsResponse>(null as any);
+    }
+
+    deleteStall(id: number): Promise<DeleteStallResponse> {
+        let url_ = this.baseUrl + "/api/Stall/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processDeleteStall(_response));
+        });
+    }
+
+    protected processDeleteStall(response: Response): Promise<DeleteStallResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as DeleteStallResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DeleteStallResponse>(null as any);
     }
 }
 
@@ -1320,6 +1360,9 @@ export interface EditOrganiserRequest {
 
 export interface GetMarketStallsResponse {
     stalls?: Stall[] | null;
+}
+
+export interface DeleteStallResponse extends Result {
 }
 
 export interface CreateStallTypeResponse extends Result {

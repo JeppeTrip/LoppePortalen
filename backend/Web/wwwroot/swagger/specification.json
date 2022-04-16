@@ -585,6 +585,38 @@
         }
       }
     },
+    "/api/Stall/{id}": {
+      "delete": {
+        "tags": [
+          "Stall"
+        ],
+        "operationId": "Stall_DeleteStall",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteStallResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/StallType/create": {
       "post": {
         "tags": [
@@ -1534,6 +1566,17 @@
             }
           }
         }
+      },
+      "DeleteStallResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
       },
       "CreateStallTypeResponse": {
         "allOf": [
