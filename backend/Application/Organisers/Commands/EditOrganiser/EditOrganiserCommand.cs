@@ -36,8 +36,9 @@ namespace Application.Organisers.Commands.EditOrganiser
                     throw new UnauthorizedAccessException();
                 }
                 var organiser = await _context.Organisers
+                    .Include(x => x.User)
                     .Include(x => x.Address)
-                    .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(request.Dto.UserId) && x.Id == request.Dto.OrganiserId);
+                    .FirstOrDefaultAsync(x => x.UserId.Equals(request.Dto.UserId) && x.Id == request.Dto.OrganiserId);
                 if(organiser == null)
                 {
                     throw new UnauthorizedAccessException();

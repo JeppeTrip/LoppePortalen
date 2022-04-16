@@ -1,11 +1,14 @@
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
 import { Button, Container, Stack, Typography } from "@mui/material";
+import { flowResult, reaction } from 'mobx';
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import OrganiserForm from "../../../components/OrganiserForm";
+import { Organiser } from '../../../NewStores/@DomainObjects/Organiser';
 import { StoreContext } from "../../../NewStores/StoreContext";
 
 type Props = {
@@ -15,7 +18,13 @@ type Props = {
 const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
     const stores = useContext(StoreContext);
     const [organiserId, setOrganiserId] = useState<string>(undefined);
+    const [selectedOrganiser, setSelectedOrganiser] = useState<Organiser>(new Organiser(null))
     const router = useRouter();
+
+    const resetOrganiserState = useCallback(() => {
+        if(selectedOrganiser != null) 
+            selectedOrganiser.state = ModelState.IDLE
+    }, [selectedOrganiser]);
 
     //mount
     useEffect(() => {
@@ -25,7 +34,7 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
     //Unmount
     useEffect(() => {
         return () => {
-            setOrganiserId(undefined);
+            resetOrganiserState()
         }
     }, [])
 
@@ -45,19 +54,19 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
      */
     useEffect(() => {
         if (organiserId) {
-            if (!stores.organiserStore.selectedOrganiser || stores.organiserStore.selectedOrganiser == null) {
+            flowResult(stores.organiserStore.fetchOrganiser(parseInt(organiserId)))
+            .then(organiser => {
+                organiser.state = ModelState.EDITING
+                setSelectedOrganiser(organiser)
                 
-            }
+            });
         }
     }, [organiserId])
 
-    const handleSubmit = () => {
-        
-    }
-
-    const handleReset = () => {
-
-    }
+    useEffect(() => {
+        if(selectedOrganiser.state === ModelState.IDLE)
+            router.push(`/profile`, undefined, {shallow: true})
+    }, [selectedOrganiser.state])
 
     return (
         <Container
@@ -65,29 +74,7 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
             maxWidth="sm">
             <Stack spacing={1}>
                 {
-                    (stores.organiserStore.selectedOrganiser) && <OrganiserForm organiser={stores.organiserStore.selectedOrganiser} />
-                }
-                <LoadingButton
-                    onClick={handleSubmit}
-                    loading={false}
-                    loadingPosition="start"
-                    startIcon={<SaveIcon />}
-                    variant="contained"
-
-                >
-                    Submit
-                </LoadingButton>
-                <Button
-                    onClick={() => handleReset()}
-                >
-                    Reset
-                </Button>
-                {
-                    //TODO: Make error handling waaay the fuck better.
-                    false &&
-                    <Typography variant="caption" color={"red"}>
-                        Could not submit.
-                    </Typography>
+                    (selectedOrganiser != null) && <OrganiserForm organiser={selectedOrganiser} />
                 }
             </Stack>
         </Container>

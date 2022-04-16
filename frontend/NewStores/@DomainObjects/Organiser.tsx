@@ -51,14 +51,12 @@ export class Organiser {
                  */
                 console.log("organiser mdto:")
                 console.log(mDto);
-                if(!mDto.organiser || mDto.organiser == null )
-                {
+                if (!mDto.organiser || mDto.organiser == null) {
                     mDto.organiser = dto;
                 }
                 let res = this.store.rootStore.marketStore.updateMarketFromServer(mDto)
-                let market = this.markets.length === 0 ? undefined :  this.markets.find(x => x.id === res.id);
-                if(!market)
-                {
+                let market = this.markets.length === 0 ? undefined : this.markets.find(x => x.id === res.id);
+                if (!market) {
                     this.markets.push(res)
                 }
             })
@@ -93,13 +91,34 @@ export class Organiser {
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.id,
-                    this.store.organisers.push(this);
+                        this.store.organisers.push(this);
                     this.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
                     this.state = ModelState.ERROR
                 })
             )
+        }
+        else {
+            this.store.transportLayer.editOrganiser({
+                organiserId: this.id,
+                userId: this.userId,
+                name: this.name,
+                description: this.description,
+                street: this.street,
+                number: this.streetNumber,
+                appartment: this.appartment,
+                city: this.city,
+                postalCode: this.postalCode
+            })
+                .then(
+                    action("submitSuccess", res => {
+                        this.state = ModelState.IDLE
+                    }),
+                    action("submitError", error => {
+                        this.state = ModelState.ERROR
+                    })
+                )
         }
     }
 

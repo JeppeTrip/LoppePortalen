@@ -1,5 +1,5 @@
 import { action, flow, flowResult, makeAutoObservable, observable } from "mobx";
-import { Organiser as Dto, OrganiserClient } from "../../services/clients";
+import { GetOrganiserQueryResponse, Organiser as Dto, OrganiserClient } from "../../services/clients";
 import { Organiser } from "../@DomainObjects/Organiser";
 import { RootStore } from "../RootStore";
 
@@ -38,35 +38,37 @@ export class OrganiserStore {
     }
 
     /**
-    * Tries to fetch organisations from the backend that satisfies the constraints put on the by the given filters..
-    * TODO: Consider if this should invalidate the entire organiser list or just update with the newly aquired results.
-    */
-    @flow
-    *resolveOrganisersFiltered(userId?: string) {
-        console.log("TODO: UPDATE THE ORGANISATIONS FILTER TO FILTER IN THE BACKEND!")
-        try {
-            const allOrgs = yield flowResult(this.fetchAllOrganisers())
-        }
-        catch (error) {
-
-        }
-        finally {
-            return this.organisers.filter(x => x.userId === userId)
-        }
-    }
-
+     * Goes to the server and tries to grab the organiser.
+     * Should probably just look through the locally stored organisers.
+     * 
+     * @param organiserId 
+     */
     @action
-    resolveSelectedOrganiser(organiserId: number) {
+    async resolveSelectedOrganiser(organiserId: number) {
         this.transportLayer.getOrganiser(organiserId+"")
             .then(
                 action("fetchSuccess", result => {
-                    let organiser = this.updateOrganiserFromServer(result.organiser);
+                    const organiser = this.updateOrganiserFromServer(result.organiser);
                     organiser.select()
+                    return organiser
                 }),
                 action("fetchFailed", error => {
                     //do somehting with this
                 })
             )
+    }
+
+    @flow
+    *fetchOrganiser(organiserId : number)
+    {
+        try{
+            const res : GetOrganiserQueryResponse = yield this.transportLayer.getOrganiser(organiserId+"");
+            const organiser = this.updateOrganiserFromServer(res.organiser);
+            return organiser
+        }
+        catch {
+            return null;   
+        }
     }
 
     @action

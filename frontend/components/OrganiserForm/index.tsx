@@ -1,8 +1,8 @@
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ModelState } from '../../@types/ModelState';
 import { Organiser } from "../../NewStores/@DomainObjects/Organiser";
 import styles from './styles.module.css';
@@ -14,6 +14,18 @@ type Props = {
 }
 
 const OrganiserForm: FC<Props> = (props: Props) => {
+    /**
+     * Placed here because I'm not going to figure out how to do this from the page right 
+     * now. Hopefully I will get back to this.
+     */
+    useEffect(() => {
+        return () => {
+            if(props.organiser.state === ModelState.EDITING)
+            {
+                props.organiser.state = ModelState.IDLE
+            }
+        }
+    },[])
 
     return (
         <Grid container spacing={1}>
