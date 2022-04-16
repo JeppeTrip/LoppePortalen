@@ -1,6 +1,6 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, flow, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { Market as Dto, MarketClient } from "../../services/clients";
+import { GetMarketInstanceQueryResponse, Market as Dto, MarketClient } from "../../services/clients";
 import { Market } from "../@DomainObjects/Market";
 import { RootStore } from "../RootStore";
 
@@ -80,13 +80,12 @@ export class MarketStore {
      * @param marketId id of the market to find.
      */
     @action
-    resolveSelectedMarket(marketId: number, editing? : boolean) {
+    async resolveSelectedMarket(marketId: number, editing? : boolean) {
         this.transportLayer.getMarketInstance(marketId + "")
             .then(
                 action("fetchSuccess", result => {
                     let market = this.updateMarketFromServer(result.market);
-                    market.select()
-
+                    return market;
                 }),
                 action("fetchFailed", error => {
                     //do something with this.
@@ -94,6 +93,23 @@ export class MarketStore {
             )
     }
 
+    /**
+     * Fetches market from backend this is my workaround for resolve right now.
+     * Should probably make an updated version that makes sure it gets all resolves and all that with as well.
+     * @returns 
+     */
+     @flow
+     *fetchMarket(marketId : number)
+     {
+         try{
+             const res : GetMarketInstanceQueryResponse = yield this.transportLayer.getMarketInstance(marketId+"");
+             const market = this.updateMarketFromServer(res.market);
+             return market
+         }
+         catch {
+             return null;   
+         }
+     }
     
     @action
     createMarket() {

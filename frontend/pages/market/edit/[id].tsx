@@ -4,14 +4,16 @@ import { DateTimePicker, LoadingButton, LocalizationProvider, TabContext, TabLis
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { Button, Container, FormControl, Grid, InputLabel, List, MenuItem, Paper, Select, Tab, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { reaction } from "mobx";
+import { flowResult, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import StallListItem from "../../../components/StallListItem";
 import StallTypeListItem from "../../../components/StallType";
 import StallTypeInputListItem from "../../../components/StallTypeNewListItem";
+import { Market } from '../../../NewStores/@DomainObjects/Market';
 import { StallType } from "../../../NewStores/@DomainObjects/StallType";
 import { StoreContext } from '../../../NewStores/StoreContext';
 
@@ -23,7 +25,8 @@ type Props = {
 const EditMarketPage: NextPageAuth<Props> = observer(() => {
     const [tabValue, setTabValue] = useState('1')
     const [selectedType, setSelectedType] = useState<StallType>(null)
-    const [stallDiff, setStallDiff] = useState(0)
+    const [stallToAdd, setStallsToAdd] = useState(0)
+    const [selectedMarket, setSelectedMarket] = useState<Market>(null)
     const stores = useContext(StoreContext);
     const [marketId, setMarketId] = useState<string>(undefined);
     const router = useRouter();
@@ -52,29 +55,25 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
      * If selected market is empty in the stores search for it.
      */
     useEffect(() => {
-        if (stores.marketStore.selectedMarket == null) {
+        if (selectedMarket == null) {
             if (!(marketId == "")) {
-                stores.marketStore.resolveSelectedMarket(parseInt(marketId))
+                flowResult(stores.marketStore.fetchMarket(parseInt(marketId)))
+                    .then(res => {
+                        setSelectedMarket(res)
+                    })
             }
         }
-    }, [marketId, stores.marketStore.selectedMarket])
+    }, [marketId, selectedMarket])
 
-    const handleAddNewStalls = () => {
-        if (stallDiff > 0) {
-            selectedType.saveNewStallsToMarket(stallDiff)
+    const handleAddNewStalls = useCallback(() => {
+        if (stallToAdd > 0) {
+            selectedType.saveNewStallsToMarket(stallToAdd)
         }
-    }
+    }, [stallToAdd])
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
-
-    reaction(
-        () => selectedType.totalStallCount,
-        count => {
-            setStallDiff(0)
-        }
-    )
 
     return (
         <Container >
@@ -92,7 +91,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                     </Box>
                     <TabPanel value="1">
                         {
-                            stores.marketStore.selectedMarket != null && (
+                            selectedMarket != null && (
                                 <>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
@@ -101,17 +100,17 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 id="marketName"
                                                 label="Name"
                                                 variant="outlined"
-                                                onChange={(event) => stores.marketStore.selectedMarket.name = event.target.value}
-                                                value={stores.marketStore.selectedMarket.name} />
+                                                onChange={(event) => selectedMarket.name = event.target.value}
+                                                value={selectedMarket.name} />
                                         </Grid>
                                         <Grid item xs={"auto"}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                 <DateTimePicker
                                                     renderInput={(props) => <TextField {...props} />}
                                                     label="Start Date"
-                                                    value={stores.marketStore.selectedMarket.startDate}
+                                                    value={selectedMarket.startDate}
                                                     onChange={(newValue) => {
-                                                        stores.marketStore.selectedMarket.startDate = newValue;
+                                                        selectedMarket.startDate = newValue;
                                                     }
                                                     }
                                                 />
@@ -122,9 +121,9 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 <DateTimePicker
                                                     renderInput={(props) => <TextField {...props} />}
                                                     label="End Date"
-                                                    value={stores.marketStore.selectedMarket.endDate}
+                                                    value={selectedMarket.endDate}
                                                     onChange={(newValue) => {
-                                                        stores.marketStore.selectedMarket.endDate = newValue;
+                                                        selectedMarket.endDate = newValue;
                                                     }
                                                     }
                                                 />
@@ -136,8 +135,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 fullWidth
                                                 id="outlined-multiline-static"
                                                 label="Description"
-                                                value={stores.marketStore.selectedMarket.description}
-                                                onChange={(event) => stores.marketStore.selectedMarket.description = event.target.value}
+                                                value={selectedMarket.description}
+                                                onChange={(event) => selectedMarket.description = event.target.value}
                                                 multiline
                                                 rows={10}
                                             />
@@ -145,8 +144,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                     </Grid>
                                     <Grid>
                                         <LoadingButton
-                                            onClick={() => stores.marketStore.selectedMarket.save()}
-                                            loading={false}
+                                            onClick={() => selectedMarket.save()}
+                                            loading={selectedMarket.state === ModelState.SAVING}
                                             loadingPosition="start"
                                             startIcon={<SaveIcon />}
                                             variant="contained"
@@ -155,18 +154,31 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                             Update
                                         </LoadingButton>
                                     </Grid>
+                                    {
+                                        selectedMarket.state === ModelState.ERROR &&
+                                        (
+                                            <Grid>
+                                                <Grid item>
+                                                    <Typography variant="caption" color="red">
+                                                        Something went wrong.
+                                                        Unable to submit new market.
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        )
+                                    }
                                 </>
                             )
                         }
 
                     </TabPanel>
                     <TabPanel value="2">
-                        {stores.marketStore.selectedMarket != null && (
+                        {selectedMarket != null && (
                             <>
                                 <Grid container spacing={2}>
                                     <Grid item>
                                         <Button disabled={stores.stallTypeStore.newStallType != null} size="small" startIcon={<AddIcon />} onClick={() => {
-                                            let type = stores.marketStore.selectedMarket.addNewStallType()
+                                            let type = selectedMarket.addNewStallType()
                                         }}>
                                             Add Stall
                                         </Button>
@@ -179,8 +191,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 && <StallTypeInputListItem stallType={stores.stallTypeStore.newStallType} />
                                             }
                                             {
-                                                stores.marketStore.selectedMarket.stallTypes.length != 0
-                                                && stores.marketStore.selectedMarket.savedStallTypes.map(type => <StallTypeListItem stallType={type} />)
+                                                selectedMarket.stallTypes.length != 0
+                                                && selectedMarket.savedStallTypes.map(type => <StallTypeListItem stallType={type} />)
                                             }
                                         </List>
                                     </Grid>
@@ -190,7 +202,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                         }
                     </TabPanel>
                     <TabPanel value="3">
-                        {stores.marketStore.selectedMarket != null && (
+                        {selectedMarket != null && (
                             <Grid container spacing={2} alignItems="center">
                                 <Grid item xs={8}>
                                     <FormControl fullWidth>
@@ -198,16 +210,16 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                         <Select
                                             labelId="stall-type-select-label"
                                             id="stall-type-select"
-                                            value={selectedType == null ? "" : selectedType.id+""}
+                                            value={selectedType == null ? "" : selectedType.id + ""}
                                             label="Age"
                                             onChange={(event) => {
-                                                setStallDiff(0)
-                                                setSelectedType(stores.marketStore.selectedMarket.stallTypes.find(x => x.id === parseInt(event.target.value))
+                                                setStallsToAdd(0)
+                                                setSelectedType(selectedMarket.stallTypes.find(x => x.id === parseInt(event.target.value))
                                                 )
                                             }}
                                         >
                                             {
-                                                stores.marketStore.selectedMarket.stallTypes.map(x =>
+                                                selectedMarket.stallTypes.map(x =>
                                                     <MenuItem value={x.id}>{x.name}</MenuItem>
                                                 )
                                             }
@@ -218,12 +230,10 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                     <TextField
                                         fullWidth={true}
                                         type="number"
-                                        value={selectedType && selectedType != null ? (selectedType.totalStallCount + stallDiff) : 0}
+                                        value={stallToAdd}
                                         onChange={(event) => {
-                                            let diff = parseInt(event.target.value) - selectedType.totalStallCount
-                                            setStallDiff(diff >= 0 ? diff : Math.abs(diff) > selectedType.totalStallCount ? -selectedType.totalStallCount : diff)
-                                        }
-                                        }
+                                            setStallsToAdd(Math.max(parseInt(event.target.value), 0))
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -240,8 +250,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                 <Grid item xs={12}>
                                     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                                         {
-                                            stores.marketStore.selectedMarket.stalls.length != 0
-                                            && stores.marketStore.selectedMarket.stalls.map(stall => <StallListItem stall={stall} />)
+                                            selectedMarket.stalls.length != 0
+                                            && selectedMarket.stalls.map(stall => <StallListItem stall={stall} />)
                                         }
                                     </List>
                                 </Grid>

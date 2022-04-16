@@ -24,7 +24,7 @@ type Props = {
     editing?: boolean
 }
 
-const steps = ['Market Information', 'Stalls'];
+const steps = ['Market Information'];
 
 const theme = createTheme();
 
@@ -34,28 +34,24 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     //on mount
     useEffect(() => {
-        if(props.editing)
-        {
+        if (props.editing) {
             props.market.state = ModelState.EDITING
         }
-        else 
-        {
+        else {
             props.market.state = ModelState.NEW
         }
-    },[])
+    }, [])
 
     //unmount
     useEffect(() => {
         return () => {
 
         }
-    },[])
+    }, [])
 
     useEffect(() => {
-        if(props.market.state === ModelState.IDLE)
-        {
-            if(router.isReady)
-            {
+        if (props.market.state === ModelState.IDLE) {
+            if (router.isReady) {
                 router.push('/market/' + props.market.id, undefined, { shallow: true });
             }
         }
@@ -83,8 +79,7 @@ const MarketForm: FC<Props> = (props: Props) => {
         switch (step) {
             case 0:
                 return <MarketDetailsForm market={props.market} />;
-            case 1:
-                return <StallForm market={props.market} />;
+            //case 1: return <StallForm market={props.market} />;
             default:
                 throw new Error('Unknown step');
         }
@@ -92,7 +87,7 @@ const MarketForm: FC<Props> = (props: Props) => {
 
     const loadingButton = () => <LoadingButton
         onClick={handleSubmit}
-        loading={false}
+        loading={props.market.state === ModelState.SAVING}
         loadingPosition="start"
         startIcon={<SaveIcon />}
         variant="contained"
@@ -139,16 +134,27 @@ const MarketForm: FC<Props> = (props: Props) => {
                                     </Grid>
                                 }
                                 <Grid item>
-                                        {activeStep !== 0 && (
-                                            <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                                Back
-                                            </Button>
-                                        )}
-                                        {getButton()}
+                                    {activeStep !== 0 && (
+                                        <Button disabled={false} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                            Back
+                                        </Button>
+                                    )}
+                                    {getButton()}
                                 </Grid>
                             </Grid>
-
-
+                            {
+                                props.market.state === ModelState.ERROR &&
+                                (
+                                    <Grid>
+                                        <Grid item>
+                                            <Typography variant="caption" color="red">
+                                                Something went wrong.
+                                                Unable to submit new market.
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
                         </Fragment>
                     </Fragment>
                 </Paper>

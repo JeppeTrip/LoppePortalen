@@ -29,9 +29,10 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     <Select
                         labelId="organiser-select"
                         id="organiser-select"
-                        value={(props.market.organiser == null || props.market.organiser.id < 1) ? "" : props.market.organiser.id}
+                        value={(props.market.organiser == null || props.market.organiser.id < 1) ? "" : props.market.organiser.id+""}
                         label="Organiser"
-                        onChange={event => props.market.organiserId = (event.target.value as number)}
+                        onChange={event => 
+                            props.market.organiser = props.market.store.rootStore.userStore.user.organisers.find(x => x.id === parseInt(event.target.value))}
                     >
                         {
                             props.market.store.rootStore.userStore.user.organisers.map(o =>

@@ -1,6 +1,6 @@
-import { action, autorun, computed, makeAutoObservable, observable } from "mobx";
+import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { Market as Dto, ValueTupleOfStringAndStringAndInteger } from "../../services/clients";
+import { Market as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
@@ -138,20 +138,14 @@ export class Market {
 
     @action
     save() {
+        this.state = ModelState.SAVING
         if (!this.id) {
             this.store.transportLayer.createMarket({
-                organiserId: this.organiserId,
+                organiserId: this.organiser?.id,
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
-                endDate: this.endDate,
-                stallTypes: this.stallTypes.map(x => {
-                    return {
-                        item1: x.name,
-                        item2: x.description,
-                        item3: x.stalls.length
-                    } as ValueTupleOfStringAndStringAndInteger
-                })
+                endDate: this.endDate
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
@@ -159,14 +153,14 @@ export class Market {
                     this.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
-                    //do something with the error.
+                    this.state = ModelState.ERROR
                 })
             )
         }
         else {
             this.store.transportLayer.updateMarket({
                 marketId: this.id,
-                organiserId: this.organiser.id,
+                organiserId: this.organiser?.id,
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
@@ -175,10 +169,14 @@ export class Market {
                 action("submitSuccess", res => {
                     if (res.succeeded) {
                         this.setOldState();
+                        this.state = ModelState.IDLE
+                    }
+                    else{
+                        this.state = ModelState.ERROR
                     }
                 }),
                 action("submitError", error => {
-                    //do something with the error.
+                    this.state = ModelState.ERROR
                 })
             )
         }
@@ -231,5 +229,4 @@ export class Market {
      {
          this.stalls = this.stalls.filter(x => x.id != id)
      }
- 
 }

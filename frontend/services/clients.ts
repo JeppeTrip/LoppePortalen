@@ -170,7 +170,7 @@ export class AuthorizationClient extends ClientBase implements IAuthorizationCli
 
 export interface IMarketClient {
 
-    createMarket(body: NewMarketInfo): Promise<CreateMarketResponse>;
+    createMarket(dto: CreateMarketRequest): Promise<CreateMarketResponse>;
 
     getMarketInstance(id: string | null): Promise<GetMarketInstanceQueryResponse>;
 
@@ -198,11 +198,11 @@ export class MarketClient extends ClientBase implements IMarketClient {
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    createMarket(body: NewMarketInfo): Promise<CreateMarketResponse> {
+    createMarket(dto: CreateMarketRequest): Promise<CreateMarketResponse> {
         let url_ = this.baseUrl + "/api/Market/new";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(dto);
 
         let options_: RequestInit = {
             body: content_,
@@ -1214,19 +1214,12 @@ export interface Stall {
     isDeleted?: boolean;
 }
 
-export interface NewMarketInfo {
+export interface CreateMarketRequest {
     organiserId?: number;
     marketName?: string | null;
     description?: string | null;
     startDate?: Date;
     endDate?: Date;
-    stallTypes?: ValueTupleOfStringAndStringAndInteger[] | null;
-}
-
-export interface ValueTupleOfStringAndStringAndInteger {
-    item1?: string;
-    item2?: string;
-    item3?: number;
 }
 
 export interface GetMarketInstanceQueryResponse {

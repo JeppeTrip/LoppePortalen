@@ -40,7 +40,6 @@ export class OrganiserStore {
     /**
      * Goes to the server and tries to grab the organiser.
      * Should probably just look through the locally stored organisers.
-     * 
      * @param organiserId 
      */
     @action

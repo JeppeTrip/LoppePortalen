@@ -109,11 +109,11 @@
         ],
         "operationId": "Market_CreateMarket",
         "requestBody": {
-          "x-name": "body",
+          "x-name": "dto",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewMarketInfo"
+                "$ref": "#/components/schemas/CreateMarketRequest"
               }
             }
           },
@@ -1075,7 +1075,7 @@
           }
         }
       },
-      "NewMarketInfo": {
+      "CreateMarketRequest": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1098,29 +1098,6 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
-          },
-          "stallTypes": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ValueTupleOfStringAndStringAndInteger"
-            }
-          }
-        }
-      },
-      "ValueTupleOfStringAndStringAndInteger": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "item1": {
-            "type": "string"
-          },
-          "item2": {
-            "type": "string"
-          },
-          "item3": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },

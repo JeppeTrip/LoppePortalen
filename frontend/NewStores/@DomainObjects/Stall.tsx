@@ -25,6 +25,8 @@ export class Stall {
         if (this.state != ModelState.UPDATING) {
             this.state = ModelState.UPDATING
             this.id = dto.id
+            if(dto.market.stalls == null)
+                dto.market.stalls = [dto]
             this.market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
             /**
              * Backend is not sending everything back as it would cause a lot of duplicate data
