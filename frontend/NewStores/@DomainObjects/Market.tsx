@@ -107,6 +107,10 @@ export class Market {
              */
             dto.stalls?.forEach(
                 x => {
+                    if(x.market == null)
+                    {
+                        x.market = dto
+                    }
                     const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
                     if(!this.stalls.find(s => s.id === stall.id))
                     {
@@ -218,4 +222,14 @@ export class Market {
         return this.stallTypes.filter(x => x.id > 0)
     }
 
+    /**
+     * Remove stall with the given id from the stall list of this market.
+     * Internal change only. Nothing comitted to the database.
+     */
+     @action
+     removeStall(id : number)
+     {
+         this.stalls = this.stalls.filter(x => x.id != id)
+     }
+ 
 }

@@ -198,7 +198,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                         <Select
                                             labelId="stall-type-select-label"
                                             id="stall-type-select"
-                                            value={selectedType == null ? "" : selectedType.id}
+                                            value={selectedType == null ? "" : selectedType.id+""}
                                             label="Age"
                                             onChange={(event) => {
                                                 setStallDiff(0)
@@ -218,7 +218,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                     <TextField
                                         fullWidth={true}
                                         type="number"
-                                        value={selectedType && (selectedType.totalStallCount + stallDiff)}
+                                        value={selectedType && selectedType != null ? (selectedType.totalStallCount + stallDiff) : 0}
                                         onChange={(event) => {
                                             let diff = parseInt(event.target.value) - selectedType.totalStallCount
                                             setStallDiff(diff >= 0 ? diff : Math.abs(diff) > selectedType.totalStallCount ? -selectedType.totalStallCount : diff)

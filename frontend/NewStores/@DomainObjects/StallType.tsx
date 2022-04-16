@@ -140,6 +140,16 @@ export class StallType {
         this.stalls.splice(0, Math.min(this.stalls.length, count))
     }
 
+    /**
+     * Remove stall with the given id from the stall list of this stalltype.
+     * Internal change only. Nothing comitted to the database.
+     */
+    @action
+    removeStall(id : number)
+    {
+        this.stalls = this.stalls.filter(x => x.id != id)
+    }
+
     @action
     set setName(name: string) {
         this.name = name

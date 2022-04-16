@@ -1211,6 +1211,7 @@ export interface Stall {
     id?: number;
     stallType?: StallType | null;
     market?: Market | null;
+    isDeleted?: boolean;
 }
 
 export interface NewMarketInfo {
