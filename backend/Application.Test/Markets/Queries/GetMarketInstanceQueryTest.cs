@@ -26,11 +26,11 @@ namespace Application.Test.Markets.Queries
             var result = await handler.Handle(query, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.MarketId.Should().Be(request.MarketId);
-            result.MarketName.Should().Be("Test Market 1");
-            result.OrganiserId.Should().BePositive();
-            result.Description.Should().Be("Test Description 1");
-            result.StartDate.Should().BeOnOrBefore(result.EndDate);
+            result.Market.MarketId.Should().Be(request.MarketId);
+            result.Market.MarketName.Should().Be("Test Market 1");
+            result.Market.Organiser.Id.Should().BePositive();
+            result.Market.Description.Should().Be("Test Description 1");
+            result.Market.StartDate.Should().BeOnOrBefore(result.Market.EndDate);
         }
 
         [Fact]

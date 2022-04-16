@@ -21,7 +21,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(Context.MarketInstances.ToList().Count);
+            result.Markets. Count.Should().Be(Context.MarketInstances.ToList().Count);
         }
 
 
@@ -34,7 +34,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(Context.MarketInstances.Where(x => !x.IsCancelled).Count());
+            result.Markets.Count.Should().Be(Context.MarketInstances.Where(x => !x.IsCancelled).Count());
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(Context.MarketInstances.Where(x => x.StartDate >= request.StartDate).Count());
+            result.Markets.Count.Should().Be(Context.MarketInstances.Where(x => x.StartDate >= request.StartDate).Count());
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(0);
+            result.Markets.Count.Should().Be(0);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(Context.MarketInstances.Count());
+            result.Markets.Count.Should().Be(Context.MarketInstances.Count());
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(5);
+            result.Markets.Count.Should().Be(5);
         }
     }
 }

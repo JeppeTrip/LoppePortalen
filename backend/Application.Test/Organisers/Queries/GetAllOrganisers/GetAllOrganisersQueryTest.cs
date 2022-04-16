@@ -18,8 +18,8 @@ namespace Application.Test.Organisers.Queries.GetAllOrganisers
             var request = new GetAllOrganisersQuery();
             var handler = new GetAllOrganisersQuery.GetAllOrganisersQueryHandler(Context);
             var result = await handler.Handle(request, CancellationToken.None);
-            result.Should().NotBeEmpty();
-            result.Count.Should().Be(Context.Organisers.Count());
+            result.Organisers.Should().NotBeEmpty();
+            result.Organisers.Count.Should().Be(Context.Organisers.Count());
         }
     }
 }

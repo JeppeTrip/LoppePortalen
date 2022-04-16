@@ -28,7 +28,7 @@ namespace Application.Test.User.Queries.GetUser
             result.Should().NotBeNull();
             result.Succeeded.Should().BeTrue();
             result.Errors.Should().BeEmpty();
-            result.Id.Should().Be(Guid.Empty.ToString());
+            result.User.Id.Should().Be(Guid.Empty.ToString());
         }
 
         [Fact]

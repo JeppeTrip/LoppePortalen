@@ -19,7 +19,7 @@ namespace Application.Test.Markets.Queries.GetAllMarkets
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Count.Should().Be(Context.MarketInstances.ToList().Count);
+            result.Markets.Count.Should().Be(Context.MarketInstances.ToList().Count);
         }
     }
 }

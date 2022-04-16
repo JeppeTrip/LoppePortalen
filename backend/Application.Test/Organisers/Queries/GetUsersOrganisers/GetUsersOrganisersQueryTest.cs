@@ -22,7 +22,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Count.Should().Be(Context.Organisers.Where(x => x.UserId.Equals(request.Dto.UserId)).Count());
+            result.Organisers.Count.Should().Be(Context.Organisers.Where(x => x.UserId.Equals(request.Dto.UserId)).Count());
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Count.Should().Be(0);
+            result.Organisers.Count.Should().Be(0);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Count.Should().Be(0);
+            result.Organisers.Count.Should().Be(0);
         }
     }
 }

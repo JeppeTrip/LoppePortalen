@@ -23,14 +23,14 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
 
             result.Should().NotBeNull();
             var entity = Context.Organisers.FirstOrDefault(x => x.Id == dto.Id);
-            result.Id.Should().Be(entity.Id);
-            result.Name.Should().Be(entity.Name);
-            result.Description.Should().Be(entity.Description);
-            result.Street.Should().Be(entity.Address.Street);
-            result.Number.Should().Be(entity.Address.Number);
-            result.Appartment.Should().Be(entity.Address.Appartment);
-            result.PostalCode.Should().Be(entity.Address.PostalCode);
-            result.City.Should().Be(entity.Address.City);
+            result.Organiser.Id.Should().Be(entity.Id);
+            result.Organiser.Name.Should().Be(entity.Name);
+            result.Organiser.Description.Should().Be(entity.Description);
+            result.Organiser.Street.Should().Be(entity.Address.Street);
+            result.Organiser.StreetNumber.Should().Be(entity.Address.Number);
+            result.Organiser.Appartment.Should().Be(entity.Address.Appartment);
+            result.Organiser.PostalCode.Should().Be(entity.Address.PostalCode);
+            result.Organiser.City.Should().Be(entity.Address.City);
         }
 
         [Fact]
