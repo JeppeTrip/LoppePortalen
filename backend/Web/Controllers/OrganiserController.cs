@@ -16,6 +16,7 @@ namespace Web.Controllers
         [HttpPost("new")]
         public async Task<ActionResult<CreateOrganiserResponse>> CreateOrganiser(CreateOrganiserRequest dto)
         {
+            dto.UserId = CurrentUserService.UserId;
             return await Mediator.Send(new CreateOrganiserCommand() { Dto = dto });
         }
 
