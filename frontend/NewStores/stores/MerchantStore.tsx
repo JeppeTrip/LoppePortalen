@@ -56,6 +56,30 @@ export class MerchantStore {
                     merchant.state = ModelState.ERROR
                 })
             )
+        } else {
+            merchant.state = ModelState.SAVING
+            this.transportLayer.({
+                name: merchant.name,
+                description: merchant.description
+            }).then(
+                action("submitSuccess", res => {
+                    if (res.succeeded) {
+                        this.updateMerchantFromServer({
+                            id: res.merchant.id,
+                            name: res.merchant.name,
+                            description: res.merchant.description,
+                            userId: res.merchant.userId
+                        })
+                    }
+                    else {
+                        merchant.state = ModelState.ERROR
+                    }
+
+                }),
+                action("submitError", error => {
+                    merchant.state = ModelState.ERROR
+                })
+            )
         }
     }
 

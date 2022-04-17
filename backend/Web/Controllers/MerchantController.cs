@@ -1,4 +1,5 @@
 ﻿using Application.Merchants.Commands.CreateMerchant;
+using Application.Merchants.Commands.EditMerchant;
 using Application.Merchants.Queries.AllMerchants;
 using Application.Merchants.Queries.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
@@ -25,5 +26,12 @@ namespace Web.Controllers
         {
             return await Mediator.Send(new GetMerchantQuery() { Dto = new GetMerchantQueryRequest() { Id = id } });
         }
+
+        [HttpPut]
+        public async Task<ActionResult<EditMerchantResponse>> UpdateMerchant(EditMerchantRequest dto)
+        {
+            return await Mediator.Send(new EditMerchantCommand() { Dto = dto });
+        }
+
     }
 }

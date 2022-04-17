@@ -511,6 +511,8 @@ export interface IMerchantClient {
 
     getMerchant(id?: number | undefined): Promise<GetMerchantQueryResponse>;
 
+    updateMerchant(dto: EditMerchantRequest): Promise<EditMerchantResponse>;
+
     getAllMerchants(): Promise<AllMerchantsQueryResponse>;
 }
 
@@ -601,6 +603,45 @@ export class MerchantClient extends ClientBase implements IMerchantClient {
             });
         }
         return Promise.resolve<GetMerchantQueryResponse>(null as any);
+    }
+
+    updateMerchant(dto: EditMerchantRequest): Promise<EditMerchantResponse> {
+        let url_ = this.baseUrl + "/api/Merchant";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processUpdateMerchant(_response));
+        });
+    }
+
+    protected processUpdateMerchant(response: Response): Promise<EditMerchantResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as EditMerchantResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<EditMerchantResponse>(null as any);
     }
 
     getAllMerchants(): Promise<AllMerchantsQueryResponse> {
@@ -1458,6 +1499,15 @@ export interface AllMerchantsQueryResponse extends Result {
 
 export interface GetMerchantQueryResponse extends Result {
     merchant?: Merchant | null;
+}
+
+export interface EditMerchantResponse extends Result {
+}
+
+export interface EditMerchantRequest {
+    id?: number;
+    name?: string | null;
+    description?: string | null;
 }
 
 export interface CreateOrganiserResponse {
