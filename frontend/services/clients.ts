@@ -9,7 +9,7 @@
 // ReSharper disable InconsistentNaming
 
 export class ClientBase {
-    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
+    baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("loppeportalen_jwt");
@@ -509,6 +509,8 @@ export interface IMerchantClient {
 
     createMerchant(dto: CreateMerchantRequest): Promise<CreateMerchantResponse>;
 
+    getMerchant(id?: number | undefined): Promise<GetMerchantQueryResponse>;
+
     getAllMerchants(): Promise<AllMerchantsQueryResponse>;
 }
 
@@ -562,8 +564,47 @@ export class MerchantClient extends ClientBase implements IMerchantClient {
         return Promise.resolve<CreateMerchantResponse>(null as any);
     }
 
+    getMerchant(id?: number | undefined): Promise<GetMerchantQueryResponse> {
+        let url_ = this.baseUrl + "/api/Merchant?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetMerchant(_response));
+        });
+    }
+
+    protected processGetMerchant(response: Response): Promise<GetMerchantQueryResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetMerchantQueryResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetMerchantQueryResponse>(null as any);
+    }
+
     getAllMerchants(): Promise<AllMerchantsQueryResponse> {
-        let url_ = this.baseUrl + "/api/Merchant";
+        let url_ = this.baseUrl + "/all";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -1376,6 +1417,10 @@ export interface CreateMerchantRequest {
 
 export interface AllMerchantsQueryResponse extends Result {
     merchantList?: Merchant[] | null;
+}
+
+export interface GetMerchantQueryResponse extends Result {
+    merchant?: Merchant | null;
 }
 
 export interface CreateOrganiserResponse {

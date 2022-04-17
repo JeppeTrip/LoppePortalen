@@ -1,5 +1,6 @@
 ﻿using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Queryies.AllMerchants;
+using Application.Merchants.Queryies.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -13,10 +14,16 @@ namespace Web.Controllers
             return await Mediator.Send(new CreateMerchantCommand() { Dto = dto });
         }
 
-        [HttpGet]
+        [HttpGet("/all")]
         public async Task<ActionResult<AllMerchantsQueryResponse>> GetAllMerchants()
         {
             return await Mediator.Send(new AllMerchantsQuery());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<GetMerchantQueryResponse>> GetMerchant([FromQuery] int id)
+        {
+            return await Mediator.Send(new GetMerchantQuery() { Dto = new GetMerchantQueryRequest() { Id = id } });
         }
     }
 }

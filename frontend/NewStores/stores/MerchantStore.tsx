@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from "mobx"
+import { action, flow, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantClient } from "../../services/clients"
 import { Merchant } from "../@DomainObjects/Merchant"
@@ -101,5 +101,22 @@ export class MerchantStore {
                     //do something with this
                 })
             )
+    }
+
+    /**
+     * Used to find a specific merchant.
+     * Searches through the list of merchants currently held in the store
+     * if found uses this value. 
+     * If it isn't here a fetch is made.
+     */
+    @flow
+    resolveMerchant(id : number)
+    {
+        let merchant = this.merchants.find(x => x.id === id)
+        if(!merchant)
+        {
+            // fetch merchant with a call I haven't made yet.
+        }
+        return merchant
     }
 }

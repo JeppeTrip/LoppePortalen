@@ -398,6 +398,37 @@
         "tags": [
           "Merchant"
         ],
+        "operationId": "Merchant_GetMerchant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMerchantQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/all": {
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
         "operationId": "Merchant_GetAllMerchants",
         "responses": {
           "200": {
@@ -1375,6 +1406,27 @@
                 "items": {
                   "$ref": "#/components/schemas/Merchant"
                 }
+              }
+            }
+          }
+        ]
+      },
+      "GetMerchantQueryResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "merchant": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Merchant"
+                  }
+                ]
               }
             }
           }
