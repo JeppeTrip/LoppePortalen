@@ -39,6 +39,6 @@ const CreateMerchantPage: NextPageAuth = observer(() => {
     )
 })
 
-CreateMerchantPage.requireAuth = false;
+CreateMerchantPage.requireAuth = true;
 
 export default CreateMerchantPage;
