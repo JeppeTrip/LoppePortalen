@@ -32,7 +32,7 @@ const menuItems = [
     path: '/organiser/'
   },
   {
-    name: "Sellers",
+    name: "Merchants",
     icon: <StorefrontIcon />,
     path: '/merchant/'
   },
