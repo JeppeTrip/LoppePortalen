@@ -18,6 +18,7 @@ import { useContext, useState } from "react";
 import { NextPageAuth } from "../../@types/NextAuthPage";
 import ProfileMarketInfo from "../../components/ProfileMarketInfo";
 import ProfileOrgInfo from "../../components/ProfileOrgInfo";
+import ProfileSalesInfo from '../../components/ProfileSalesInfo';
 import ProfileUserInfo from "../../components/ProfileUserInfo";
 import { StoreContext } from "../../NewStores/StoreContext";
 
@@ -108,7 +109,9 @@ const UserProfile: NextPageAuth = observer(() => {
             case 2:
                 return <ProfileMarketInfo user={stores.userStore.user} />;
             case 3:
-                return <div>Sales management</div>;
+                return <ProfileSalesInfo user={stores.userStore.user}/>;
+            case 4: 
+                return <div>Manage your stalls here.</div>
             default:
                 throw new Error('Unknown step');
         }
