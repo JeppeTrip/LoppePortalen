@@ -30,7 +30,6 @@ function MyApp(props: AppProps) {
       <NewStoreProvider>
         <CssBaseline />
         <TopBar />
-        <Toolbar /> {/* empty toolbar to push content into place */}
         {
           Component.requireAuth ? (
             <AuthGuard>

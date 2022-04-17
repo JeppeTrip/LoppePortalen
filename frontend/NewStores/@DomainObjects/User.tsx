@@ -17,7 +17,7 @@ export class User {
     @observable country: string = ""
     @observable organisers: Organiser[]
     @observable markets: Market[]
-    @observable merchants : Merchant[]
+    @observable merchants: Merchant[]
 
     //organisers form a organiser store
 
@@ -50,31 +50,56 @@ export class User {
                     this.organisers = result.organisers.map(x => this.store.rootStore.organiserStore.updateOrganiserFromServer(x));
                 }),
                 action("resolvedUsersOrganisersFailed", orgs => {
-                    this.organisers = [] as Organiser[]
+                    //do somehitng
                 })
             )
     }
 
     @action
-    fetchOwnedMarkets(){
+    fetchOwnedMarkets() {
         this.markets = []
         this.store.transportLayer.getUsersMarkets()
-        .then(
-            action("fetchSuccess", result => {
-                result.markets.forEach(x => {
-                    let market = this.store.rootStore.marketStore.updateMarketFromServer(x)
-                    this.markets.push(market)
+            .then(
+                action("fetchSuccess", result => {
+                    result.markets.forEach(x => {
+                        let market = this.store.rootStore.marketStore.updateMarketFromServer(x)
+                        this.markets.push(market)
+                    })
+                }),
+                action("fetchFailed", result => {
+                    //do something with this.
                 })
-            }),
-            action("fetchFailed", result => {
-                //do something with this.
+            )
+            .catch(error => {
+                //do something
             })
-        )
-        .catch(error => this.organisers = null)
+    }
+
+    /**
+     * Force resets the merchant array and updates from there.
+     */
+    @action
+    fetchMerchants() {
+        this.merchants = [] as Merchant[]
+        this.store.transportLayer.getUsersMerchants()
+            .then(
+                action("fetchSuccess", result => {
+                    result.merchants.forEach(x => {
+                        const merchant = this.store.rootStore.merchantStore.updateMerchantFromServer(x);
+                        this.merchants.push(merchant)
+                    })
+                }),
+                action("fetchFailed", result => {
+                    //do something with this.
+                })
+            )
+            .catch(error => {
+                //do something
+            })
     }
 
     @action
-    updateFromServer(dto : Dto){
+    updateFromServer(dto: Dto) {
         this.state = "updating"
         this.firstName = dto.firstName
         this.lastName = dto.lastName

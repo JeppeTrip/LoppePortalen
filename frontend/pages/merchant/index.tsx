@@ -30,7 +30,7 @@ const Merchants: NextPage = observer(() => {
         return (
             <Paper elevation={1}>
                 {
-                    stores.merchantStore.merchants.length == 0 ?
+                    stores.merchantStore.merchants.length === 0 ?
                         <Typography variant="subtitle2">
                             No merchants found.
                         </Typography>

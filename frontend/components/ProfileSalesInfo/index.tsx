@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect } from 'react';
 import { User } from '../../NewStores/@DomainObjects/User';
+import MerchantListItem from '../MerchantListItem';
 
 type Props = {
     user: User
@@ -15,7 +16,7 @@ const ProfileSalesInfo: FC<Props> = (props: Props) => {
 
     //Componentmounts
     useEffect(() => {
-        props.user.fetchOwnedMarkets()
+        props.user.fetchMerchants()
     }, [])
 
     //Component unmounts
@@ -43,14 +44,14 @@ const ProfileSalesInfo: FC<Props> = (props: Props) => {
                 New Salesprofile
             </Button>
             {
-                true ?
+                props.user.merchants.length === 0 ?
                     <Typography variant="subtitle2">
                         You have no sales profile. Start by making one.
                     </Typography>
                     :
                     <List>
                         {
-                            
+                            props.user.merchants.map(x => <MerchantListItem showControls={true} merchant={x} />)
                         }
                     </List>
             }
