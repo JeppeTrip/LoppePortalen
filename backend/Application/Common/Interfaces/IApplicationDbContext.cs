@@ -17,6 +17,7 @@ namespace Application.Common.Interfaces
         DbSet<Stall> Stalls { get; set; }
         DbSet<RefreshToken> RefreshTokens { get; set; }
         DbSet<StallType> StallTypes { get; set; }
+        DbSet<Merchant> Merchants { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

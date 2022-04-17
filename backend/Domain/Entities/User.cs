@@ -20,5 +20,6 @@ namespace Domain.Entities
         public string Country { get; set; }
 
         public virtual List<Organiser> Organisers { get; set; }
+        public virtual List<Merchant> Merchants { get; set; } 
     }
 }

@@ -17,6 +17,9 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasMany<Organiser>(x => x.Organisers)
                 .WithOne(x => x.User);
+
+            builder.HasMany(x => x.Merchants)
+                .WithOne(x => x.User);
         }
     }
 }
