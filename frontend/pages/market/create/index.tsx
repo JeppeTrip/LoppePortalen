@@ -33,8 +33,6 @@ const CreateMarketPage: NextPageAuth = observer(() => {
         )
     }
 
-
-
     return (
         <>
             <Container

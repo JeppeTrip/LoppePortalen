@@ -1321,11 +1321,15 @@ export interface AddStallsToMarketRequest {
     number?: number;
 }
 
-export interface CreateMerchantResponse {
+export interface CreateMerchantResponse extends Result {
+    merchant?: Merchant | null;
+}
+
+export interface Merchant {
     id?: number;
-    userId?: string | null;
     name?: string | null;
     description?: string | null;
+    userId?: string | null;
 }
 
 export interface CreateMerchantRequest {

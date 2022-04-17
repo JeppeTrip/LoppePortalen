@@ -1286,6 +1286,27 @@
         }
       },
       "CreateMerchantResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "merchant": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Merchant"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "Merchant": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1293,15 +1314,15 @@
             "type": "integer",
             "format": "int32"
           },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "type": "string",
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
             "type": "string",
             "nullable": true
           }

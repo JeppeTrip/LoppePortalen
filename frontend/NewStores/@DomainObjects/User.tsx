@@ -1,8 +1,9 @@
-import { action, flowResult, makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
+import { User as Dto } from "../../services/clients";
 import { UserStore } from "../stores/UserStore";
 import { Market } from "./Market";
+import { Merchant } from "./Merchant";
 import { Organiser } from "./Organiser";
-import {User as Dto} from "../../services/clients";
 
 export class User {
     store: UserStore = null
@@ -16,6 +17,7 @@ export class User {
     @observable country: string = ""
     @observable organisers: Organiser[]
     @observable markets: Market[]
+    @observable merchants : Merchant[]
 
     //organisers form a organiser store
 
@@ -25,6 +27,7 @@ export class User {
         this.id = id
         this.organisers = [] as Organiser[]
         this.markets = [] as Market[]
+        this.merchants = [] as Merchant[]
     }
 
     @action

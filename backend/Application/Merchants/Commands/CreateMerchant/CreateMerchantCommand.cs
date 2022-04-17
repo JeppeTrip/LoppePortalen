@@ -35,7 +35,7 @@ namespace Application.Merchants.Commands.CreateMerchant
                 var newMerchant = new Merchant() { Name = request.Dto.Name, Description = request.Dto.Description, User= user, UserId=user.IdentityId };
                 _context.Merchants.Add(newMerchant);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateMerchantResponse() { Id=newMerchant.Id, Name=newMerchant.Name, Description=newMerchant.Description, UserId=newMerchant.UserId };
+                return new CreateMerchantResponse(Common.Models.Result.Success()) { Merchant = new Common.Models.Merchant() { Id = newMerchant.Id, Name = newMerchant.Name, Description = newMerchant.Description, UserId = newMerchant.UserId } };
             }
         }
     }

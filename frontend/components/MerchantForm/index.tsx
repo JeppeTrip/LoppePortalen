@@ -4,21 +4,17 @@ import { Grid, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { FC, Fragment, useEffect, useState } from 'react';
-import { ModelState } from '../../@types/ModelState';
-import { Market } from '../../NewStores/@DomainObjects/Market';
-import MarketDetailsForm from '../MarketDetailsForm';
-import StallForm from '../StallForm';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { ModelState } from "../../@types/ModelState";
+import { Merchant } from "../../NewStores/@DomainObjects/Merchant";
 
 
 type Props = {
+    merchant : Merchant
     title: string
 }
 
@@ -30,9 +26,16 @@ const MerchantForm: FC<Props> = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
     const router = useRouter()
 
+    const redirect = useCallback(() => {
+        if(router.isReady)
+        {
+            router.push("/profile", undefined, {shallow: true})
+        }
+    }, [router.isReady])
+
     //on mount
     useEffect(() => {
-
+        
     }, [])
 
     //unmount
@@ -43,53 +46,11 @@ const MerchantForm: FC<Props> = (props: Props) => {
     }, [])
 
     useEffect(() => {
-
-    }, [])
-
-    const handleNext = () => {
-        setActiveStep(activeStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep(activeStep - 1);
-    };
-
-    const getButton = () => {
-        return (
-            activeStep === steps.length - 1 ? loadingButton() : nextButton()
-        )
-    }
-
-    const handleSubmit = (event) => {
-
-    }
-
-    const getStepContent = (step: number) => {
-
-    }
-
-    const loadingButton = () => <LoadingButton
-        onClick={handleSubmit}
-        loading={false}
-        loadingPosition="start"
-        startIcon={<SaveIcon />}
-        variant="contained"
-        sx={{ mt: 3, ml: 1 }}
-    >
-        Submit
-    </LoadingButton>
-
-    const nextButton = () => <Button
-        variant="contained"
-        onClick={handleNext}
-        sx={{ mt: 3, ml: 1 }}
-    >
-        Next
-    </Button>
-
-    const handleReset = () => {
-
-    }
+        if(props.merchant.state === ModelState.IDLE)
+        {
+            redirect()
+        }
+    }, [props.merchant.state])
 
     return (
         <ThemeProvider theme={theme}>
@@ -108,8 +69,8 @@ const MerchantForm: FC<Props> = (props: Props) => {
                                 id="merchantName"
                                 label="Name"
                                 variant="outlined"
-                                onChange={(event) => console.log(event.target.value)}
-                                value={""}
+                                onChange={(event) => props.merchant.name = event.target.value}
+                                value={props.merchant.name}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -117,8 +78,8 @@ const MerchantForm: FC<Props> = (props: Props) => {
                                 id="merchant Description"
                                 label="Description"
                                 variant="outlined"
-                                onChange={(event) => console.log(event.target.value)}
-                                value={""}
+                                onChange={(event) => props.merchant.description = event.target.value}
+                                value={props.merchant.description}
                                 multiline
                                 rows={10}
                             />
@@ -127,8 +88,8 @@ const MerchantForm: FC<Props> = (props: Props) => {
                     <Grid>
                         <Grid item>
                             <LoadingButton
-                                onClick={() => console.log("handle submit")}
-                                loading={false}
+                                onClick={() => props.merchant.save()}
+                                loading={props.merchant.state === ModelState.SAVING}
                                 loadingPosition="start"
                                 startIcon={<SaveIcon />}
                                 variant="contained"
@@ -138,7 +99,7 @@ const MerchantForm: FC<Props> = (props: Props) => {
                             </LoadingButton>
                         </Grid>
                         {
-                            false &&
+                            props.merchant.state === ModelState.ERROR &&
                             (
                                 <Grid item>
                                     <Typography variant="caption" color="red">
