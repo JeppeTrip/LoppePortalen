@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { Merchant } from '../../../NewStores/@DomainObjects/Merchant';
@@ -29,10 +29,8 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
     }, [])
 
     //Unmount
-    useEffect(() => {
-        return () => {
+    useEffect(() => () => {
 
-        }
     }, [])
 
     useEffect(() => {

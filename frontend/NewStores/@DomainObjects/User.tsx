@@ -84,8 +84,12 @@ export class User {
         this.store.transportLayer.getUsersMerchants()
             .then(
                 action("fetchSuccess", result => {
+                    console.log(result)
                     result.merchants.forEach(x => {
+                        console.log("no longer runs?")
                         const merchant = this.store.rootStore.merchantStore.updateMerchantFromServer(x);
+                        console.log("return from merchant store")
+                        console.log(merchant)
                         this.merchants.push(merchant)
                     })
                 }),

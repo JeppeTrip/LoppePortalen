@@ -11,6 +11,7 @@ export class Merchant{
     @observable _name : string
     @observable _description : string
     @observable _userId : string
+    @observable _oldState : Merchant
     
     constructor(store : MerchantStore)
     {
@@ -36,18 +37,42 @@ export class Merchant{
     @action
     updateFromServer(dto : Dto)
     {
+        console.log("update from server dto:")
+        console.log(dto)
         if(this.state != ModelState.UPDATING)
         {
             this.state = ModelState.UPDATING
             this._id = dto.id
+            this._userId = dto.userId
             this.name = dto.name
             this.description = dto.description
-            this._userId = dto.userId
+            this._oldState = new Merchant(undefined)
+            this.updateOldState()
             this.state = ModelState.IDLE
         }
+        console.log("return this")
         return this
     }
 
+    /**
+     * Reset the fields in this class to what is stored in the oldstate.
+     */
+    @action
+    resetFields(){
+        this._name = this.oldState._name
+        this._description = this.oldState._description
+    }
+
+    /**
+     * Update the oldstate field such that it contains the most recent fields.
+     */
+    @action
+    updateOldState()
+    {
+        this.oldState._name = this.name
+        this.oldState._description = this.description
+    }
+    
     get state()
     {
         return this._state
@@ -87,5 +112,10 @@ export class Merchant{
     {
         return this._userId
     }
+
+    get oldState(){
+        return this._oldState
+    }
+
 
 }

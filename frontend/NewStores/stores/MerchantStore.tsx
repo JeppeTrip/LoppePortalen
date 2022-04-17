@@ -22,7 +22,9 @@ export class MerchantStore {
      * @returns merchant instance.
      */
     createMerchant() {
+        console.log("create merchant")
         const merchant = new Merchant(this)
+        console.log(merchant)
         this.merchants.push(merchant)
         return merchant
     }
@@ -87,9 +89,13 @@ export class MerchantStore {
      */
     @action
     updateMerchantFromServer(dto: Dto) {
+        console.log("update merchant from server")
         let merchant = this.merchants.find(x => x.id === dto.id);
+        console.log(merchant)
         if (!merchant) {
+            console.log("so create a new one")
             merchant = this.createMerchant()
+            console.log(merchant)
         }
         merchant.updateFromServer(dto);
         return merchant

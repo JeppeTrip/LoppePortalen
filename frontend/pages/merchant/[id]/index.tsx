@@ -3,7 +3,8 @@ import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { ModelState } from "../../../@types/ModelState";
 import { Merchant } from "../../../NewStores/@DomainObjects/Merchant";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css'
@@ -16,6 +17,8 @@ const MerchantPage: NextPage<Props> = observer(() => {
     const [merchantId, setMerchantId] = useState<string>("");
     const [selectedMerchant, setSelectedMerchant] = useState<Merchant>(null)
     const router = useRouter();
+
+
 
     /**
      * Comoponent will mount.
