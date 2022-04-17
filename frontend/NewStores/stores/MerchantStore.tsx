@@ -110,12 +110,16 @@ export class MerchantStore {
      * If it isn't here a fetch is made.
      */
     @flow
-    resolveMerchant(id : number)
+    *resolveMerchant(id : number)
     {
         let merchant = this.merchants.find(x => x.id === id)
         if(!merchant)
         {
-            // fetch merchant with a call I haven't made yet.
+            var res = yield this.transportLayer.getMerchant(id)
+            if(res.succeeded)
+            {
+                merchant = this.updateMerchantFromServer(res.merchant)
+            }
         }
         return merchant
     }

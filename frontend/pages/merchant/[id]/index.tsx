@@ -4,11 +4,9 @@ import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { Market } from "../../../NewStores/@DomainObjects/Market";
 import { Merchant } from "../../../NewStores/@DomainObjects/Merchant";
 import { StoreContext } from "../../../NewStores/StoreContext";
-import styles from './styles.module.css';
-
+import styles from './styles.module.css'
 type Props = {
     id: string
 }
@@ -53,7 +51,7 @@ const MerchantPage: NextPage<Props> = observer(() => {
         if (selectedMerchant == null) {
             if (!(merchantId == "")) {
                 flowResult(stores.merchantStore.resolveMerchant(parseInt(merchantId)))
-                .then( res => setSelectedMerchant(res))
+                    .then(res => setSelectedMerchant(res))
             }
         }
     }, [merchantId, selectedMerchant])
@@ -91,15 +89,13 @@ const MerchantPage: NextPage<Props> = observer(() => {
                         <Grid container columns={12} spacing={1}>
                             <Grid item xs={7}>
                                 <Paper elevation={1}>
-                                    <div className={styles.AboutInfo}>
-                                        <Typography variant="h6">
-                                            About
-                                        </Typography>
-                                        <Divider />
-                                        <Typography variant="body1">
-                                            {selectedMerchant.description}
-                                        </Typography>
-                                    </div>
+                                    <Typography variant="h6">
+                                        About
+                                    </Typography>
+                                    <Divider />
+                                    <Typography variant="body1">
+                                        {selectedMerchant.description}
+                                    </Typography>
                                 </Paper>
                             </Grid>
 
