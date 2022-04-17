@@ -9,7 +9,7 @@
 // ReSharper disable InconsistentNaming
 
 export class ClientBase {
-    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
+    baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("loppeportalen_jwt");
@@ -508,6 +508,8 @@ export class MarketClient extends ClientBase implements IMarketClient {
 export interface IMerchantClient {
 
     createMerchant(dto: CreateMerchantRequest): Promise<CreateMerchantResponse>;
+
+    getAllMerchants(): Promise<AllMerchantsQueryResponse>;
 }
 
 export class MerchantClient extends ClientBase implements IMerchantClient {
@@ -558,6 +560,41 @@ export class MerchantClient extends ClientBase implements IMerchantClient {
             });
         }
         return Promise.resolve<CreateMerchantResponse>(null as any);
+    }
+
+    getAllMerchants(): Promise<AllMerchantsQueryResponse> {
+        let url_ = this.baseUrl + "/api/Merchant";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetAllMerchants(_response));
+        });
+    }
+
+    protected processGetAllMerchants(response: Response): Promise<AllMerchantsQueryResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AllMerchantsQueryResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AllMerchantsQueryResponse>(null as any);
     }
 }
 
@@ -1335,6 +1372,10 @@ export interface Merchant {
 export interface CreateMerchantRequest {
     name?: string | null;
     description?: string | null;
+}
+
+export interface AllMerchantsQueryResponse extends Result {
+    merchantList?: Merchant[] | null;
 }
 
 export interface CreateOrganiserResponse {

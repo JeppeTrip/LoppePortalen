@@ -1,9 +1,7 @@
-import { CircularProgress, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { ModelState } from "../../../@types/ModelState";
+import { useContext, useEffect, useState } from "react";
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import MerchantForm from "../../../components/MerchantForm";
 import { Merchant } from "../../../NewStores/@DomainObjects/Merchant";

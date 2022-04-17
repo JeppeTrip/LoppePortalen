@@ -393,6 +393,24 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_GetAllMerchants",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllMerchantsQueryResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/Organiser/new": {
@@ -1341,6 +1359,26 @@
             "nullable": true
           }
         }
+      },
+      "AllMerchantsQueryResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "merchantList": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Merchant"
+                }
+              }
+            }
+          }
+        ]
       },
       "CreateOrganiserResponse": {
         "type": "object",

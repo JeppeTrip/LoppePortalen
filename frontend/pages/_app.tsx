@@ -1,4 +1,4 @@
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, Toolbar } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -30,6 +30,7 @@ function MyApp(props: AppProps) {
       <NewStoreProvider>
         <CssBaseline />
         <TopBar />
+        <Toolbar /> {/* empty toolbar to push content into place */}
         {
           Component.requireAuth ? (
             <AuthGuard>

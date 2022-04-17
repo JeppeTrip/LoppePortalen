@@ -34,7 +34,7 @@ const menuItems = [
   {
     name: "Sellers",
     icon: <StorefrontIcon />,
-    path: '/seller/'
+    path: '/merchant/'
   },
 ]
 

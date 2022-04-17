@@ -46,7 +46,6 @@ export class MerchantStore {
                             description: res.merchant.description,
                             userId: res.merchant.userId
                         })
-                        merchant.state = ModelState.IDLE
                     }
                     else {
                         merchant.state = ModelState.ERROR
@@ -60,18 +59,47 @@ export class MerchantStore {
         }
     }
 
-    @action
+
     /**
      * Call when updates are arriving from the server.
      * Check if merchant is already in store if not then add it.
      * Then call updateFromServer on the merchant instance to update its data.
      */
+    @action
     updateMerchantFromServer(dto: Dto) {
         let merchant = this.merchants.find(x => x.id === dto.id);
         if (!merchant) {
             merchant = this.createMerchant()
-            this.merchants.push(merchant)
         }
         merchant.updateFromServer(dto);
+        return merchant
+    }
+
+    /**
+     * Force fetch all merchants from the server.
+     */
+    @action
+    getAllMerchants() {
+        this.transportLayer.getAllMerchants()
+            .then(
+                action("fetchSuccess", res => {
+                    if (res.succeeded) {
+                        res.merchantList.forEach(
+                            x => this.updateMerchantFromServer({
+                                id: x.id,
+                                name: x.name,
+                                description: x.description,
+                                userId: x.userId
+                            }))
+                    }
+                    else {
+                        //do something with the error?
+                    }
+
+                }),
+                action("fetchError", error => {
+                    //do something with this
+                })
+            )
     }
 }
