@@ -3,6 +3,7 @@ import { Box, CircularProgress, Container, Divider, List, Paper, Typography } fr
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect } from "react";
+import MerchantListItem from '../../components/MerchantListItem';
 import { StoreContext } from "../../NewStores/StoreContext";
 
 
@@ -37,7 +38,7 @@ const Merchants: NextPage = observer(() => {
                         <List>
                             {
                                 stores.merchantStore.merchants.map(
-                                    merchant => <> <div>{merchant.name}</div> <Divider /> </>)
+                                    x => <> <MerchantListItem merchant={x}/><Divider /> </>)
                             }
                         </List>
                 }
