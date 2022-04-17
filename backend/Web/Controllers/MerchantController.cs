@@ -1,6 +1,6 @@
 ﻿using Application.Merchants.Commands.CreateMerchant;
-using Application.Merchants.Queryies.AllMerchants;
-using Application.Merchants.Queryies.GetMerchant;
+using Application.Merchants.Queries.AllMerchants;
+using Application.Merchants.Queries.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

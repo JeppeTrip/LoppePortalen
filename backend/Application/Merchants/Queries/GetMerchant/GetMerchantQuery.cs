@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queryies.GetMerchant
+namespace Application.Merchants.Queries.GetMerchant
 {
     public class GetMerchantQuery : IRequest<GetMerchantQueryResponse>
     {
@@ -27,12 +27,12 @@ namespace Application.Merchants.Queryies.GetMerchant
             public async Task<GetMerchantQueryResponse> Handle(GetMerchantQuery request, CancellationToken cancellationToken)
             {
                 var merchant = await _context.Merchants.FirstOrDefaultAsync(x => x.Id == request.Dto.Id);
-                if(merchant == null)
+                if (merchant == null)
                 {
                     throw new NotFoundException($"No merchant with ID {request.Dto.Id}.");
                 }
 
-                return new GetMerchantQueryResponse(Result.Success()) { Merchant= new Merchant() { Id = merchant.Id, Name=merchant.Name, Description=merchant.Description, UserId=merchant.UserId } };
+                return new GetMerchantQueryResponse(Result.Success()) { Merchant = new Merchant() { Id = merchant.Id, Name = merchant.Name, Description = merchant.Description, UserId = merchant.UserId } };
             }
         }
     }

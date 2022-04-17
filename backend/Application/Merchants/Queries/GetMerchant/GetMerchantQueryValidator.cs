@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queryies.AllMerchants
+namespace Application.Merchants.Queries.GetMerchant
 {
-    internal class AllMerchantsQueryValidator
+    public class GetMerchantQueryValidator
     {
     }
 }

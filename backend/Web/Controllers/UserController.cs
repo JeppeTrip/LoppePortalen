@@ -1,4 +1,5 @@
 ﻿using Application.Markets.Queries.GetUsersMarkets;
+using Application.Merchants.Queries.GetUsersMerchants;
 using Application.Organisers.Queries.GetUsersOrganisers;
 using Application.User.Queries.GetUser;
 using Microsoft.AspNetCore.Mvc;
@@ -36,5 +37,12 @@ namespace Web.Controllers
             var userid = CurrentUserService.UserId;
             return await Mediator.Send(new GetUsersOrganisersQuery() { Dto = new GetUsersOrganisersRequest() { UserId = userid } });
         }
+
+        [HttpGet("merchants")]
+        public async Task<ActionResult<GetUsersMerchantsResponse>> GetUsersMerchants()
+        {
+            return await Mediator.Send(new GetUsersMerchantsQuery());
+        }
+
     }
 }

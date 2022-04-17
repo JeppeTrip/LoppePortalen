@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queryies.AllMerchants
+namespace Application.Merchants.Queries.AllMerchants
 {
     public class AllMerchantsQueryResponse : Result
     {
         public AllMerchantsQueryResponse(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
-        {        
+        {
         }
 
         public AllMerchantsQueryResponse(Result result) : base(result.Succeeded, result.Errors) { }

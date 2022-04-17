@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queryies.AllMerchants
+namespace Application.Merchants.Queries.AllMerchants
 {
     public class AllMerchantsQuery : IRequest<AllMerchantsQueryResponse>
     {

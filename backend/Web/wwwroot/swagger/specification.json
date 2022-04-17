@@ -827,6 +827,26 @@
           }
         }
       }
+    },
+    "/api/User/merchants": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersMerchants",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMerchantsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1861,6 +1881,26 @@
             }
           }
         }
+      },
+      "GetUsersMerchantsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "merchants": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Merchant"
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "securitySchemes": {

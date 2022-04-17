@@ -9,7 +9,7 @@
 // ReSharper disable InconsistentNaming
 
 export class ClientBase {
-    baseApiUrl : string = "https://loppeportalen-backend.loppeportalen.tk";
+    baseApiUrl : string = "https://localhost:5001";
 
     protected async transformOptions(options: RequestInit): Promise<RequestInit>{
         const token = localStorage.getItem("loppeportalen_jwt");
@@ -1109,6 +1109,8 @@ export interface IUserClient {
     getUsersMarkets(): Promise<GetUsersMarketsResponse>;
 
     getUsersOrganisers(): Promise<GetUsersOrganisersResponse>;
+
+    getUsersMerchants(): Promise<GetUsersMerchantsResponse>;
 }
 
 export class UserClient extends ClientBase implements IUserClient {
@@ -1260,6 +1262,41 @@ export class UserClient extends ClientBase implements IUserClient {
             });
         }
         return Promise.resolve<GetUsersOrganisersResponse>(null as any);
+    }
+
+    getUsersMerchants(): Promise<GetUsersMerchantsResponse> {
+        let url_ = this.baseUrl + "/api/User/merchants";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processGetUsersMerchants(_response));
+        });
+    }
+
+    protected processGetUsersMerchants(response: Response): Promise<GetUsersMerchantsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetUsersMerchantsResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetUsersMerchantsResponse>(null as any);
     }
 }
 
@@ -1550,6 +1587,10 @@ export interface User {
 
 export interface GetUsersOrganisersResponse {
     organisers?: Organiser[] | null;
+}
+
+export interface GetUsersMerchantsResponse extends Result {
+    merchants?: Merchant[] | null;
 }
 
 export class SwaggerException extends Error {

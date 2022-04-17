@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queryies.GetMerchant
+namespace Application.Merchants.Queries.AllMerchants
 {
-    public class GetMerchantQueryRequest
+    internal class AllMerchantsQueryValidator
     {
-        public int Id { get; set; }
     }
 }
