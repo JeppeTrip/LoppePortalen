@@ -58,18 +58,14 @@ export class MerchantStore {
             )
         } else {
             merchant.state = ModelState.SAVING
-            this.transportLayer.({
+            this.transportLayer.updateMerchant({
+                id: merchant.id,
                 name: merchant.name,
                 description: merchant.description
             }).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {
-                        this.updateMerchantFromServer({
-                            id: res.merchant.id,
-                            name: res.merchant.name,
-                            description: res.merchant.description,
-                            userId: res.merchant.userId
-                        })
+                        merchant.state = ModelState.IDLE
                     }
                     else {
                         merchant.state = ModelState.ERROR
