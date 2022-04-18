@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import { Button, ButtonGroup, Container, Divider, FormControl, FormHelperText, InputLabel, List, MenuItem, Paper, Select, Stack, Typography } from "@mui/material";
-import { flowResult } from "mobx";
+import { flowResult, when } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -55,6 +55,7 @@ const BookStall: NextPageAuth<Props> = observer(() => {
             if (!(marketId == "")) {
                 flowResult(stores.marketStore.fetchMarket(parseInt(marketId)))
                     .then(res => {
+                        res.state = ModelState.EDITING //not really the best description but it lets me react to the idle state.
                         setSelectedMarket(res)
                     })
             }
@@ -66,6 +67,11 @@ const BookStall: NextPageAuth<Props> = observer(() => {
             selectedMarket.bookStalls(parseInt(merchantId))
         }
     }
+
+    when(
+        () => selectedMarket != null && selectedMarket.state === ModelState.IDLE && router.isReady,
+        () => router.push(`/market`, undefined, {shallow: true})
+    )
 
     return (
         selectedMarket != null &&
