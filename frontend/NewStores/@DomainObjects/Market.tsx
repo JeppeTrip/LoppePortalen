@@ -92,31 +92,28 @@ export class Market {
             /**
              * Update the stall types.
              */
-             dto.stallTypes?.forEach(
-                 x => {
+            dto.stallTypes?.forEach(
+                x => {
                     x.market = dto
                     const type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
-                    if(!this.stallTypes.find(t => t.id === type.id))
-                    {
+                    if (!this.stallTypes.find(t => t.id === type.id)) {
                         this.stallTypes.push(type)
                     }
-                 })
-            
+                })
+
             /**
              * Update the stalls.
              */
             dto.stalls?.forEach(
                 x => {
-                    if(x.market == null)
-                    {
+                    if (x.market == null) {
                         x.market = dto
                     }
                     const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
-                    if(!this.stalls.find(s => s.id === stall.id))
-                    {
+                    if (!this.stalls.find(s => s.id === stall.id)) {
                         this.stalls.push(stall)
                     }
-                 })
+                })
             this.setOldState()
             this.state = ModelState.IDLE
         }
@@ -130,8 +127,7 @@ export class Market {
 
     @action
     deselect() {
-        if(this.store.selectedMarket?.id === this.id)
-        {
+        if (this.store.selectedMarket?.id === this.id) {
             this.store.selectedMarket = null;
         }
     }
@@ -149,7 +145,7 @@ export class Market {
             }).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
-                    this.setOldState();
+                        this.setOldState();
                     this.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
@@ -171,7 +167,7 @@ export class Market {
                         this.setOldState();
                         this.state = ModelState.IDLE
                     }
-                    else{
+                    else {
                         this.state = ModelState.ERROR
                     }
                 }),
@@ -224,9 +220,34 @@ export class Market {
      * Remove stall with the given id from the stall list of this market.
      * Internal change only. Nothing comitted to the database.
      */
-     @action
-     removeStall(id : number)
-     {
-         this.stalls = this.stalls.filter(x => x.id != id)
-     }
+    @action
+    removeStall(id: number) {
+        this.stalls = this.stalls.filter(x => x.id != id)
+    }
+
+    @action
+    bookStalls(merchantId: number) {
+        this.state = ModelState.UPDATING
+        this.store.transportLayer.bookStalls({
+            marketId: this.id,
+            merchantId: merchantId,
+            stalls: this.stallTypes.filter(x => x.bookingCount > 0).map(x => {
+
+                return { stallTypeId: x.id, bookingAmount: x.bookingCount }
+
+            })
+        }).then(
+            action("bookingSuccess", res => {
+                if (res.succeeded) {
+                    this.state = ModelState.IDLE
+                }
+                else {
+                    this.state = ModelState.ERROR
+                }
+            }),
+            action("bookingError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
+    }
 }

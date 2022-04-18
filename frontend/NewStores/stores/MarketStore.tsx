@@ -123,4 +123,5 @@ export class MarketStore {
     removeUnsavedMarketsFromList(){
         this.markets = this.markets.filter(x => x.state != ModelState.NEW);
     }
+
 }

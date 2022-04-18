@@ -10,6 +10,7 @@ import StallBookingListItem from "../../../components/StallBookingListItem";
 import { Market } from "../../../NewStores/@DomainObjects/Market";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import AddIcon from '@mui/icons-material/Add';
+import { ModelState } from "../../../@types/ModelState";
 
 type Props = {
     mid: string
@@ -60,6 +61,12 @@ const BookStall: NextPageAuth<Props> = observer(() => {
         }
     }, [marketId, selectedMarket])
 
+    const handleOnBook = () => {
+        if (selectedMarket != null) {
+            selectedMarket.bookStalls(parseInt(merchantId))
+        }
+    }
+
     return (
         selectedMarket != null &&
         (
@@ -107,8 +114,8 @@ const BookStall: NextPageAuth<Props> = observer(() => {
                             </List>
                             <Divider />
                             <LoadingButton
-                                onClick={() => console.log("not implemented.")}
-                                loading={false}
+                                onClick={() => handleOnBook()}
+                                loading={selectedMarket.state === ModelState.UPDATING}
                                 loadingPosition="start"
                                 startIcon={<AddIcon />}
                                 variant="contained"
@@ -116,6 +123,12 @@ const BookStall: NextPageAuth<Props> = observer(() => {
                             >
                                 Book Stalls
                             </LoadingButton>
+                            {
+                                selectedMarket.state === ModelState.ERROR && <Typography variant="caption" color="red">
+                                    Something went wrong.
+                                    Unable to book the selected stalls.
+                                </Typography>
+                            }
                         </Stack>
 
                     </Paper>

@@ -148,7 +148,12 @@ namespace Web.Controllers
             catch(Exception ex)
             {
                 Context.Database.RollbackTransaction();
+                
                 throw;
+            }
+            finally
+            {
+
             }
             
         }
