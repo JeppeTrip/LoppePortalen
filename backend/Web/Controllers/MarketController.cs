@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Markets.Commands.BookStalls;
 using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
@@ -150,6 +151,12 @@ namespace Web.Controllers
                 throw;
             }
             
+        }
+
+        [HttpPost("bookstalls")]
+        public async Task<ActionResult<BookStallsResponse>> BookStalls(BookStallsRequest dto)
+        {
+            return await Mediator.Send(new BookStallsCommand() { Dto = dto });
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasOne(x => x.User)
                 .WithMany(x => x.Merchants)
                 .HasForeignKey(x => x.UserId);
+
         }
     }
 }

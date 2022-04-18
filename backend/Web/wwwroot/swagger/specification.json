@@ -363,6 +363,38 @@
         }
       }
     },
+    "/api/Market/bookstalls": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_BookStalls",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookStallsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookStallsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Merchant": {
       "post": {
         "tags": [
@@ -1379,6 +1411,52 @@
             "format": "int32"
           },
           "number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BookStallsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BookStallsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallBooking"
+            }
+          }
+        }
+      },
+      "StallBooking": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stallTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookingAmount": {
             "type": "integer",
             "format": "int32"
           }

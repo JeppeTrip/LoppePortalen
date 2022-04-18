@@ -17,6 +17,11 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(x => x.StallType)
                 .WithMany(x => x.Stalls);
+
+            builder.HasOne(x => x.Merchant)
+                .WithMany(x => x.Stalls)
+                .HasForeignKey(x => x.MerchantId)
+                .IsRequired(false);
         }
     }
 }

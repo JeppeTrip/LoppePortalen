@@ -185,6 +185,8 @@ export interface IMarketClient {
     updateMarket(dto: EditMarketRequest): Promise<EditMarketResponse>;
 
     addStallsToMarket(dto: AddStallsToMarketRequest): Promise<AddStallsToMarketResponse>;
+
+    bookStalls(dto: BookStallsRequest): Promise<BookStallsResponse>;
 }
 
 export class MarketClient extends ClientBase implements IMarketClient {
@@ -502,6 +504,45 @@ export class MarketClient extends ClientBase implements IMarketClient {
             });
         }
         return Promise.resolve<AddStallsToMarketResponse>(null as any);
+    }
+
+    bookStalls(dto: BookStallsRequest): Promise<BookStallsResponse> {
+        let url_ = this.baseUrl + "/api/Market/bookstalls";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.transformResult(url_, _response, (_response: Response) => this.processBookStalls(_response));
+        });
+    }
+
+    protected processBookStalls(response: Response): Promise<BookStallsResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BookStallsResponse;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BookStallsResponse>(null as any);
     }
 }
 
@@ -1475,6 +1516,20 @@ export interface AddStallsToMarketRequest {
     marketId?: number;
     stallTypeId?: number;
     number?: number;
+}
+
+export interface BookStallsResponse extends Result {
+}
+
+export interface BookStallsRequest {
+    marketId?: number;
+    merchantId?: number;
+    stalls?: StallBooking[] | null;
+}
+
+export interface StallBooking {
+    stallTypeId?: number;
+    bookingAmount?: number;
 }
 
 export interface CreateMerchantResponse extends Result {
