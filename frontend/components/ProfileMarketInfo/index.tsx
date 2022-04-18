@@ -53,7 +53,7 @@ const ProfileMarketInfo: FC<Props> = (props: Props) => {
                             props.user.markets.map(market =>
                                 <>
                                     {
-                                        <MarketListItem Market={market} showControls={true} />
+                                        <MarketListItem Market={market} editing={true} />
                                     }
                                 </>
                             )

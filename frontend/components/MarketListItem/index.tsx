@@ -1,16 +1,17 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 import ImageIcon from '@mui/icons-material/Image';
-import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
+import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { ModelState } from '../../@types/ModelState';
 import { Market } from '../../NewStores/@DomainObjects/Market';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 
 type Props = {
     Market: Market,
-    showControls?: boolean
+    editing?: boolean
 }
 
 const MarketListItem: FC<Props> = (props: Props) => {
@@ -35,26 +36,41 @@ const MarketListItem: FC<Props> = (props: Props) => {
         console.log("NOT IMPLEMENTED YET")
     }
 
+    const handleClickBook = (event) => {
+        console.log("not implemented yet.")
+    }
+
     return (
         <ListItem
             secondaryAction={
-                props.showControls &&
-                <Grid container spacing={2}>
-                    <Grid item>
-                        <IconButton edge="end"
-                            onClick={handleClickEdit}>
-                            <EditIcon />
-                        </IconButton>
-                    </Grid>
-                    <Grid item>
-                        <IconButton edge="end"
-                            onClick={handleClickCancel}
-                            disabled={props.Market.isCancelled}>
-                            <CancelIcon />
-                        </IconButton>
-                    </Grid>
+                props.editing ?
+                    (
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <IconButton edge="end"
+                                    onClick={handleClickEdit}>
+                                    <EditIcon />
+                                </IconButton>
+                            </Grid>
+                            <Grid item>
+                                <IconButton edge="end"
+                                    onClick={handleClickCancel}
+                                    disabled={props.Market.isCancelled}>
+                                    <CancelIcon />
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+                    )
+                    :
+                    (
+                        <Tooltip title={"Book Stall"}>
+                            <IconButton edge="end"
+                                onClick={handleClickBook}>
+                                <BookOnlineIcon />
+                            </IconButton>
+                        </Tooltip>
 
-                </Grid>
+                    )
             }
             disablePadding>
             <ListItemButton onClick={handleOnClick}>

@@ -16,6 +16,8 @@ export class StallType {
     @observable market: Market
     @observable totalStallCount: number
 
+    //this is used when booking. Should probably be moved out
+    @observable bookingCount : number
 
     constructor(store) {
         makeAutoObservable(this);
@@ -26,6 +28,7 @@ export class StallType {
         this.state = ModelState.NEW
         this.market = null
         this.totalStallCount = -1
+        this.bookingCount = 0
     }
 
     @action
@@ -158,5 +161,22 @@ export class StallType {
     @action
     set setDescription(description: string) {
         this.description = description
+    }
+
+    set setBookingCount(count : number)
+    {
+        this.bookingCount = count
+    }
+
+    @action
+    incrementBookingCount()
+    {
+        this.bookingCount++
+    }
+
+    @action
+    decrementBookingCount()
+    {
+        this.bookingCount = Math.max(0, --this.bookingCount)
     }
 }
