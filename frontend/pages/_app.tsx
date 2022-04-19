@@ -4,7 +4,7 @@ import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Script from 'next/script';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPageAuth } from '../@types/NextAuthPage';
 import AuthGuard from '../components/AuthGuard';
 import TopBar from '../components/TopBar';
