@@ -37,7 +37,8 @@ const MarketListItem: FC<Props> = (props: Props) => {
     }
 
     const handleClickBook = (event) => {
-        console.log("not implemented yet.")
+        if (router.isReady) 
+            router.push(`market/${props.Market.id}/bookstall`, undefined, { shallow: true });
     }
 
     return (
