@@ -23,7 +23,7 @@ function MyApp(props: AppProps) {
     console.log("does it even read this variable?")
     console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
   }, [])
-  
+
   return (
     <>
       <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />

@@ -20,8 +20,6 @@ RUN npm run build
 FROM node:16-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
-ENV NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
-ARG NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -41,5 +39,8 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+ENV NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
+ARG NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
+RUN echo "APIURL: ${NEXT_PUBLIC_BACKEND_URL}"
 
 CMD ["node", "server.js"]
