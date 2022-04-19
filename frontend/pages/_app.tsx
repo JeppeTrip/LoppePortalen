@@ -18,7 +18,12 @@ function MyApp(props: AppProps) {
   const NewStoreProvider = dynamic(() => import('../NewStores/StoreContext').then(prov => prov.StoreProvider), {
     ssr: false,
   });
-
+  
+  useEffect(() => {
+    console.log("does it even read this variable?")
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+  }, [])
+  
   return (
     <>
       <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />
