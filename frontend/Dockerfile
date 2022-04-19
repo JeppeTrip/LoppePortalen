@@ -14,10 +14,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-RUN echo "APIURL: ${NEXT_PUBLIC_API_URL}"
-
-RUN NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}/ && npm run build
+RUN npm run build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
@@ -39,11 +36,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-
-
-
-
 EXPOSE 3000
 ENV PORT 3000
+
+ARG NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+RUN echo "APIURL: ${NEXT_PUBLIC_API_URL}"
 
 CMD ["node", "server.js"]
