@@ -8,11 +8,27 @@ WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json ./ 
 RUN npm ci
 
+# Copy over the backend to build the nswag defined client classes.
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS client_build
+WORKDIR /src/frontend
+COPY /frontend .
+
+WORKDIR /src/backend
+COPY ["backend/Web/Web.csproj", "Web/"]
+COPY ["backend/Application/Application.csproj", "Application/"]
+COPY ["backend/Domain/Domain.csproj", "Domain/"]
+COPY ["backend/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+RUN dotnet restore "Web/Web.csproj"
+COPY /backend .
+WORKDIR "/src/backend/Web"
+RUN dotnet build "Web.csproj" -c Release -o /app/build
+
+
 # Rebuild the source code only when needed
 FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY /frontend .
+COPY --from=client_build /src/frontend .
 ARG NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 RUN echo "BUILDER APIURL: ${NEXT_PUBLIC_API_URL}"
