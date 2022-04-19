@@ -21,7 +21,7 @@ function MyApp(props: AppProps) {
   
   useEffect(() => {
     console.log("does it even read this variable?")
-    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+    console.log(process.env.NEXT_PUBLIC_API_URL)
   }, [])
 
   return (
