@@ -21,7 +21,7 @@ COPY ["backend/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "Web/Web.csproj"
 COPY /backend .
 WORKDIR "/src/backend/Web"
-RUN dotnet build "Web.csproj" -c Caprover
+RUN dotnet build "Web.csproj" -c Debug
 
 
 # Rebuild the source code only when needed
