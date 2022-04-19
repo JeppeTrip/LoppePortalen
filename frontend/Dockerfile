@@ -19,6 +19,9 @@ RUN npm run build
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
+ARG NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+RUN echo "APIURL: ${NEXT_PUBLIC_API_URL}"
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
@@ -38,8 +41,5 @@ USER nextjs
 
 EXPOSE 3000
 ENV PORT 3000
-
-ARG NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-RUN echo "APIURL: ${NEXT_PUBLIC_API_URL}"
 
 CMD ["node", "server.js"]
