@@ -19,8 +19,8 @@ RUN npm run build
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV production
+ARG NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -40,7 +40,5 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
-
-ARG NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}
 
 CMD ["node", "server.js"]
