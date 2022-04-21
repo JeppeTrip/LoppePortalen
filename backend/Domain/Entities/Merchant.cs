@@ -15,6 +15,6 @@ namespace Domain.Entities
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public virtual List<Stall> Stalls { get; set; }
+        public virtual List<Booking> Bookings { get; set; }
     }
 }

@@ -46,6 +46,8 @@ export class StallType {
                 }
             })
             if (dto.market != null) {
+                if(dto.market.stallTypes == null || dto.market.stallTypes.length === 0)
+                    dto.market.stallTypes = [dto]
                 this.market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
             }
             this.state = ModelState.IDLE

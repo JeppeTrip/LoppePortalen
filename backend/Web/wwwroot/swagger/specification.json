@@ -506,6 +506,40 @@
         }
       }
     },
+    "/api/Merchant/booths": {
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_GetBooths",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booth"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -903,6 +937,29 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetUsersMerchantsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/booths": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersBooths",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booth"
+                  }
                 }
               }
             }
@@ -1500,6 +1557,47 @@
             "nullable": true
           },
           "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "booths": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Booth"
+            }
+          }
+        }
+      },
+      "Booth": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "stall": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Stall"
+              }
+            ]
+          },
+          "merchant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Merchant"
+              }
+            ]
+          },
+          "boothName": {
+            "type": "string",
+            "nullable": true
+          },
+          "boothDescription": {
             "type": "string",
             "nullable": true
           }

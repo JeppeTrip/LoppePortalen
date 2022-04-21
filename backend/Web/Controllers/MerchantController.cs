@@ -1,8 +1,12 @@
-﻿using Application.Merchants.Commands.CreateMerchant;
+﻿using Application.Common.Models;
+using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Commands.EditMerchant;
 using Application.Merchants.Queries.AllMerchants;
+using Application.Merchants.Queries.GetBooths;
 using Application.Merchants.Queries.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -33,5 +37,13 @@ namespace Web.Controllers
             return await Mediator.Send(new EditMerchantCommand() { Dto = dto });
         }
 
+        [HttpGet("booths")]
+        public async Task<ActionResult<List<Booth>>> GetBooths([FromQuery] int merchantId)
+        {
+            var boothsResult = await Mediator.Send(new GetBoothsQuery() { Dto = new GetBoothsRequest() { MerchantId = merchantId } });
+            var merchantResult = await Mediator.Send(new GetMerchantQuery() { Dto =  new GetMerchantQueryRequest() { Id = merchantId } } );
+            var result = boothsResult.Booths.Select(x => new Booth() { BoothName = x.BoothName, BoothDescription = x.BoothDescription, Merchant = merchantResult.Merchant, Stall = null }).ToList();
+            return result;
+        }
     }
 }

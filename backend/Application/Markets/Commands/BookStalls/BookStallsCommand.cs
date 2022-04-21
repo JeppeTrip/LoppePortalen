@@ -60,23 +60,35 @@ namespace Application.Markets.Commands.BookStalls
                     var stallType = market.MarketTemplate.StallTypes.FirstOrDefault(x => x.Id == booking.StallTypeId);
                     if (stallType == null)
                     {
-                        throw new NotFoundException($"No stalltype with id {request.Dto.MarketId}.");
+                        throw new NotFoundException($"No stalltype with id {booking.StallTypeId}.");
                     }
-                    var stallsToBook = _context.Stalls.Where(x => x.StallTypeId == booking.StallTypeId && x.MerchantId == null).Take(booking.BookingAmount).ToList();
+
+                    //Take a number of stalls
+                    //This is currently setup to ensure a stall doesn't get booked twice, this logic needs to change 
+                    //once it is possible to book stalls for variable length of time.
+                    var stallsToBook = _context.Stalls.Include(x => x.Bookings)
+                        .Where(x => x.StallTypeId == booking.StallTypeId && (x.Bookings == null || x.Bookings.Count == 0))
+                        .Take(booking.BookingAmount)
+                        .ToList();
                     if (stallsToBook.Count < booking.BookingAmount)
                         return new BookStallsResponse(false, new List<string>() { $"Not enough of stall: {stallType.Name}" });
-                    stallsToBook.ForEach(x => { 
-                        x.Merchant = merchant; 
-                        x.MerchantId=merchant.Id;
-                        _context.Stalls.Update(x);
+
+                    //For each stall to book add it to the booking table..
+                    stallsToBook.ForEach(x => {
+                        var booking = new Domain.Entities.Booking()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            MerchantId = merchant.Id,
+                            StallId = x.Id,
+                            BoothName = $"{merchant.Name}'s Booth",
+                            BoothDescription = ""
+                        };
+                        _context.Bookings.Add(booking);
                     });
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return new BookStallsResponse(true, new List<string>());
-
-                
-
             }
         }
     }

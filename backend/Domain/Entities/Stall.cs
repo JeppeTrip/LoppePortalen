@@ -13,7 +13,8 @@ namespace Domain.Entities
         public virtual StallType StallType { get; set; }
         public int StallTypeId { get; set; }
 
-        public int? MerchantId { get; set; }
-        public virtual Merchant Merchant { get; set; }
-    }
+        public virtual List<Booking> Bookings { get; set; }
+        public virtual MarketInstance MarketInstance { get; set; }
+        public int MarketInstanceId { get; set; }
+    } 
 }

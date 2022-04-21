@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { User as Dto } from "../../services/clients";
 import { UserStore } from "../stores/UserStore";
+import { Booth } from "./Booth";
 import { Market } from "./Market";
 import { Merchant } from "./Merchant";
 import { Organiser } from "./Organiser";
@@ -18,6 +19,7 @@ export class User {
     @observable organisers: Organiser[]
     @observable markets: Market[]
     @observable merchants: Merchant[]
+    @observable booths: Booth[]
 
     //organisers form a organiser store
 
@@ -28,6 +30,7 @@ export class User {
         this.organisers = [] as Organiser[]
         this.markets = [] as Market[]
         this.merchants = [] as Merchant[]
+        this.booths = [] as Booth[]
     }
 
     @action
@@ -91,6 +94,30 @@ export class User {
                         console.log("return from merchant store")
                         console.log(merchant)
                         this.merchants.push(merchant)
+                    })
+                }),
+                action("fetchFailed", result => {
+                    //do something with this.
+                })
+            )
+            .catch(error => {
+                //do something
+            })
+    }
+
+    /**
+    * Force resets the booths array and updates from there.
+    */
+    @action
+    fetchBooths() {
+        this.booths = [] as Booth[]
+        this.store.transportLayer.getUsersBooths()
+            .then(
+                action("fetchSuccess", result => {
+                    console.log(result)
+                    result.forEach(x => {
+                        const booth = this.store.rootStore.boothStore.updateBoothFromServer(x);
+                        this.booths.push(booth)
                     })
                 }),
                 action("fetchFailed", result => {

@@ -42,6 +42,7 @@ namespace Web.Controllers
                 {
                     Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId }
                 });
+
             var stallResponse = await Mediator.Send(
                 new GetMarketStallsQuery()
                 {

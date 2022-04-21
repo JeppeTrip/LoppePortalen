@@ -49,7 +49,7 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                 List<Domain.Entities.Stall> stalls = new List<Domain.Entities.Stall>();
                 for(int i=0; i<request.Dto.Number; i++)
                 {
-                    stalls.Add(new Domain.Entities.Stall() { StallType = stallType, StallTypeId = stallType.Id });
+                    stalls.Add(new Domain.Entities.Stall() { StallType = stallType, StallTypeId = stallType.Id, MarketInstance=instance });
                 }
                 _context.Stalls.AddRange(stalls);
                 await _context.SaveChangesAsync(cancellationToken);

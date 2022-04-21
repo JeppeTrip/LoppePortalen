@@ -50,6 +50,7 @@ namespace Infrastructure.Persistence
         public DbSet<Stall> Stalls { get; set; }
         public DbSet<StallType> StallTypes { get; set; }
         public DbSet<Merchant> Merchants { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {

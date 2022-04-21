@@ -1,9 +1,25 @@
 @startuml
-class MarketTemplate {
+class User {
+    id
+    email 
+    password
+    name 
+    address 
+}
 
+class Organiser {
+    
+}
+
+class Merchant {
+    
 }
 
 class Stall {
+    position
+}
+
+class MarketTemplate {
 
 }
 
@@ -11,19 +27,26 @@ class MarketInstance {
 
 }
 
-class StallMarketInstance {
-
-}
-
 class StallType {
-    Name
-    Description
+    name 
+    descriptions
+    form
 }
 
-MarketTemplate "1" --"1..*" MarketInstance
-Stall "1" -- "*" StallMarketInstance
-MarketInstance "1" -- "*" StallMarketInstance
-StallType "1" -- "*" Stall
-StallType -- MarketTemplate
+class Booking {
+    timeframe
+}
 
+User -- Merchant
+User -- Organiser
+Organiser -- MarketTemplate 
+MarketTemplate -- MarketInstance
+MarketTemplate -- StallType
+
+MarketInstance "1" -- "*" Stall
+
+
+Stall -- StallType
+Stall "1" -- "*" Booking
+Booking "*" -- "1" Merchant
 @enduml

@@ -3,15 +3,17 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220420181252_AddBookingRelationship")]
+    partial class AddBookingRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,15 +380,10 @@ namespace Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("MarketInstanceId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("StallTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MarketInstanceId");
 
                     b.HasIndex("StallTypeId");
 
@@ -790,19 +787,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Stall", b =>
                 {
-                    b.HasOne("Domain.Entities.MarketInstance", "MarketInstance")
-                        .WithMany("Stalls")
-                        .HasForeignKey("MarketInstanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.StallType", "StallType")
                         .WithMany("Stalls")
                         .HasForeignKey("StallTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MarketInstance");
 
                     b.Navigation("StallType");
                 });
@@ -872,11 +861,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Common.ApplicationUser", b =>
                 {
                     b.Navigation("RefreshTokens");
-                });
-
-            modelBuilder.Entity("Domain.Entities.MarketInstance", b =>
-                {
-                    b.Navigation("Stalls");
                 });
 
             modelBuilder.Entity("Domain.Entities.MarketTemplate", b =>

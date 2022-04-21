@@ -16,6 +16,7 @@ import { CSSObject, styled, Theme } from '@mui/material/styles';
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
 import { NextPageAuth } from "../../@types/NextAuthPage";
+import ProfileBoothInfo from '../../components/ProfileBoothInfo';
 import ProfileMarketInfo from "../../components/ProfileMarketInfo";
 import ProfileOrgInfo from "../../components/ProfileOrgInfo";
 import ProfileSalesInfo from '../../components/ProfileSalesInfo';
@@ -111,7 +112,7 @@ const UserProfile: NextPageAuth = observer(() => {
             case 3:
                 return <ProfileSalesInfo user={stores.userStore.user}/>;
             case 4: 
-                return <div>Manage your stalls here.</div>
+                return <ProfileBoothInfo user={stores.userStore.user}/>
             default:
                 throw new Error('Unknown step');
         }

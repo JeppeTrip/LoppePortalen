@@ -54,11 +54,4 @@ export class UserStore {
             return this.user;
         }
     }
-
-    @action
-    fetchOwnedMarkets()
-    {
-
-    }
-
 }
