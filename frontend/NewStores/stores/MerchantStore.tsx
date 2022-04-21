@@ -48,6 +48,7 @@ export class MerchantStore {
                             description: res.merchant.description,
                             userId: res.merchant.userId
                         })
+                        
                     }
                     else {
                         merchant.state = ModelState.ERROR

@@ -32,6 +32,24 @@ export class Booth{
             this.state = ModelState.IDLE
         }
         return this;
-        
+    }
+
+    @action
+    save(){
+        this.state = ModelState.SAVING
+        this.store.transportLayer.updateBooth(
+            {
+                boothDescription: this.description,
+                boothName: this.name,
+                id: this.id
+            }
+        ).then(
+            action("updateSuccess", res => {
+                this.state = ModelState.IDLE
+            }),
+            action("updateError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
     }
 }

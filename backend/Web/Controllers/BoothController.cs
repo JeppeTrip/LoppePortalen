@@ -1,4 +1,5 @@
-﻿using Application.Booths.Queries.GetBooth;
+﻿using Application.Booths.Commands.UpdateBooth;
+using Application.Booths.Queries.GetBooth;
 using Application.Common.Models;
 using Application.Markets.Queries.GetMarket;
 using Application.Stalls.Queries.GetStall;
@@ -50,6 +51,12 @@ namespace Web.Controllers
             };
 
             return booth;
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<UpdateBoothResponse>> UpdateBooth(UpdateBoothRequest dto)
+        {
+            return await Mediator.Send(new UpdateBoothCommand() { Dto = dto });
         }
     }
 }

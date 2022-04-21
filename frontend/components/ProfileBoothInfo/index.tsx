@@ -39,7 +39,7 @@ const ProfileBoothInfo: FC<Props> = (props: Props) => {
                     :
                     <List>
                         {
-                            props.user.booths.map(x => <BoothListItem booth={x}/>)
+                            props.user.booths.map(x => <BoothListItem showEdit={true} booth={x}/>)
                         }
                     </List>
             }

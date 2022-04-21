@@ -131,6 +131,36 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_UpdateBooth",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBoothRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBoothResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/Market/new": {
@@ -1365,6 +1395,35 @@
             "items": {
               "$ref": "#/components/schemas/Booth"
             }
+          }
+        }
+      },
+      "UpdateBoothResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "UpdateBoothRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "boothName": {
+            "type": "string",
+            "nullable": true
+          },
+          "boothDescription": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
