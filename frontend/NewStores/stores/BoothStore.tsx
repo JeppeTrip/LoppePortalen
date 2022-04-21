@@ -1,14 +1,14 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, flow, makeAutoObservable, observable } from "mobx";
 import { Booth } from "../@DomainObjects/Booth";
 import { RootStore } from "../RootStore";
-import { Booth as Dto} from '../../services/clients';
+import { Booth as Dto, BoothClient} from '../../services/clients';
 
 export class BoothStore {
     rootStore: RootStore
-    transportLayer
+    transportLayer : BoothClient
     @observable booths: Booth[]
 
-    constructor(rootStore: RootStore, transportLayer) {
+    constructor(rootStore: RootStore, transportLayer : BoothClient) {
         makeAutoObservable(this)
         this.rootStore = rootStore
         this.transportLayer = transportLayer
@@ -24,5 +24,13 @@ export class BoothStore {
         }
         booth.updateFromServer(dto)
         return booth;
+    }
+
+    @flow 
+    *fetchBooth(boothId : string)
+    {
+        const res : Dto = yield this.transportLayer.getBooth(boothId);
+        const booth =  this.updateBoothFromServer(res)
+        return booth
     }
 }

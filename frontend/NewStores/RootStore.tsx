@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { AuthorizationClient, MarketClient, MerchantClient, OrganiserClient, StallClient, StallTypeClient, UserClient } from "../services/clients"
+import { AuthorizationClient, BoothClient, MarketClient, MerchantClient, OrganiserClient, StallClient, StallTypeClient, UserClient } from "../services/clients"
 import { AuthStore } from "./stores/AuthStore"
 import { BoothStore } from "./stores/BoothStore"
 import { MarketStore } from "./stores/MarketStore"
@@ -28,6 +28,6 @@ export class RootStore {
         this.stallTypeStore = new StallTypeStore(this, new StallTypeClient())
         this.stallStore = new StallStore(this, new StallClient())
         this.merchantStore = new MerchantStore(this, new MerchantClient())
-        this.boothStore = new BoothStore(this, null);
+        this.boothStore = new BoothStore(this, new BoothClient());
     }
 }

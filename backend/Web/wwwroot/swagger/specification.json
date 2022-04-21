@@ -107,7 +107,7 @@
         "tags": [
           "Booth"
         ],
-        "operationId": "Booth_DeleteStall",
+        "operationId": "Booth_GetBooth",
         "parameters": [
           {
             "name": "id",

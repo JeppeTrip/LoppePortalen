@@ -1,8 +1,9 @@
 import { Avatar, Grid, ListItem, ListItemAvatar, ListItemButton, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Booth } from "../../NewStores/@DomainObjects/Booth";
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import { useRouter } from "next/router";
 
 type Props = {
     booth: Booth
@@ -11,9 +12,16 @@ type Props = {
 
 
 const BoothListItem: FC<Props> = (props: Props) => {
+    const router = useRouter()
+
+    const redirect = useCallback(() => {
+        if(router.isReady)
+            router.push(`booth/${props.booth.id}`, undefined, {shallow: true})
+    }, [router, router.isReady])
+
     return (
         <ListItem>
-            <ListItemButton onClick={() => console.log("click booth list item")}>
+            <ListItemButton onClick={redirect}>
                 <ListItemAvatar>
                     <Avatar>
                         <StorefrontIcon />

@@ -5,7 +5,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
-import { Market } from "../../../NewStores/@DomainObjects/Market";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
 
@@ -52,13 +51,10 @@ const BoothProfile: NextPage<Props> = observer(() => {
     useEffect(() => {
         if (selectedBooth == null) {
             if (!(boothId == "")) {
-                /**
-                 *                 flowResult(stores.marketStore.fetchMarket(parseInt(boothId)))
+            flowResult(stores.boothStore.fetchBooth(boothId))
                 .then(res => {
-                    setselectedBooth(res)
+                    setSelectedBooth(res)
                 })
-                 */
-
             }
         }
     }, [boothId, selectedBooth])

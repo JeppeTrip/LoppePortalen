@@ -11,7 +11,7 @@ namespace Web.Controllers
     public class BoothController : ApiBase
     {
         [HttpGet]
-        public async Task<ActionResult<Booth>> DeleteStall([FromQuery] string id)
+        public async Task<ActionResult<Booth>> GetBooth([FromQuery] string id)
         {
             var boothResponse = await Mediator.Send(new GetBoothQuery() { Dto = new GetBoothRequest() { Id = id } });
 

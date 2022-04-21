@@ -80,7 +80,7 @@ export class MarketStore {
      * @param marketId id of the market to find.
      */
     @action
-    async resolveSelectedMarket(marketId: number, editing? : boolean) {
+    async resolveSelectedMarket(marketId: number, editing?: boolean) {
         this.transportLayer.getMarketInstance(marketId + "")
             .then(
                 action("fetchSuccess", result => {
@@ -98,19 +98,18 @@ export class MarketStore {
      * Should probably make an updated version that makes sure it gets all resolves and all that with as well.
      * @returns 
      */
-     @flow
-     *fetchMarket(marketId : number)
-     {
-         try{
-             const res : GetMarketInstanceQueryResponse = yield this.transportLayer.getMarketInstance(marketId+"");
-             const market = this.updateMarketFromServer(res.market);
-             return market
-         }
-         catch {
-             return null;   
-         }
-     }
-    
+    @flow
+    *fetchMarket(marketId: number) {
+        try {
+            const res: GetMarketInstanceQueryResponse = yield this.transportLayer.getMarketInstance(marketId + "");
+            const market = this.updateMarketFromServer(res.market);
+            return market
+        }
+        catch {
+            return null;
+        }
+    }
+
     @action
     createMarket() {
         const market = new Market(this);
@@ -120,7 +119,7 @@ export class MarketStore {
     }
 
     @action
-    removeUnsavedMarketsFromList(){
+    removeUnsavedMarketsFromList() {
         this.markets = this.markets.filter(x => x.state != ModelState.NEW);
     }
 
