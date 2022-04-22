@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import StallDisplay from "../../../components/MarketProfile/StallDisplay";
 import { Market } from "../../../NewStores/@DomainObjects/Market";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
@@ -112,17 +113,8 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                             </Grid>
                             <Grid item xs={5}>
                                 <Paper elevation={1}>
-                                    <div className={styles.AboutInfo}>
-                                        <Typography variant="h6">
-                                            Stalls
-                                        </Typography>
-                                        <Divider />
-                                        {
-                                            //<StallTypeInfoList market={selectedMarket} />
-                                        }
-                                    </div>
+                                    <StallDisplay market={selectedMarket}/>
                                 </Paper>
-
                             </Grid>
                         </Grid>
                     </Container>

@@ -12,5 +12,6 @@ namespace Application.Common.Models
         public StallType StallType { get; set; }
         public Market? Market { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public Booth Booth { get; set; }
     }
 }

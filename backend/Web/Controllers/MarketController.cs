@@ -1,4 +1,5 @@
-﻿using Application.Common.Models;
+﻿using Application.Booths.Queries.GetMarketBooths;
+using Application.Common.Models;
 using Application.Markets.Commands.BookStalls;
 using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
@@ -48,12 +49,29 @@ namespace Web.Controllers
                 {
                     Dto = new GetMarketStallsRequest() { MarketId = marketId }
                 });
-            
+
+            var boothsResponse = await Mediator.Send(
+                new GetMarketBoothsQuery()
+                {
+                    Dto = new GetMarketBoothsRequest() { MarketId = marketId }
+                });
+
+            boothsResponse.Booths.ForEach(x =>
+            {
+                Booth booth = new Booth()
+                {
+                    Id = x.Id,
+                    BoothName = x.BoothName,
+                    BoothDescription = x.BoothDescription
+                };
+                stallResponse.Stalls.First(s => s.Id == x.StallId).Booth = booth;
+            });
+
             marketResponse.Market.Stalls = stallResponse.Stalls;
             var stallTypeResponse = await Mediator.Send(
                     new GetMarketStallTypesQuery()
                     {
-                        Dto = new GetMarketStallTypesRequest() { MarketId= marketId }
+                        Dto = new GetMarketStallTypesRequest() { MarketId = marketId }
                     }
                 );
             marketResponse.Market.StallTypes = stallTypeResponse.StallTypes;

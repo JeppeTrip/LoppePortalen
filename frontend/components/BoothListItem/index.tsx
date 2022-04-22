@@ -18,7 +18,7 @@ const BoothListItem: FC<Props> = (props: Props) => {
 
     const redirect = useCallback(() => {
         if (router.isReady)
-            router.push(`booth/${props.booth.id}`, undefined, { shallow: true })
+            router.push(`/booth/${props.booth.id}`, undefined, { shallow: true })
     }, [router, router.isReady])
 
     const handleClickEdit = useCallback((event) => {

@@ -14,7 +14,7 @@ type Props = {
 
 const StallTypeInfoList: FC<Props> = (props: Props) => {
     return (
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%'}} disablePadding>
             {
                 props.market.stalls == null || props.market.stalls.length === 0 ? 
                 <Typography variant="caption">

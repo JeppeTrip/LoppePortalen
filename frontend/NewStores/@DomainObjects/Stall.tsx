@@ -4,6 +4,7 @@ import { StallStore } from "../stores/StallStore";
 import { StallType } from "./StallType";
 import { Stall as Dto } from '../../services/clients'
 import { Market } from "./Market";
+import { Booth } from "./Booth";
 
 
 
@@ -13,6 +14,7 @@ export class Stall {
     @observable id: number
     @observable type: StallType
     @observable market: Market
+    @observable booth: Booth
 
     constructor(store: StallStore) {
         makeAutoObservable(this)
@@ -25,7 +27,7 @@ export class Stall {
         if (this.state != ModelState.UPDATING) {
             this.state = ModelState.UPDATING
             this.id = dto.id
-            if(dto.market.stalls == null)
+            if (dto.market.stalls == null)
                 dto.market.stalls = [dto]
             this.market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
             /**
@@ -35,6 +37,11 @@ export class Stall {
              */
             if (dto.stallType.stalls == null || dto.stallType.stalls.length === 0) {
                 dto.stallType.stalls = [dto]
+            }
+
+            if (dto.booth != null && dto.booth.stall == null) {
+                dto.booth.stall = dto
+                this.booth = this.store.rootStore.boothStore.updateBoothFromServer(dto.booth)
             }
             this.type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(dto.stallType);
             this.state = ModelState.IDLE

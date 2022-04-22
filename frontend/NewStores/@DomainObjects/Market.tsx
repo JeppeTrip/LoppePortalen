@@ -2,6 +2,7 @@ import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
 import { Market as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
+import { Booth } from "./Booth";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
 import { StallType } from "./StallType";
@@ -11,7 +12,6 @@ export class Market {
     @observable state: symbol
     @observable oldState: Market
     @observable id: number
-    @observable organiserId: number
     @observable organiser: Organiser
     @observable name: string
     @observable description: string
@@ -249,5 +249,10 @@ export class Market {
                 this.state = ModelState.ERROR
             })
         )
+    }
+
+    get booths()
+    {
+        return this.stalls.filter(x => x.booth && x.booth != null).map(x => x.booth)
     }
 }

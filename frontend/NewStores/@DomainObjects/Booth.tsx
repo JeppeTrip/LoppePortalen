@@ -24,11 +24,11 @@ export class Booth{
     {
         if(this.state != ModelState.UPDATING)
         {
+            this.state = ModelState.UPDATING;
             this.id = dto.id
             this.name = dto.boothName 
             this.description = dto.boothDescription
             this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
-
             this.state = ModelState.IDLE
         }
         return this;
