@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Markets.Queries.GetMarket
+namespace Application.Markets.Queries.GetMarketInstance
 {
     public class GetMarketInstanceQuery : IRequest<GetMarketInstanceQueryResponse>
     {
@@ -33,10 +33,10 @@ namespace Application.Markets.Queries.GetMarket
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
                 if (marketInstance == null)
                 {
-                    throw new NotFoundException("No such market.");
+                    throw new NotFoundException($"No market with id {request.Dto.MarketId}.");
                 }
 
-                Organiser organiser = new Organiser()
+                OrganiserBaseVM organiser = new OrganiserBaseVM()
                 {
                     Id = marketInstance.MarketTemplate.Organiser.Id,
                     UserId = marketInstance.MarketTemplate.Organiser.UserId,
@@ -48,7 +48,7 @@ namespace Application.Markets.Queries.GetMarket
                     PostalCode = marketInstance.MarketTemplate.Organiser.Address.PostalCode,
                     City = marketInstance.MarketTemplate.Organiser.Address.City
                 };
-                Market market = new Market()
+                GetMarketInstanceVM market = new GetMarketInstanceVM()
                 {
                     MarketId = marketInstance.Id,
                     Description = marketInstance.MarketTemplate.Description,
@@ -58,7 +58,8 @@ namespace Application.Markets.Queries.GetMarket
                     EndDate = marketInstance.EndDate,
                     IsCancelled = marketInstance.IsCancelled
                 };
-                GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse() { 
+                GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse()
+                {
                     Market = market
                 };
                 return response;

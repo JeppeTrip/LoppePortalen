@@ -6,7 +6,7 @@ using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetFilteredMarkets;
-using Application.Markets.Queries.GetMarket;
+using Application.Markets.Queries.GetMarketInstance;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
 using Application.Stalls.Commands.RemoveStallsFromMarket;
@@ -38,44 +38,7 @@ namespace Web.Controllers
         public async Task<ActionResult<GetMarketInstanceQueryResponse>> GetMarketInstance([FromRoute] string id)
         { 
             int marketId = int.Parse(id);
-            var marketResponse = await Mediator.Send(
-                new GetMarketInstanceQuery()
-                {
-                    Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId }
-                });
-
-            var stallResponse = await Mediator.Send(
-                new GetMarketStallsQuery()
-                {
-                    Dto = new GetMarketStallsRequest() { MarketId = marketId }
-                });
-
-            var boothsResponse = await Mediator.Send(
-                new GetMarketBoothsQuery()
-                {
-                    Dto = new GetMarketBoothsRequest() { MarketId = marketId }
-                });
-
-            boothsResponse.Booths.ForEach(x =>
-            {
-                Booth booth = new Booth()
-                {
-                    Id = x.Id,
-                    BoothName = x.BoothName,
-                    BoothDescription = x.BoothDescription
-                };
-                stallResponse.Stalls.First(s => s.Id == x.StallId).Booth = booth;
-            });
-
-            marketResponse.Market.Stalls = stallResponse.Stalls;
-            var stallTypeResponse = await Mediator.Send(
-                    new GetMarketStallTypesQuery()
-                    {
-                        Dto = new GetMarketStallTypesRequest() { MarketId = marketId }
-                    }
-                );
-            marketResponse.Market.StallTypes = stallTypeResponse.StallTypes;
-            return marketResponse;
+            return await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId } }); ;
         }
             
 
@@ -145,6 +108,8 @@ namespace Web.Controllers
         [HttpPost("addStalls")]
         public async Task<ActionResult<AddStallsToMarketResponse>> AddStallsToMarket(AddStallsToMarketRequest dto)
         {
+            throw new NotImplementedException();
+            /*
             Context.Database.BeginTransaction();
             try
             {
@@ -174,6 +139,7 @@ namespace Web.Controllers
             {
 
             }
+            */
             
         }
 

@@ -1,13 +1,12 @@
 ﻿using Application.Booths.Queries.GetUsersBooths;
 using Application.Common.Models;
-using Application.Markets.Queries.GetMarket;
+using Application.Markets.Queries.GetMarketInstance;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Merchants.Queries.GetUsersMerchants;
 using Application.Organisers.Queries.GetUsersOrganisers;
 using Application.Stalls.Queries.GetStall;
 using Application.StallTypes.Queries.GetStallType;
 using Application.User.Queries.GetUser;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -54,6 +53,8 @@ namespace Web.Controllers
         [HttpGet("booths")]
         public async Task<ActionResult<List<Booth>>> GetUsersBooths()
         {
+            throw new NotImplementedException();
+            /*
             var boothsResponse = await Mediator.Send(new GetUsersBoothsQuery());
             if (boothsResponse == null || boothsResponse.Booths.Count == 0)
             {
@@ -94,6 +95,7 @@ namespace Web.Controllers
             }
 
             return boothList;
+            */
         }
 
     }

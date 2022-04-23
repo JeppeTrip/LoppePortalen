@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetMarketInstance
 {
-    public class GetMarketInstanceQueryResponse
+    public class GetMarketInstanceVM : MarketBaseVM
     {
-        public GetMarketInstanceVM Market { get; set; }
+        public OrganiserBaseVM Organiser { get; set; }
     }
 }

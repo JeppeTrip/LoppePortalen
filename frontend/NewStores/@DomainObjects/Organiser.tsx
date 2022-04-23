@@ -28,6 +28,17 @@ export class Organiser {
     }
 
     /**
+     * Push market instance into the markets list if it doesn't exist there already.
+     */
+    @action
+    addMarket(market : Market)
+    {
+        const res = this.markets.find(x => x.id === market.id)
+        if(!res)
+            this.markets.push(market)
+    }
+
+    /**
      * Updates the entity itself based on the generated model in the backend.
      */
     @action

@@ -1,10 +1,11 @@
 ﻿using Application.Booths.Commands.UpdateBooth;
 using Application.Booths.Queries.GetBooth;
 using Application.Common.Models;
-using Application.Markets.Queries.GetMarket;
+using Application.Markets.Queries.GetMarketInstance;
 using Application.Stalls.Queries.GetStall;
 using Application.StallTypes.Queries.GetStallType;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -14,6 +15,8 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<ActionResult<Booth>> GetBooth([FromQuery] string id)
         {
+            throw new NotImplementedException();
+            /*
             var boothResponse = await Mediator.Send(new GetBoothQuery() { Dto = new GetBoothRequest() { Id = id } });
 
             //for each booth find the related stalls, their stall type, and their related market.
@@ -51,6 +54,7 @@ namespace Web.Controllers
             };
 
             return booth;
+            */
         }
 
         [HttpPut]

@@ -1490,26 +1490,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/Market"
+                "$ref": "#/components/schemas/GetMarketInstanceVM"
               }
             ]
           }
         }
       },
-      "GetAllMarketInstancesQueryResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "markets": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/GetAllMarketsVM"
-            }
-          }
-        }
-      },
-      "GetAllMarketsVM": {
+      "GetMarketInstanceVM": {
         "allOf": [
           {
             "$ref": "#/components/schemas/MarketBaseVM"
@@ -1600,6 +1587,40 @@
             "type": "boolean"
           }
         }
+      },
+      "GetAllMarketInstancesQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetAllMarketsVM"
+            }
+          }
+        }
+      },
+      "GetAllMarketsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "CancelMarketInstanceResponse": {
         "type": "object",

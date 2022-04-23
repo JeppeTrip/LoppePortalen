@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { GetAllMarketsVM, MarketBaseVM as Dto } from "../../services/clients";
+import { GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
@@ -69,8 +69,6 @@ export class Market {
 
     @action
     updateFromServer(dto: Dto) {
-        console.log("market update from server:")
-        console.log(dto)
         if (this.state != ModelState.UPDATING) {
             this.state = ModelState.UPDATING
             this.id = dto.marketId
@@ -79,10 +77,13 @@ export class Market {
             this.startDate = new Date(dto.startDate)
             this.endDate = new Date(dto.endDate)
             this.isCancelled = dto.isCancelled
-            console.log(`Market dto type ${dto.constructor.name}`);
-            console.log(`instance of ${dto instanceof GetAllMarketsVM}`)
-            switch(dto.constructor.name){
-                case "GetAllMarketsVM": this.updateFromServerGetAllMarketsVM(dto)
+            switch (dto.constructor.name) {
+                case "GetAllMarketsVM":
+                    this.updateFromServerGetAllMarketsVM(dto)
+                    break;
+                case "GetMarketInstanceVM":
+                    this.updateFromServerGetMarketInstanceVM(dto)
+                    break;
             }
             this.state = ModelState.IDLE
         }
@@ -90,11 +91,19 @@ export class Market {
     }
 
     @action
-    private updateFromServerGetAllMarketsVM(dto : GetAllMarketsVM)
-    {
-        console.log("update all markets vm")
+    private updateFromServerGetAllMarketsVM(dto: GetAllMarketsVM) {
         const organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
-        organiser.markets.push(this)
+        if (this.organiser == null || this.organiser.id != organiser.id)
+            this.organiser = organiser
+        this.organiser.addMarket(this)
+    }
+
+    @action
+    private updateFromServerGetMarketInstanceVM(dto: GetMarketInstanceVM) {
+        const organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+        if (this.organiser == null || this.organiser.id != organiser.id)
+            this.organiser = organiser
+        this.organiser.addMarket(this)
     }
 
     @action
@@ -228,8 +237,7 @@ export class Market {
         )
     }
 
-    get booths()
-    {
+    get booths() {
         return this.stalls.filter(x => x.booth && x.booth != null).map(x => x.booth)
     }
 }

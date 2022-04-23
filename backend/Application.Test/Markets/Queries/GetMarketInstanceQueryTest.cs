@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Markets.Queries.GetMarket;
+using Application.Markets.Queries.GetMarketInstance;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
