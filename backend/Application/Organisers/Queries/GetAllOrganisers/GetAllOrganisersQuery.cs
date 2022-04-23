@@ -25,7 +25,7 @@ namespace Application.Organisers.Queries.GetAllOrganisers
             public async Task<GetAllOrganisersResponse> Handle(GetAllOrganisersQuery request, CancellationToken cancellationToken)
             { 
                 var allOrganisers = await _context.Organisers
-                    .Select(x => new Organiser() { 
+                    .Select(x => new OrganiserBaseVM() { 
                         Id = x.Id, 
                         UserId = x.UserId,
                         Name=x.Name,
@@ -37,26 +37,6 @@ namespace Application.Organisers.Queries.GetAllOrganisers
                         City = x.Address.City
                     })
                     .ToListAsync();
-
-                allOrganisers.ForEach(o =>
-                {
-                    var instances = _context.MarketInstances
-                        .Include(m => m.MarketTemplate);
-
-                    var organiserInstances = instances.Where(m =>
-                        m.MarketTemplate.OrganiserId == o.Id);
-
-                    var result = organiserInstances.Select(m => new Market()
-                    {
-                        MarketId = m.Id,
-                        MarketName = m.MarketTemplate.Name,
-                        Description = m.MarketTemplate.Description,
-                        StartDate = m.StartDate,
-                        EndDate = m.EndDate,
-                        IsCancelled = m.IsCancelled
-                    }).ToList();
-                    o.Markets = result;
-                });
 
                 return new GetAllOrganisersResponse() { Organisers = allOrganisers};
             }

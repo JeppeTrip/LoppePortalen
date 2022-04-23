@@ -5,6 +5,6 @@ namespace Application.Organisers.Queries.GetAllOrganisers
 {
     public class GetAllOrganisersResponse
     {
-        public List<Organiser> Organisers { get; set; }
+        public List<OrganiserBaseVM> Organisers { get; set; }
     }
 }
