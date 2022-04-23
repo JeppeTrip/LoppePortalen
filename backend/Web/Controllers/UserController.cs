@@ -40,7 +40,7 @@ namespace Web.Controllers
         public async Task<ActionResult<GetUsersOrganisersResponse>> GetUsersOrganisers()
         {
             var userid = CurrentUserService.UserId;
-            return await Mediator.Send(new GetUsersOrganisersQuery() { Dto = new GetUsersOrganisersRequest() { UserId = userid } });
+            return await Mediator.Send(new GetUsersOrganisersQuery());
         }
 
         [HttpGet("merchants")]

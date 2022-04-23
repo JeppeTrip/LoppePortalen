@@ -1,14 +1,10 @@
 ﻿using Application.Common.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
     public class GetUsersOrganisersResponse
     {
-        public List<Organiser> Organisers { get; set; }
+        public List<OrganiserBaseVM> Organisers { get; set; }
     }
 }

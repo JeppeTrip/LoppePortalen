@@ -11,8 +11,7 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
     {
         public GetUsersOrganisersQueryValidator()
         {
-            RuleFor(e => e.Dto.UserId)
-                .NotEmpty();
+
         }
     }
 }

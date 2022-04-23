@@ -14,8 +14,6 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
 {
     public class GetUsersOrganisersQuery : IRequest<GetUsersOrganisersResponse>
     {
-        public GetUsersOrganisersRequest Dto { get; set; }
-
         public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, GetUsersOrganisersResponse>
         {
             private readonly IApplicationDbContext _context;
@@ -30,17 +28,12 @@ namespace Application.Organisers.Queries.GetUsersOrganisers
             }
             public async Task<GetUsersOrganisersResponse> Handle(GetUsersOrganisersQuery request, CancellationToken cancellationToken)
             {
-                if (!request.Dto.UserId.Equals(_currentUserService.UserId))
-                {
-                    throw new UnauthorizedAccessException();
-                }
-
                 var organisers = await _context.Organisers
                     .Include(x => x.Address)
-                    .Where(x => x.UserId.Equals(request.Dto.UserId))
+                    .Where(x => x.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
-                var result = organisers.Select(x => new Organiser()
+                var result = organisers.Select(x => new OrganiserBaseVM()
                 {
                     Id = x.Id,
                     Name = x.Name,

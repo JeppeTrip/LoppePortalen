@@ -2372,7 +2372,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Organiser"
+              "$ref": "#/components/schemas/OrganiserBaseVM"
             }
           }
         }
