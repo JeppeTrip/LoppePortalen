@@ -11,8 +11,7 @@ namespace Application.Markets.Queries.GetUsersMarkets
     {
         public GetUsersMarketsQueryValidator()
         {
-            RuleFor(e => e.Dto.UserId)
-                .NotEmpty();
+
         }
     }
 }

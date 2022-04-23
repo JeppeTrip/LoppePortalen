@@ -33,8 +33,7 @@ namespace Web.Controllers
         [HttpGet("markets")]
         public async Task<ActionResult<GetUsersMarketsResponse>> GetUsersMarkets()
         {
-            var userid = CurrentUserService.UserId;
-            return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });
+            return await Mediator.Send(new GetUsersMarketsQuery() );
         }
 
         [HttpGet("organisers")]

@@ -1,6 +1,4 @@
-﻿using Application.Booths.Queries.GetMarketBooths;
-using Application.Common.Models;
-using Application.Markets.Commands.BookStalls;
+﻿using Application.Markets.Commands.BookStalls;
 using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
@@ -9,18 +7,9 @@ using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarketInstance;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
-using Application.Stalls.Commands.RemoveStallsFromMarket;
-using Application.Stalls.Queries.GetMarketStalls;
-using Application.StallTypes.Commands.CreateStallType;
-using Application.StallTypes.Commands.CreateStallTypes;
-using Application.StallTypes.Commands.EditStallTypes;
-using Application.StallTypes.Queries.GetMarketStallTypes;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Web.Bodies;
 
 namespace Web.Controllers
 {
@@ -89,8 +78,7 @@ namespace Web.Controllers
         [HttpGet("user/current")]
         public async Task<ActionResult<GetUsersMarketsResponse>> GetCurrentUsersMarkets()
         {
-            var userid = CurrentUserService.UserId;
-            return await Mediator.Send(new GetUsersMarketsQuery() { Dto = new GetUsersMarketsRequest() { UserId = userid } });
+            return await Mediator.Send(new GetUsersMarketsQuery());
         }
 
         [HttpPut]

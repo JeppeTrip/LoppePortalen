@@ -13,7 +13,6 @@ namespace Application.Markets.Queries.GetUsersMarkets
 {
     public class GetUsersMarketsQuery : IRequest<GetUsersMarketsResponse>
     {
-        public GetUsersMarketsRequest Dto { get; set; }
 
         public class GetUsersMarketsQueryHandler : IRequestHandler<GetUsersMarketsQuery, GetUsersMarketsResponse>
         {
@@ -28,28 +27,18 @@ namespace Application.Markets.Queries.GetUsersMarkets
 
             public async Task<GetUsersMarketsResponse> Handle(GetUsersMarketsQuery request, CancellationToken cancellationToken)
             {
-                if(!request.Dto.UserId.Equals(_currentUserService.UserId))
-                {
-                    throw new UnauthorizedAccessException();
-                }
 
-                var marketTemplates = await _context.MarketTemplates
-                    
-                    .Select(x => x.Id)
-                    .ToListAsync();
-
-                Organiser organiser;
+                OrganiserBaseVM organiser;
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.Organiser)
                     .Include(x => x.MarketTemplate.Organiser.Address)
-                    .Where(x => x.MarketTemplate.Organiser.UserId.Equals(request.Dto.UserId))
-                    .Where(x => marketTemplates.Contains(x.MarketTemplateId))
+                    .Where(x => x.MarketTemplate.Organiser.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
                 var result = instances.Select(x =>
                 {
-                    organiser = new Organiser
+                    organiser = new OrganiserBaseVM
                     {
                         Id = x.MarketTemplate.Organiser.Id,
                         UserId = x.MarketTemplate.Organiser.UserId,
@@ -61,7 +50,7 @@ namespace Application.Markets.Queries.GetUsersMarkets
                         PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
                         City = x.MarketTemplate.Organiser.Address.City
                     };
-                    return new Market()
+                    return new UsersMarketsVM()
                     {
                         MarketId = x.Id,
                         Description = x.MarketTemplate.Description,
@@ -74,7 +63,7 @@ namespace Application.Markets.Queries.GetUsersMarkets
                 }).ToList();
 
 
-                return new GetUsersMarketsResponse(Result.Success()) { Markets = result };
+                return new GetUsersMarketsResponse() { Markets = result };
             }
         }
     }

@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto } from "../../services/clients";
+import { GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
@@ -84,6 +84,9 @@ export class Market {
                 case "GetMarketInstanceVM":
                     this.updateFromServerGetMarketInstanceVM(dto)
                     break;
+                case "UsersMarketsVM":
+                    this.updateFromServerGetUsersMarketsVM(dto)
+                    break;
             }
             this.state = ModelState.IDLE
         }
@@ -100,6 +103,14 @@ export class Market {
 
     @action
     private updateFromServerGetMarketInstanceVM(dto: GetMarketInstanceVM) {
+        const organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+        if (this.organiser == null || this.organiser.id != organiser.id)
+            this.organiser = organiser
+        this.organiser.addMarket(this)
+    }
+
+    @action
+    private updateFromServerGetUsersMarketsVM(dto: UsersMarketsVM) {
         const organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
         if (this.organiser == null || this.organiser.id != organiser.id)
             this.organiser = organiser

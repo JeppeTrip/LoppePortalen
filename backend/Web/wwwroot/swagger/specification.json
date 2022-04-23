@@ -1649,20 +1649,34 @@
         }
       },
       "GetUsersMarketsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UsersMarketsVM"
+            }
+          }
+        }
+      },
+      "UsersMarketsVM": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/Result"
+            "$ref": "#/components/schemas/MarketBaseVM"
           },
           {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "markets": {
-                "type": "array",
+              "organiser": {
                 "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/Market"
-                }
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
               }
             }
           }
