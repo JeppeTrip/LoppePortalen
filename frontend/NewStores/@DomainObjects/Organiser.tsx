@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { OrganiserBaseVM as Dto } from "../../services/clients";
+import { GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
 
@@ -43,9 +43,25 @@ export class Organiser {
             this.appartment = dto.appartment
             this.postalCode = dto.postalCode
             this.city = dto.city
+
+            switch(dto.constructor.name){
+                case "GetOrganiserVM": this.updateFromServerGetOrganiserVm(dto);
+            }
+
             this.state = ModelState.IDLE
         }
         return this;
+    }
+
+    @action
+    private updateFromServerGetOrganiserVm(dto : GetOrganiserVM)
+    {
+        let currentMarket : Market;
+        dto.markets.forEach(x => {
+            currentMarket = this.store.rootStore.marketStore.updateMarketFromServer(x)
+            currentMarket.organiser = this
+            this.markets.push(currentMarket)
+        })
     }
 
     @action

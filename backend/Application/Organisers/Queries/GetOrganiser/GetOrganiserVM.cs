@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetOrganiser
 {
-    public class GetOrganiserQueryResponse
+    public class GetOrganiserVM : OrganiserBaseVM
     {
-        public GetOrganiserVM Organiser { get; set; }
+        public List<MarketBaseVM> Markets { get; set; }
     }
 }

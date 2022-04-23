@@ -2114,11 +2114,31 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/Organiser"
+                "$ref": "#/components/schemas/GetOrganiserVM"
               }
             ]
           }
         }
+      },
+      "GetOrganiserVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OrganiserBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "markets": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/MarketBaseVM"
+                }
+              }
+            }
+          }
+        ]
       },
       "EditOrganiserResponse": {
         "allOf": [

@@ -42,7 +42,7 @@ namespace Application.Organisers.Queries.GetOrganiser
                 var organiserInstances = instances
                     .Where(m => m.MarketTemplate.OrganiserId == organiser.Id);
 
-                var markets = organiserInstances.Select(m => new Market()
+                var markets = organiserInstances.Select(m => new MarketBaseVM()
                 {
                     MarketId = m.Id,
                     MarketName = m.MarketTemplate.Name,
@@ -52,7 +52,7 @@ namespace Application.Organisers.Queries.GetOrganiser
                     IsCancelled = m.IsCancelled
                 }).ToList();
 
-                Organiser result = new Organiser()
+                GetOrganiserVM result = new GetOrganiserVM()
                 {
                     Id = organiser.Id,
                     UserId = organiser.UserId,
