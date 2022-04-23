@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { Organiser as Dto } from "../../services/clients";
+import { OrganiserBaseVM as Dto } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
 
@@ -43,23 +43,6 @@ export class Organiser {
             this.appartment = dto.appartment
             this.postalCode = dto.postalCode
             this.city = dto.city
-            dto.markets?.forEach(mDto => {
-                /**
-                 * Backend tries to minimize the amount of duplicate data that is sends. 
-                 * If market dto instance is empty, set it as this organiser would 
-                 * only have the markets in its list if it owned it.
-                 */
-                console.log("organiser mdto:")
-                console.log(mDto);
-                if (!mDto.organiser || mDto.organiser == null) {
-                    mDto.organiser = dto;
-                }
-                let res = this.store.rootStore.marketStore.updateMarketFromServer(mDto)
-                let market = this.markets.length === 0 ? undefined : this.markets.find(x => x.id === res.id);
-                if (!market) {
-                    this.markets.push(res)
-                }
-            })
             this.state = ModelState.IDLE
         }
         return this;

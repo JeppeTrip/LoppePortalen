@@ -1,5 +1,5 @@
-import { action, flow, flowResult, makeAutoObservable, observable } from "mobx";
-import { GetOrganiserQueryResponse, Organiser as Dto, OrganiserClient } from "../../services/clients";
+import { action, flow, makeAutoObservable, observable } from "mobx";
+import { GetOrganiserQueryResponse, OrganiserBaseVM as Dto, OrganiserClient } from "../../services/clients";
 import { Organiser } from "../@DomainObjects/Organiser";
 import { RootStore } from "../RootStore";
 

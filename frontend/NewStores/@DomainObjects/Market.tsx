@@ -1,8 +1,7 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { Market as Dto } from "../../services/clients";
+import { GetAllMarketsVM, MarketBaseVM as Dto } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
-import { Booth } from "./Booth";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
 import { StallType } from "./StallType";
@@ -80,44 +79,22 @@ export class Market {
             this.startDate = new Date(dto.startDate)
             this.endDate = new Date(dto.endDate)
             this.isCancelled = dto.isCancelled
-            /**
-             * Backend doesn't set the market value for the organiser 
-             * if we are fetching markets as this would return A LOT of duplicate data.
-             * Therefor check if the dto value for markets if so, add in an array with this market dto in it.
-             */
-            if (dto.organiser.markets === null) {
-                dto.organiser.markets = [dto]
+            console.log(`Market dto type ${dto.constructor.name}`);
+            console.log(`instance of ${dto instanceof GetAllMarketsVM}`)
+            switch(dto.constructor.name){
+                case "GetAllMarketsVM": this.updateFromServerGetAllMarketsVM(dto)
             }
-            this.organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
-            /**
-             * Update the stall types.
-             */
-            dto.stallTypes?.forEach(
-                x => {
-                    x.market = dto
-                    const type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
-                    if (!this.stallTypes.find(t => t.id === type.id)) {
-                        this.stallTypes.push(type)
-                    }
-                })
-
-            /**
-             * Update the stalls.
-             */
-            dto.stalls?.forEach(
-                x => {
-                    if (x.market == null) {
-                        x.market = dto
-                    }
-                    const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
-                    if (!this.stalls.find(s => s.id === stall.id)) {
-                        this.stalls.push(stall)
-                    }
-                })
-            this.setOldState()
             this.state = ModelState.IDLE
         }
         return this;
+    }
+
+    @action
+    private updateFromServerGetAllMarketsVM(dto : GetAllMarketsVM)
+    {
+        console.log("update all markets vm")
+        const organiser = this.store.rootStore.organiserStore.updateOrganiserFromServer(dto.organiser)
+        organiser.markets.push(this)
     }
 
     @action

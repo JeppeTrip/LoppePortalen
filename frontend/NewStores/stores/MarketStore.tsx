@@ -1,6 +1,6 @@
 import { action, flow, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { GetMarketInstanceQueryResponse, Market as Dto, MarketClient } from "../../services/clients";
+import { GetMarketInstanceQueryResponse, MarketBaseVM as Dto, MarketClient } from "../../services/clients";
 import { Market } from "../@DomainObjects/Market";
 import { RootStore } from "../RootStore";
 

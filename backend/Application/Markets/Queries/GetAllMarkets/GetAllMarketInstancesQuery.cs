@@ -32,9 +32,9 @@ namespace Application.Markets.Queries.GetAllMarkets
                     .Include(x => x.MarketTemplate.Organiser.Address)
                     .ToListAsync();
 
-                Organiser organiser;
+                OrganiserBaseVM organiser;
                 var result = instances.Select(x => {
-                    organiser = new Organiser
+                    organiser = new OrganiserBaseVM
                     {
                         Id = x.MarketTemplate.Organiser.Id,
                         UserId = x.MarketTemplate.Organiser.UserId,
@@ -46,7 +46,7 @@ namespace Application.Markets.Queries.GetAllMarkets
                         PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
                         City = x.MarketTemplate.Organiser.Address.City
                     };
-                    return new Market()
+                    return new GetAllMarketsVM()
                     {
                         MarketId = x.Id,
                         Description = x.MarketTemplate.Description,

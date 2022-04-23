@@ -1,0 +1,18 @@
+@startuml
+    class MarketBaseVM {
+        id : int 
+        name : string
+    }
+
+    class OrganiserBaseVM {
+        id : int
+        name : string
+    }
+
+    class MerchantBaseVM {
+        id : id
+        name : string
+    }
+
+    
+@enduml
