@@ -1808,24 +1808,39 @@
         }
       },
       "AllMerchantsQueryResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "merchantList": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/Merchant"
-                }
-              }
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantList": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MerchantBaseVM"
             }
           }
-        ]
+        }
+      },
+      "MerchantBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "GetMerchantQueryResponse": {
         "allOf": [

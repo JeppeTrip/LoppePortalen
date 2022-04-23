@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Queries.AllMerchants
 {
-    public class AllMerchantsQueryResponse : Result
-    {
-        public AllMerchantsQueryResponse(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
-        {
-        }
-
-        public AllMerchantsQueryResponse(Result result) : base(result.Succeeded, result.Errors) { }
-
-        public List<Merchant> MerchantList { get; set; }
+    public class AllMerchantsQueryResponse
+    { 
+        public List<MerchantBaseVM> MerchantList { get; set; }
     }
 }

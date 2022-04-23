@@ -3,7 +3,7 @@ import { ModelState } from "../../@types/ModelState"
 import { MerchantClient } from "../../services/clients"
 import { Merchant } from "../@DomainObjects/Merchant"
 import { RootStore } from "../RootStore"
-import { Merchant as Dto } from "../../services/clients"
+import { MerchantBaseVM as Dto } from "../../services/clients"
 
 export class MerchantStore {
     rootStore: RootStore
@@ -21,10 +21,9 @@ export class MerchantStore {
      * Create client side merchant instance. Doesn't update db.
      * @returns merchant instance.
      */
+    @action
     createMerchant() {
-        console.log("create merchant")
         const merchant = new Merchant(this)
-        console.log(merchant)
         this.merchants.push(merchant)
         return merchant
     }
@@ -48,7 +47,7 @@ export class MerchantStore {
                             description: res.merchant.description,
                             userId: res.merchant.userId
                         })
-                        
+
                     }
                     else {
                         merchant.state = ModelState.ERROR
@@ -90,13 +89,9 @@ export class MerchantStore {
      */
     @action
     updateMerchantFromServer(dto: Dto) {
-        console.log("update merchant from server")
         let merchant = this.merchants.find(x => x.id === dto.id);
-        console.log(merchant)
         if (!merchant) {
-            console.log("so create a new one")
             merchant = this.createMerchant()
-            console.log(merchant)
         }
         merchant.updateFromServer(dto);
         return merchant
@@ -110,19 +105,8 @@ export class MerchantStore {
         this.transportLayer.getAllMerchants()
             .then(
                 action("fetchSuccess", res => {
-                    if (res.succeeded) {
-                        res.merchantList.forEach(
-                            x => this.updateMerchantFromServer({
-                                id: x.id,
-                                name: x.name,
-                                description: x.description,
-                                userId: x.userId
-                            }))
-                    }
-                    else {
-                        //do something with the error?
-                    }
-
+                    res.merchantList.forEach(
+                        x => this.updateMerchantFromServer(x))
                 }),
                 action("fetchError", error => {
                     //do something with this
@@ -137,14 +121,11 @@ export class MerchantStore {
      * If it isn't here a fetch is made.
      */
     @flow
-    *resolveMerchant(id : number)
-    {
+    * resolveMerchant(id: number) {
         let merchant = this.merchants.find(x => x.id === id)
-        if(!merchant)
-        {
+        if (!merchant) {
             var res = yield this.transportLayer.getMerchant(id)
-            if(res.succeeded)
-            {
+            if (res.succeeded) {
                 merchant = this.updateMerchantFromServer(res.merchant)
             }
         }

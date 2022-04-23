@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import {Merchant as Dto} from "../../services/clients"
+import {MerchantBaseVM as Dto} from "../../services/clients"
 
 
 export class Merchant{
