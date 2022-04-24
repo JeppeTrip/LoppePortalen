@@ -58,6 +58,10 @@ namespace Application.Markets.Queries.GetMarketInstance
                     .Include(x => x.Stall.StallType)
                     .Where(x => x.Stall.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId));
 
+                var stalls = _context.Stalls
+                    .Include(x => x.StallType)
+                    .Include(x => x.Bookings)
+                    .Where(x => x.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId) && x.Bookings.Count == 0);
 
                 GetMarketInstanceVM market = new GetMarketInstanceVM()
                 {
@@ -75,6 +79,17 @@ namespace Application.Markets.Queries.GetMarketInstance
                         Name = x.Name,
                         Description = x.Description
                     }).ToList(),
+                    //Construct the stall VM
+                    Stalls = stalls.Select(x => new StallBaseVM()
+                        {
+                            Id = x.Id,
+                            StallType = new StallTypeBaseVM()
+                            {
+                                Id = x.StallTypeId,
+                                Name = x.StallType.Name,
+                                Description = x.StallType.Description
+                            }
+                        }).ToList(),
                     //Construct booth vms to send with the market info.
                     Booths = booths.Select(x => new BoothBaseVM()
                     {

@@ -1489,6 +1489,13 @@
                 "items": {
                   "$ref": "#/components/schemas/BoothBaseVM"
                 }
+              },
+              "stalls": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/StallBaseVM"
+                }
               }
             }
           }

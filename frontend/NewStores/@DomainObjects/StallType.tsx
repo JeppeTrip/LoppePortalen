@@ -108,7 +108,12 @@ export class StallType {
             }
         )).then(
             action("submitSuccess", res => {
-                res.stalls.forEach(x => this.store.rootStore.stallStore.updateStallFromServer(x))
+                res.stalls.forEach(x => {
+                    const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
+                    stall.market = this.market
+                    this.market.stalls.push(stall)
+                    this.stalls.push(stall)
+                })
                 this.state = ModelState.IDLE
             }),
             action("submitError", error => {

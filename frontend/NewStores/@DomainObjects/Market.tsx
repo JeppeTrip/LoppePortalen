@@ -2,6 +2,7 @@ import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
 import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
+import { Booth } from "./Booth";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
 import { StallType } from "./StallType";
@@ -119,10 +120,20 @@ export class Market {
                 this.stallTypes.push(stallType)
         });
 
+        //Update the stalls based on the related VM.
+        dto.stalls.forEach(x => {
+            const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
+            stall.market = this
+            const instance = this.stalls.find(x => x.id === stall.id)
+            if(!instance)
+                this.stalls.push(stall)
+        })
+
         //Update  the booths based on the related VM.
         dto.booths.forEach(x => {
             const booth = this.store.rootStore.boothStore.updateBoothFromServer(x)
-            booth.stall.market = this
+            if(!booth.stall.market || booth.stall.market == null)
+                booth.stall.market = this
             const instance = this.booths.find(x => x.id === booth.id)
             if(!instance)
                 this.booths.push(booth)

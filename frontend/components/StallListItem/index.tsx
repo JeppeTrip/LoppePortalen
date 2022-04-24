@@ -18,7 +18,7 @@ const StallListItem: FC<Props> = (props: Props) => {
                     (<CircularProgress />)
                     :
                     (<IconButton edge="end"
-                        disabled={props.stall.state === ModelState.NEW}
+                        disabled={props.stall.state === ModelState.NEW || props.stall.booth != null}
                         onClick={() => props.stall.delete()}><DeleteForeverIcon />
                     </IconButton>)
             }

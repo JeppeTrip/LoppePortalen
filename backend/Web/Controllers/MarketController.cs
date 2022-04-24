@@ -89,46 +89,12 @@ namespace Web.Controllers
 
         }
 
-        /*** 
-         * Add stalls to a market. 
-         * Calls a second command to populate the stall response with market data.
-         */
         [HttpPost("addStalls")]
         public async Task<ActionResult<AddStallsToMarketResponse>> AddStallsToMarket(AddStallsToMarketRequest dto)
         {
-            throw new NotImplementedException();
-            /*
-            Context.Database.BeginTransaction();
-            try
-            {
+
                 var stallResponse = await Mediator.Send(new AddStallsToMarketCommand() { Dto = dto });
-                if(!stallResponse.Succeeded)
-                {
-                    Context.Database.RollbackTransaction();
-                    return BadRequest();
-                }
-
-                var marketResponse = await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = dto.MarketId } });
-                foreach(var stall in stallResponse.Stalls)
-                {
-                    stall.Market = marketResponse.Market;
-                }
-
-                Context.Database.CommitTransaction();
-                return stallResponse;
-            }
-            catch(Exception ex)
-            {
-                Context.Database.RollbackTransaction();
-                
-                throw;
-            }
-            finally
-            {
-
-            }
-            */
-            
+                return stallResponse;           
         }
 
         [HttpPost("bookstalls")]

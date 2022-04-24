@@ -46,10 +46,10 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                     throw new NotFoundException("StallType doesn't exist for current market.");
                 }
 
-                List<Domain.Entities.Stall> stalls = new List<Domain.Entities.Stall>();
+                List<Stall> stalls = new List<Stall>();
                 for(int i=0; i<request.Dto.Number; i++)
                 {
-                    stalls.Add(new Domain.Entities.Stall() { StallType = stallType, StallTypeId = stallType.Id, MarketInstance=instance });
+                    stalls.Add(new Stall() { StallType = stallType, StallTypeId = stallType.Id, MarketInstance=instance });
                 }
                 _context.Stalls.AddRange(stalls);
                 await _context.SaveChangesAsync(cancellationToken);
