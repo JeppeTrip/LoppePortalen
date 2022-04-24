@@ -115,7 +115,7 @@ export class User {
             .then(
                 action("fetchSuccess", result => {
                     console.log(result)
-                    result.forEach(x => {
+                    result.booths.forEach(x => {
                         const booth = this.store.rootStore.boothStore.updateBoothFromServer(x);
                         this.booths.push(booth)
                     })

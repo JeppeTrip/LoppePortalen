@@ -50,9 +50,9 @@ namespace Web.Controllers
         }
 
         [HttpGet("booths")]
-        public async Task<ActionResult<List<BoothBaseVM>>> GetUsersBooths()
+        public async Task<ActionResult<GetUsersBoothsResponse>> GetUsersBooths()
         {
-            throw new NotImplementedException();
+            return await Mediator.Send(new GetUsersBoothsQuery());
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Application.Booths.Queries.GetUsersBooths
 {
     public class GetUsersBoothsResponse
     {
-        public List<BoothDto> Booths { get; set; }
+        public List<GetUsersBoothsVM> Booths { get; set; }
     }
 }

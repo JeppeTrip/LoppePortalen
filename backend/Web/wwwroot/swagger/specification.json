@@ -1017,10 +1017,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BoothBaseVM"
-                  }
+                  "$ref": "#/components/schemas/GetUsersBoothsResponse"
                 }
               }
             }
@@ -2242,6 +2239,61 @@
             }
           }
         }
+      },
+      "GetUsersBoothsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "booths": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetUsersBoothsVM"
+            }
+          }
+        }
+      },
+      "GetUsersBoothsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetUsersBoothsStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetUsersBoothsStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       }
     },
     "securitySchemes": {

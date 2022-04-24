@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,21 +28,42 @@ namespace Application.Booths.Queries.GetUsersBooths
             {
                 var bookings = await _context.Bookings
                     .Include(x => x.Merchant)
+                    .Include(x => x.Stall)
+                    .Include(x => x.Stall.StallType)
+                    .Include(x => x.Stall.MarketInstance)
+                    .Include(x => x.Stall.MarketInstance.MarketTemplate)
                     .Where(x => x.Merchant.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
                 if(bookings == null || bookings.Count == 0)
                 {
-                    return new GetUsersBoothsResponse() { Booths = new List<BoothDto>() };
+                    return new GetUsersBoothsResponse() { Booths = new List<GetUsersBoothsVM>() };
                 }
 
-                var booths = bookings.Select(x => new BoothDto()
+                var booths = bookings.Select(x => new GetUsersBoothsVM()
                 {
                     Id = x.Id,
-                    BoothName = x.BoothName,
-                    BoothDescription = x.BoothDescription,
-                    MerchantId = x.MerchantId,
-                    StallId = x.StallId
+                    Name = x.BoothName,
+                    Description = x.BoothDescription,
+                    Stall = new GetUsersBoothsStallVM()
+                    {
+                        Id = x.Stall.Id,
+                        StallType = new StallTypeBaseVM()
+                        {
+                            Id = x.Stall.StallType.Id,
+                            Name = x.Stall.StallType.Name,
+                            Description = x.Stall.StallType.Description
+                        },
+                        Market = new MarketBaseVM()
+                        {
+                            MarketId = x.Stall.MarketInstanceId,
+                            MarketName = x.Stall.MarketInstance.MarketTemplate.Name,
+                            Description = x.Stall.MarketInstance.MarketTemplate.Description,
+                            StartDate = x.Stall.MarketInstance.StartDate,
+                            EndDate = x.Stall.MarketInstance.EndDate,
+                            IsCancelled = x.Stall.MarketInstance.IsCancelled
+                        }
+                    }
                 }).ToList();
 
                 return new GetUsersBoothsResponse() { Booths = booths };    

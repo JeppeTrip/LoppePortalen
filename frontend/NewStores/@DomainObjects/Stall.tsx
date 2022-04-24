@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
 import { StallStore } from "../stores/StallStore";
 import { StallType } from "./StallType";
-import { StallBaseVM as Dto } from '../../services/clients'
+import { GetUsersBoothsStallVM, StallBaseVM as Dto } from '../../services/clients'
 import { Market } from "./Market";
 import { Booth } from "./Booth";
 
@@ -28,9 +28,24 @@ export class Stall {
             this.state = ModelState.UPDATING
             this.id = dto.id
             this.type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(dto.stallType);
+            switch(dto.constructor.name)
+            {
+                case "GetUsersBoothsStallVM":
+                    this.updateFromServerGetUsersBoothsStallVM(dto)
+                    break;
+            }
             this.state = ModelState.IDLE
         }
         return this;
+    }
+
+    @action 
+    updateFromServerGetUsersBoothsStallVM(dto : GetUsersBoothsStallVM)
+    {
+        const market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
+        if(this.market == null || this.market.id != market.id)
+            this.market = market
+        
     }
 
     @action
