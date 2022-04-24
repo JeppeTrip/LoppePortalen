@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { BoothStore } from "../stores/BoothStore"
-import {BoothBaseVM as Dto, UpdateBoothRequest} from "../../services/clients"
+import {BoothBaseVM as Dto, ItemCategory, UpdateBoothRequest} from "../../services/clients"
 import { Stall } from "./Stall"
 import { ModelState } from "../../@types/ModelState"
 import { Merchant } from "./Merchant"
@@ -13,6 +13,7 @@ export class Booth{
     @observable description : string
     @observable stall : Stall
     @observable merchant : Merchant
+    @observable itemCategories : string[]
 
     constructor(store : BoothStore)
     {
@@ -21,6 +22,7 @@ export class Booth{
         this.stall = null
         this.merchant = null
         this.state = ModelState.NEW
+        this.itemCategories = [] as string[]
     }
 
     @action

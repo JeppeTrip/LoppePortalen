@@ -1,6 +1,6 @@
 import SaveIcon from "@mui/icons-material/Save";
 import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
-import { Container, Grid, Paper, Tab, TextField, Typography } from "@mui/material";
+import { Autocomplete, Container, Grid, Paper, Tab, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
@@ -10,6 +10,7 @@ import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
 import { StoreContext } from '../../../NewStores/StoreContext';
+import { ItemCategory } from "../../../services/clients";
 
 
 type Props = {
@@ -61,7 +62,7 @@ const EditBoothPage: NextPageAuth<Props> = observer(() => {
 
     return (
         <Container>
-            <Paper elevation={1} sx={{p: 2}}>
+            <Paper elevation={1} sx={{ p: 2 }}>
                 <Typography variant="h2">
                     Edit Boothpage
                 </Typography>
@@ -88,6 +89,27 @@ const EditBoothPage: NextPageAuth<Props> = observer(() => {
                                         onChange={(event) => selectedBooth.description = event.target.value}
                                         multiline
                                         rows={10}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Autocomplete
+                                        onChange={(event,value) => selectedBooth.itemCategories = value}
+                                        fullWidth
+                                        multiple
+                                        id="tags-standard"
+                                        value={selectedBooth.itemCategories}
+                                        options={
+                                            Object.values(ItemCategory).splice(0, Object.keys(ItemCategory).length/2).map(x => x.toString())
+                                        }
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="standard"
+                                            label="Item Categories"
+                                            placeholder="Item Categories"
+                                        />
+                                    )}
                                     />
                                 </Grid>
                             </Grid>

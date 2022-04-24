@@ -1322,8 +1322,29 @@
                 "$ref": "#/components/schemas/StallBaseVM"
               }
             ]
+          },
+          "categories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ItemCategory"
+            }
           }
         }
+      },
+      "ItemCategory": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Furniture",
+          "Electronics",
+          "Art"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       },
       "UpdateBoothResponse": {
         "allOf": [
