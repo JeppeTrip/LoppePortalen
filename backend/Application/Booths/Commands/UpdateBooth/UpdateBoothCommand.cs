@@ -44,6 +44,9 @@ namespace Application.Booths.Commands.UpdateBooth
                     if (booth.ItemCategories.FirstOrDefault(cat => cat.Name.Equals(x)) == null)
                         booth.ItemCategories.Add(validCategories.First(cat => cat.Name.Equals(x)));
                 });
+
+                booth.ItemCategories.RemoveAll(x => !(request.Dto.ItemCategories.Contains(x.Name)));
+
                 booth.BoothName = request.Dto.BoothName;
                 booth.BoothDescription = request.Dto.BoothDescription;
 
