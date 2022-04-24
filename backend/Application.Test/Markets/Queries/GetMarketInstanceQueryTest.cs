@@ -1,11 +1,6 @@
 ﻿using Application.Common.Exceptions;
-using Application.Markets.Queries.GetMarket;
 using Application.Markets.Queries.GetMarketInstance;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

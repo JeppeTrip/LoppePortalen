@@ -14,8 +14,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         [Fact]
         public async Task Handle_ValidUserId()
         {
-            var dto = new GetUsersMarketsRequest() { UserId = Guid.Empty.ToString() };
-            var request = new GetUsersMarketsQuery() { Dto = dto };
+            var request = new GetUsersMarketsQuery() ;
             var validator = new GetUsersMarketsQueryValidator();
             var result = validator.Validate(request);
 
@@ -25,8 +24,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         [Fact]
         public async Task Handle_UserIdEmpty()
         {
-            var dto = new GetUsersMarketsRequest() { UserId = "" };
-            var request = new GetUsersMarketsQuery() { Dto = dto };
+            var request = new GetUsersMarketsQuery();
             var validator = new GetUsersMarketsQueryValidator();
             var result = validator.Validate(request);
 
@@ -37,8 +35,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         [Fact]
         public async Task Handle_UserIdNull()
         {
-            var dto = new GetUsersMarketsRequest() { UserId = null };
-            var request = new GetUsersMarketsQuery() { Dto = dto };
+            var request = new GetUsersMarketsQuery();
             var validator = new GetUsersMarketsQueryValidator();
             var result = validator.Validate(request);
 

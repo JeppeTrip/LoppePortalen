@@ -15,21 +15,17 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         [Fact]
         public async Task Handle_GetMarkets()
         {
-            var dto = new GetUsersMarketsRequest() { UserId = Guid.Empty.ToString() };
-            var request = new GetUsersMarketsQuery() { Dto = dto };
-            var handler = new GetUsersMarketsQuery.GetUsersMarketsQueryHandler(Context, new CurrentUserService(dto.UserId));
+            var request = new GetUsersMarketsQuery();
+            var handler = new GetUsersMarketsQuery.GetUsersMarketsQueryHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
             var result = await handler.Handle(request, CancellationToken.None);
 
-            result.Succeeded.Should().BeTrue();
-
-            result.Markets.Count.Should().Be(Context.MarketInstances.Where(x => x.MarketTemplate.Organiser.UserId.Equals(dto.UserId)).Count());
+            result.Markets.Count.Should().Be(Context.MarketInstances.Where(x => x.MarketTemplate.Organiser.UserId.Equals(Guid.Empty.ToString())).Count());
         }
 
         [Fact]
         public async Task Handle_UserNotCurrentUser()
         {
-            var dto = new GetUsersMarketsRequest() { UserId = "-1" };
-            var request = new GetUsersMarketsQuery() { Dto = dto };
+            var request = new GetUsersMarketsQuery();
             var handler = new GetUsersMarketsQuery.GetUsersMarketsQueryHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(async () =>

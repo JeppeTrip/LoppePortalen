@@ -16,21 +16,19 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
         [Fact]
         public async Task Handle_GetOrganisers()
         {
-            var dto = new GetUsersOrganisersRequest() { UserId = Guid.Empty.ToString() };
-            var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
+            var request = new GetUsersOrganisersQuery();
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Organisers.Count.Should().Be(Context.Organisers.Where(x => x.UserId.Equals(request.Dto.UserId)).Count());
+            result.Organisers.Count.Should().Be(Context.Organisers.Where(x => x.UserId.Equals(Guid.Empty.ToString())).Count());
         }
 
         [Fact]
         public async Task Handle_NonExistentUser()
         {
-            var dto = new GetUsersOrganisersRequest() { UserId = "-1" };
-            var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
+            var request = new GetUsersOrganisersQuery();
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService("-1"));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
@@ -40,9 +38,8 @@ namespace Application.Test.Organisers.Queries.GetUsersOrganisers
         [Fact]
         public async Task Handle_UserIdNull()
         {
-            var dto = new GetUsersOrganisersRequest() { UserId = null};
-            var request = new GetUsersOrganisersQuery() { Dto = dto };
-            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(dto.UserId));
+            var request = new GetUsersOrganisersQuery();
+            var handler = new GetUsersOrganisersQuery.GetUsersOrganisersQueryHandler(Context, new CurrentUserService(null));
             var result = await handler.Handle(request, CancellationToken.None);
 
             result.Should().NotBeNull();
