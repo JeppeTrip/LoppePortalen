@@ -32,6 +32,7 @@ namespace Application.Booths.Queries.GetUsersBooths
                     .Include(x => x.Stall.StallType)
                     .Include(x => x.Stall.MarketInstance)
                     .Include(x => x.Stall.MarketInstance.MarketTemplate)
+                    .Include(x => x.ItemCategories)
                     .Where(x => x.Merchant.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
@@ -45,6 +46,7 @@ namespace Application.Booths.Queries.GetUsersBooths
                     Id = x.Id,
                     Name = x.BoothName,
                     Description = x.BoothDescription,
+                    Categories = x.ItemCategories.Select(x => x.Name).ToList(),
                     Stall = new GetUsersBoothsStallVM()
                     {
                         Id = x.Stall.Id,

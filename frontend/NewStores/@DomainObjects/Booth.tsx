@@ -34,6 +34,7 @@ export class Booth{
             this.id = dto.id
             this.name = dto.name 
             this.description = dto.description
+            this.itemCategories = dto.categories
             switch(dto.constructor.name)
             {
                 default: 

@@ -32,6 +32,7 @@ namespace Application.Booths.Queries.GetBooth
                     .Include(x => x.Stall.StallType)
                     .Include(x => x.Stall.MarketInstance)
                     .Include(x => x.Stall.MarketInstance.MarketTemplate)
+                    .Include(x => x.ItemCategories)
                     .FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
                 if (booking == null)
                     throw new NotFoundException($"No booth with id {request.Dto.Id}");
@@ -41,6 +42,7 @@ namespace Application.Booths.Queries.GetBooth
                     Id = booking.Id,
                     Name = booking.BoothName,
                     Description = booking.BoothDescription,
+                    Categories = booking.ItemCategories.Select(x => x.Name).ToList(),
                     Stall = new GetBoothStallVM()
                     {
                         Id = booking.Stall.Id,
