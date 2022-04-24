@@ -1,7 +1,7 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 import ImageIcon from '@mui/icons-material/Image';
-import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
+import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -37,7 +37,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
     }
 
     const handleClickBook = (event) => {
-        if (router.isReady) 
+        if (router.isReady)
             router.push(`market/${props.Market.id}/bookstall`, undefined, { shallow: true });
     }
 
@@ -83,6 +83,22 @@ const MarketListItem: FC<Props> = (props: Props) => {
                 <ListItemText
                     primary={props.Market.name}
                     secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
+                <ListItemText
+                    secondary={
+                        <Stack>
+                            <Typography variant={"caption"}>
+                                {`Stalls Occupied: ${props.Market.occupiedStallCount}`}
+                            </Typography>
+                            <Typography variant={"caption"}>
+                                {`Stalls Available: ${props.Market.availableStallCount}`}
+                            </Typography>
+
+                            <Typography variant={"caption"}>
+                                {`Total number of stalls: ${props.Market.totalStallCount}`}
+                            </Typography>
+                        </Stack>
+                    }
+                />
             </ListItemButton>
         </ListItem>
 

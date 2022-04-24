@@ -3,10 +3,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,10 +27,19 @@ namespace Application.Markets.Queries.GetAllMarkets
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.Organiser)
                     .Include(x => x.MarketTemplate.Organiser.Address)
+                    .Include(x => x.Stalls)
                     .ToListAsync();
 
+                var bookings = await _context.Bookings
+                    .Include(x => x.Stall)
+                    .ToListAsync();
+
+                int total = 0;
+                int booked = 0;
                 OrganiserBaseVM organiser;
                 var result = instances.Select(x => {
+                    total = x.Stalls.Count();
+                    booked = bookings.Where(b => b.Stall.MarketInstanceId.Equals(x.Id)).Count();
                     organiser = new OrganiserBaseVM
                     {
                         Id = x.MarketTemplate.Organiser.Id,
@@ -54,7 +60,10 @@ namespace Application.Markets.Queries.GetAllMarkets
                         Organiser = organiser,
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
-                        IsCancelled = x.IsCancelled
+                        IsCancelled = x.IsCancelled,
+                        TotalStallCount = total,
+                        AvailableStallCount = total - booked,
+                        OccupiedStallCount = booked
                     };
                 }).ToList();
 

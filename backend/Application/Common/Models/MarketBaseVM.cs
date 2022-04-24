@@ -14,5 +14,8 @@ namespace Application.Common.Models
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public bool IsCancelled { get; set; }
+        public int TotalStallCount { get; set; } = -1;
+        public int AvailableStallCount { get; set; } = -1;
+        public int OccupiedStallCount { get; set; } = -1;
     }
 }

@@ -21,5 +21,6 @@ namespace Domain.Entities
         public virtual MarketTemplate MarketTemplate { get; set; }
         public int MarketTemplateId { get; set; }
         public virtual List<Stall> Stalls { get; set; }
+
     }
 }

@@ -1248,6 +1248,18 @@
           },
           "isCancelled": {
             "type": "boolean"
+          },
+          "totalStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "occupiedStallCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

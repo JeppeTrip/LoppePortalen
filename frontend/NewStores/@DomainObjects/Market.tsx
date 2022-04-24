@@ -21,6 +21,9 @@ export class Market {
     @observable stallTypes: StallType[]
     @observable stalls: Stall[]
     @observable booths: Booth[]
+    @observable totalStallCount : number 
+    @observable availableStallCount : number
+    @observable occupiedStallCount : number
 
     @action
     set setId(id: number) {
@@ -80,6 +83,9 @@ export class Market {
             this.startDate = new Date(dto.startDate)
             this.endDate = new Date(dto.endDate)
             this.isCancelled = dto.isCancelled
+            this.totalStallCount = dto.totalStallCount
+            this.availableStallCount = dto.availableStallCount
+            this.occupiedStallCount = dto.occupiedStallCount
             switch (dto.constructor.name) {
                 case "GetAllMarketsVM":
                     this.updateFromServerGetAllMarketsVM(dto)
