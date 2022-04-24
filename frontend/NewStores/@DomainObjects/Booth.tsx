@@ -1,8 +1,9 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { BoothStore } from "../stores/BoothStore"
-import {Booth as Dto} from "../../services/clients"
+import {BoothBaseVM as Dto, UpdateBoothRequest} from "../../services/clients"
 import { Stall } from "./Stall"
 import { ModelState } from "../../@types/ModelState"
+import { Merchant } from "./Merchant"
 
 export class Booth{
     store : BoothStore
@@ -11,11 +12,14 @@ export class Booth{
     @observable name : string
     @observable description : string
     @observable stall : Stall
+    @observable merchant : Merchant
 
     constructor(store : BoothStore)
     {
         makeAutoObservable(this)
         this.store = store
+        this.stall = null
+        this.merchant = null
         this.state = ModelState.NEW
     }
 
@@ -26,8 +30,8 @@ export class Booth{
         {
             this.state = ModelState.UPDATING;
             this.id = dto.id
-            this.name = dto.boothName 
-            this.description = dto.boothDescription
+            this.name = dto.name 
+            this.description = dto.description
             this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
             this.state = ModelState.IDLE
         }
@@ -37,12 +41,12 @@ export class Booth{
     @action
     save(){
         this.state = ModelState.SAVING
-        this.store.transportLayer.updateBooth(
+        this.store.transportLayer.updateBooth(new UpdateBoothRequest(
             {
                 boothDescription: this.description,
                 boothName: this.name,
                 id: this.id
-            }
+            })
         ).then(
             action("updateSuccess", res => {
                 this.state = ModelState.IDLE

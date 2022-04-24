@@ -125,7 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Booth"
+                  "$ref": "#/components/schemas/BoothBaseVM"
                 }
               }
             }
@@ -592,7 +592,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Booth"
+                    "$ref": "#/components/schemas/BoothBaseVM"
                   }
                 }
               }
@@ -1019,7 +1019,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Booth"
+                    "$ref": "#/components/schemas/BoothBaseVM"
                   }
                 }
               }
@@ -1169,7 +1169,7 @@
           }
         }
       },
-      "Booth": {
+      "BoothBaseVM": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1177,33 +1177,25 @@
             "type": "string",
             "nullable": true
           },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "stall": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/Stall"
+                "$ref": "#/components/schemas/StallBaseVM"
               }
             ]
-          },
-          "merchant": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Merchant"
-              }
-            ]
-          },
-          "boothName": {
-            "type": "string",
-            "nullable": true
-          },
-          "boothDescription": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
-      "Stall": {
+      "StallBaseVM": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1215,32 +1207,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/StallType"
-              }
-            ]
-          },
-          "market": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Market"
-              }
-            ]
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "booth": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Booth"
+                "$ref": "#/components/schemas/StallTypeBaseVM"
               }
             ]
           }
         }
       },
-      "StallType": {
+      "StallTypeBaseVM": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1255,154 +1228,6 @@
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "totalStallCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "market": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Market"
-              }
-            ]
-          },
-          "stalls": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Stall"
-            }
-          }
-        }
-      },
-      "Market": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "marketId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "organiser": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Organiser"
-              }
-            ]
-          },
-          "marketName": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isCancelled": {
-            "type": "boolean"
-          },
-          "stallTypes": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/StallType"
-            }
-          },
-          "stalls": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Stall"
-            }
-          }
-        }
-      },
-      "Organiser": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "street": {
-            "type": "string",
-            "nullable": true
-          },
-          "streetNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "appartment": {
-            "type": "string",
-            "nullable": true
-          },
-          "postalCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          },
-          "markets": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Market"
-            }
-          }
-        }
-      },
-      "Merchant": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "booths": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Booth"
-            }
           }
         }
       },
@@ -1436,53 +1261,6 @@
         }
       },
       "CreateMarketResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "market": {
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Market"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "CreateMarketRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "organiserId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "marketName": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "GetMarketInstanceQueryResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1490,13 +1268,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/GetMarketInstanceVM"
+                "$ref": "#/components/schemas/CreateMarketVM"
               }
             ]
           }
         }
       },
-      "GetMarketInstanceVM": {
+      "CreateMarketVM": {
         "allOf": [
           {
             "$ref": "#/components/schemas/MarketBaseVM"
@@ -1588,6 +1366,81 @@
           }
         }
       },
+      "CreateMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetMarketInstanceQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "market": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetMarketInstanceVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetMarketInstanceVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              },
+              "stallTypes": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/StallTypeBaseVM"
+                }
+              },
+              "booths": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/BoothBaseVM"
+                }
+              }
+            }
+          }
+        ]
+      },
       "GetAllMarketInstancesQueryResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -1643,10 +1496,31 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Market"
+              "$ref": "#/components/schemas/FilteredMarketVM"
             }
           }
         }
+      },
+      "FilteredMarketVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "GetUsersMarketsResponse": {
         "type": "object",
@@ -1724,24 +1598,17 @@
         }
       },
       "AddStallsToMarketResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "stalls": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/Stall"
-                }
-              }
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallBaseVM"
             }
           }
-        ]
+        }
       },
       "AddStallsToMarketRequest": {
         "type": "object",
@@ -1808,25 +1675,40 @@
         }
       },
       "CreateMerchantResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "merchant": {
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Merchant"
-                  }
-                ]
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MerchantBaseVM"
               }
-            }
+            ]
           }
-        ]
+        }
+      },
+      "MerchantBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "CreateMerchantRequest": {
         "type": "object",
@@ -1855,48 +1737,19 @@
           }
         }
       },
-      "MerchantBaseVM": {
+      "GetMerchantQueryResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
+          "merchant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MerchantBaseVM"
+              }
+            ]
           }
         }
-      },
-      "GetMerchantQueryResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "merchant": {
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/Merchant"
-                  }
-                ]
-              }
-            }
-          }
-        ]
       },
       "EditMerchantResponse": {
         "allOf": [
@@ -2104,7 +1957,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Organiser2"
+              "$ref": "#/components/schemas/Organiser"
             }
           },
           "pageNumber": {
@@ -2127,7 +1980,7 @@
           }
         }
       },
-      "Organiser2": {
+      "Organiser": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2236,7 +2089,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Stall"
+              "$ref": "#/components/schemas/StallBaseVM"
             }
           }
         }
@@ -2378,24 +2231,17 @@
         }
       },
       "GetUsersMerchantsResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "merchants": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/Merchant"
-                }
-              }
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchants": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MerchantBaseVM"
             }
           }
-        ]
+        }
       }
     },
     "securitySchemes": {

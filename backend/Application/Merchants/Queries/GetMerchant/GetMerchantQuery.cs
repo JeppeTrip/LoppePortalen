@@ -3,10 +3,6 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +28,13 @@ namespace Application.Merchants.Queries.GetMerchant
                     throw new NotFoundException($"No merchant with ID {request.Dto.Id}.");
                 }
 
-                return new GetMerchantQueryResponse(Result.Success()) { Merchant = new Merchant() { Id = merchant.Id, Name = merchant.Name, Description = merchant.Description, UserId = merchant.UserId } };
+                return new GetMerchantQueryResponse() { 
+                    Merchant = new MerchantBaseVM() { 
+                        Id = merchant.Id, 
+                        Name = merchant.Name, 
+                        Description = merchant.Description, 
+                        UserId = merchant.UserId 
+                    }};
             }
         }
     }

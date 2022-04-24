@@ -4,10 +4,7 @@ using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -60,7 +57,7 @@ namespace Application.Markets.Commands.CreateMarket
                 _context.MarketInstances.Add(instance);
 
                 await _context.SaveChangesAsync(cancellationToken);
-                Market market = new Market()
+                CreateMarketVM market = new CreateMarketVM()
                 {
                     MarketId = instance.Id,
                     Description = instance.MarketTemplate.Description,
@@ -68,7 +65,7 @@ namespace Application.Markets.Commands.CreateMarket
                     StartDate = instance.StartDate,
                     EndDate = instance.EndDate,
                     IsCancelled = instance.IsCancelled,
-                    Organiser = new Common.Models.Organiser()
+                    Organiser = new OrganiserBaseVM()
                     {
                         Id = organiser.Id,
                         Name = organiser.Name,
@@ -81,7 +78,7 @@ namespace Application.Markets.Commands.CreateMarket
                     }
                 };
 
-                return new CreateMarketResponse(Result.Success()) { Market = market };
+                return new CreateMarketResponse() { Market = market };
             }
         }
 

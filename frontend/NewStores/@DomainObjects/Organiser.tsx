@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
+import { CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
 
@@ -89,7 +89,7 @@ export class Organiser {
     save() {
         this.state = ModelState.SAVING
         if (!this.id) {
-            this.store.transportLayer.createOrganiser({
+            this.store.transportLayer.createOrganiser(new CreateOrganiserRequest({
                 userId: this.userId,
                 name: this.name,
                 description: this.description,
@@ -98,7 +98,7 @@ export class Organiser {
                 appartment: this.appartment,
                 city: this.city,
                 postalCode: this.postalCode
-            }).then(
+            })).then(
                 action("submitSuccess", res => {
                     this.id = res.id,
                         this.store.organisers.push(this);
@@ -110,7 +110,7 @@ export class Organiser {
             )
         }
         else {
-            this.store.transportLayer.editOrganiser({
+            this.store.transportLayer.editOrganiser(new EditOrganiserRequest({
                 organiserId: this.id,
                 userId: this.userId,
                 name: this.name,
@@ -120,7 +120,7 @@ export class Organiser {
                 appartment: this.appartment,
                 city: this.city,
                 postalCode: this.postalCode
-            })
+            }))
                 .then(
                     action("submitSuccess", res => {
                         this.state = ModelState.IDLE

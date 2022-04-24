@@ -9,6 +9,6 @@ namespace Application.Stalls.Queries.GetMarketStalls
 {
     public class GetMarketStallsResponse
     {
-        public List<Stall> Stalls;
+        public List<StallBaseVM> Stalls;
     }
 }

@@ -1,7 +1,7 @@
 import { action, flow, makeAutoObservable, observable } from "mobx";
 import { Booth } from "../@DomainObjects/Booth";
 import { RootStore } from "../RootStore";
-import { Booth as Dto, BoothClient} from '../../services/clients';
+import { BoothBaseVM as Dto, BoothClient} from '../../services/clients';
 
 export class BoothStore {
     rootStore: RootStore

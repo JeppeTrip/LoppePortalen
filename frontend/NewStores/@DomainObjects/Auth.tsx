@@ -1,4 +1,5 @@
 import { action, flowResult, makeAutoObservable, observable } from "mobx";
+import { AuthenticateUserRequest, RegisterUserRequest } from "../../services/clients";
 import { AuthStore } from "../stores/AuthStore";
 import { User } from "./User";
 
@@ -27,10 +28,10 @@ export class Auth {
     @action
     signIn() {
         this.authStore.transportLayer
-            .authenticateUser({
+            .authenticateUser(new AuthenticateUserRequest({
                 email: this.email,
                 password: this.password
-            }).then(
+            })).then(
                 action("authSuccess", res => {
                     localStorage.setItem(this.jwtPath, res.token);
                     localStorage.setItem(this.refreshPath, res.refreshToken);
@@ -69,7 +70,7 @@ export class Auth {
     @action
     registerUser() {
         this.authStore.isLoading = true;
-        this.authStore.transportLayer.registerUser({
+        this.authStore.transportLayer.registerUser(new RegisterUserRequest({
             email: this.email,
             password: this.password,
             firstName: this.user.firstName,
@@ -77,7 +78,7 @@ export class Auth {
             dateOfBirth: this.user.dateOfBirth,
             phoneNumber: this.user.phoneNumber,
             country: this.user.country
-        }).then(
+        })).then(
             action("registerUserSuccess", res => {
                 if (res.succeeded) {
                     localStorage.setItem(this.jwtPath, res.token);

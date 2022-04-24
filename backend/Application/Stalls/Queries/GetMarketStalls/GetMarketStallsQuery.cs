@@ -40,19 +40,18 @@ namespace Application.Stalls.Queries.GetMarketStalls
                     .Where(x => x.StallType.MarketTemplateId == marketInstance.MarketTemplateId)
                     .ToListAsync();
 
-                var result = new List<Stall>();
+                var result = new List<StallBaseVM>();
 
                 foreach(var stall in stalls)
                 {
-                    result.Add(new Stall()
+                    result.Add(new StallBaseVM()
                     {
                         Id = stall.Id,
-                        StallType = new StallType()
+                        StallType = new StallTypeBaseVM()
                         {
                             Id = stall.StallType.Id,
                             Name = stall.StallType.Name,
-                            Description = stall.StallType.Description,
-                            TotalStallCount = _context.Stalls.Where(x => x.StallTypeId == stall.StallTypeId).Count()
+                            Description = stall.StallType.Description
                         }
                     });
                 }
@@ -62,9 +61,6 @@ namespace Application.Stalls.Queries.GetMarketStalls
                     Stalls = result
                 };
             }
-
-            
         }
-
     }
 }

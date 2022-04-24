@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Models
 {
-    public class Booth
+    public class BoothBaseVM
     {
         public string Id { get; set; }
-        public Stall Stall { get; set; }
-        public Merchant Merchant { get; set; }
-        public string BoothName { get; set; }
-        public string BoothDescription { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public StallBaseVM Stall { get; set; }
     }
 }

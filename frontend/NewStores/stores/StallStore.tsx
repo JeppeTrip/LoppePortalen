@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { Stall } from "../@DomainObjects/Stall";
 import { RootStore } from "../RootStore";
-import { Stall as Dto, StallClient } from '../../services/clients'
+import { StallBaseVM as Dto, StallClient } from '../../services/clients'
 
 
 export class StallStore {

@@ -50,51 +50,9 @@ namespace Web.Controllers
         }
 
         [HttpGet("booths")]
-        public async Task<ActionResult<List<Booth>>> GetUsersBooths()
+        public async Task<ActionResult<List<BoothBaseVM>>> GetUsersBooths()
         {
             throw new NotImplementedException();
-            /*
-            var boothsResponse = await Mediator.Send(new GetUsersBoothsQuery());
-            if (boothsResponse == null || boothsResponse.Booths.Count == 0)
-            {
-                return NotFound();
-            }
-            //for each booth find the related stalls, their stall type, and their related market.
-            List<Booth> boothList = new List<Booth>();
-            foreach(var boothResponse in boothsResponse.Booths)
-            {
-                var stallResponse = await Mediator.Send(new GetStallQuery()
-                {
-                    Dto = new GetStallRequest() { StallId = boothResponse.StallId }
-                });
-
-                var stallTypeResponse = await Mediator.Send(new GetStallTypeQuery() { Dto=new GetStallTypeRequest() { StallTypeId = stallResponse.StallTypeId} });
-                var marketResponse = await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = stallResponse.MarketInstanceId } });
-                var boothvm = new Booth()
-                {
-                    Id = boothResponse.Id,
-                    BoothName = boothResponse.BoothName,
-                    BoothDescription = boothResponse.BoothDescription,
-                    Stall = new Stall()
-                    {
-                        Id = stallResponse.StallId,
-                        Market = marketResponse.Market,
-                        StallType = new StallType()
-                        {
-                            Id = stallTypeResponse.StallTypeId,
-                            Name = stallTypeResponse.Name,
-                            Description = stallTypeResponse.Description,
-                            Market = marketResponse.Market,
-                            TotalStallCount = 0
-
-                        }
-                    }
-                };
-                boothList.Add(boothvm);
-            }
-
-            return boothList;
-            */
         }
 
     }

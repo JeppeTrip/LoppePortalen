@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queries.GetMerchant
+namespace Application.Markets.Commands.CreateMarket
 {
-    public class GetMerchantQueryResponse
+    public class CreateMarketVM : MarketBaseVM
     {
-        public MerchantBaseVM Merchant { get; set; }
+        public OrganiserBaseVM Organiser { get; set; }
     }
 }

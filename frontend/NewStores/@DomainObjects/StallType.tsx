@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable, reaction, autorun, computed } f
 import { ModelState } from "../../@types/ModelState"
 import { StallTypeStore } from "../stores/StallTypeStore"
 import { Stall } from "./Stall"
-import { StallType as Dto } from '../../services/clients'
+import { AddStallsToMarketRequest, CreateStallTypeRequest, StallTypeBaseVM as Dto } from '../../services/clients'
 import { Market } from "./Market"
 
 
@@ -17,7 +17,7 @@ export class StallType {
     @observable totalStallCount: number
 
     //this is used when booking. Should probably be moved out
-    @observable bookingCount : number
+    @observable bookingCount: number
 
     constructor(store) {
         makeAutoObservable(this);
@@ -37,19 +37,7 @@ export class StallType {
             this.state = ModelState.UPDATING
             this.id = dto.id
             this.name = dto.name
-            this.totalStallCount = dto.totalStallCount
             this.description = dto.description
-            dto.stalls?.forEach(x => {
-                const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
-                if (!this.stalls.find(s => s.id === stall.id)) {
-                    this.stalls.push(stall)
-                }
-            })
-            if (dto.market != null) {
-                if(dto.market.stallTypes == null || dto.market.stallTypes.length === 0)
-                    dto.market.stallTypes = [dto]
-                this.market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
-            }
             this.state = ModelState.IDLE
         }
         return this
@@ -70,18 +58,14 @@ export class StallType {
     @action
     save() {
         this.state = ModelState.SAVING
-        this.store.transportLayer.createStallType({
+        this.store.transportLayer.createStallType(new CreateStallTypeRequest({
             marketId: this.market.id,
             name: this.name,
             description: this.description
-        }).then(
+        })).then(
             action("submitSuccess", res => {
                 if (res.succeeded) {
-                    this.updateFromServer({
-                        id: res.id,
-                        name: res.name,
-                        description: res.description
-                    })
+                    this.updateFromServer(res)
                     this.state = ModelState.IDLE
                     if (this.store.newStallType?.id === this.id)
                         this.store.newStallType = null
@@ -116,21 +100,16 @@ export class StallType {
     @action
     saveNewStallsToMarket(count: number) {
         this.state = ModelState.SAVING
-        this.store.rootStore.marketStore.transportLayer.addStallsToMarket(
+        this.store.rootStore.marketStore.transportLayer.addStallsToMarket(new AddStallsToMarketRequest(
             {
                 marketId: this.market.id,
                 stallTypeId: this.id,
                 number: count
             }
-        ).then(
+        )).then(
             action("submitSuccess", res => {
-                if (res.succeeded) {
-                    res.stalls.forEach(x => this.store.rootStore.stallStore.updateStallFromServer(x))
-                    this.state = ModelState.IDLE
-                }
-                else {
-                    this.state = ModelState.ERROR
-                }
+                res.stalls.forEach(x => this.store.rootStore.stallStore.updateStallFromServer(x))
+                this.state = ModelState.IDLE
             }),
             action("submitError", error => {
                 this.state = ModelState.ERROR
@@ -150,8 +129,7 @@ export class StallType {
      * Internal change only. Nothing comitted to the database.
      */
     @action
-    removeStall(id : number)
-    {
+    removeStall(id: number) {
         this.stalls = this.stalls.filter(x => x.id != id)
     }
 
@@ -165,20 +143,17 @@ export class StallType {
         this.description = description
     }
 
-    set setBookingCount(count : number)
-    {
+    set setBookingCount(count: number) {
         this.bookingCount = count
     }
 
     @action
-    incrementBookingCount()
-    {
+    incrementBookingCount() {
         this.bookingCount++
     }
 
     @action
-    decrementBookingCount()
-    {
+    decrementBookingCount() {
         this.bookingCount = Math.max(0, --this.bookingCount)
     }
 }

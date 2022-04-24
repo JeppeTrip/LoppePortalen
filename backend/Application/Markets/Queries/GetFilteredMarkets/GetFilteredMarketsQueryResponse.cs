@@ -9,6 +9,6 @@ namespace Application.Markets.Queries.GetFilteredMarkets
 {
     public class GetFilteredMarketsQueryResponse
     {
-        public List<Market> Markets { get; set; }
+        public List<FilteredMarketVM> Markets { get; set; }
     }
 }

@@ -48,6 +48,17 @@ namespace Application.Markets.Queries.GetMarketInstance
                     PostalCode = marketInstance.MarketTemplate.Organiser.Address.PostalCode,
                     City = marketInstance.MarketTemplate.Organiser.Address.City
                 };
+
+                var stallTypes = _context.StallTypes
+                    .Where(x => x.MarketTemplateId == marketInstance.MarketTemplateId)
+                    .ToList();
+
+                var booths = _context.Bookings
+                    .Include(x => x.Stall)
+                    .Include(x => x.Stall.StallType)
+                    .Where(x => x.Stall.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId));
+
+
                 GetMarketInstanceVM market = new GetMarketInstanceVM()
                 {
                     MarketId = marketInstance.Id,
@@ -56,8 +67,33 @@ namespace Application.Markets.Queries.GetMarketInstance
                     Organiser = organiser,
                     StartDate = marketInstance.StartDate,
                     EndDate = marketInstance.EndDate,
-                    IsCancelled = marketInstance.IsCancelled
+                    IsCancelled = marketInstance.IsCancelled,
+                    //Construct stall type vms to send with the market info.
+                    StallTypes = stallTypes.Select(x => new StallTypeBaseVM()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description
+                    }).ToList(),
+                    //Construct booth vms to send with the market info.
+                    Booths = booths.Select(x => new BoothBaseVM()
+                    {
+                        Id =x.Id,
+                        Name = x.BoothName,
+                        Description = x.BoothDescription,
+                        Stall = new StallBaseVM()
+                        {
+                            Id = x.StallId,
+                            StallType = new StallTypeBaseVM()
+                            {
+                                Id = x.Stall.StallTypeId,
+                                Name = x.Stall.StallType.Name,
+                                Description = x.Stall.StallType.Description
+                            }
+                        }
+                    }).ToList()
                 };
+
                 GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse()
                 {
                     Market = market

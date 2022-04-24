@@ -50,7 +50,7 @@ namespace Application.StallTypes.Commands.CreateStallTypes
 
                 if (templateTypeSet.Overlaps(dtoTypeSet))
                 {
-                    return new CreateStallTypesResponse(Result.Failure(new List<string>() { "Stall type names for this event overlaps with the new ones." }));
+                    throw new ValidationException("Stalltypes already exists.");
                 }
 
                 var types = request.Dto.Types.Select(x => new Domain.Entities.StallType()
@@ -64,14 +64,13 @@ namespace Application.StallTypes.Commands.CreateStallTypes
 
                 _context.StallTypes.AddRange(types);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateStallTypesResponse(Result.Success())
+                return new CreateStallTypesResponse()
                 {
-                    StallTypes = types.Select(x => new Common.Models.StallType()
+                    StallTypes = types.Select(x => new StallTypeBaseVM()
                     {
                         Id = x.Id,
                         Name = x.Name,
-                        Description = x.Description,
-                        TotalStallCount = 0
+                        Description = x.Description
                     }).ToList()
                 };
             }

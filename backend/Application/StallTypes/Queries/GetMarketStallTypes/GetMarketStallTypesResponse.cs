@@ -9,6 +9,6 @@ namespace Application.StallTypes.Queries.GetMarketStallTypes
 {
     public class GetMarketStallTypesResponse
     {
-        public List<StallType> StallTypes { get; set; }
+        public List<GetMarketStallTypesVM> StallTypes { get; set; }
     }
 }

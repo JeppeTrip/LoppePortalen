@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, UsersMarketsVM } from "../../services/clients";
+import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Organiser } from "./Organiser";
 import { Stall } from "./Stall";
@@ -19,6 +19,7 @@ export class Market {
     @observable isCancelled: boolean
     @observable stallTypes: StallType[]
     @observable stalls: Stall[]
+    @observable booths: Booth[]
 
     @action
     set setId(id: number) {
@@ -65,6 +66,7 @@ export class Market {
         this.oldState = null
         this.organiser = null
         this.stalls = [] as Stall[]
+        this.booths = [] as Booth[]
     }
 
     @action
@@ -107,6 +109,24 @@ export class Market {
         if (this.organiser == null || this.organiser.id != organiser.id)
             this.organiser = organiser
         this.organiser.addMarket(this)
+
+        //Update stalltypes based on the releated VM
+        dto.stallTypes.forEach(x => {
+            const stallType = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
+            stallType.market = this
+            const instance = this.stallTypes.find(x => x.id === stallType.id)
+            if(!instance)
+                this.stallTypes.push(stallType)
+        });
+
+        //Update  the booths based on the related VM.
+        dto.booths.forEach(x => {
+            const booth = this.store.rootStore.boothStore.updateBoothFromServer(x)
+            booth.stall.market = this
+            const instance = this.booths.find(x => x.id === booth.id)
+            if(!instance)
+                this.booths.push(booth)
+        });
     }
 
     @action
@@ -133,13 +153,13 @@ export class Market {
     save() {
         this.state = ModelState.SAVING
         if (!this.id) {
-            this.store.transportLayer.createMarket({
+            this.store.transportLayer.createMarket(new CreateMarketRequest({
                 organiserId: this.organiser?.id,
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate
-            }).then(
+            })).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
                         this.setOldState();
@@ -151,14 +171,14 @@ export class Market {
             )
         }
         else {
-            this.store.transportLayer.updateMarket({
+            this.store.transportLayer.updateMarket(new EditMarketRequest({
                 marketId: this.id,
                 organiserId: this.organiser?.id,
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate,
-            }).then(
+            })).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {
                         this.setOldState();
@@ -225,15 +245,13 @@ export class Market {
     @action
     bookStalls(merchantId: number) {
         this.state = ModelState.UPDATING
-        this.store.transportLayer.bookStalls({
+        this.store.transportLayer.bookStalls(new BookStallsRequest({
             marketId: this.id,
             merchantId: merchantId,
             stalls: this.stallTypes.filter(x => x.bookingCount > 0).map(x => {
-
-                return { stallTypeId: x.id, bookingAmount: x.bookingCount }
-
+                return new StallBooking({ stallTypeId: x.id, bookingAmount: x.bookingCount })
             })
-        }).then(
+        })).then(
             action("bookingSuccess", res => {
                 if (res.succeeded) {
                     this.state = ModelState.IDLE
@@ -246,9 +264,5 @@ export class Market {
                 this.state = ModelState.ERROR
             })
         )
-    }
-
-    get booths() {
-        return this.stalls.filter(x => x.booth && x.booth != null).map(x => x.booth)
     }
 }

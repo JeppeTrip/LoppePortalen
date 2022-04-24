@@ -10,5 +10,7 @@ namespace Application.Markets.Queries.GetMarketInstance
     public class GetMarketInstanceVM : MarketBaseVM
     {
         public OrganiserBaseVM Organiser { get; set; }
+        public List<StallTypeBaseVM> StallTypes { get; set; }
+        public List<BoothBaseVM> Booths { get; set; }
     }
 }

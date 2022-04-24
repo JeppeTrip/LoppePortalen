@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Merchants.Queries.GetMerchant
+namespace Application.StallTypes.Queries.GetMarketStallTypes
 {
-    public class GetMerchantQueryResponse
+    public class GetMarketStallTypesVM : StallTypeBaseVM
     {
-        public MerchantBaseVM Merchant { get; set; }
+        public int NumberOfStalls { get; set; }
     }
 }

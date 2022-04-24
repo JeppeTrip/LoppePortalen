@@ -53,17 +53,16 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                 }
                 _context.Stalls.AddRange(stalls);
                 await _context.SaveChangesAsync(cancellationToken);
-                int stallsCount = _context.Stalls.Where(x => x.StallTypeId == stallType.Id).Count();
-                return new AddStallsToMarketResponse(Result.Success())
+
+                return new AddStallsToMarketResponse()
                 {
-                    Stalls = stalls.Select(x => new Common.Models.Stall() { 
+                    Stalls = stalls.Select(x => new StallBaseVM() { 
                         Id = x.Id,
-                        StallType = new Common.Models.StallType()
+                        StallType = new StallTypeBaseVM()
                         {
                             Id = stallType.Id,
                             Name = stallType.Name,
-                            Description = stallType.Description,
-                            TotalStallCount = stallsCount
+                            Description = stallType.Description
                         }
                     }).ToList()
                 };

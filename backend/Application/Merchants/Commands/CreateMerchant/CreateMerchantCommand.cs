@@ -1,10 +1,9 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,16 +25,29 @@ namespace Application.Merchants.Commands.CreateMerchant
             }
             public async Task<CreateMerchantResponse> Handle(CreateMerchantCommand request, CancellationToken cancellationToken)
             {
+                //TODO: Remove since this should be covered by an authorization attribute instead.
                 var user = _context.UserInfo.Where(x => x.IdentityId.Equals(_currentUserService.UserId)).FirstOrDefault();
                 if(user == null)
                 {
                     throw new UnauthorizedAccessException();
                 }
 
-                var newMerchant = new Merchant() { Name = request.Dto.Name, Description = request.Dto.Description, User= user, UserId=user.IdentityId };
+                var newMerchant = new Merchant() { 
+                    Name = request.Dto.Name, 
+                    Description = request.Dto.Description, 
+                    User= user, 
+                    UserId=user.IdentityId 
+                };
+
                 _context.Merchants.Add(newMerchant);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateMerchantResponse(Common.Models.Result.Success()) { Merchant = new Common.Models.Merchant() { Id = newMerchant.Id, Name = newMerchant.Name, Description = newMerchant.Description, UserId = newMerchant.UserId } };
+
+                return new CreateMerchantResponse() { 
+                    Merchant = new MerchantBaseVM { 
+                        Id = newMerchant.Id, 
+                        Name = newMerchant.Name, 
+                        Description = newMerchant.Description, 
+                        UserId = newMerchant.UserId } };
             }
         }
     }

@@ -26,7 +26,13 @@ namespace Application.Merchants.Queries.GetUsersMerchants
             public async Task<GetUsersMerchantsResponse> Handle(GetUsersMerchantsQuery request, CancellationToken cancellationToken)
             {
                 var merchants = await _context.Merchants.Where(x => x.UserId.Equals(_currentUserService.UserId)).ToListAsync();
-                return new GetUsersMerchantsResponse(Result.Success()) { Merchants = merchants.Select(x => new Merchant() { Id = x.Id, Name = x.Name, Description = x.Description, UserId = x.UserId }).ToList() };
+                return new GetUsersMerchantsResponse() { 
+                    Merchants = merchants.Select(x => new MerchantBaseVM() 
+                    { 
+                        Id = x.Id, 
+                        Name = x.Name, 
+                        Description = x.Description, 
+                        UserId = x.UserId }).ToList() };
             }
         }
     }

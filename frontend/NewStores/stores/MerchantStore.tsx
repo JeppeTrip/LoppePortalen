@@ -1,6 +1,6 @@
 import { action, flow, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
-import { MerchantClient } from "../../services/clients"
+import { CreateMerchantRequest, EditMerchantRequest, MerchantClient } from "../../services/clients"
 import { Merchant } from "../@DomainObjects/Merchant"
 import { RootStore } from "../RootStore"
 import { MerchantBaseVM as Dto } from "../../services/clients"
@@ -35,24 +35,12 @@ export class MerchantStore {
     saveMerchant(merchant: Merchant) {
         if (!merchant.id) {
             merchant.state = ModelState.SAVING
-            this.transportLayer.createMerchant({
+            this.transportLayer.createMerchant(new CreateMerchantRequest({
                 name: merchant.name,
                 description: merchant.description
-            }).then(
+            })).then(
                 action("submitSuccess", res => {
-                    if (res.succeeded) {
-                        this.updateMerchantFromServer({
-                            id: res.merchant.id,
-                            name: res.merchant.name,
-                            description: res.merchant.description,
-                            userId: res.merchant.userId
-                        })
-
-                    }
-                    else {
-                        merchant.state = ModelState.ERROR
-                    }
-
+                    this.updateMerchantFromServer(res)
                 }),
                 action("submitError", error => {
                     merchant.state = ModelState.ERROR
@@ -60,19 +48,13 @@ export class MerchantStore {
             )
         } else {
             merchant.state = ModelState.SAVING
-            this.transportLayer.updateMerchant({
+            this.transportLayer.updateMerchant(new EditMerchantRequest({
                 id: merchant.id,
                 name: merchant.name,
                 description: merchant.description
-            }).then(
+            })).then(
                 action("submitSuccess", res => {
-                    if (res.succeeded) {
                         merchant.state = ModelState.IDLE
-                    }
-                    else {
-                        merchant.state = ModelState.ERROR
-                    }
-
                 }),
                 action("submitError", error => {
                     merchant.state = ModelState.ERROR

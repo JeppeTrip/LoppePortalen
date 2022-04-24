@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.CreateMerchant
 {
-    public class CreateMerchantResponse : Result
+    public class CreateMerchantResponse
     {
-        public CreateMerchantResponse(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
-        {
-        }
-
-        public CreateMerchantResponse(Result result) : base(result.Succeeded, result.Errors) { }
-
-        public Merchant Merchant { get; set; }
+        public MerchantBaseVM Merchant { get; set; }
     }
 }

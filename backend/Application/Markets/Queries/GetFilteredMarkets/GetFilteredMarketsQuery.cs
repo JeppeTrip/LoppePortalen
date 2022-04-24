@@ -41,16 +41,20 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                 }
 
                 var startDate = request.Dto.StartDate == null ? DateTimeOffset.MinValue : (DateTimeOffset) request.Dto.StartDate;
+                
                 var endDate = request.Dto.EndDate == null ? DateTimeOffset.MaxValue : (DateTimeOffset) request.Dto.EndDate;
+                
                 instances = instances.Where(
-                        x => ( DateTimeOffset.Compare(x.StartDate, startDate) >= 0 || DateTimeOffset.Compare(x.EndDate, startDate) >= 0) ).ToList();
+                        x => ( DateTimeOffset.Compare(x.StartDate, startDate) >= 0 || DateTimeOffset.Compare(x.EndDate, startDate) >= 0) )
+                    .ToList();
+
                 instances = instances.Where(
                     x => DateTimeOffset.Compare(x.StartDate, endDate) <= 0 || DateTimeOffset.Compare(x.EndDate, endDate) <= 0)
                     .ToList();
 
-                Organiser organiser;
+                OrganiserBaseVM organiser;
                 var result = instances.Select(x => {
-                    organiser = new Organiser
+                    organiser = new OrganiserBaseVM
                     {
                         Id = x.MarketTemplate.Organiser.Id,
                         UserId = x.MarketTemplate.Organiser.UserId,
@@ -62,7 +66,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                         PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
                         City = x.MarketTemplate.Organiser.Address.City
                     };
-                    return new Market()
+                    return new FilteredMarketVM()
                     {
                         MarketId = x.Id,
                         Description = x.MarketTemplate.Description,
