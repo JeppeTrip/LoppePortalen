@@ -19,6 +19,7 @@ namespace Application.Common.Interfaces
         DbSet<StallType> StallTypes { get; set; }
         DbSet<Merchant> Merchants { get; set; }
         DbSet<Booking> Bookings { get; set; }
+        DbSet<Category> ItemCategories { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

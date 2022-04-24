@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,7 @@ namespace Domain.Entities
         public virtual Stall Stall { get; set; }
         public string BoothName { get; set; }
         public string BoothDescription { get; set; }
+        public List<Category> ItemCategories { get; set; }
+  
     }
 }

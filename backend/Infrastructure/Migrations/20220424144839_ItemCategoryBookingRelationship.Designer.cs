@@ -3,15 +3,17 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220424144839_ItemCategoryBookingRelationship")]
+    partial class ItemCategoryBookingRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("BookingCategory", b =>
+            modelBuilder.Entity("BookingItemCategory", b =>
                 {
                     b.Property<string>("BookingsId")
                         .HasColumnType("text");
@@ -31,7 +33,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ItemCategoriesName");
 
-                    b.ToTable("BookingCategory");
+                    b.ToTable("BookingItemCategory");
                 });
 
             modelBuilder.Entity("Domain.Common.ApplicationUser", b =>
@@ -163,45 +165,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Category", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("ItemCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            Name = "Furniture",
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Name = "Electronics",
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Name = "Art",
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
             modelBuilder.Entity("Domain.Entities.ContactInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -235,6 +198,28 @@ namespace Infrastructure.Migrations
                     b.HasIndex("OrganiserId");
 
                     b.ToTable("ContactInformations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ItemCategory", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("ItemCategories");
                 });
 
             modelBuilder.Entity("Domain.Entities.MarketInstance", b =>
@@ -759,7 +744,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BookingCategory", b =>
+            modelBuilder.Entity("BookingItemCategory", b =>
                 {
                     b.HasOne("Domain.Entities.Booking", null)
                         .WithMany()
@@ -767,7 +752,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Category", null)
+                    b.HasOne("Domain.Entities.ItemCategory", null)
                         .WithMany()
                         .HasForeignKey("ItemCategoriesName")
                         .OnDelete(DeleteBehavior.Cascade)
