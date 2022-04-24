@@ -163,6 +163,29 @@
         }
       }
     },
+    "/api/ItemCategory/all": {
+      "get": {
+        "tags": [
+          "ItemCategory"
+        ],
+        "operationId": "ItemCategory_GetAllItemCategories",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Market/new": {
       "post": {
         "tags": [
@@ -547,7 +570,7 @@
         }
       }
     },
-    "/all": {
+    "/api/Merchant/all": {
       "get": {
         "tags": [
           "Merchant"
@@ -1327,24 +1350,10 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/ItemCategory"
+              "type": "string"
             }
           }
         }
-      },
-      "ItemCategory": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Furniture",
-          "Electronics",
-          "Art"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
       },
       "UpdateBoothResponse": {
         "allOf": [
@@ -1372,6 +1381,13 @@
           "boothDescription": {
             "type": "string",
             "nullable": true
+          },
+          "itemCategories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

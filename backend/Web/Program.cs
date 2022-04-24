@@ -52,6 +52,7 @@ namespace Web
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await DbContextSeed.SeedDefaultUserAsync(context, userManager, roleManager);
+                    await DbContextSeed.SeedDefaultItemCategories(context);
                     await DbContextSeed.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)

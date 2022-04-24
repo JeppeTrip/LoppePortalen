@@ -20,7 +20,7 @@ namespace Web.Controllers
             return await Mediator.Send(new CreateMerchantCommand() { Dto = dto });
         }
 
-        [HttpGet("/all")]
+        [HttpGet("all")]
         public async Task<ActionResult<AllMerchantsQueryResponse>> GetAllMerchants()
         {
             return await Mediator.Send(new AllMerchantsQuery());

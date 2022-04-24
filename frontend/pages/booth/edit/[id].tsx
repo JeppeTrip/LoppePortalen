@@ -10,7 +10,6 @@ import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
 import { StoreContext } from '../../../NewStores/StoreContext';
-import { ItemCategory } from "../../../services/clients";
 
 
 type Props = {
@@ -26,7 +25,7 @@ const EditBoothPage: NextPageAuth<Props> = observer(() => {
 
     //mount
     useEffect(() => {
-
+        stores.itemCategoryStore.fetchCategories()
     }, [])
 
     //Unmount
@@ -98,8 +97,10 @@ const EditBoothPage: NextPageAuth<Props> = observer(() => {
                                         multiple
                                         id="tags-standard"
                                         value={selectedBooth.itemCategories}
+                                        loading={stores.itemCategoryStore.categories.length === 0}
+                                        loadingText={"Fetching categories..."}
                                         options={
-                                            Object.values(ItemCategory).splice(0, Object.keys(ItemCategory).length/2).map(x => x.toString())
+                                            stores.itemCategoryStore.categories
                                         }
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (

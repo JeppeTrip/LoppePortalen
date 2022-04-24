@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { BoothStore } from "../stores/BoothStore"
-import {BoothBaseVM as Dto, ItemCategory, UpdateBoothRequest} from "../../services/clients"
+import {BoothBaseVM as Dto, UpdateBoothRequest} from "../../services/clients"
 import { Stall } from "./Stall"
 import { ModelState } from "../../@types/ModelState"
 import { Merchant } from "./Merchant"
@@ -54,7 +54,8 @@ export class Booth{
             {
                 boothDescription: this.description,
                 boothName: this.name,
-                id: this.id
+                id: this.id,
+                itemCategories: this.itemCategories
             })
         ).then(
             action("updateSuccess", res => {

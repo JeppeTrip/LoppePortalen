@@ -10,7 +10,7 @@ namespace Domain.Entities
 {
     public class Category : AuditableEntity
     {
-        public ItemCategory Name { get; set; }
+        public string Name { get; set; }
         public virtual List<Booking> Bookings { get; set; }
     }
 }

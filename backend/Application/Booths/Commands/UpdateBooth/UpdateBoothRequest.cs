@@ -11,5 +11,6 @@ namespace Application.Booths.Commands.UpdateBooth
         public string Id { get; set; }
         public string BoothName { get; set; }
         public string BoothDescription { get; set; }
+        public List<string> ItemCategories { get; set; } = new List<string>();
     }
 }
