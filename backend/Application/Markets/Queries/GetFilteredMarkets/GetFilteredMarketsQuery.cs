@@ -29,6 +29,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.Organiser)
                     .Include(x => x.MarketTemplate.Organiser.Address)
+                    .Include(x => x.Stalls)
                     .ToListAsync();
 
                 if (request.Dto.OrganiserId != null)
@@ -52,8 +53,17 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                     x => DateTimeOffset.Compare(x.StartDate, endDate) <= 0 || DateTimeOffset.Compare(x.EndDate, endDate) <= 0)
                     .ToList();
 
+                var bookings = await _context.Bookings
+                    .Include(x => x.Stall)
+                    .ToListAsync();
+
+                int total = 0;
+                int booked = 0;
+
                 OrganiserBaseVM organiser;
                 var result = instances.Select(x => {
+                    total = x.Stalls.Count();
+                    booked = bookings.Where(b => b.Stall.MarketInstanceId.Equals(x.Id)).Count();
                     organiser = new OrganiserBaseVM
                     {
                         Id = x.MarketTemplate.Organiser.Id,
@@ -74,7 +84,10 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                         Organiser = organiser,
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
-                        IsCancelled = x.IsCancelled
+                        IsCancelled = x.IsCancelled,
+                        TotalStallCount = total,
+                        AvailableStallCount = total - booked,
+                        OccupiedStallCount = booked
                     };
                 }).ToList();
 

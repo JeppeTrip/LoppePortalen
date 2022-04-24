@@ -72,6 +72,9 @@ namespace Application.Markets.Queries.GetMarketInstance
                     StartDate = marketInstance.StartDate,
                     EndDate = marketInstance.EndDate,
                     IsCancelled = marketInstance.IsCancelled,
+                    AvailableStallCount = stalls.Count(),
+                    OccupiedStallCount = booths.Count(),
+                    TotalStallCount = stalls.Count()+booths.Count(),
                     //Construct stall type vms to send with the market info.
                     StallTypes = stallTypes.Select(x => new StallTypeBaseVM()
                     {
