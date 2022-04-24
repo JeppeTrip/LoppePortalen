@@ -32,7 +32,14 @@ export class Booth{
             this.id = dto.id
             this.name = dto.name 
             this.description = dto.description
-            this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
+            switch(dto.constructor.name)
+            {
+                default: 
+                    this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
+                    this.stall.booth = this
+                    break;
+            }
+            
             this.state = ModelState.IDLE
         }
         return this;

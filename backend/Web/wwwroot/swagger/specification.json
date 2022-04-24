@@ -125,7 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BoothBaseVM"
+                  "$ref": "#/components/schemas/GetBoothResponse"
                 }
               }
             }
@@ -1166,15 +1166,71 @@
           }
         }
       },
-      "BoothBaseVM": {
+      "GetBoothResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
+          "booth": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetBoothVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetBoothVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
           },
-          "name": {
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetBoothStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetBoothStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "MarketBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
             "type": "string",
             "nullable": true
           },
@@ -1182,13 +1238,16 @@
             "type": "string",
             "nullable": true
           },
-          "stall": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/StallBaseVM"
-              }
-            ]
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
           }
         }
       },
@@ -1225,6 +1284,32 @@
           "description": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "BoothBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "stall": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/StallBaseVM"
+              }
+            ]
           }
         }
       },
@@ -1331,35 +1416,6 @@
           "city": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "MarketBaseVM": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "marketId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "marketName": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isCancelled": {
-            "type": "boolean"
           }
         }
       },

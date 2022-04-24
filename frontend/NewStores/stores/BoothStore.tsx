@@ -29,8 +29,8 @@ export class BoothStore {
     @flow 
     *fetchBooth(boothId : string)
     {
-        const res : Dto = yield this.transportLayer.getBooth(boothId);
-        const booth =  this.updateBoothFromServer(res)
+        const res = yield this.transportLayer.getBooth(boothId);
+        const booth =  this.updateBoothFromServer(res.booth)
         return booth
     }
 }

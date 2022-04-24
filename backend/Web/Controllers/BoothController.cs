@@ -13,9 +13,9 @@ namespace Web.Controllers
     public class BoothController : ApiBase
     {
         [HttpGet]
-        public async Task<ActionResult<BoothBaseVM>> GetBooth([FromQuery] string id)
+        public async Task<ActionResult<GetBoothResponse>> GetBooth([FromQuery] string id)
         {
-            throw new NotImplementedException();
+            return await Mediator.Send(new GetBoothQuery() { Dto=new GetBoothRequest() { Id = id } });
         }
 
         [HttpPut]

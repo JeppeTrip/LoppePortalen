@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,17 +27,44 @@ namespace Application.Booths.Queries.GetBooth
 
             public async Task<GetBoothResponse> Handle(GetBoothQuery request, CancellationToken cancellationToken)
             {
-                var booking = await _context.Bookings.FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
+                var booking = await _context.Bookings
+                    .Include(x => x.Stall)
+                    .Include(x => x.Stall.StallType)
+                    .Include(x => x.Stall.MarketInstance)
+                    .Include(x => x.Stall.MarketInstance.MarketTemplate)
+                    .FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
                 if (booking == null)
                     throw new NotFoundException($"No booth with id {request.Dto.Id}");
 
-                return new GetBoothResponse()
+                var vm = new GetBoothVM()
                 {
                     Id = booking.Id,
-                    BoothName = booking.BoothName,
-                    BoothDescription = booking.BoothDescription,
-                    MerchantId = booking.MerchantId,
-                    StallId = booking.StallId
+                    Name = booking.BoothName,
+                    Description = booking.BoothDescription,
+                    Stall = new GetBoothStallVM()
+                    {
+                        Id = booking.Stall.Id,
+                        StallType = new StallTypeBaseVM()
+                        {
+                            Id = booking.Stall.StallType.Id,
+                            Name = booking.Stall.StallType.Name,
+                            Description = booking.Stall.StallType.Description
+                        },
+                        Market = new MarketBaseVM()
+                        {
+                            MarketId = booking.Stall.MarketInstance.Id,
+                            MarketName = booking.Stall.MarketInstance.MarketTemplate.Name,
+                            Description = booking.Stall.MarketInstance.MarketTemplate.Description,
+                            StartDate = booking.Stall.MarketInstance.StartDate,
+                            EndDate = booking.Stall.MarketInstance.EndDate,
+                            IsCancelled = booking.Stall.MarketInstance.IsCancelled
+                        }
+                    }
+                };
+
+                return new GetBoothResponse()
+                {
+                    Booth = vm
                 };
             }
         }

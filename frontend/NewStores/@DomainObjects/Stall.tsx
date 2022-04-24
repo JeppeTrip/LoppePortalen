@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
 import { StallStore } from "../stores/StallStore";
 import { StallType } from "./StallType";
-import { GetUsersBoothsStallVM, StallBaseVM as Dto } from '../../services/clients'
+import { GetBoothStallVM, GetUsersBoothsStallVM, StallBaseVM as Dto } from '../../services/clients'
 import { Market } from "./Market";
 import { Booth } from "./Booth";
 
@@ -45,7 +45,14 @@ export class Stall {
         const market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
         if(this.market == null || this.market.id != market.id)
             this.market = market
-        
+    }
+
+    @action
+    updateFromServerGetBoothStallVM(dto : GetBoothStallVM)
+    {
+        const market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
+        if(this.market == null || this.market.id != market.id)
+            this.market = market
     }
 
     @action

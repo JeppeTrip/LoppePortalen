@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Booths.Queries.GetBooth
 {
-    public class GetBoothResponse
+    public class GetBoothVM : BoothBaseVM
     {
-        public GetBoothVM Booth { get; set; }
+        public new GetBoothStallVM Stall { get; set; }
     }
 }
