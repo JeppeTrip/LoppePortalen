@@ -90,7 +90,6 @@ export class Organiser {
         this.state = ModelState.SAVING
         if (!this.id) {
             this.store.transportLayer.createOrganiser(new CreateOrganiserRequest({
-                userId: this.userId,
                 name: this.name,
                 description: this.description,
                 street: this.street,
@@ -112,7 +111,6 @@ export class Organiser {
         else {
             this.store.transportLayer.editOrganiser(new EditOrganiserRequest({
                 organiserId: this.id,
-                userId: this.userId,
                 name: this.name,
                 description: this.description,
                 street: this.street,
