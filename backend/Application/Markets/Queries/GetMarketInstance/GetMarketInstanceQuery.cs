@@ -56,6 +56,7 @@ namespace Application.Markets.Queries.GetMarketInstance
                 var booths = _context.Bookings
                     .Include(x => x.Stall)
                     .Include(x => x.Stall.StallType)
+                    .Include(x => x.ItemCategories)
                     .Where(x => x.Stall.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId));
 
                 var stalls = _context.Stalls
@@ -99,6 +100,7 @@ namespace Application.Markets.Queries.GetMarketInstance
                         Id =x.Id,
                         Name = x.BoothName,
                         Description = x.BoothDescription,
+                        Categories = x.ItemCategories.Select(x => x.Name).ToList(),
                         Stall = new StallBaseVM()
                         {
                             Id = x.StallId,

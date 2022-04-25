@@ -1,4 +1,4 @@
-import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, Stack, Typography } from "@mui/material";
+import { Avatar, Chip, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useCallback } from "react";
 import { Booth } from "../../NewStores/@DomainObjects/Booth";
@@ -69,7 +69,13 @@ const BoothListItem: FC<Props> = (props: Props) => {
                                     </Typography>
                                 </Grid>
                             </Grid>
-
+                        </Stack>
+                    </Grid>
+                    <Grid item>
+                        <Stack spacing={1}>
+                            {
+                                props.booth.itemCategories.map(x => <Chip size="small" label={x} />)
+                            }
                         </Stack>
                     </Grid>
                 </Grid>
