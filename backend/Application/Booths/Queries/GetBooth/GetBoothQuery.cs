@@ -27,15 +27,22 @@ namespace Application.Booths.Queries.GetBooth
 
             public async Task<GetBoothResponse> Handle(GetBoothQuery request, CancellationToken cancellationToken)
             {
-                var booking = await _context.Bookings
+                var allBookings = _context.Bookings
                     .Include(x => x.Stall)
                     .Include(x => x.Stall.StallType)
                     .Include(x => x.Stall.MarketInstance)
                     .Include(x => x.Stall.MarketInstance.MarketTemplate)
-                    .Include(x => x.ItemCategories)
-                    .FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
+                    .Include(x => x.ItemCategories);
+                  
+                var booking = await allBookings.FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
                 if (booking == null)
                     throw new NotFoundException($"No booth with id {request.Dto.Id}");
+
+                var itemCategories = await allBookings
+                    .Where(x => x.Stall.MarketInstanceId == booking.Stall.MarketInstanceId)
+                    .SelectMany(x => x.ItemCategories)
+                    .ToListAsync();
+                var marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
 
                 var vm = new GetBoothVM()
                 {
@@ -59,7 +66,8 @@ namespace Application.Booths.Queries.GetBooth
                             Description = booking.Stall.MarketInstance.MarketTemplate.Description,
                             StartDate = booking.Stall.MarketInstance.StartDate,
                             EndDate = booking.Stall.MarketInstance.EndDate,
-                            IsCancelled = booking.Stall.MarketInstance.IsCancelled
+                            IsCancelled = booking.Stall.MarketInstance.IsCancelled,
+                            Categories = marketCategories
                         }
                     }
                 };

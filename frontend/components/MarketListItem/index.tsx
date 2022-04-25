@@ -1,7 +1,7 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 import ImageIcon from '@mui/icons-material/Image';
-import { Avatar, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
+import { Avatar, Chip, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -99,6 +99,11 @@ const MarketListItem: FC<Props> = (props: Props) => {
                         </Stack>
                     }
                 />
+                <Stack spacing={1}>
+                    {
+                        props.Market.itemCategories.map(x => <Chip size="small" label={x} />)
+                    }
+                </Stack>
             </ListItemButton>
         </ListItem>
 

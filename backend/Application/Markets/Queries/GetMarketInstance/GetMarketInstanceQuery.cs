@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -57,12 +58,21 @@ namespace Application.Markets.Queries.GetMarketInstance
                     .Include(x => x.Stall)
                     .Include(x => x.Stall.StallType)
                     .Include(x => x.ItemCategories)
-                    .Where(x => x.Stall.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId));
+                    .Where(x => x.Stall.MarketInstanceId.Equals(marketInstance.Id));
 
                 var stalls = _context.Stalls
                     .Include(x => x.StallType)
                     .Include(x => x.Bookings)
-                    .Where(x => x.StallType.MarketTemplateId.Equals(marketInstance.MarketTemplateId) && x.Bookings.Count == 0);
+                    .Where(x => x.MarketInstanceId.Equals(marketInstance.Id) && x.Bookings.Count == 0);
+
+                List<Category> itemCategories = new List<Category>();
+                List<string> marketCategories = new List<string>();
+
+                itemCategories = booths
+                    .SelectMany(x => x.ItemCategories)
+                    .ToList();
+
+                marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
 
                 GetMarketInstanceVM market = new GetMarketInstanceVM()
                 {
@@ -76,6 +86,7 @@ namespace Application.Markets.Queries.GetMarketInstance
                     AvailableStallCount = stalls.Count(),
                     OccupiedStallCount = booths.Count(),
                     TotalStallCount = stalls.Count()+booths.Count(),
+                    Categories = marketCategories,
                     //Construct stall type vms to send with the market info.
                     StallTypes = stallTypes.Select(x => new StallTypeBaseVM()
                     {

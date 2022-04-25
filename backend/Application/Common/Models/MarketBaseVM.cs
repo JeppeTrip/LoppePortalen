@@ -17,5 +17,6 @@ namespace Application.Common.Models
         public int TotalStallCount { get; set; } = -1;
         public int AvailableStallCount { get; set; } = -1;
         public int OccupiedStallCount { get; set; } = -1;
+        public List<string> Categories { get; set; } = new List<string>();
     }
 }

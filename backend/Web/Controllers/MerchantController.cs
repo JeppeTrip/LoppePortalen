@@ -2,12 +2,10 @@
 using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Commands.EditMerchant;
 using Application.Merchants.Queries.AllMerchants;
-using Application.Merchants.Queries.GetBooths;
 using Application.Merchants.Queries.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Web.Controllers

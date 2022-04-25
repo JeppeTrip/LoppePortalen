@@ -24,6 +24,7 @@ export class Market {
     @observable totalStallCount : number 
     @observable availableStallCount : number
     @observable occupiedStallCount : number
+    @observable itemCategories : string[]
 
     @action
     set setId(id: number) {
@@ -71,6 +72,7 @@ export class Market {
         this.organiser = null
         this.stalls = [] as Stall[]
         this.booths = [] as Booth[]
+        this.itemCategories = [] as string[]
     }
 
     @action
@@ -86,6 +88,7 @@ export class Market {
             this.totalStallCount = dto.totalStallCount
             this.availableStallCount = dto.availableStallCount
             this.occupiedStallCount = dto.occupiedStallCount
+            this.itemCategories = dto.categories
             switch (dto.constructor.name) {
                 case "GetAllMarketsVM":
                     this.updateFromServerGetAllMarketsVM(dto)

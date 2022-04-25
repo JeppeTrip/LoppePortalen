@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,13 +27,15 @@ namespace Application.Booths.Queries.GetUsersBooths
 
             public async Task<GetUsersBoothsResponse> Handle(GetUsersBoothsQuery request, CancellationToken cancellationToken)
             {
-                var bookings = await _context.Bookings
+                var allBookings = _context.Bookings
                     .Include(x => x.Merchant)
                     .Include(x => x.Stall)
                     .Include(x => x.Stall.StallType)
                     .Include(x => x.Stall.MarketInstance)
                     .Include(x => x.Stall.MarketInstance.MarketTemplate)
-                    .Include(x => x.ItemCategories)
+                    .Include(x => x.ItemCategories);
+
+                var bookings = await allBookings
                     .Where(x => x.Merchant.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
@@ -41,31 +44,44 @@ namespace Application.Booths.Queries.GetUsersBooths
                     return new GetUsersBoothsResponse() { Booths = new List<GetUsersBoothsVM>() };
                 }
 
-                var booths = bookings.Select(x => new GetUsersBoothsVM()
-                {
-                    Id = x.Id,
-                    Name = x.BoothName,
-                    Description = x.BoothDescription,
-                    Categories = x.ItemCategories.Select(x => x.Name).ToList(),
-                    Stall = new GetUsersBoothsStallVM()
-                    {
-                        Id = x.Stall.Id,
-                        StallType = new StallTypeBaseVM()
+
+                
+                List<Category> itemCategories = new List<Category>();
+                List<string> marketCategories = new List<string>();
+                var booths = bookings.Select(booking => {
+                    itemCategories = allBookings
+                        .Where(x => x.Stall.MarketInstanceId == booking.Stall.MarketInstanceId)
+                        .SelectMany(x => x.ItemCategories)
+                        .ToList();
+
+                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
+
+                    return new GetUsersBoothsVM() {
+                        Id = booking.Id,
+                        Name = booking.BoothName,
+                        Description = booking.BoothDescription,
+                        Categories = booking.ItemCategories.Select(x => x.Name).ToList(),
+                        Stall = new GetUsersBoothsStallVM()
                         {
-                            Id = x.Stall.StallType.Id,
-                            Name = x.Stall.StallType.Name,
-                            Description = x.Stall.StallType.Description
-                        },
-                        Market = new MarketBaseVM()
-                        {
-                            MarketId = x.Stall.MarketInstanceId,
-                            MarketName = x.Stall.MarketInstance.MarketTemplate.Name,
-                            Description = x.Stall.MarketInstance.MarketTemplate.Description,
-                            StartDate = x.Stall.MarketInstance.StartDate,
-                            EndDate = x.Stall.MarketInstance.EndDate,
-                            IsCancelled = x.Stall.MarketInstance.IsCancelled
+                            Id = booking.Stall.Id,
+                            StallType = new StallTypeBaseVM()
+                            {
+                                Id = booking.Stall.StallType.Id,
+                                Name = booking.Stall.StallType.Name,
+                                Description = booking.Stall.StallType.Description
+                            },
+                            Market = new MarketBaseVM()
+                            {
+                                MarketId = booking.Stall.MarketInstanceId,
+                                MarketName = booking.Stall.MarketInstance.MarketTemplate.Name,
+                                Description = booking.Stall.MarketInstance.MarketTemplate.Description,
+                                StartDate = booking.Stall.MarketInstance.StartDate,
+                                EndDate = booking.Stall.MarketInstance.EndDate,
+                                IsCancelled = booking.Stall.MarketInstance.IsCancelled,
+                                Categories = marketCategories
+                            }
                         }
-                    }
+                    };
                 }).ToList();
 
                 return new GetUsersBoothsResponse() { Booths = booths };    

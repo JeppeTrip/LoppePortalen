@@ -1283,6 +1283,13 @@
           "occupiedStallCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "categories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
