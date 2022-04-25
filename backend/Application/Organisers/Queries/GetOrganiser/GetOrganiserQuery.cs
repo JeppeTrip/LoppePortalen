@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -37,19 +38,46 @@ namespace Application.Organisers.Queries.GetOrganiser
                 }
 
                 var instances = _context.MarketInstances
-                    .Include(m => m.MarketTemplate);
+                    .Include(m => m.MarketTemplate)
+                    .Include(m => m.Stalls);
 
-                var organiserInstances = instances
-                    .Where(m => m.MarketTemplate.OrganiserId == organiser.Id);
+                var organiserInstances = await instances
+                    .Where(m => m.MarketTemplate.OrganiserId == organiser.Id)
+                    .ToListAsync();
 
-                var markets = organiserInstances.Select(m => new MarketBaseVM()
+                var allBookings = _context.Bookings
+                    .Include(x => x.Stall)
+                    .Include(x => x.ItemCategories);
+
+                List<Category> itemCategories = new List<Category>();
+                List<string> marketCategories = new List<string>();
+                int total = 0;
+                int booked = 0;
+                List<MarketBaseVM> markets = organiserInstances.Select(market =>
                 {
-                    MarketId = m.Id,
-                    MarketName = m.MarketTemplate.Name,
-                    Description = m.MarketTemplate.Description,
-                    StartDate = m.StartDate,
-                    EndDate = m.EndDate,
-                    IsCancelled = m.IsCancelled
+                    total = market.Stalls.Count();
+                    booked = allBookings.Where(b => b.Stall.MarketInstanceId.Equals(market.Id)).Count();
+
+                    itemCategories = allBookings
+                        .Where(x => x.Stall.MarketInstanceId == market.Id)
+                        .SelectMany(x => x.ItemCategories)
+                        .ToList();
+
+                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
+
+                    return new MarketBaseVM()
+                    {
+                        MarketId = market.Id,
+                        MarketName = market.MarketTemplate.Name,
+                        Description = market.MarketTemplate.Description,
+                        StartDate = market.StartDate,
+                        EndDate = market.EndDate,
+                        IsCancelled = market.IsCancelled,
+                        AvailableStallCount = total - booked,
+                        OccupiedStallCount = booked,
+                        TotalStallCount = total,
+                        Categories = marketCategories
+                    };
                 }).ToList();
 
                 GetOrganiserVM result = new GetOrganiserVM()

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -37,41 +38,51 @@ namespace Application.Markets.Queries.GetUsersMarkets
                     .Where(x => x.MarketTemplate.Organiser.UserId.Equals(_currentUserService.UserId))
                     .ToListAsync();
 
-                var bookings = await _context.Bookings
+                var bookings = _context.Bookings
                     .Include(x => x.Stall)
-                    .ToListAsync();
+                    .Include(x => x.ItemCategories);
 
                 int total = 0;
                 int booked = 0;
 
-                var result = instances.Select(x =>
+                List<Category> itemCategories = new List<Category>();
+                List<string> marketCategories = new List<string>();
+
+                var result = instances.Select(market =>
                 {
-                    total = x.Stalls.Count();
-                    booked = bookings.Where(b => b.Stall.MarketInstanceId.Equals(x.Id)).Count();
+                    total = market.Stalls.Count();
+                    booked = bookings.Where(b => b.Stall.MarketInstanceId.Equals(market.Id)).Count();
+                    itemCategories = bookings
+                        .Where(b => b.Stall.MarketInstanceId.Equals(market.Id))
+                        .SelectMany(x => x.ItemCategories)
+                        .ToList();
+
+                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
                     organiser = new OrganiserBaseVM
                     {
-                        Id = x.MarketTemplate.Organiser.Id,
-                        UserId = x.MarketTemplate.Organiser.UserId,
-                        Name = x.MarketTemplate.Organiser.Name,
-                        Description = x.MarketTemplate.Organiser.Description,
-                        Street = x.MarketTemplate.Organiser.Address.Street,
-                        StreetNumber = x.MarketTemplate.Organiser.Address.Number,
-                        Appartment = x.MarketTemplate.Organiser.Address.Appartment,
-                        PostalCode = x.MarketTemplate.Organiser.Address.PostalCode,
-                        City = x.MarketTemplate.Organiser.Address.City
+                        Id = market.MarketTemplate.Organiser.Id,
+                        UserId = market.MarketTemplate.Organiser.UserId,
+                        Name = market.MarketTemplate.Organiser.Name,
+                        Description = market.MarketTemplate.Organiser.Description,
+                        Street = market.MarketTemplate.Organiser.Address.Street,
+                        StreetNumber = market.MarketTemplate.Organiser.Address.Number,
+                        Appartment = market.MarketTemplate.Organiser.Address.Appartment,
+                        PostalCode = market.MarketTemplate.Organiser.Address.PostalCode,
+                        City = market.MarketTemplate.Organiser.Address.City
                     };
                     return new UsersMarketsVM()
                     {
-                        MarketId = x.Id,
-                        Description = x.MarketTemplate.Description,
-                        MarketName = x.MarketTemplate.Name,
+                        MarketId = market.Id,
+                        Description = market.MarketTemplate.Description,
+                        MarketName = market.MarketTemplate.Name,
                         Organiser = organiser,
-                        StartDate = x.StartDate,
-                        EndDate = x.EndDate,
-                        IsCancelled = x.IsCancelled,
+                        StartDate = market.StartDate,
+                        EndDate = market.EndDate,
+                        IsCancelled = market.IsCancelled,
                         TotalStallCount = total,
                         AvailableStallCount = total - booked,
-                        OccupiedStallCount = booked
+                        OccupiedStallCount = booked,
+                        Categories = marketCategories
                     };
                 }).ToList();
 
