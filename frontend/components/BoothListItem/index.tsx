@@ -1,4 +1,4 @@
-import { Avatar, Chip, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, Stack, Typography } from "@mui/material";
+import { Avatar, Chip, Grid, IconButton, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { FC, useCallback } from "react";
 import { Booth } from "../../NewStores/@DomainObjects/Booth";
@@ -39,46 +39,25 @@ const BoothListItem: FC<Props> = (props: Props) => {
             disablePadding
         >
             <ListItemButton onClick={redirect}>
-                <ListItemAvatar>
-                    <Avatar>
-                        <StorefrontIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={8}>
-                        <Stack>
-                            <Typography
-                                variant="h6">
-                                {
-                                    props.booth.name
-                                }
-                            </Typography>
-                            <Grid container spacing={2}>
-                                <Grid item>
-                                    <Typography variant="caption">
-                                        {
-                                            props.booth.stall.market.name
-                                        }
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant="caption">
-                                        {
-                                            props.booth.stall.type.name
-                                        }
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Stack>
-                    </Grid>
-                    <Grid item>
-                        <Stack spacing={1}>
-                            {
-                                props.booth.itemCategories.map(x => <Chip size="small" label={x} />)
-                            }
-                        </Stack>
-                    </Grid>
-                </Grid>
+                <Stack>
+                    <Stack direction={"row"}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <StorefrontIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={props.booth.name}
+                            secondary={props.booth.stall.market.name + " - " + props.booth.stall.type.name} />
+                    </Stack>
+
+                    <Stack spacing={1} direction={"row"}>
+                        {
+                            props.booth.itemCategories.map(x => <Chip size="small" label={x} />)
+                        }
+                    </Stack>
+                </Stack>
+
             </ListItemButton>
 
         </ListItem>
