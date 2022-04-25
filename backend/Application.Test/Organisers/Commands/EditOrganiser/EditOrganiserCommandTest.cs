@@ -17,7 +17,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
             var oldOrg = Context.Organisers.FirstOrDefault(x => x.Id == 1);
             var request = new EditOrganiserRequest()
             {
-                UserId = Guid.Empty.ToString(),
                 OrganiserId = 1,
                 Name = "Test Organiser Name",
                 Appartment = "Test Organiser Appartment",
@@ -32,13 +31,13 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
             var result = await handler.Handle(command, CancellationToken.None);
 
             result.Succeeded.Should().BeTrue();
             var newOrg = Context.Organisers.FirstOrDefault(x => x.Id == 1);
             newOrg.Id.Should().Be(request.OrganiserId);
-            newOrg.UserId.Should().Be(request.UserId);
+            newOrg.UserId.Should().Be(Guid.Empty.ToString());
             newOrg.Name.Should().Be(request.Name);
             newOrg.Description.Should().Be(request.Description);
             newOrg.Address.Street.Should().Be(request.Street);
@@ -49,40 +48,11 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
         }
 
         [Fact]
-        public async Task Handle_NonExistentUser()
-        {
-            var oldOrg = Context.Organisers.FirstOrDefault(x => x.Id == 1);
-            var request = new EditOrganiserRequest()
-            {
-                UserId = Guid.NewGuid().ToString(),
-                OrganiserId = 1,
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Test Organiser Street"
-            };
-            var command = new EditOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
-            await Assert.ThrowsAsync<NotFoundException>(async () =>
-            {
-                await handler.Handle(command, CancellationToken.None);
-            });
-        }
-
-        [Fact]
         public async Task Handle_NonExistentOrganiser()
         {
             var oldOrg = Context.Organisers.FirstOrDefault(x => x.Id == 1);
             var request = new EditOrganiserRequest()
             {
-                UserId = Guid.Empty.ToString(),
                 OrganiserId = -1,
                 Name = "Test Organiser Name",
                 Appartment = "Test Organiser Appartment",
@@ -97,7 +67,7 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Dto = request
             };
 
-            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
+            var handler = new EditOrganiserCommand.EditOrganiserCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
             await Assert.ThrowsAsync<NotFoundException>(async () =>
             {
                 await handler.Handle(command, CancellationToken.None);

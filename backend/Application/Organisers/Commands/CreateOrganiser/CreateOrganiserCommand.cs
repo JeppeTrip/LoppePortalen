@@ -1,11 +1,7 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,12 +26,7 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             public async Task<CreateOrganiserResponse> Handle(CreateOrganiserCommand request, CancellationToken cancellationToken)
             {
-                if(!request.Dto.UserId.Equals(_currentUserService.UserId))
-                {
-                    throw new UnauthorizedAccessException();
-                }
-
-                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(request.Dto.UserId));
+                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(_currentUserService));
                 Address newAddress = new Address {
                     Street = request.Dto.Street,
                     Number = request.Dto.Number,

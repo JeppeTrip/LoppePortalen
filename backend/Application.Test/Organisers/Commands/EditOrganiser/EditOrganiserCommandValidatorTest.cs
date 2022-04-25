@@ -24,7 +24,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -49,7 +48,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -73,7 +71,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -98,7 +95,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -122,7 +118,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -147,7 +142,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -172,32 +166,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "",
-                UserId = "UserId",
-                OrganiserId = 1
-            };
-            var command = new EditOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var valRes = await new EditOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            valRes.IsValid.Should().BeFalse();
-            valRes.Errors.Count.Should().Be(1);
-        }
-
-        [Fact]
-        public async Task Handle_EmptyUserId()
-        {
-            var request = new EditOrganiserRequest()
-            {
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Street",
-                UserId = "",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -222,7 +190,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -247,7 +214,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -271,7 +237,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -296,7 +261,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -321,7 +285,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = null,
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -346,7 +309,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = null,
                 Street = "Test Organiser Street",
-                UserId = "UserId",
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -371,32 +333,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = null,
-                UserId = "UserId",
-                OrganiserId = 1
-            };
-            var command = new EditOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var valRes = await new EditOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            valRes.IsValid.Should().BeFalse();
-            valRes.Errors.Count.Should().Be(1);
-        }
-
-        [Fact]
-        public async Task Handle_NullUserId()
-        {
-            var request = new EditOrganiserRequest()
-            {
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Street",
-                UserId = null,
                 OrganiserId = 1
             };
             var command = new EditOrganiserCommand()
@@ -421,7 +357,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Street",
-                UserId = "UserId",
                 OrganiserId = 0
             };
             var command = new EditOrganiserCommand()
@@ -447,7 +382,6 @@ namespace Application.Test.Organisers.Commands.EditOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Street",
-                UserId = "UserId",
                 OrganiserId = -1
             };
             var command = new EditOrganiserCommand()

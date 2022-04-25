@@ -24,7 +24,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -48,7 +47,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -71,7 +69,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -95,7 +92,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -118,7 +114,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -142,7 +137,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -166,31 +160,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "",
-                UserId = "UserId"
-            };
-            var command = new CreateOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            valRes.IsValid.Should().BeFalse();
-            valRes.Errors.Count.Should().Be(1);
-        }
-
-        [Fact]
-        public async Task Handle_EmptyUserId()
-        {
-            var request = new CreateOrganiserRequest()
-            {
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Street",
-                UserId = ""
             };
             var command = new CreateOrganiserCommand()
             {
@@ -214,7 +183,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -238,7 +206,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -261,7 +228,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -285,7 +251,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -309,7 +274,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = null,
                 PostalCode = "Test Organiser Postal",
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -333,7 +297,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Number = "Test Organiser Number",
                 PostalCode = null,
                 Street = "Test Organiser Street",
-                UserId = "UserId"
             };
             var command = new CreateOrganiserCommand()
             {
@@ -356,32 +319,7 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Description = "Test Organiser Description",
                 Number = "Test Organiser Number",
                 PostalCode = "Test Organiser Postal",
-                Street = null,
-                UserId = "UserId"
-            };
-            var command = new CreateOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var valRes = await new CreateOrganiserCommandValidator().ValidateAsync(command, CancellationToken.None);
-            valRes.IsValid.Should().BeFalse();
-            valRes.Errors.Count.Should().Be(1);
-        }
-
-        [Fact]
-        public async Task Handle_NullUserId()
-        {
-            var request = new CreateOrganiserRequest()
-            {
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Street",
-                UserId = null
+                Street = null
             };
             var command = new CreateOrganiserCommand()
             {

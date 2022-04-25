@@ -32,9 +32,6 @@ namespace Application.Organisers.Commands.EditOrganiser
             RuleFor(e => e.Dto.Description)
                 .NotNull();
 
-            RuleFor(e => e.Dto.UserId)
-                .NotEmpty();
-
             RuleFor(e => e.Dto.OrganiserId)
                 .NotEmpty()
                 .GreaterThan(0);

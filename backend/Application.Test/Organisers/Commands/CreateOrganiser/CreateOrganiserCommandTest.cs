@@ -16,7 +16,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
         {
             var request = new CreateOrganiserRequest()
             {
-                UserId = Guid.Empty.ToString(),
                 Name = "Test Organiser Name",
                 Appartment = "Test Organiser Appartment",
                 City = "Test Organiser City",
@@ -30,7 +29,7 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
                 Dto = request
             };
 
-            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
+            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context, new CurrentUserService(Guid.Empty.ToString()));
             var result = await handler.Handle(command, CancellationToken.None);
 
             result.Id.Should().BePositive();
@@ -43,33 +42,6 @@ namespace Application.Test.Organisers.Commands.CreateOrganiser
             result.Street.Should().Be(request.Street);
 
             Context.Organisers.FirstOrDefault(o => o.Id == result.Id).Should().NotBeNull();
-        }
-
-        [Fact]
-        public async Task Handle_NonExistentUser()
-        {
-            var request = new CreateOrganiserRequest()
-            {
-                UserId = Guid.NewGuid().ToString(),
-                Name = "Test Organiser Name",
-                Appartment = "Test Organiser Appartment",
-                City = "Test Organiser City",
-                Description = "Test Organiser Description",
-                Number = "Test Organiser Number",
-                PostalCode = "Test Organiser Postal",
-                Street = "Test Organiser Street"
-            };
-            var command = new CreateOrganiserCommand()
-            {
-                Dto = request
-            };
-
-            var handler = new CreateOrganiserCommand.CreateOrganiserCommandHandler(Context, new CurrentUserService(request.UserId));
-            await Assert.ThrowsAsync<NotFoundException>(async () =>
-            {
-                await handler.Handle(command, CancellationToken.None);
-            });
-
         }
     }
 }

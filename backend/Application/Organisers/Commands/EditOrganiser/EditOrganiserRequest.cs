@@ -8,7 +8,6 @@ namespace Application.Organisers.Commands.EditOrganiser
 {
     public class EditOrganiserRequest
     {
-        public string UserId { get; set; }
         public int OrganiserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; } = "";

@@ -31,17 +31,13 @@ namespace Application.Organisers.Commands.EditOrganiser
 
             public async Task<EditOrganiserResponse> Handle(EditOrganiserCommand request, CancellationToken cancellationToken)
             {
-                if (!request.Dto.UserId.Equals(_currentUserService.UserId))
-                {
-                    throw new UnauthorizedAccessException();
-                }
                 var organiser = await _context.Organisers
                     .Include(x => x.User)
                     .Include(x => x.Address)
-                    .FirstOrDefaultAsync(x => x.UserId.Equals(request.Dto.UserId) && x.Id == request.Dto.OrganiserId);
+                    .FirstOrDefaultAsync(x => x.UserId.Equals(_currentUserService.UserId) && x.Id == request.Dto.OrganiserId);
                 if(organiser == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new NotFoundException($"No organiser with id {request.Dto.OrganiserId}");
                 }
 
                 organiser.Name = request.Dto.Name;

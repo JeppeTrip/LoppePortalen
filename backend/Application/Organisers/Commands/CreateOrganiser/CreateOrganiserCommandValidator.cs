@@ -12,7 +12,8 @@ namespace Application.Organisers.Commands.CreateOrganiser
     public class CreateOrganiserCommandValidator : AbstractValidator<CreateOrganiserCommand>
     {
         public CreateOrganiserCommandValidator() { 
-            RuleFor(e => e.Dto).NotEmpty();
+            RuleFor(e => e.Dto)
+                .NotEmpty();
 
             //TODO: Check these rules and maybe specify.
             RuleFor(e => e.Dto.Name)
@@ -32,9 +33,6 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             RuleFor(e => e.Dto.Description)
                 .NotNull();
-
-            RuleFor(e => e.Dto.UserId)
-                .NotEmpty();
         }
     }
 }
