@@ -75,36 +75,42 @@ const MarketListItem: FC<Props> = (props: Props) => {
             }
             disablePadding>
             <ListItemButton onClick={handleOnClick}>
-                <ListItemAvatar>
-                    <Avatar>
-                        <ImageIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary={props.Market.name}
-                    secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
-                <ListItemText
-                    secondary={
-                        <Stack>
+                <Stack>
+                    <Stack direction={"row"} alignItems={"center"}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <ImageIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={props.Market.name}
+                            secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
+                    </Stack>
+                    <Stack spacing={1} direction={"row"}>
+                        {
+                            props.Market.itemCategories.map(x => <Chip size="small" label={x} />)
+                        }
+                    </Stack>
+                    <Grid container spacing={1}>
+                        <Grid item>
                             <Typography variant={"caption"}>
-                                {`Stalls Occupied: ${props.Market.occupiedStallCount}`}
+                                {`#Stalls: ${props.Market.totalStallCount}`}
                             </Typography>
+                        </Grid>
+                        <Grid item>
                             <Typography variant={"caption"}>
-                                {`Stalls Available: ${props.Market.availableStallCount}`}
+                                {`#Available Stalls: ${props.Market.availableStallCount}`}
                             </Typography>
-
+                        </Grid>
+                        <Grid item>
                             <Typography variant={"caption"}>
-                                {`Total number of stalls: ${props.Market.totalStallCount}`}
+                                {`#Occupied Stalls: ${props.Market.occupiedStallCount}`}
                             </Typography>
-                        </Stack>
-                    }
-                />
-                <Stack spacing={1}>
-                    {
-                        props.Market.itemCategories.map(x => <Chip size="small" label={x} />)
-                    }
+                        </Grid>
+                    </Grid>
                 </Stack>
             </ListItemButton>
+
         </ListItem>
 
     )
