@@ -321,6 +321,7 @@ namespace Application.Test
             //TODO: Make seed functions for all the things that needs testing, it is much easier to keep track of!
             SeedGetOrganiserTestData(context);
             SeedEditMerchantTestData(context);
+            SeedGetMerchantTestData(context);
         }
 
         /**
@@ -840,6 +841,29 @@ namespace Application.Test
                 }
             };
 
+            context.Merchants.AddRange(merchantList);
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3000 */
+        private static void SeedGetMerchantTestData(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "GetMerchantUser",
+                Email = "get@merchant"
+            });
+            context.SaveChanges();
+
+            List<Merchant> merchantList = new List<Merchant>() {
+                new Merchant()
+                {
+                    Id = 3000,
+                    Name = "Merchant 3000",
+                    Description = "Merchant 3000 description",
+                    UserId = "GetMerchantUser"
+                }
+            };
             context.Merchants.AddRange(merchantList);
             context.SaveChanges();
         }

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Application.Test.Merchants.Queries
+namespace Application.Test.Merchants.Queries.AllMerchants
 {
     public class AllMerchantsQueryTest : TestBase
     {
