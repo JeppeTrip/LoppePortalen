@@ -1,13 +1,11 @@
-﻿using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Data.Sqlite;
-using System.Collections.Generic;
-using Domain.Entities;
-using Microsoft.Extensions.Options;
+﻿using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.Identity;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 
 namespace Application.Test
 {
@@ -323,8 +321,7 @@ namespace Application.Test
         }
 
         /**
-         *   Organiser Ids starting at 1000
-         *   Market Ids starting at 1000
+         *   All ids within this starting at 1000.
          */
         private static void SeedGetOrganiserTestData(ApplicationDbContext context)
         {

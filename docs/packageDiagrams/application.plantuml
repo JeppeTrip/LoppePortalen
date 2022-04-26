@@ -1,0 +1,97 @@
+@startuml
+namespace Application {
+    namespace Booths {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+
+        }
+    }
+
+    namespace Common {
+
+    }
+
+    namespace ContactInformation {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace ItemCategory {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace Markets {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace Merchants {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace Organisers {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace Stalls {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace StallTypes {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+
+    namespace User {
+        namespace Commands {
+
+        }
+
+        namespace Queries {
+            
+        }
+    }
+}
+@enduml

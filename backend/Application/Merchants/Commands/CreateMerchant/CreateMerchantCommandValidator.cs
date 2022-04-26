@@ -13,7 +13,7 @@ namespace Application.Merchants.Commands.CreateMerchant
         {
             RuleFor(e => e.Dto).NotEmpty();
             RuleFor(e => e.Dto.Name).NotEmpty();
-            RuleFor(e => e.Dto.Description).NotEmpty();
+            RuleFor(e => e.Dto.Description).NotNull();
         }
     }
 }
