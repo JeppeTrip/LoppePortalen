@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -40,13 +41,12 @@ namespace Application.Test
         /*Add Tets Data here.*/
         public static void SeedSampleData(ApplicationDbContext context)
         {
-            SeedGetOrganiserTestData(context);
-            context.Users.Add(new Domain.Common.ApplicationUser()
+            context.Users.Add(new ApplicationUser()
             {
                 Id = Guid.Empty.ToString(),
                 Email = "test@test"
             });
-            context.Users.Add(new Domain.Common.ApplicationUser()
+            context.Users.Add(new ApplicationUser()
             {
                 Id = "user2",
                 Email = "user2@test"
@@ -318,6 +318,9 @@ namespace Application.Test
             context.MarketInstances.AddRange(dateRangeFilterInstances);
             context.SaveChanges();
 
+            //TODO: Make seed functions for all the things that needs testing, it is much easier to keep track of!
+            SeedGetOrganiserTestData(context);
+            SeedEditMerchantTestData(context);
         }
 
         /**
@@ -809,6 +812,35 @@ namespace Application.Test
                 MarketTemplate = MarketTemplateTwo
             };
             context.MarketInstances.Add(MarketInstanceTwo);
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 2000 */
+        private static void SeedEditMerchantTestData(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "EditMerchantUser",
+                Email = "edit@merchant"
+            });
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "EditMerchantFakeUser",
+                Email = "fake@merchant"
+            });
+            context.SaveChanges();
+
+            List<Merchant> merchantList = new List<Merchant>() { 
+                new Merchant()
+                {
+                    Id = 2000,
+                    Name = "Merchant 2000",
+                    Description = "Merchant 2000 description",
+                    UserId = "EditMerchantUser"
+                }
+            };
+
+            context.Merchants.AddRange(merchantList);
             context.SaveChanges();
         }
     }
