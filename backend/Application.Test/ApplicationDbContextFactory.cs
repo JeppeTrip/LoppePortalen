@@ -322,6 +322,7 @@ namespace Application.Test
             SeedGetOrganiserTestData(context);
             SeedEditMerchantTestData(context);
             SeedGetMerchantTestData(context);
+            SeedGetUsersMerchantsQuery(context);
         }
 
         /**
@@ -862,6 +863,62 @@ namespace Application.Test
                     Name = "Merchant 3000",
                     Description = "Merchant 3000 description",
                     UserId = "GetMerchantUser"
+                }
+            };
+            context.Merchants.AddRange(merchantList);
+            context.SaveChanges();
+        }
+
+        /** All ids within start 4000 */
+        private static void SeedGetUsersMerchantsQuery(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new List<ApplicationUser>() {
+            new ApplicationUser()
+            {
+                Id = "UsersMerchantsNoMerchant",
+                Email = "no@merchant"
+            },
+            new ApplicationUser()
+            {
+                Id = "UsersMerchantsOneMerchant",
+                Email = "one@merchant"
+            },
+            new ApplicationUser()
+            {
+                Id = "UsersMerchantsMultipleMerchant",
+                Email = "mulitiple@merchant"
+            }
+            });
+            context.SaveChanges();
+
+            List<Merchant> merchantList = new List<Merchant>() {
+                new Merchant()
+                {
+                    Id = 4000,
+                    Name = "Merchant 4000",
+                    Description = "Merchant 4000 description",
+                    UserId = "UsersMerchantsOneMerchant"
+                },
+                new Merchant()
+                {
+                    Id = 4001,
+                    Name = "Merchant 4001",
+                    Description = "Merchant 4001 description",
+                    UserId = "UsersMerchantsMultipleMerchant"
+                },
+                new Merchant()
+                {
+                    Id = 4002,
+                    Name = "Merchant 4002",
+                    Description = "Merchant 4002 description",
+                    UserId = "UsersMerchantsMultipleMerchant"
+                },
+                new Merchant()
+                {
+                    Id = 4003,
+                    Name = "Merchant 4003",
+                    Description = "Merchant 4003 description",
+                    UserId = "UsersMerchantsMultipleMerchant"
                 }
             };
             context.Merchants.AddRange(merchantList);
