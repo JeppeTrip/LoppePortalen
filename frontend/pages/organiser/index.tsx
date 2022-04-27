@@ -1,5 +1,5 @@
 import ErrorIcon from '@mui/icons-material/Error';
-import { Box, CircularProgress, Container, List, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, List, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect } from "react";
@@ -36,12 +36,14 @@ const OrganiserListPage: NextPage = observer(() => {
                         :
                         <List>
                             {
-                                stores.organiserStore.organisers.map(organiser =>
+                                stores.organiserStore.organisers.map(organiser => {
                                     <>
-                                        {
-                                            <OrganiserListItem Organiser={organiser} />
-                                        }
-                                    </>)
+                                        <OrganiserListItem key={organiser.id} Organiser={organiser} />
+                                        <Divider />
+                                    </>
+                                }
+
+                                )
                             }
                         </List>
                 }

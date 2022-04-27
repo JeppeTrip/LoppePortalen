@@ -43,6 +43,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
 
     return (
         <ListItem
+            disablePadding
             secondaryAction={
                 props.editing ?
                     (
@@ -72,47 +73,45 @@ const MarketListItem: FC<Props> = (props: Props) => {
                         </Tooltip>
 
                     )
-            }
-            disablePadding>
-            <ListItemButton onClick={handleOnClick}>
-                <Stack>
-                    <Stack direction={"row"} alignItems={"center"}>
-                        <ListItemAvatar>
-                            <Avatar>
-                                <ImageIcon />
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={props.Market.name}
-                            secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
+            }>
+            <ListItemButton
+                onClick={handleOnClick} >
+                    <Stack>
+                        <Stack direction={"row"} alignItems={"center"}>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <ImageIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={props.Market.name}
+                                secondary={props.Market.startDate.toLocaleDateString() + " - " + props.Market.endDate.toLocaleDateString()} />
+                        </Stack>
+                        <Stack spacing={1} direction={"row"}>
+                            {
+                                props.Market.itemCategories.map(x => <Chip key={`category_${props.Market.id}_${x}`} size="small" label={x} />)
+                            }
+                        </Stack>
+                        <Grid container spacing={1}>
+                            <Grid item>
+                                <Typography variant={"caption"}>
+                                    {`#Stalls: ${props.Market.totalStallCount}`}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"caption"}>
+                                    {`#Available Stalls: ${props.Market.availableStallCount}`}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"caption"}>
+                                    {`#Occupied Stalls: ${props.Market.occupiedStallCount}`}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </Stack>
-                    <Stack spacing={1} direction={"row"}>
-                        {
-                            props.Market.itemCategories.map(x => <Chip size="small" label={x} />)
-                        }
-                    </Stack>
-                    <Grid container spacing={1}>
-                        <Grid item>
-                            <Typography variant={"caption"}>
-                                {`#Stalls: ${props.Market.totalStallCount}`}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant={"caption"}>
-                                {`#Available Stalls: ${props.Market.availableStallCount}`}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant={"caption"}>
-                                {`#Occupied Stalls: ${props.Market.occupiedStallCount}`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Stack>
             </ListItemButton>
-
-        </ListItem>
-
+        </ListItem >
     )
 }
 

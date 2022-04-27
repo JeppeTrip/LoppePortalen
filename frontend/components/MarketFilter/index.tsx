@@ -1,6 +1,6 @@
 import { DateTimePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Button, Checkbox, Drawer, FormControlLabel, FormGroup, ListItem, TextField } from '@mui/material';
+import { Button, Checkbox, Drawer, FormControlLabel, FormGroup, ListItem, Stack, TextField } from '@mui/material';
 import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import { Box } from '@mui/system';
@@ -44,56 +44,50 @@ const MarketFilter: FC<Props> = (props: Props) => {
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
-                    <List>
-                        <ListItem>
-                            <Button
-                                variant="contained"
-                                sx={{ width: "100%" }}
-                                onClick={handleSubmit} >
-                                Apply Filter
-                            </Button>
-                        </ListItem>
-                        <ListItem>
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={hideCancelledEvents}
-                                            onChange={toggleHideCancelledEvents}
-                                        />
-                                    }
-                                    label="Hide Cancelled Events" />
-                            </FormGroup>
+                    <Stack spacing={2} sx={{p: 2}}>
+                        <Button
+                            variant="contained"
+                            sx={{ width: "100%" }}
+                            onClick={handleSubmit} >
+                            Apply Filter
+                        </Button>
 
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={hideCancelledEvents}
+                                        onChange={toggleHideCancelledEvents}
+                                    />
+                                }
+                                label="Hide Cancelled Events" />
+                        </FormGroup>
 
-                        </ListItem>
-                        <ListItem>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DateTimePicker
-                                    renderInput={(props) => <TextField {...props} />}
-                                    label="Start Date"
-                                    value={startDate}
-                                    onChange={(newValue) => {
-                                        setStartDate(newValue)
-                                    }
-                                    }
-                                />
-                            </LocalizationProvider>
-                        </ListItem>
-                        <ListItem>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DateTimePicker
-                                    renderInput={(props) => <TextField {...props} />}
-                                    label="End Date"
-                                    value={endDate}
-                                    onChange={(newValue) => {
-                                        setEndDate(newValue)
-                                    }
-                                    }
-                                />
-                            </LocalizationProvider>
-                        </ListItem>
-                    </List>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DateTimePicker
+                                renderInput={(props) => <TextField {...props} />}
+                                label="Start Date"
+                                value={startDate}
+                                onChange={(newValue) => {
+                                    setStartDate(newValue)
+                                }
+                                }
+                            />
+                        </LocalizationProvider>
+
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DateTimePicker
+                                renderInput={(props) => <TextField {...props} />}
+                                label="End Date"
+                                value={endDate}
+                                onChange={(newValue) => {
+                                    setEndDate(newValue)
+                                }
+                                }
+                            />
+                        </LocalizationProvider>
+
+                    </Stack>
                 </Box>
             </Drawer>
         </>
