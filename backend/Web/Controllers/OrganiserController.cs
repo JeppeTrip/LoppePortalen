@@ -1,4 +1,5 @@
-﻿using Application.ContactInformation.Commands.AddContactsToOrganiser;
+﻿using Application.Common.Exceptions;
+using Application.ContactInformation.Commands.AddContactsToOrganiser;
 using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Commands.EditOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
@@ -6,6 +7,7 @@ using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Application.Organisers.Queries.GetOrganiser;
 using Application.Organisers.Queries.GetUsersOrganisers;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,7 +43,14 @@ namespace Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetOrganiserQueryResponse>> GetOrganiser([FromRoute] string id)
         {
-            int organiserId = int.Parse(id);
+            int organiserId;
+            try
+            {
+                organiserId = int.Parse(id);
+            } catch (Exception ex)
+            {
+                throw new ValidationException($"No organiser with id {id}.");
+            }
             return await Mediator.Send(
                 new GetOrganiserQuery()
                 {

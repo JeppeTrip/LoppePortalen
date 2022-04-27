@@ -25,16 +25,16 @@ export class OrganiserStore {
     @action
     fetchAllOrganisers() {
         this.transportLayer.getAllOrganisers()
-        .then(
-            action("fetchSuccess", result => {
-                result.organisers.forEach(dto => {
-                    this.updateOrganiserFromServer(dto)
-                });
-            }),
-            action("fetchError", error => {
-                this.organisers = []
-            })
-        )
+            .then(
+                action("fetchSuccess", result => {
+                    result.organisers.forEach(dto => {
+                        this.updateOrganiserFromServer(dto)
+                    });
+                }),
+                action("fetchError", error => {
+                    this.organisers = []
+                })
+            )
     }
 
     /**
@@ -44,7 +44,7 @@ export class OrganiserStore {
      */
     @action
     async resolveSelectedOrganiser(organiserId: number) {
-        this.transportLayer.getOrganiser(organiserId+"")
+        this.transportLayer.getOrganiser(organiserId + "")
             .then(
                 action("fetchSuccess", result => {
                     const organiser = this.updateOrganiserFromServer(result.organiser);
@@ -52,22 +52,16 @@ export class OrganiserStore {
                     return organiser
                 }),
                 action("fetchFailed", error => {
-                    //do somehting with this
+                    throw error;
                 })
             )
     }
 
     @flow
-    *fetchOrganiser(organiserId : number)
-    {
-        try{
-            const res : GetOrganiserQueryResponse = yield this.transportLayer.getOrganiser(organiserId+"");
-            const organiser = this.updateOrganiserFromServer(res.organiser);
-            return organiser
-        }
-        catch {
-            return null;   
-        }
+    *fetchOrganiser(organiserId: number) {
+        const res: GetOrganiserQueryResponse = yield this.transportLayer.getOrganiser(organiserId + "");
+        const organiser = this.updateOrganiserFromServer(res.organiser);
+        return organiser
     }
 
     @action

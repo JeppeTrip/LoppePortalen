@@ -1,11 +1,13 @@
 import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { flowResult } from "mobx";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import MarketListItem from "../../../components/MarketListItem";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
+import { useErrorHandler } from 'react-error-boundary';
 
 
 type Props = {
@@ -14,6 +16,7 @@ type Props = {
 
 const OrganiserProfilePage: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
+    const handleError = useErrorHandler();
     const [organiserId, setOrganiserId] = useState<string>("");
     const router = useRouter();
 
@@ -26,7 +29,12 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
     useEffect(() => {
         if (stores.organiserStore.selectedOrganiser == null) {
             if (!(organiserId == "")) {
-                stores.organiserStore.resolveSelectedOrganiser(parseInt(organiserId))
+                flowResult(stores.organiserStore.fetchOrganiser(parseInt(organiserId)))
+                .then(res => {
+                    res.select()
+                }).catch(error => {
+                    handleError(error)
+                });
             }
         }
     }, [organiserId, stores.organiserStore.selectedOrganiser])
