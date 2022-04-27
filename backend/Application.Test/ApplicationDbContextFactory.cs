@@ -323,6 +323,7 @@ namespace Application.Test
             SeedEditMerchantTestData(context);
             SeedGetMerchantTestData(context);
             SeedGetUsersMerchantsQuery(context);
+            SeedCreateStallTypeCommandTest(context);
         }
 
         /**
@@ -922,6 +923,65 @@ namespace Application.Test
                 }
             };
             context.Merchants.AddRange(merchantList);
+            context.SaveChanges();
+        }
+
+        /** All ids within start 5000 */
+        private static void SeedCreateStallTypeCommandTest(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "CreateStallTypeUser",
+                Email = "create@stalltype"
+            });
+
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "FakeCreateStallTypeUser",
+                Email = "create@stalltype"
+            });
+
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 5000,
+                Name = "Create stalltype organiser",
+                Description = "Create stalltype organiser description",
+                UserId = "CreateStallTypeUser",
+                Address = new Address()
+                {
+                    Id = 5000,
+                    Appartment = "apt",
+                    City = "city",
+                    Street = "street",
+                    Number = "number",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 5000,
+                Name = "Create Stalltype Template",
+                Description = "Create Stalltype template description",
+                OrganiserId = 5000
+            });
+
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 5000,
+                MarketTemplateId = 5000,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 5000,
+                Name = "Stalltype Exists",
+                Description = "Stalltype Exists description",
+                MarketTemplateId = 5000
+            });
             context.SaveChanges();
         }
     }

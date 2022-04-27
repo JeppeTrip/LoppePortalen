@@ -43,7 +43,7 @@ namespace Application.StallTypes.Commands.CreateStallType
 
                 if (existingType != null)
                 {
-                    return new CreateStallTypeResponse(Result.Failure(new List<string>() { "Stall type names for this event overlaps with the new ones." }));
+                    //throw an exception here figure out what the fuck it is though.
                 }
 
                 var type = new Domain.Entities.StallType()
@@ -57,7 +57,7 @@ namespace Application.StallTypes.Commands.CreateStallType
 
                 _context.StallTypes.Add(type);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new CreateStallTypeResponse(Result.Success())
+                return new CreateStallTypeResponse()
                 {
                     Id = type.Id,
                     Name = type.Name,

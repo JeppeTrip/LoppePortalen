@@ -133,7 +133,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
             var res = validator.Validate(command);
 
             res.IsValid.Should().BeFalse();
-            res.Errors.Count().Should().Be(1);
+            res.Errors.Count().Should().Be(2);
         }
     }
 }
