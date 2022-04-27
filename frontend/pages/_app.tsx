@@ -9,6 +9,7 @@ import { NextPageAuth } from '../@types/NextAuthPage';
 import AuthGuard from '../components/AuthGuard';
 import TopBar from '../components/TopBar';
 import '../styles.css';
+import ErrorBoundary from './ErrorBoundary';
 
 function MyApp(props: AppProps) {
   const {
@@ -18,7 +19,7 @@ function MyApp(props: AppProps) {
   const NewStoreProvider = dynamic(() => import('../NewStores/StoreContext').then(prov => prov.StoreProvider), {
     ssr: false,
   });
-  
+
   useEffect(() => {
     console.log("does it even read this variable?")
     console.log(process.env.NEXT_PUBLIC_API_URL)
@@ -36,13 +37,17 @@ function MyApp(props: AppProps) {
         <CssBaseline />
         <TopBar />
         {
-          Component.requireAuth ? (
-            <AuthGuard>
-              <Component {...pageProps} />
-            </AuthGuard>
-          ) : (
-            <Component {...pageProps} />
-          )
+          <ErrorBoundary>
+            {
+              Component.requireAuth ? (
+                <AuthGuard>
+                  <Component {...pageProps} />
+                </AuthGuard>
+              ) : (
+                <Component {...pageProps} />
+              )
+            }
+          </ErrorBoundary>
         }
       </NewStoreProvider>
     </>

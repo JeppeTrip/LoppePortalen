@@ -105,8 +105,8 @@ export class MarketStore {
             const market = this.updateMarketFromServer(res.market);
             return market
         }
-        catch {
-            return null;
+        catch(Error) {
+            throw Error;
         }
     }
 

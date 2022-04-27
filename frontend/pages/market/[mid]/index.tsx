@@ -8,6 +8,7 @@ import StallDisplay from "../../../components/MarketProfile/StallDisplay";
 import { Market } from "../../../NewStores/@DomainObjects/Market";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
+import { useErrorHandler } from 'react-error-boundary';
 
 type Props = {
     mid: string
@@ -15,6 +16,7 @@ type Props = {
 
 const MarketProfilePageID: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
+    const handleError = useErrorHandler();
     const [marketId, setMarketId] = useState<string>("");
     const [selectedMarket, setSelectedMarket] = useState<Market>(null)
     const router = useRouter();
@@ -55,6 +57,9 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
                 flowResult(stores.marketStore.fetchMarket(parseInt(marketId)))
                 .then(res => {
                     setSelectedMarket(res)
+                })
+                .catch(error => {
+                    handleError(error);
                 })
             }
         }
@@ -132,11 +137,7 @@ const MarketProfilePageID: NextPage<Props> = observer(() => {
             </Grid>
         )
     }
-
-    const errorContent = () => {
-
-    }
-
+    
     return (
         <>
             {

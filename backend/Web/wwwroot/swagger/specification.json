@@ -1938,10 +1938,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "type": "string",
             "nullable": true
@@ -2159,10 +2155,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
           "organiserId": {
             "type": "integer",
             "format": "int32"

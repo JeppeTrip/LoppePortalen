@@ -1,4 +1,5 @@
-﻿using Application.Markets.Commands.BookStalls;
+﻿using Application.Common.Exceptions;
+using Application.Markets.Commands.BookStalls;
 using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
@@ -25,9 +26,17 @@ namespace Web.Controllers
 
         [HttpGet("instance/{id}")]
         public async Task<ActionResult<GetMarketInstanceQueryResponse>> GetMarketInstance([FromRoute] string id)
-        { 
-            int marketId = int.Parse(id);
-            return await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId } }); ;
+        {
+            int marketId;
+            try
+            {
+                marketId = int.Parse(id);
+            } catch(Exception ex)
+            {
+                throw new ValidationException($"Invalid market id {id}.");
+            }
+            
+            return await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId } });
         }
             
 
