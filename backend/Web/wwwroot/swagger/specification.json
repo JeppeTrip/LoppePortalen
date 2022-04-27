@@ -2214,29 +2214,22 @@
         ]
       },
       "CreateStallTypeResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Result"
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
           },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "type": "integer",
-                "format": "int32"
-              },
-              "name": {
-                "type": "string",
-                "nullable": true
-              },
-              "description": {
-                "type": "string",
-                "nullable": true
-              }
-            }
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
-        ]
+        }
       },
       "CreateStallTypeRequest": {
         "type": "object",

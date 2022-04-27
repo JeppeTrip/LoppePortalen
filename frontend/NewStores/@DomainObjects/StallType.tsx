@@ -64,14 +64,10 @@ export class StallType {
             description: this.description
         })).then(
             action("submitSuccess", res => {
-                if (res.succeeded) {
                     this.updateFromServer(res)
                     this.state = ModelState.IDLE
                     if (this.store.newStallType?.id === this.id)
                         this.store.newStallType = null
-                } else {
-                    this.state = ModelState.ERROR
-                }
             }),
             action("submitError", error => {
                 this.state = ModelState.ERROR
