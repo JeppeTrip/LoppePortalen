@@ -5,6 +5,7 @@ import { flowResult, reaction } from 'mobx';
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useErrorHandler } from 'react-error-boundary';
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import OrganiserForm from "../../../components/OrganiserForm";
@@ -17,6 +18,7 @@ type Props = {
 
 const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
     const stores = useContext(StoreContext);
+    const handleError = useErrorHandler()
     const [organiserId, setOrganiserId] = useState<string>(undefined);
     const [selectedOrganiser, setSelectedOrganiser] = useState<Organiser>(new Organiser(null))
     const router = useRouter();
@@ -58,7 +60,9 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
             .then(organiser => {
                 organiser.state = ModelState.EDITING
                 setSelectedOrganiser(organiser)
-                
+            })
+            .catch(error => {
+                handleError(error)
             });
         }
     }, [organiserId])

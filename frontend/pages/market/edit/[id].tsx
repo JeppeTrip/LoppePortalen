@@ -8,6 +8,7 @@ import { flowResult, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { useErrorHandler } from 'react-error-boundary';
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import StallListItem from "../../../components/StallListItem";
@@ -23,6 +24,7 @@ type Props = {
 }
 
 const EditMarketPage: NextPageAuth<Props> = observer(() => {
+    const handleError = useErrorHandler()
     const [tabValue, setTabValue] = useState('1')
     const [selectedType, setSelectedType] = useState<StallType>(null)
     const [stallToAdd, setStallsToAdd] = useState(0)
@@ -56,11 +58,13 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
      */
     useEffect(() => {
         if (selectedMarket == null) {
-            if (!(marketId == "")) {
+            if (marketId && marketId != "") {
                 flowResult(stores.marketStore.fetchMarket(parseInt(marketId)))
                     .then(res => {
                         setSelectedMarket(res)
-                    })
+                    }).catch(error => {
+                        handleError(error)
+                    });
             }
         }
     }, [marketId, selectedMarket])

@@ -6,6 +6,7 @@ import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { useErrorHandler } from "react-error-boundary";
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { Merchant } from '../../../NewStores/@DomainObjects/Merchant';
@@ -17,6 +18,7 @@ type Props = {
 }
 
 const EditMerchantPage: NextPageAuth<Props> = observer(() => {
+    const handleError = useErrorHandler()
     const [tabValue, setTabValue] = useState('1')
     const [selectedMerchant, setSelectedMerchant] = useState<Merchant>(null)
     const stores = useContext(StoreContext);
@@ -50,6 +52,8 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                 flowResult(stores.merchantStore.resolveMerchant(parseInt(merchantId)))
                     .then(res => {
                         setSelectedMerchant(res)
+                    }).catch(error => {
+                        handleError(error)
                     })
             }
         }

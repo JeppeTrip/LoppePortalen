@@ -6,6 +6,7 @@ import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { useErrorHandler } from "react-error-boundary";
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
@@ -17,6 +18,7 @@ type Props = {
 }
 
 const EditBoothPage: NextPageAuth<Props> = observer(() => {
+    const handleError = useErrorHandler()
     const [tabValue, setTabValue] = useState('1')
     const [selectedBooth, setSelectedBooth] = useState<Booth>(null)
     const stores = useContext(StoreContext);
@@ -50,6 +52,9 @@ const EditBoothPage: NextPageAuth<Props> = observer(() => {
                 flowResult(stores.boothStore.fetchBooth(boothId))
                     .then(res => {
                         setSelectedBooth(res)
+                    })
+                    .catch(error => {
+                        handleError(error)
                     })
             }
         }
