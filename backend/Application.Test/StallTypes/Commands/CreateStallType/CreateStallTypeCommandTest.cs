@@ -64,7 +64,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
             var command = new CreateStallTypeCommand() { Dto = request };
             var handler = new CreateStallTypeCommand.CreateStallTypeCommandHandler(Context, new CurrentUserService("ThisIsNotAUser"));
 
-            await Assert.ThrowsAsync<ForbiddenAccessException>(async () => await handler.Handle(command, CancellationToken.None));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
             var command = new CreateStallTypeCommand() { Dto = request };
             var handler = new CreateStallTypeCommand.CreateStallTypeCommandHandler(Context, new CurrentUserService(null));
 
-            await Assert.ThrowsAsync<ForbiddenAccessException>(async () => await handler.Handle(command, CancellationToken.None));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
             var command = new CreateStallTypeCommand() { Dto = request };
             var handler = new CreateStallTypeCommand.CreateStallTypeCommandHandler(Context, new CurrentUserService("FakeCreateStallTypeUser"));
 
-            await Assert.ThrowsAsync<ForbiddenAccessException>(async () => await handler.Handle(command, CancellationToken.None));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
         }
 
         [Fact]
