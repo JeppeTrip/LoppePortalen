@@ -36,13 +36,8 @@ const OrganiserListPage: NextPage = observer(() => {
                         :
                         <List>
                             {
-                                stores.organiserStore.organisers.map(organiser => {
-                                    <>
-                                        <OrganiserListItem key={organiser.id} Organiser={organiser} />
-                                        <Divider />
-                                    </>
-                                }
-
+                                stores.organiserStore.organisers.map(organiser =>
+                                    <OrganiserListItem key={`organiserListItem_${organiser.id}`} Organiser={organiser} />
                                 )
                             }
                         </List>
