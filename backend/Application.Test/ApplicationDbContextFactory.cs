@@ -324,6 +324,7 @@ namespace Application.Test
             SeedGetMerchantTestData(context);
             SeedGetUsersMerchantsQuery(context);
             SeedCreateStallTypeCommandTest(context);
+            SeedEditStallTypeCommandTest(context);
         }
 
         /**
@@ -870,7 +871,7 @@ namespace Application.Test
             context.SaveChanges();
         }
 
-        /** All ids within start 4000 */
+        /** All ids within start at 4000 */
         private static void SeedGetUsersMerchantsQuery(ApplicationDbContext context)
         {
             context.Users.AddRange(new List<ApplicationUser>() {
@@ -926,7 +927,7 @@ namespace Application.Test
             context.SaveChanges();
         }
 
-        /** All ids within start 5000 */
+        /** All ids within start at 5000 */
         private static void SeedCreateStallTypeCommandTest(ApplicationDbContext context)
         {
             context.Users.Add(new ApplicationUser()
@@ -982,6 +983,142 @@ namespace Application.Test
                 Description = "Stalltype Exists description",
                 MarketTemplateId = 5000
             });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 6000 */
+        private static void SeedEditStallTypeCommandTest(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "EditStallTypeUser1",
+                Email = "EditStalltype@User1"
+            });
+
+
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 6000,
+                Name = "Edit stalltype organiser 1",
+                Description = "Edit stalltype organiser 1 description",
+                UserId = "EditStallTypeUser1",
+                Address = new Address()
+                {
+                    Id = 6000,
+                    Appartment = "apt",
+                    City = "city",
+                    Street = "street",
+                    Number = "number",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 6000,
+                Name = "Create Stalltype Template 1",
+                Description = "Create Stalltype template 1 description",
+                OrganiserId = 6000
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 6001,
+                Name = "Create Stalltype Template 2",
+                Description = "Create Stalltype template 2 description",
+                OrganiserId = 6000
+            });
+
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 6000,
+                MarketTemplateId = 6000,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 6001,
+                MarketTemplateId = 6001,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 6000,
+                Name = "Edit Stalltype 1",
+                Description = "Edit Stalltype 1 description",
+                MarketTemplateId = 6000
+            });
+
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 6001,
+                Name = "Edit Stalltype 2",
+                Description = "Edit Stalltype 2 description",
+                MarketTemplateId = 6000
+            });
+
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 6002,
+                Name = "Edit Stalltype 3",
+                Description = "Edit Stalltype 3 description",
+                MarketTemplateId = 6001
+            });
+
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "EditStallTypeUser2",
+                Email = "EditStalltype@User2"
+            });
+
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 6001,
+                Name = "Edit stalltype organiser 2",
+                Description = "Edit stalltype organiser 2 description",
+                UserId = "EditStallTypeUser2",
+                Address = new Address()
+                {
+                    Id = 6001,
+                    Appartment = "apt",
+                    City = "city",
+                    Street = "street",
+                    Number = "number",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 6002,
+                Name = "Create Stalltype Template 1",
+                Description = "Create Stalltype template 1 description",
+                OrganiserId = 6001
+            });
+
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 6002,
+                MarketTemplateId = 6002,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 6003,
+                Name = "Edit Stalltype 4",
+                Description = "Edit Stalltype 4 description",
+                MarketTemplateId = 6002
+            });
+
             context.SaveChanges();
         }
     }
