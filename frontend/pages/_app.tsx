@@ -20,11 +20,6 @@ function MyApp(props: AppProps) {
     ssr: false,
   });
 
-  useEffect(() => {
-    console.log("does it even read this variable?")
-    console.log(process.env.NEXT_PUBLIC_API_URL)
-  }, [])
-
   return (
     <>
       <Script src="https://connect.facebook.net/en_US/sdk.js" strategy="beforeInteractive" />

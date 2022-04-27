@@ -38,7 +38,6 @@ export class UserStore {
     *resolveCurrentUser() {
         try {
             const result = yield this.transportLayer.getUserInfo()
-            console.log(result);
             if (result.succeeded) {
                 const user = new User(this, result.id)
                 this.user = user;

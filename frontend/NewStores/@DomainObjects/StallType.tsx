@@ -125,7 +125,6 @@ export class StallType {
     @action
     //TODO: find out how to propegate this change through out the application
     removeStalls(count: number) {
-        console.log(count)
         this.stalls.splice(0, Math.min(this.stalls.length, count))
     }
 

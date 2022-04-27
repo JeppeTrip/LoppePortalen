@@ -16,11 +16,8 @@ const SingupPage: NextPage = observer(() => {
     }, [])
 
     useEffect(() => {
-        console.log("should redirect")
-        console.log(stores.authStore.auth.signedIn)
         if(stores.authStore.auth.signedIn)
         {
-            console.log("auth is signed in.")
             if(router.isReady){
                 router.push("/profile", undefined, { shallow: true })
             }

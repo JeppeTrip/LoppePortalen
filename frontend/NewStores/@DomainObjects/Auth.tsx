@@ -38,8 +38,6 @@ export class Auth {
                     flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
                         .then(
                             action("resolvedUserSuccess", user => {
-                                console.log("resolve success")
-                                console.log(user)
                                 if (user != null) {
                                     this.user = user
                                     this.signedIn = true;
@@ -86,8 +84,6 @@ export class Auth {
                     flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
                         .then(
                             action("resolvedUserSuccess", user => {
-                                console.log("resolve success")
-                                console.log(user)
                                 if (user != null) {
                                     this.user = user
                                     this.signedIn = true;
@@ -119,7 +115,6 @@ export class Auth {
 
     @action
     public initialize() {
-        console.log("initializing")
         this.initializing = true;
         var key = localStorage.getItem(this.jwtPath)
 
@@ -128,12 +123,9 @@ export class Auth {
          * Otherwises we are not.
          */
         if (key != null) {
-            console.log("Resolving user.")
             flowResult(this.authStore.rootStore.userStore.resolveCurrentUser())
                 .then(
                     action("resolvedUserSuccess", user => {
-                        console.log("resolve success")
-                        console.log(user)
                         if (user != null) {
                             this.user = user
                             this.signedIn = true;

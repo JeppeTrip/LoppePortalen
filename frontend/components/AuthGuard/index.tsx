@@ -12,8 +12,6 @@ const AuthGuard: React.FunctionComponent<Props> = props => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log("AuthGuard")
-    console.log(authStore.auth)
     if (!authStore.auth.initializing) {
       //auth is initialized and there is no user
       if (!authStore.auth.signedIn) {

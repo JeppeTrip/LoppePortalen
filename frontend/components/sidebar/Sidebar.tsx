@@ -14,9 +14,7 @@ const Sidebar: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if(inactive){
-            console.log(inactive);
             document.querySelectorAll('.subMenu').forEach(el => {
-                console.log(el)
                 el.classList.remove('Active');
             })
         }

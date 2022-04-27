@@ -37,8 +37,6 @@ export class Merchant{
     @action
     updateFromServer(dto : Dto)
     {
-        console.log("update from server dto:")
-        console.log(dto)
         if(this.state != ModelState.UPDATING)
         {
             this.state = ModelState.UPDATING
@@ -50,7 +48,6 @@ export class Merchant{
             this.updateOldState()
             this.state = ModelState.IDLE
         }
-        console.log("return this")
         return this
     }
 

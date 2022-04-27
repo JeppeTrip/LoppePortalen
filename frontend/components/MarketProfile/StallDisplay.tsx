@@ -23,7 +23,6 @@ const StallDisplay: FC<Props> = (props: Props) => {
                         showLabels
                         value={value}
                         onChange={(event, newValue) => {
-                            console.log(`new value ${newValue}`)
                             setValue(newValue);
                         }}
                     >

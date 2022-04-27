@@ -16,7 +16,7 @@ const CreateOrganiserPage: NextPageAuth = observer(() => {
 
     //mount
     useEffect(() => {
-        console.log("component mounts")
+
     }, [])
 
     //Unmount

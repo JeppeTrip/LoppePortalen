@@ -49,7 +49,6 @@ export class User {
         this.store.transportLayer.getUsersOrganisers()
             .then(
                 action("resolvedUsersOrganisers", result => {
-                    console.log("back in user")
                     this.organisers = result.organisers.map(x => this.store.rootStore.organiserStore.updateOrganiserFromServer(x));
                 }),
                 action("resolvedUsersOrganisersFailed", orgs => {
@@ -87,12 +86,8 @@ export class User {
         this.store.transportLayer.getUsersMerchants()
             .then(
                 action("fetchSuccess", result => {
-                    console.log(result)
                     result.merchants.forEach(x => {
-                        console.log("no longer runs?")
                         const merchant = this.store.rootStore.merchantStore.updateMerchantFromServer(x);
-                        console.log("return from merchant store")
-                        console.log(merchant)
                         this.merchants.push(merchant)
                     })
                 }),
@@ -114,7 +109,6 @@ export class User {
         this.store.transportLayer.getUsersBooths()
             .then(
                 action("fetchSuccess", result => {
-                    console.log(result)
                     result.booths.forEach(x => {
                         const booth = this.store.rootStore.boothStore.updateBoothFromServer(x);
                         this.booths.push(booth)
