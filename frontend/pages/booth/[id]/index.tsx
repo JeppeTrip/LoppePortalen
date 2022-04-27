@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { useErrorHandler } from "react-error-boundary";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
@@ -14,6 +15,7 @@ type Props = {
 
 const BoothProfile: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
+    const handleError = useErrorHandler();
     const [boothId, setBoothId] = useState<string>("");
     const [selectedBooth, setSelectedBooth] = useState<Booth>(null)
     const router = useRouter();
@@ -54,6 +56,8 @@ const BoothProfile: NextPage<Props> = observer(() => {
             flowResult(stores.boothStore.fetchBooth(boothId))
                 .then(res => {
                     setSelectedBooth(res)
+                }).catch(error => {
+                    handleError(error)
                 })
             }
         }

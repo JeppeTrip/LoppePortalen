@@ -3,17 +3,18 @@ import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { ModelState } from "../../../@types/ModelState";
+import { useContext, useEffect, useState } from "react";
+import { useErrorHandler } from "react-error-boundary";
 import { Merchant } from "../../../NewStores/@DomainObjects/Merchant";
 import { StoreContext } from "../../../NewStores/StoreContext";
-import styles from './styles.module.css'
+import styles from './styles.module.css';
 type Props = {
     id: string
 }
 
 const MerchantPage: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
+    const handleError = useErrorHandler();
     const [merchantId, setMerchantId] = useState<string>("");
     const [selectedMerchant, setSelectedMerchant] = useState<Merchant>(null)
     const router = useRouter();
@@ -55,6 +56,9 @@ const MerchantPage: NextPage<Props> = observer(() => {
             if (!(merchantId == "")) {
                 flowResult(stores.merchantStore.resolveMerchant(parseInt(merchantId)))
                     .then(res => setSelectedMerchant(res))
+                    .catch(error => {
+                        handleError(error)
+                    })
             }
         }
     }, [merchantId, selectedMerchant])

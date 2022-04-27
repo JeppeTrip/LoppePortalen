@@ -30,11 +30,11 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
         if (stores.organiserStore.selectedOrganiser == null) {
             if (!(organiserId == "")) {
                 flowResult(stores.organiserStore.fetchOrganiser(parseInt(organiserId)))
-                .then(res => {
-                    res.select()
-                }).catch(error => {
-                    handleError(error)
-                });
+                    .then(res => {
+                        res.select()
+                    }).catch(error => {
+                        handleError(error)
+                    });
             }
         }
     }, [organiserId, stores.organiserStore.selectedOrganiser])
@@ -61,7 +61,6 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                                     <MarketListItem Market={x} /> <Divider />
                                 </>
                             )
-
                         }
                     </List>
                 </Container>
