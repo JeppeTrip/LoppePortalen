@@ -1,11 +1,8 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,9 +29,12 @@ namespace Application.StallTypes.Queries.GetStallType
 
                 return new GetStallTypeResponse()
                 {
-                    Name = stallType.Name,
-                    Description = stallType.Description,
-                    StallTypeId = stallType.Id
+                    StallType = new StallTypeBaseVM()
+                    {
+                        Name = stallType.Name,
+                        Description = stallType.Description,
+                        Id = stallType.Id
+                    } 
                 };
             }
         }

@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,6 +30,11 @@ namespace Application.StallTypes.Queries.GetMarketStallTypes
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.StallTypes)
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
+
+                if(instance == null)
+                {
+                    throw new NotFoundException("Market", request.Dto.MarketId);
+                }
                 var stallTypes = instance.MarketTemplate.StallTypes;
 
 

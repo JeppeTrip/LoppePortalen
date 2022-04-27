@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StallTypes\Queries\" />
     <Folder Include="User\Commands\AuthenticateUser\" />
   </ItemGroup>
 
