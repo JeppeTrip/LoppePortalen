@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Test
 {
@@ -1356,7 +1357,7 @@ namespace Application.Test
                 Description = "Organiser m. e. e. description",
                 UserId = "MarketEntityExtensionUser"
             });
-            //Sed merchant
+            //Seed merchant
             context.Merchants.Add(new Merchant()
             {
                 Id = 9000,
@@ -1364,6 +1365,25 @@ namespace Application.Test
                 Name = "Merchant name",
                 UserId = "MarketEntityExtensionUser"
             });
+            Category category1 = new Category()
+            {
+                Name = "Market Entity Extension Category 1",
+            };
+            Category category2 = new Category()
+            {
+                Name = "Market Entity Extension Category 2",
+            };
+            Category category3 = new Category()
+            {
+                Name = "Market Entity Extension Category 3",
+            };
+            // seed item categories
+            context.ItemCategories.AddRange(new List<Category>()
+            {
+                category1, category2, category3
+            });
+            context.SaveChanges();
+
             //seed market with no stalls.
             context.MarketTemplates.Add(new MarketTemplate()
             {
@@ -1622,6 +1642,233 @@ namespace Application.Test
                     StallId = 9009
                 }
             });
+            //One booth one category
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 9006,
+                Description = "Marke template no stalls description.",
+                Name = "Market template no stalls",
+                OrganiserId = 9000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 9006,
+                MarketTemplateId = 9006,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = false
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 9005,
+                Name = "StallType 6",
+                Description = "Stalltype 6 description",
+                MarketTemplateId = 9006
+            });
+            context.Stalls.Add(new Stall()
+            {
+                Id = 9011,
+                StallTypeId = 9005,
+                MarketInstanceId = 9006
+            });
+            var booking9006 = new Booking()
+            {
+                Id = "Booking9006",
+                BoothName = "Booking9006 name",
+                BoothDescription = "Booking9006 description",
+                MerchantId = 9000,
+                StallId = 9011,
+                ItemCategories = new List<Category>() { category1}
+            };
+            context.Bookings.Add(booking9006);
+            //One booth multiple categories
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 9007,
+                Description = "Marke template no stalls description.",
+                Name = "Market template no stalls",
+                OrganiserId = 9000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 9007,
+                MarketTemplateId = 9007,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = false
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 9006,
+                Name = "StallType 7",
+                Description = "Stalltype 7 description",
+                MarketTemplateId = 9007
+            });
+            context.Stalls.Add(new Stall()
+            {
+                Id = 9012,
+                StallTypeId = 9006,
+                MarketInstanceId = 9007
+            });
+            context.Bookings.Add(new Booking()
+            {
+                Id = "Booking9007",
+                BoothName = "Booking9007 name",
+                BoothDescription = "Booking9007 description",
+                MerchantId = 9000,
+                StallId = 9012,
+                ItemCategories = new List<Category>() { category1, category2}
+            });
+
+            //Multiple booths unique categories
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 9008,
+                Description = "Marke template no stalls description.",
+                Name = "Market template no stalls",
+                OrganiserId = 9000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 9008,
+                MarketTemplateId = 9008,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = false
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 9007,
+                Name = "StallType 8",
+                Description = "Stalltype 8 description",
+                MarketTemplateId = 9008
+            });
+            context.Stalls.AddRange(new List<Stall>() {
+                new Stall()
+                {
+                    Id = 9013,
+                    StallTypeId = 9007,
+                    MarketInstanceId = 9008
+                },
+                new Stall()
+                {
+                    Id = 9014,
+                    StallTypeId = 9007,
+                    MarketInstanceId = 9008
+                },
+                new Stall()
+                {
+                    Id = 9015,
+                    StallTypeId = 9007,
+                    MarketInstanceId = 9008
+                }
+            });
+            context.Bookings.AddRange(new List<Booking>()
+            {
+                new Booking()
+                {
+                    Id = "Booking9008",
+                    BoothName = "Booking9008 name",
+                    BoothDescription = "Booking9008 Description",
+                    MerchantId = 9000,
+                    StallId = 9013,
+                    ItemCategories = new List<Category>(){category1}
+                },
+                new Booking()
+                {
+                    Id = "Booking9009",
+                    BoothName = "Booking9009 name",
+                    BoothDescription = "Booking9009 Description",
+                    MerchantId = 9000,
+                    StallId = 9014,
+                    ItemCategories = new List<Category>(){category2}
+                },
+                new Booking()
+                {
+                    Id = "Booking9010",
+                    BoothName = "Booking9010 name",
+                    BoothDescription = "Booking9010 Description",
+                    MerchantId = 9000,
+                    StallId = 9015,
+                    ItemCategories = new List<Category>(){category3}
+                }
+            });
+
+            //Multiple booths Overlapping categories
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 9009,
+                Description = "Marke template no stalls description.",
+                Name = "Market template no stalls",
+                OrganiserId = 9000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 9009,
+                MarketTemplateId = 9009,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = false
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 9008,
+                Name = "StallType 9",
+                Description = "Stalltype 9 description",
+                MarketTemplateId = 9009
+            });
+            context.Stalls.AddRange(new List<Stall>() {
+                new Stall()
+                {
+                    Id = 9016,
+                    StallTypeId = 9008,
+                    MarketInstanceId = 9009
+                },
+                new Stall()
+                {
+                    Id = 9017,
+                    StallTypeId = 9008,
+                    MarketInstanceId = 9009
+                },
+                new Stall()
+                {
+                    Id = 9018,
+                    StallTypeId = 9008,
+                    MarketInstanceId = 9009
+                }
+            });
+            context.Bookings.AddRange(new List<Booking>()
+            {
+                new Booking()
+                {
+                    Id = "Booking9011",
+                    BoothName = "Booking9011 name",
+                    BoothDescription = "Booking9011 Description",
+                    MerchantId = 9000,
+                    StallId = 9016,
+                    ItemCategories = new List<Category>(){category1, category2, category3}
+                },
+                new Booking()
+                {
+                    Id = "Booking9012",
+                    BoothName = "Booking9012 name",
+                    BoothDescription = "Booking9012 Description",
+                    MerchantId = 9000,
+                    StallId = 9017,
+                    ItemCategories = new List<Category>(){category1, category2, category3}
+                },
+                new Booking()
+                {
+                    Id = "Booking9013",
+                    BoothName = "Booking9013 name",
+                    BoothDescription = "Booking9013 Description",
+                    MerchantId = 9000,
+                    StallId = 9018,
+                    ItemCategories = new List<Category>(){category1, category2, category3}
+                }
+            });
+
+
             context.SaveChanges();
         }
     }
