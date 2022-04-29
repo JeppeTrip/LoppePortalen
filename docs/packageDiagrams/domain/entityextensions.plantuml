@@ -1,0 +1,44 @@
+@startuml
+package Domain {
+    package Entites {
+        class MarketTemplate {
+            ...
+        }
+
+        class Stall {
+            ...
+        }
+
+        class StallType {
+            ...
+        }
+
+        class Booking {
+            ...
+        }
+
+        class MarketInstance {
+            isCancelled : bool
+            startDate : Date
+            endDate : Date
+        }
+    }
+
+    package EntityExtensions{
+        class MarketInstanceExtensions <<static>> {
+            {static} TotalStallCount() : int
+            {static} AvailableStallCount() : int
+            {static} OccupiedStallCount() : int
+            {static} ItemCategories() : string[]
+        }
+    }
+}
+
+MarketInstanceExtensions .right.> MarketInstance
+MarketTemplate "1" -up- "*" MarketInstance
+MarketInstance "1" -right- "*" Stall
+Stall "*" -down- "1" StallType
+MarketTemplate "1" -right- "*" StallType
+Stall -right- Booking
+
+@enduml

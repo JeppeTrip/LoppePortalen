@@ -1,0 +1,64 @@
+@startuml
+package Domain {
+    package Entites {
+        class Category{
+            name : string
+        }
+
+        class Booking{
+            boothName : string
+            boothDescription : string
+        }
+
+        class MarketInstance {
+            isCancelled : bool
+            startDate : Date
+            endDate : Date
+        }
+
+        class MarketTemplate {
+            marketName : string
+            marketDescription : string
+        }
+
+        class Merchant {
+            merchantName : string
+            merchantDescription : string
+        }
+
+        class Organiser {
+            organiserName : string
+            organiserDescription : string
+        }
+
+        class Stall {
+
+        }
+
+        class StallType {
+            stallName : string
+            stallDescription : string
+        }
+
+        class User {
+            firstName : string
+            lastName : string
+            email : string
+            DateOfBirth : Date
+        }
+    }
+}
+
+Booking "*" -left- "*" Category
+MarketInstance "*" -up- "1" MarketTemplate
+Merchant "1" -- "*" Booking
+Organiser "1" -right- "*" MarketTemplate
+MarketInstance "1" -right- "*" Stall
+Stall -- Booking
+MarketTemplate "1" -right- "*" StallType
+Stall "*" -up- "1" StallType
+
+User "1" -right- "*" Organiser
+User "1" -right- "*" Merchant
+
+@enduml
