@@ -10,6 +10,7 @@ using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -64,10 +65,11 @@ namespace Web.Controllers
 
         [HttpGet("instance/filtered")]
         public async Task<ActionResult<GetFilteredMarketsQueryResponse>> GetFilteredMarketInstances(
-            bool? isCancelled,
-            int? organiserId,
-            DateTimeOffset? startDate,
-            DateTimeOffset? endDate
+            [FromQuery] bool? isCancelled,
+            [FromQuery] int? organiserId,
+            [FromQuery] DateTimeOffset? startDate,
+            [FromQuery] DateTimeOffset? endDate,
+            [FromQuery] string[] categories
         )
         {
             var request = new GetFilteredMarketsQueryRequest()
@@ -75,7 +77,8 @@ namespace Web.Controllers
                 OrganiserId = organiserId,
                 HideCancelled = isCancelled,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                Categories = new List<string>(categories)
             };
             return await Mediator.Send(
                 new GetFilteredMarketsQuery()

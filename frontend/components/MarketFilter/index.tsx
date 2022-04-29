@@ -30,7 +30,7 @@ const MarketFilter: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         //Todo: expand with organiser filter
-        stores.marketStore.fetchFilteredMarkets(null, hideCancelledEvents, startDate, endDate)
+        stores.marketStore.fetchFilteredMarkets(null, hideCancelledEvents, startDate, endDate, categories)
     }
 
     return (
