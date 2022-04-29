@@ -1444,7 +1444,7 @@ namespace Application.Test
                 BoothName = "booth 9000",
                 BoothDescription = "booth 9000 description",
                 MerchantId = 9000,
-                StallId = 90001
+                StallId = 9001
 
             });
             //Market multiple stalls not booked

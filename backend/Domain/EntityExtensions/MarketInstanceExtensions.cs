@@ -11,17 +11,17 @@ namespace Domain.EntityExtensions
     {
         public static int TotalStallCount(this MarketInstance instance)
         {
-            return 0;
+            return instance.Stalls.Count();
         }
 
         public static int AvailableStallCount(this MarketInstance instance)
         {
-            return 0;
+            return instance.Stalls.Where(x => x.Bookings.Count() == 0).Count();  
         }
 
         public static int OccupiedStallCount(this MarketInstance instance)
         {
-            return 0;
+            return instance.Stalls.Where(x => x.Bookings.Count() > 0).Count();
         }
 
         public static List<string> ItemCategories(this MarketInstance instance)
