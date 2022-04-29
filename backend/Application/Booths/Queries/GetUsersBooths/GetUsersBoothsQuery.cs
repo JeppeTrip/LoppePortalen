@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,17 +46,7 @@ namespace Application.Booths.Queries.GetUsersBooths
                 }
 
 
-                
-                List<Category> itemCategories = new List<Category>();
-                List<string> marketCategories = new List<string>();
                 var booths = bookings.Select(booking => {
-                    itemCategories = allBookings
-                        .Where(x => x.Stall.MarketInstanceId == booking.Stall.MarketInstanceId)
-                        .SelectMany(x => x.ItemCategories)
-                        .ToList();
-
-                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
-
                     return new GetUsersBoothsVM() {
                         Id = booking.Id,
                         Name = booking.BoothName,
@@ -78,7 +69,10 @@ namespace Application.Booths.Queries.GetUsersBooths
                                 StartDate = booking.Stall.MarketInstance.StartDate,
                                 EndDate = booking.Stall.MarketInstance.EndDate,
                                 IsCancelled = booking.Stall.MarketInstance.IsCancelled,
-                                Categories = marketCategories
+                                Categories = booking.Stall.MarketInstance.ItemCategories(),
+                                TotalStallCount = booking.Stall.MarketInstance.TotalStallCount(),
+                                AvailableStallCount = booking.Stall.MarketInstance.AvailableStallCount(),
+                                OccupiedStallCount = booking.Stall.MarketInstance.OccupiedStallCount()
                             }
                         }
                     };

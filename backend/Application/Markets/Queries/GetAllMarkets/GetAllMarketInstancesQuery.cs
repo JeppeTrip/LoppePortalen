@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -27,30 +28,15 @@ namespace Application.Markets.Queries.GetAllMarkets
                 //TODO: this must be horrible performance. Might need update.
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
-                    .Include(x => x.MarketTemplate.Organiser)
-                    .Include(x => x.MarketTemplate.Organiser.Address)
+                    .ThenInclude(x => x.Organiser)
+                    .ThenInclude(x => x.Address)
                     .Include(x => x.Stalls)
+                    .ThenInclude(x => x.Bookings)
+                    .ThenInclude(x => x.ItemCategories)
                     .ToListAsync();
 
-                var allBookings = _context.Bookings
-                    .Include(x => x.Stall)
-                    .Include(x => x.ItemCategories);
-
-                int total = 0;
-                int booked = 0;
-                List<Category> itemCategories = new List<Category>();
-                List<string> marketCategories = new List<string>();
                 OrganiserBaseVM organiser;
                 var result = instances.Select(market => {
-                    total = market.Stalls.Count();
-                    booked = allBookings.Where(b => b.Stall.MarketInstanceId.Equals(market.Id)).Count();
-
-                    itemCategories = allBookings
-                        .Where(x => x.Stall.MarketInstanceId == market.Id)
-                        .SelectMany(x => x.ItemCategories)
-                        .ToList();
-
-                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
                     organiser = new OrganiserBaseVM
                     {
                         Id = market.MarketTemplate.Organiser.Id,
@@ -72,10 +58,10 @@ namespace Application.Markets.Queries.GetAllMarkets
                         StartDate = market.StartDate,
                         EndDate = market.EndDate,
                         IsCancelled = market.IsCancelled,
-                        TotalStallCount = total,
-                        AvailableStallCount = total - booked,
-                        OccupiedStallCount = booked,
-                        Categories = marketCategories
+                        Categories = market.ItemCategories(),
+                        TotalStallCount = market.TotalStallCount(),
+                        AvailableStallCount = market.AvailableStallCount(),
+                        OccupiedStallCount = market.OccupiedStallCount()
                     };
                 }).ToList();
 

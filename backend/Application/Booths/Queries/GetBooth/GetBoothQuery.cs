@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,7 +30,7 @@ namespace Application.Booths.Queries.GetBooth
             {
                 var allBookings = _context.Bookings
                     .Include(x => x.Stall)
-                    .Include(x => x.Stall.StallType)
+                    .ThenInclude(x => x.StallType)
                     .Include(x => x.Stall.MarketInstance)
                     .Include(x => x.Stall.MarketInstance.MarketTemplate)
                     .Include(x => x.ItemCategories);
@@ -37,12 +38,6 @@ namespace Application.Booths.Queries.GetBooth
                 var booking = await allBookings.FirstOrDefaultAsync(x => x.Id.Equals(request.Dto.Id));
                 if (booking == null)
                     throw new NotFoundException($"No booth with id {request.Dto.Id}");
-
-                var itemCategories = await allBookings
-                    .Where(x => x.Stall.MarketInstanceId == booking.Stall.MarketInstanceId)
-                    .SelectMany(x => x.ItemCategories)
-                    .ToListAsync();
-                var marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
 
                 var vm = new GetBoothVM()
                 {
@@ -67,7 +62,10 @@ namespace Application.Booths.Queries.GetBooth
                             StartDate = booking.Stall.MarketInstance.StartDate,
                             EndDate = booking.Stall.MarketInstance.EndDate,
                             IsCancelled = booking.Stall.MarketInstance.IsCancelled,
-                            Categories = marketCategories
+                            Categories = booking.Stall.MarketInstance.ItemCategories(),
+                            TotalStallCount = booking.Stall.MarketInstance.TotalStallCount(),
+                            AvailableStallCount = booking.Stall.MarketInstance.AvailableStallCount(),
+                            OccupiedStallCount = booking.Stall.MarketInstance.OccupiedStallCount()
                         }
                     }
                 };

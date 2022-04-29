@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,8 +30,12 @@ namespace Application.Markets.Queries.GetMarketInstance
             {
                 var marketInstance = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
+                    .ThenInclude(x => x.StallTypes)
                     .Include(x => x.MarketTemplate.Organiser)
-                    .Include(x => x.MarketTemplate.Organiser.Address)
+                    .ThenInclude(x => x.Address)
+                    .Include(x => x.Stalls)
+                    .ThenInclude(x => x.Bookings)
+                    .ThenInclude(x => x.ItemCategories)
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
                 if (marketInstance == null)
                 {
@@ -50,30 +55,6 @@ namespace Application.Markets.Queries.GetMarketInstance
                     City = marketInstance.MarketTemplate.Organiser.Address.City
                 };
 
-                var stallTypes = _context.StallTypes
-                    .Where(x => x.MarketTemplateId == marketInstance.MarketTemplateId)
-                    .ToList();
-
-                var booths = _context.Bookings
-                    .Include(x => x.Stall)
-                    .Include(x => x.Stall.StallType)
-                    .Include(x => x.ItemCategories)
-                    .Where(x => x.Stall.MarketInstanceId.Equals(marketInstance.Id));
-
-                var stalls = _context.Stalls
-                    .Include(x => x.StallType)
-                    .Include(x => x.Bookings)
-                    .Where(x => x.MarketInstanceId.Equals(marketInstance.Id) && x.Bookings.Count == 0);
-
-                List<Category> itemCategories = new List<Category>();
-                List<string> marketCategories = new List<string>();
-
-                itemCategories = booths
-                    .SelectMany(x => x.ItemCategories)
-                    .ToList();
-
-                marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
-
                 GetMarketInstanceVM market = new GetMarketInstanceVM()
                 {
                     MarketId = marketInstance.Id,
@@ -83,19 +64,19 @@ namespace Application.Markets.Queries.GetMarketInstance
                     StartDate = marketInstance.StartDate,
                     EndDate = marketInstance.EndDate,
                     IsCancelled = marketInstance.IsCancelled,
-                    AvailableStallCount = stalls.Count(),
-                    OccupiedStallCount = booths.Count(),
-                    TotalStallCount = stalls.Count()+booths.Count(),
-                    Categories = marketCategories,
+                    Categories = marketInstance.ItemCategories(),
+                    TotalStallCount = marketInstance.TotalStallCount(),
+                    AvailableStallCount = marketInstance.AvailableStallCount(),
+                    OccupiedStallCount = marketInstance.OccupiedStallCount(),
                     //Construct stall type vms to send with the market info.
-                    StallTypes = stallTypes.Select(x => new StallTypeBaseVM()
+                    StallTypes = marketInstance.MarketTemplate.StallTypes.Select(x => new StallTypeBaseVM()
                     {
                         Id = x.Id,
                         Name = x.Name,
                         Description = x.Description
                     }).ToList(),
                     //Construct the stall VM
-                    Stalls = stalls.Select(x => new StallBaseVM()
+                    Stalls = marketInstance.Stalls.Select(x => new StallBaseVM()
                         {
                             Id = x.Id,
                             StallType = new StallTypeBaseVM()
@@ -106,23 +87,26 @@ namespace Application.Markets.Queries.GetMarketInstance
                             }
                         }).ToList(),
                     //Construct booth vms to send with the market info.
-                    Booths = booths.Select(x => new BoothBaseVM()
-                    {
-                        Id =x.Id,
-                        Name = x.BoothName,
-                        Description = x.BoothDescription,
-                        Categories = x.ItemCategories.Select(x => x.Name).ToList(),
-                        Stall = new StallBaseVM()
-                        {
-                            Id = x.StallId,
-                            StallType = new StallTypeBaseVM()
+                    Booths = marketInstance.Stalls
+                        .Where(x => x.Bookings.Count() > 0)
+                        .SelectMany(x => x.Bookings)
+                        .Select(x => new BoothBaseVM()
                             {
-                                Id = x.Stall.StallTypeId,
-                                Name = x.Stall.StallType.Name,
-                                Description = x.Stall.StallType.Description
-                            }
-                        }
-                    }).ToList()
+                                Id =x.Id,
+                                Name = x.BoothName,
+                                Description = x.BoothDescription,
+                                Categories = x.ItemCategories.Select(x => x.Name).ToList(),
+                                Stall = new StallBaseVM()
+                                {
+                                    Id = x.StallId,
+                                    StallType = new StallTypeBaseVM()
+                                    {
+                                        Id = x.Stall.StallTypeId,
+                                        Name = x.Stall.StallType.Name,
+                                        Description = x.Stall.StallType.Description
+                                    }
+                                }
+                            }).ToList()
                 };
 
                 GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse()

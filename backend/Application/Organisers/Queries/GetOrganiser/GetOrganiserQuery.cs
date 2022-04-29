@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -30,6 +31,15 @@ namespace Application.Organisers.Queries.GetOrganiser
             {
                 var organiser = await _context.Organisers
                     .Include(o => o.Address)
+                    .Include(o => o.MarketTemplates)
+                    .ThenInclude(mt => mt.MarketInstances)
+                    .ThenInclude(mi => mi.Stalls)
+                    .ThenInclude(s => s.StallType)
+                    .Include(x => x.MarketTemplates)
+                    .ThenInclude(x => x.MarketInstances)
+                    .ThenInclude(x => x.Stalls)
+                    .ThenInclude(x => x.Bookings)
+                    .ThenInclude(x => x.ItemCategories)
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.Id);
 
                 if (organiser == null)
@@ -37,48 +47,24 @@ namespace Application.Organisers.Queries.GetOrganiser
                     throw new NotFoundException($"No organiser with ID {request.Dto.Id}");
                 }
 
-                var instances = _context.MarketInstances
-                    .Include(m => m.MarketTemplate)
-                    .Include(m => m.Stalls);
-
-                var organiserInstances = await instances
-                    .Where(m => m.MarketTemplate.OrganiserId == organiser.Id)
-                    .ToListAsync();
-
-                var allBookings = _context.Bookings
-                    .Include(x => x.Stall)
-                    .Include(x => x.ItemCategories);
-
-                List<Category> itemCategories = new List<Category>();
-                List<string> marketCategories = new List<string>();
-                int total = 0;
-                int booked = 0;
-                List<MarketBaseVM> markets = organiserInstances.Select(market =>
-                {
-                    total = market.Stalls.Count();
-                    booked = allBookings.Where(b => b.Stall.MarketInstanceId.Equals(market.Id)).Count();
-
-                    itemCategories = allBookings
-                        .Where(x => x.Stall.MarketInstanceId == market.Id)
-                        .SelectMany(x => x.ItemCategories)
-                        .ToList();
-
-                    marketCategories = itemCategories.Select(x => x.Name).Distinct().ToList();
-
-                    return new MarketBaseVM()
-                    {
-                        MarketId = market.Id,
-                        MarketName = market.MarketTemplate.Name,
-                        Description = market.MarketTemplate.Description,
-                        StartDate = market.StartDate,
-                        EndDate = market.EndDate,
-                        IsCancelled = market.IsCancelled,
-                        AvailableStallCount = total - booked,
-                        OccupiedStallCount = booked,
-                        TotalStallCount = total,
-                        Categories = marketCategories
-                    };
-                }).ToList();
+                List<MarketBaseVM> markets = organiser
+                    .MarketTemplates
+                    .SelectMany(x => x.MarketInstances)
+                    .Select(market => {
+                        return new MarketBaseVM()
+                        {
+                            MarketId = market.Id,
+                            MarketName = market.MarketTemplate.Name,
+                            Description = market.MarketTemplate.Description,
+                            StartDate = market.StartDate,
+                            EndDate = market.EndDate,
+                            IsCancelled = market.IsCancelled,
+                            Categories = market.ItemCategories(),
+                            TotalStallCount = market.TotalStallCount(),
+                            AvailableStallCount = market.AvailableStallCount(),
+                            OccupiedStallCount = market.OccupiedStallCount(),
+                        };
+                    }).ToList();
 
                 GetOrganiserVM result = new GetOrganiserVM()
                 {
