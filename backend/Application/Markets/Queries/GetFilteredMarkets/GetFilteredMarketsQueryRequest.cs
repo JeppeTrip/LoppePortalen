@@ -13,6 +13,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public int? OrganiserId { get; set; }
+        List<string> Categories { get; set; } = new List<string>();
 
     }
 }

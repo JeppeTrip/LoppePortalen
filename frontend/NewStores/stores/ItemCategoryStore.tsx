@@ -12,6 +12,7 @@ export class ItemCategoryStore {
         makeAutoObservable(this)
         this.rootStore = rootStore
         this.transportLayer = transportLayer
+        this.categories = [] as string[]
     }
 
     @flow 
