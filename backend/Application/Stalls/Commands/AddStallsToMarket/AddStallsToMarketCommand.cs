@@ -34,7 +34,7 @@ namespace Application.Stalls.Commands.AddStallsToMarket
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.StallTypes)
                     .Include(x => x.MarketTemplate.Organiser)
-                    .FirstOrDefault(x => x.Id == request.Dto.MarketId);
+                    .FirstOrDefault(x => x.Id == request.Dto.MarketId && x.MarketTemplate.Organiser.UserId.Equals(_currentUserService.UserId));
                 if (instance == null)
                 {
                     throw new NotFoundException("Market doesn't exist.");
