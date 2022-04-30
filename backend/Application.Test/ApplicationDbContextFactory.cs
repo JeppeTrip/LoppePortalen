@@ -332,6 +332,7 @@ namespace Application.Test
             SeedAddStallToMarketTestData(context);
             SeedDeleteStallTestData(context);
             SeedGetMarketStallsTestData(context);
+            SeedGetStallTestData(context);
         }
 
         /**
@@ -2496,6 +2497,116 @@ namespace Application.Test
                     MarketInstanceId = 1303
                 }
             );
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 1400 */
+        private static void SeedGetStallTestData(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "User1400",
+                Email = "User1400@mail",
+                UserName = "User1400@mail"
+            });
+            context.UserInfo.Add(new Domain.Entities.User()
+            {
+                IdentityId = "User1400",
+                Email = "User1400@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User1400",
+                LastName = "Lastname User1400",
+                Phone = "12345678"
+            });
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 1400,
+                Name = "Organiser 1400",
+                Description = "Organiser 1400 Description",
+                UserId = "User1400",
+                Address = new Address()
+                {
+                    Id = 1400,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 1400,
+                Name = "Market 1400",
+                Description = "Market 1400 Description",
+                OrganiserId = 1400
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 1400,
+                MarketTemplateId = 1400,
+                StartDate = new DateTime(1990, 1, 1),
+                EndDate = new DateTime(1990, 1, 2),
+                IsCancelled = false,
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 1400,
+                Name = "Stalltype 1400",
+                Description = "Stalltype 1400 description",
+                MarketTemplateId = 1400
+            });
+            context.Stalls.AddRange(
+                new Stall()
+                {
+                    Id = 1400,
+                    MarketInstanceId = 1400,
+                    StallTypeId = 1400
+                },
+                new Stall()
+                {
+                    Id = 1401,
+                    MarketInstanceId = 1400,
+                    StallTypeId = 1400
+                },
+                new Stall()
+                {
+                    Id = 1402,
+                    MarketInstanceId = 1400,
+                    StallTypeId = 1400
+                }
+            );
+            context.Merchants.Add(new Merchant()
+            {
+                Id = 1400,
+                Name = "Merchant 1400",
+                Description = "Merchant 1400 Description",
+                UserId = "User1400"
+            });
+            context.Bookings.Add(new Booking()
+            {
+                Id = "Booth1400",
+                BoothName = "Booth 1400",
+                BoothDescription = "Booth 1400 Description",
+                MerchantId = 1400,
+                StallId = 1400,
+                ItemCategories = new List<Category>()
+                {
+                    new Category()
+                    {
+                        Name = "Category 1400",
+                    },
+                    new Category()
+                    {
+                        Name = "Category 1401",
+                    },
+                    new Category()
+                    {
+                        Name = "Category 1402",
+                    }
+                }
+            });
             context.SaveChanges();
         }
     }

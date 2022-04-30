@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,6 +27,9 @@ namespace Application.Stalls.Queries.GetStall
             {
                 var stall = await _context.Stalls
                     .Include(x => x.MarketInstance)
+                    .ThenInclude(x => x.Stalls)
+                    .ThenInclude(x => x.Bookings)
+                    .Include(x => x.MarketInstance)
                     .ThenInclude(x => x.MarketTemplate)
                     .ThenInclude(x => x.Organiser)
                     .ThenInclude(x => x.Address)
@@ -41,7 +45,7 @@ namespace Application.Stalls.Queries.GetStall
                     Id = stall.Id,
                     StallType = new StallTypeBaseVM()
                     {
-                        Id = stall.StallType.Id,    
+                        Id = stall.StallType.Id,
                         Name = stall.StallType.Name,
                         Description = stall.StallType.Description
                     },
@@ -69,9 +73,22 @@ namespace Application.Stalls.Queries.GetStall
                             City = stall.MarketInstance.MarketTemplate.Organiser.Address.City,
                             PostalCode = stall.MarketInstance.MarketTemplate.Organiser.Address.PostalCode
                         }
-                        
-                    }
-                }
+                    },
+                    Booths = stall.Bookings.Select(x => new GetStallBoothVM()
+                    {
+                        Id = x.Id,
+                        Name = x.BoothName,
+                        Description = x.BoothDescription,
+                        Categories = x.ItemCategories.Select(x => x.Name).ToList(),
+                        MerchantBaseVM = new MerchantBaseVM()
+                        {
+                            Id = x.Merchant.Id,
+                            Name = x.Merchant.Name,
+                            Description = x.Merchant.Description,
+                            UserId = x.Merchant.UserId
+                        }
+                    }).ToList()
+                };
 
                 return new GetStallResponse() { 
                     Stall = vm 
