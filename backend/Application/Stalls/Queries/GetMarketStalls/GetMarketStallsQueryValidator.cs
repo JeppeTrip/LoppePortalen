@@ -9,5 +9,10 @@ namespace Application.Stalls.Queries.GetMarketStalls
 {
     public class GetMarketStallsQueryValidator : AbstractValidator<GetMarketStallsQuery>
     {
+        public GetMarketStallsQueryValidator()
+        {
+            RuleFor(e => e.Dto.MarketId)
+                .GreaterThan(0);
+        }
     }
 }

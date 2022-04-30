@@ -331,6 +331,7 @@ namespace Application.Test
             SeedMarketInstanceEntityExtensionTestData(context);
             SeedAddStallToMarketTestData(context);
             SeedDeleteStallTestData(context);
+            SeedGetMarketStallsTestData(context);
         }
 
         /**
@@ -2309,6 +2310,190 @@ namespace Application.Test
                     BoothDescription = "Booth1200 Description",
                     MerchantId = 1200,
                     StallId = 1205
+                }
+            );
+            context.SaveChanges();
+        }
+    
+        /** All ids within start at 1300 */
+        private static void SeedGetMarketStallsTestData(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "User1300",
+                Email = "User1300@mail",
+                UserName = "User1300@mail",
+                PhoneNumber = "12345678"
+            });
+            context.UserInfo.Add(new Domain.Entities.User()
+            {
+                IdentityId = "User1300",
+                Email = "User1300@mail",
+                Country = "Denmark",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                LastName = "LastnameUser1300",
+                FirstName = "FirstnameUser1300",
+                Phone = "12345678"
+            });
+            context.Organisers.Add(new Organiser()
+            {
+                UserId = "User1300",
+                Id = 1300,
+                Name = "Organiser1300",
+                Description = "Organiser1300 Description",
+                Address = new Address()
+                {
+                    Id = 1300,
+                    Appartment = "apt",
+                    City = "city",
+                    Number = "1234",
+                    Street = "street",
+                    PostalCode = "postalcode"
+                }
+            });
+            context.MarketTemplates.AddRange(
+                new MarketTemplate()
+                {
+                    Id = 1300,
+                    Name = "Market1300",
+                    Description = "Market1300 Description",
+                    OrganiserId = 1300
+                },
+                new MarketTemplate()
+                {
+                    Id = 1301,
+                    Name = "Market1301",
+                    Description = "Market1301 Description",
+                    OrganiserId = 1300
+                },
+                new MarketTemplate()
+                {
+                    Id = 1302,
+                    Name = "Market1302",
+                    Description = "Market1302 Description",
+                    OrganiserId = 1300
+                },
+                new MarketTemplate()
+                {
+                    Id = 1303,
+                    Name = "Market1303",
+                    Description = "Market1303 Description",
+                    OrganiserId = 1300
+                }
+            );
+            context.MarketInstances.AddRange(
+                new MarketInstance()
+                {
+                    Id = 1300,
+                    MarketTemplateId = 1300,
+                    IsCancelled = false,
+                    StartDate = DateTimeOffset.Now,
+                    EndDate = DateTimeOffset.Now.AddDays(1)
+                },
+                new MarketInstance()
+                {
+                    Id = 1301,
+                    MarketTemplateId = 1301,
+                    IsCancelled = false,
+                    StartDate = DateTimeOffset.Now,
+                    EndDate = DateTimeOffset.Now.AddDays(1)
+                },
+                new MarketInstance()
+                {
+                    Id = 1302,
+                    MarketTemplateId = 1302,
+                    IsCancelled = false,
+                    StartDate = DateTimeOffset.Now,
+                    EndDate = DateTimeOffset.Now.AddDays(1)
+                },
+                new MarketInstance()
+                {
+                    Id = 1303,
+                    MarketTemplateId = 1303,
+                    IsCancelled = false,
+                    StartDate = DateTimeOffset.Now,
+                    EndDate = DateTimeOffset.Now.AddDays(1)
+                }
+            );
+            context.StallTypes.AddRange(
+                new StallType()
+                {
+                    Id = 1300, 
+                    Name = "stalltype1300",
+                    Description = "stalltype1300 description",
+                    MarketTemplateId = 1300
+                },
+                new StallType()
+                {
+                    Id = 1301,
+                    Name = "stalltype1301",
+                    Description = "stalltype1301 description",
+                    MarketTemplateId = 1301
+                },
+                new StallType()
+                {
+                    Id = 1302,
+                    Name = "stalltype1302",
+                    Description = "stalltype1302 description",
+                    MarketTemplateId = 1302
+                },
+                new StallType()
+                {
+                    Id = 1303,
+                    Name = "stalltype1303",
+                    Description = "stalltype1303 description",
+                    MarketTemplateId = 1303
+                },
+                new StallType()
+                {
+                    Id = 1304,
+                    Name = "stalltype1304",
+                    Description = "stalltype1304 description",
+                    MarketTemplateId = 1303
+                }
+            );
+            context.Stalls.AddRange(
+                new Stall()
+                {
+                    Id = 1300,
+                    StallTypeId = 1301,
+                    MarketInstanceId = 1301
+                },
+                new Stall()
+                {
+                    Id = 1301,
+                    StallTypeId = 1302,
+                    MarketInstanceId = 1302
+                },
+                new Stall()
+                {
+                    Id = 1302,
+                    StallTypeId = 1302,
+                    MarketInstanceId = 1302
+                },
+                new Stall()
+                {
+                    Id = 1303,
+                    StallTypeId = 1302,
+                    MarketInstanceId = 1302
+                },
+                new Stall()
+                {
+                    Id = 1304,
+                    StallTypeId = 1303,
+                    MarketInstanceId = 1303
+                },
+                new Stall()
+                {
+                    Id = 1305,
+                    StallTypeId = 1303,
+                    MarketInstanceId = 1303
+                },
+                new Stall()
+                {
+                    Id = 1306,
+                    StallTypeId = 1304,
+                    MarketInstanceId = 1303
                 }
             );
             context.SaveChanges();
