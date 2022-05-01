@@ -333,6 +333,7 @@ namespace Application.Test
             SeedDeleteStallTestData(context);
             SeedGetMarketStallsTestData(context);
             SeedGetStallTestData(context);
+            SeedGetFilteredBoothsQuery(context);
         }
 
         /**
@@ -2607,6 +2608,160 @@ namespace Application.Test
                     }
                 }
             });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 1500 
+            Basically just seeding a bunch of different booths within to make sure that they exist.
+            But the test here is not really running in isolation from any of the other test data, so 
+            it will just pull everything it can get.
+            also the year 1500  is used here as period with controlled test data within, so plz don't user elsewhere.
+         */
+        private static void SeedGetFilteredBoothsQuery(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "User1500",
+                Email = "User1500@mail",
+                UserName = "User1500@mail"
+            });
+            context.UserInfo.Add(new Domain.Entities.User()
+            {
+                IdentityId = "User1500",
+                Email = "User1500@mail",
+                Country = "test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Fristname User1500",
+                LastName = "Lastname User1500",
+                Phone = "12345678"
+            });
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 1500,
+                Name = "Organiser 1500",
+                Description = "Organiser 1500 Description",
+                UserId = "User1500",
+                Address = new Address()
+                {
+                    Id = 1500,
+                    Street = "street",
+                    Number = "number",
+                    City = "city",
+                    Appartment = "apt",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.AddRange(new MarketTemplate()
+            {
+                Id = 1500,
+                Name = "Template 1500",
+                Description = "Template 1500 Description",
+                OrganiserId = 1500
+            });
+            context.MarketInstances.AddRange(new MarketInstance()
+            {
+                Id = 1500,
+                IsCancelled = false,
+                StartDate = new DateTime(1500, 1, 1),
+                EndDate = new DateTime(1500, 2, 1),
+                MarketTemplateId = 1500
+            });
+            context.StallTypes.AddRange(new StallType()
+            {
+                Id = 1500,
+                Name = "Stalltype 1500",
+                Description = "Stalltype 1500 description",
+                MarketTemplateId = 1500
+            });
+            context.Stalls.AddRange(new Stall()
+            {
+                Id = 1500,
+                StallTypeId = 1500,
+                MarketInstanceId = 1500
+            },
+            new Stall()
+            {
+                Id = 1501,
+                StallTypeId = 1500,
+                MarketInstanceId = 1500
+            });
+
+            context.MarketTemplates.AddRange(new MarketTemplate()
+            {
+                Id = 1501,
+                Name = "Template 1501",
+                Description = "Template 1501 Description",
+                OrganiserId = 1500
+            });
+            context.MarketInstances.AddRange(new MarketInstance()
+            {
+                Id = 1501,
+                IsCancelled = false,
+                StartDate = new DateTime(1500, 3, 1),
+                EndDate = new DateTime(1500, 4, 1),
+                MarketTemplateId = 1501
+            });
+            context.StallTypes.AddRange(new StallType()
+            {
+                Id = 1501,
+                Name = "Stalltype 1501",
+                Description = "Stalltype 1501 description",
+                MarketTemplateId = 1501
+            });
+            context.Stalls.AddRange(
+            new Stall()
+            {
+                Id = 1502,
+                StallTypeId = 1500,
+                MarketInstanceId = 1501
+            },
+            new Stall()
+            {
+                Id = 1503,
+                StallTypeId = 1500,
+                MarketInstanceId = 1501
+            },
+            new Stall()
+            {
+                Id = 1504,
+                StallTypeId = 1500,
+                MarketInstanceId = 1501
+            });
+            context.Merchants.Add(new Merchant()
+            {
+
+                Id = 1500,
+                Name = "Merchant 1500",
+                Description = "Merchant 1500 Description",
+                UserId = "User1500"
+            });
+            context.Bookings.AddRange(new Booking()
+            {
+                Id = "Booking1500",
+                BoothName = "Booth 1500",
+                BoothDescription = "Booth 1500 description",
+                MerchantId = 1500,
+                StallId = 1502
+            },
+            new Booking()
+            {
+                Id = "Booking1501",
+                BoothName = "Booth 1501",
+                BoothDescription = "Booth 1501 description",
+                MerchantId = 1500,
+                StallId = 1503,
+                ItemCategories = new List<Category>() { new Category() { Name = "Category 1500" } }
+            },
+             new Booking()
+             {
+                 Id = "Booking1502",
+                 BoothName = "Booth 1502",
+                 BoothDescription = "Booth 1502 description",
+                 MerchantId = 1500,
+                 StallId = 1504,
+                 ItemCategories = new List<Category>() { new Category() { Name = "Category 1501" } }
+             });
             context.SaveChanges();
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Markets.Queries.GetFilteredMarkets
+namespace Application.Test.Booths.Queries.GetFilteredBooths
 {
-    public class GetFitleredMarketsQueryValidator 
+    internal class GetFilteredBoothsQueryValidatorTest
     {
     }
 }

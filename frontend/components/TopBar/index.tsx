@@ -22,9 +22,9 @@ const menuItems = [
     path: '/market/'
   },
   {
-    name: "Stalls",
+    name: "Booths",
     icon: <TableRestaurantIcon />,
-    path: '/stall/'
+    path: '/booth/'
   },
   {
     name: "Organisers",
