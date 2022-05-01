@@ -3,13 +3,14 @@ import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useContext, useEffect } from "react";
 import BoothFilter from "../../components/BoothFilter";
+import BoothListItem from "../../components/BoothListItem";
 import { StoreContext } from "../../NewStores/StoreContext";
 
 const Booths: NextPage = observer(() => {
     const stores = useContext(StoreContext)
 
     useEffect(() => {
-        console.log("load markets here.")
+        stores.boothStore.fetchFilteredBooths();
     }, [])
 
 
@@ -24,7 +25,8 @@ const Booths: NextPage = observer(() => {
                         :
                         <List>
                             {
-                               <div>Booths here at somepoint</div>
+                                
+                               stores.boothStore.booths.map(x => <BoothListItem showEdit={false} key={x.id} booth={x}/>)
                             }
                         </List>
                 }

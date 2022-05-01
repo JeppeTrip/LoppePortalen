@@ -24,7 +24,7 @@ const BoothFilter: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         //Todo: expand with organiser filter
-        console.log("submit booth filter with this")
+        stores.boothStore.fetchFilteredBooths(startDate, endDate, categories)
     }
 
     return (

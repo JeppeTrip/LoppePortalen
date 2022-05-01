@@ -9,6 +9,6 @@ namespace Application.Booths.Queries.GetFilteredBooths
 {
     public class GetFilteredBoothsVM : BoothBaseVM
     {
-        public getFilteredBoothsStallVM Stall { get; set; }
+        public new getFilteredBoothsStallVM Stall { get; set; }
     }
 }

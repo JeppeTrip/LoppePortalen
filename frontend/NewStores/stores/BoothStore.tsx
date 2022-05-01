@@ -1,7 +1,7 @@
 import { action, flow, makeAutoObservable, observable } from "mobx";
 import { Booth } from "../@DomainObjects/Booth";
 import { RootStore } from "../RootStore";
-import { BoothBaseVM as Dto, BoothClient} from '../../services/clients';
+import { BoothBaseVM as Dto, BoothClient, GetFilteredBoothsResponse} from '../../services/clients';
 
 export class BoothStore {
     rootStore: RootStore
@@ -32,5 +32,23 @@ export class BoothStore {
         const res = yield this.transportLayer.getBooth(boothId);
         const booth =  this.updateBoothFromServer(res.booth)
         return booth
+    }
+
+    @action
+    fetchFilteredBooths(startDate?: Date, endDate?: Date, categories?: string[])
+    {
+        this.booths = []
+        this.transportLayer.filteredBooths(startDate, endDate, categories)
+        .then(
+            action("fetchSuccess", result => {
+                result.booths.forEach(dto => {
+                    this.updateBoothFromServer(dto)
+                });
+            }),
+            action("fetchError", error => {
+                console.log(error)
+                this.booths = []
+            })
+        )
     }
 }

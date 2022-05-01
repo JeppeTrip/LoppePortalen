@@ -163,6 +163,62 @@
         }
       }
     },
+    "/api/Booth/filtered": {
+      "get": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_FilteredBooths",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFilteredBoothsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ItemCategory/all": {
       "get": {
         "tags": [
@@ -1411,6 +1467,61 @@
             }
           }
         }
+      },
+      "GetFilteredBoothsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "booths": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetFilteredBoothsVM"
+            }
+          }
+        }
+      },
+      "GetFilteredBoothsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetFilteredBoothsStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetFilteredBoothsStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "CreateMarketResponse": {
         "type": "object",
