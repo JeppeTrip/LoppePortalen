@@ -334,6 +334,7 @@ namespace Application.Test
             SeedGetMarketStallsTestData(context);
             SeedGetStallTestData(context);
             SeedGetFilteredBoothsQuery(context);
+            SeedUpdateBoothCommandTestData(context);
         }
 
         /**
@@ -2762,6 +2763,142 @@ namespace Application.Test
                  StallId = 1504,
                  ItemCategories = new List<Category>() { new Category() { Name = "Category 1501" } }
              });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 1600 */
+        private static void SeedUpdateBoothCommandTestData(ApplicationDbContext context)
+        {
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "User1600",
+                Email = "User1600@mail",
+                UserName = "User1600@mail"
+            });
+            context.Users.Add(new ApplicationUser()
+            {
+                Id = "User1601",
+                Email = "User1601@mail",
+                UserName = "User1601@mail"
+            });
+            context.UserInfo.Add(new Domain.Entities.User()
+            {
+                IdentityId = "User1600",
+                Email = "User1600@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User1600",
+                LastName = "Lastname User1600",
+                Phone = "12345678"
+            });
+            context.UserInfo.Add(new Domain.Entities.User()
+            {
+                IdentityId = "User1601",
+                Email = "User1601@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User1600",
+                LastName = "Lastname User1600",
+                Phone = "12345678"
+            });
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 1600,
+                Name = "Organiser 1600",
+                Description = "Organiser 1600 Description",
+                UserId = "User1600",
+                Address = new Address()
+                {
+                    Id = 1600,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 1600,
+                Name = "Market 1600",
+                Description = "Market 1600 Description",
+                OrganiserId = 1600
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 1600,
+                MarketTemplateId = 1600,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = false,
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 1600,
+                Name = "Stalltype 1600",
+                Description = "Stalltype 1600 description",
+                MarketTemplateId = 1600
+            });
+            context.Stalls.AddRange(
+                new Stall()
+                {
+                    Id = 1600,
+                    MarketInstanceId = 1600,
+                    StallTypeId = 1600
+                },
+                new Stall()
+                {
+                    Id = 1601,
+                    MarketInstanceId = 1600,
+                    StallTypeId = 1600
+                }
+            );
+            context.Merchants.AddRange(new Merchant()
+            {
+                Id = 1600,
+                Name = "Merchant 1600",
+                Description = "Merchant 1600 Description",
+                UserId = "User1600"
+            },
+            new Merchant()
+            {
+                Id = 1601,
+                Name = "Merchant 1601",
+                Description = "Merchant 1601 Description",
+                UserId = "User1601"
+            });
+            var cat1600 = new Category()
+            {
+                Name = "Category 1600"
+            };
+            context.ItemCategories.AddRange(
+                cat1600,
+                new Category()
+                {
+                    Name = "Category 1601"
+                });
+
+            context.Bookings.AddRange(new Booking()
+            {
+                Id = "Booth1600",
+                BoothName = "Booth 1600",
+                BoothDescription = "Booth 1600 Description",
+                MerchantId = 1600,
+                StallId = 1600,
+                ItemCategories = new List<Category>()
+                {
+                    cat1600
+                }
+            },
+            new Booking()
+            {
+                Id = "Booth1601",
+                BoothName = "Booth 1601",
+                BoothDescription = "Booth 1601 Description",
+                MerchantId = 1601,
+                StallId = 1601,
+            });
+
             context.SaveChanges();
         }
     }

@@ -38,9 +38,6 @@ namespace Infrastructure
                             configuration.GetConnectionString("Postgresql"),
                             b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
                 }
-
-
-
                 //TODO: Add timetracking as a trancient dependency here.
             }
 
