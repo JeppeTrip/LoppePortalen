@@ -31,9 +31,15 @@ namespace Application.Booths.Queries.GetUsersBooths
                 var allBookings = _context.Bookings
                     .Include(x => x.Merchant)
                     .Include(x => x.Stall)
-                    .Include(x => x.Stall.StallType)
-                    .Include(x => x.Stall.MarketInstance)
-                    .Include(x => x.Stall.MarketInstance.MarketTemplate)
+                    .ThenInclude(x => x.StallType)
+                    .Include(x => x.Stall)
+                    .ThenInclude(x => x.MarketInstance)
+                    .ThenInclude(x => x.MarketTemplate)
+                    .Include(x => x.Stall)
+                    .ThenInclude(x => x.MarketInstance)
+                    .ThenInclude(x => x.Stalls)
+                    .ThenInclude(x => x.Bookings)
+                    .ThenInclude(x => x.ItemCategories)
                     .Include(x => x.ItemCategories);
 
                 var bookings = await allBookings
