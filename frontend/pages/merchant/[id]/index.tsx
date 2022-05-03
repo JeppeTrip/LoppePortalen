@@ -106,6 +106,15 @@ const MerchantPage: NextPage<Props> = observer(() => {
                                 </Paper>
                             </Grid>
 
+                            <Grid item xs={5}>
+                                <Paper elevation={1}>
+                                    <Typography variant="h6">
+                                        Upcomming Markets
+                                    </Typography>
+                                    <Divider />
+                                    booths here.
+                                </Paper>
+                            </Grid>
                         </Grid>
                     </Container>
                 </Grid>
