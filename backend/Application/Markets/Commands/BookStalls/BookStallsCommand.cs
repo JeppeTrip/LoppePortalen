@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.BookStalls
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class BookStallsCommand : IRequest<BookStallsResponse>
     {
         public BookStallsRequest Dto { get; set; }

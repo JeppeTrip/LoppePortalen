@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.StallTypes.Commands.CreateStallType
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class CreateStallTypeCommand : IRequest<CreateStallTypeResponse>
     {
         public CreateStallTypeRequest Dto { get; set; }

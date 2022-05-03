@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.CreateMarket
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class CreateMarketCommand : IRequest<CreateMarketResponse>
     {
         public CreateMarketRequest Dto { get; set; }

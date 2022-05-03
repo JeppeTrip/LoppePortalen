@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class GetUsersOrganisersQuery : IRequest<GetUsersOrganisersResponse>
     {
         public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, GetUsersOrganisersResponse>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Commands.CreateOrganiser
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class CreateOrganiserCommand : IRequest<CreateOrganiserResponse>
     {
         public CreateOrganiserRequest Dto { get; set; } 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.CancelMarket
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class CancelMarketInstanceCommand : IRequest<CancelMarketInstanceResponse>
     {
         public CancelMarketInstanceRequest Dto { get; set; }

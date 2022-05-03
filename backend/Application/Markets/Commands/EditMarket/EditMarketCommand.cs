@@ -17,7 +17,7 @@ namespace Application.Markets.Commands.EditMarket
     /** Command to update the market information.
         This only covers the details of the market, not the actual stalls and such.
      */
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class EditMarketCommand : IRequest<EditMarketResponse>
     {
         public EditMarketRequest Dto { get; set; }

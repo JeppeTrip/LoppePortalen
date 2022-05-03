@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Booths.Queries.GetUsersBooths
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class GetUsersBoothsQuery : IRequest<GetUsersBoothsResponse>
     {
         public class GetUsersBoothsQueryHandler : IRequestHandler<GetUsersBoothsQuery, GetUsersBoothsResponse>

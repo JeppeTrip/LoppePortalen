@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.User.Queries.GetUser
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class GetUserQuery : IRequest<GetUserResponse>
     {
         public GetUserRequest Dto { get; set; }

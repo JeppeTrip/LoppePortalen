@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.RemoveStallsFromMarket
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class RemoveStallsFromMarketCommand : IRequest<RemoveStallsFromMarketResponse>
     {
         public RemoveStallsFromMarketRequest Dto { get; set; }

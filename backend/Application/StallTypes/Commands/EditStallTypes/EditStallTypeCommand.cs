@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.StallTypes.Commands.EditStallTypes
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class EditStallTypeCommand : IRequest<EditStallTypeResponse>
     {
         public EditStallTypeRequest Dto { get; set; }

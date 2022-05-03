@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.DeleteStall
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class DeleteStallCommand : IRequest<DeleteStallResponse>
     {
         public DeleteStallRequest Dto { get; set; }

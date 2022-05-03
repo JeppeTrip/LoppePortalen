@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.CreateMerchant
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class CreateMerchantCommand : IRequest<CreateMerchantResponse>
     {
         public CreateMerchantRequest Dto { get; set; }

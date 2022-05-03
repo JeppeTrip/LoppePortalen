@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.AddStallsToMarket
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class AddStallsToMarketCommand : IRequest<AddStallsToMarketResponse>
     {
         public AddStallsToMarketRequest Dto { get; set; }

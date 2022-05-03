@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetUsersMarkets
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class GetUsersMarketsQuery : IRequest<GetUsersMarketsResponse>
     {
 

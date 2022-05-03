@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Commands.EditOrganiser
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class EditOrganiserCommand : IRequest<EditOrganiserResponse>
     {
         public EditOrganiserRequest Dto { get; set; }

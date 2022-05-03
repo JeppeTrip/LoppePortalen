@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.EditMerchant
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class EditMerchantCommand : IRequest<EditMerchantResponse>
     {
         public EditMerchantRequest Dto { get; set; }

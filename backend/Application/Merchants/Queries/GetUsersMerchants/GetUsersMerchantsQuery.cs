@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Queries.GetUsersMerchants
 {
-    [AuthorizeAttribute(Roles = "ApplicationUser")
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class GetUsersMerchantsQuery : IRequest<GetUsersMerchantsResponse>
     {
         public class GetUsersMerchantsQueryHandler : IRequestHandler<GetUsersMerchantsQuery, GetUsersMerchantsResponse>
