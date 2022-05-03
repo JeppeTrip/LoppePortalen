@@ -9,6 +9,6 @@ namespace Application.Merchants.Queries.GetMerchant
 {
     public class GetMerchantQueryResponse
     {
-        public MerchantBaseVM Merchant { get; set; }
+        public GetMerchantVM Merchant { get; set; }
     }
 }

@@ -85,7 +85,7 @@ namespace Application.Merchants.Queries.GetMerchant
 
                 return new GetMerchantQueryResponse() { 
                     Merchant = merchantVm
-                }};
+                };
             }
         }
     }
