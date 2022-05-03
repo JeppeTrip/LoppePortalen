@@ -67,7 +67,6 @@ export class MarketStore {
                     });
                 }),
                 action("fetchError", error => {
-                    console.log(error)
                     this.markets = []
                 })
             )

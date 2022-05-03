@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import {GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
+import {CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
 import { Booth } from "./Booth"
 
 
@@ -34,7 +34,34 @@ export class Merchant{
     @action
     save()
     {
-        this.store.saveMerchant(this)
+        if (!this.id) {
+            this.state = ModelState.SAVING
+            this.store.transportLayer.createMerchant(new CreateMerchantRequest({
+                name: this.name,
+                description: this.description
+            })).then(
+                action("submitSuccess", res => {
+                    this.updateFromServer(res)
+                }),
+                action("submitError", error => {
+                    this.state = ModelState.ERROR
+                })
+            )
+        } else {
+            this.state = ModelState.SAVING
+            this.store.transportLayer.updateMerchant(new EditMerchantRequest({
+                id: this.id,
+                name: this.name,
+                description: this.description
+            })).then(
+                action("submitSuccess", res => {
+                    this.state = ModelState.IDLE
+                }),
+                action("submitError", error => {
+                    this.state = ModelState.ERROR
+                })
+            )
+        }
     }
 
     @action

@@ -29,42 +29,6 @@ export class MerchantStore {
     }
 
     /**
-     * Tries to submit merchant to the database.
-     */
-    @action
-    saveMerchant(merchant: Merchant) {
-        if (!merchant.id) {
-            merchant.state = ModelState.SAVING
-            this.transportLayer.createMerchant(new CreateMerchantRequest({
-                name: merchant.name,
-                description: merchant.description
-            })).then(
-                action("submitSuccess", res => {
-                    this.updateMerchantFromServer(res)
-                }),
-                action("submitError", error => {
-                    merchant.state = ModelState.ERROR
-                })
-            )
-        } else {
-            merchant.state = ModelState.SAVING
-            this.transportLayer.updateMerchant(new EditMerchantRequest({
-                id: merchant.id,
-                name: merchant.name,
-                description: merchant.description
-            })).then(
-                action("submitSuccess", res => {
-                    merchant.state = ModelState.IDLE
-                }),
-                action("submitError", error => {
-                    merchant.state = ModelState.ERROR
-                })
-            )
-        }
-    }
-
-
-    /**
      * Call when updates are arriving from the server.
      * Check if merchant is already in store if not then add it.
      * Then call updateFromServer on the merchant instance to update its data.

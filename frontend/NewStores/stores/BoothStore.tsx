@@ -46,7 +46,6 @@ export class BoothStore {
                 });
             }),
             action("fetchError", error => {
-                console.log(error)
                 this.booths = []
             })
         )
