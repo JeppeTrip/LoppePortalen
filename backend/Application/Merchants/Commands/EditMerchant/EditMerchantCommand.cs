@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.EditMerchant
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class EditMerchantCommand : IRequest<EditMerchantResponse>
     {
         public EditMerchantRequest Dto { get; set; }

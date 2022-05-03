@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.AddStallsToMarket
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class AddStallsToMarketCommand : IRequest<AddStallsToMarketResponse>
     {
         public AddStallsToMarketRequest Dto { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Booths.Commands.UpdateBooth
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class UpdateBoothCommand : IRequest<UpdateBoothResponse>
     {
         public UpdateBoothRequest Dto { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.DeleteStall
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class DeleteStallCommand : IRequest<DeleteStallResponse>
     {
         public DeleteStallRequest Dto { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Stalls.Commands.RemoveStallsFromMarket
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class RemoveStallsFromMarketCommand : IRequest<RemoveStallsFromMarketResponse>
     {
         public RemoveStallsFromMarketRequest Dto { get; set; }

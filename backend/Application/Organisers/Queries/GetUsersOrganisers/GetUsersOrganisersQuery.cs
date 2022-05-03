@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Queries.GetUsersOrganisers
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class GetUsersOrganisersQuery : IRequest<GetUsersOrganisersResponse>
     {
         public class GetUsersOrganisersQueryHandler : IRequestHandler<GetUsersOrganisersQuery, GetUsersOrganisersResponse>

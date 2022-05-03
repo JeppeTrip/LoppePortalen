@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using Domain.EntityExtensions;
 using MediatR;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Application.Booths.Queries.GetUsersBooths
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class GetUsersBoothsQuery : IRequest<GetUsersBoothsResponse>
     {
         public class GetUsersBoothsQueryHandler : IRequestHandler<GetUsersBoothsQuery, GetUsersBoothsResponse>

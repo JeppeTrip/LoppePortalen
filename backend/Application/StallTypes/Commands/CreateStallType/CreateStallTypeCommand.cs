@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.StallTypes.Commands.CreateStallType
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class CreateStallTypeCommand : IRequest<CreateStallTypeResponse>
     {
         public CreateStallTypeRequest Dto { get; set; }

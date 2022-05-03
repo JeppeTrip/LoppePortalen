@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.CreateMerchant
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class CreateMerchantCommand : IRequest<CreateMerchantResponse>
     {
         public CreateMerchantRequest Dto { get; set; }

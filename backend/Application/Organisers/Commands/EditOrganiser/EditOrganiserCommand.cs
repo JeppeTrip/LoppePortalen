@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Organisers.Commands.EditOrganiser
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class EditOrganiserCommand : IRequest<EditOrganiserResponse>
     {
         public EditOrganiserRequest Dto { get; set; }

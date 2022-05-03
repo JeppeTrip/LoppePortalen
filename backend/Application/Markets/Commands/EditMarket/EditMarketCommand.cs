@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace Application.Markets.Commands.EditMarket
     /** Command to update the market information.
         This only covers the details of the market, not the actual stalls and such.
      */
+    [AuthorizeAttribute(Roles = "ApplicationUser")
     public class EditMarketCommand : IRequest<EditMarketResponse>
     {
         public EditMarketRequest Dto { get; set; }
