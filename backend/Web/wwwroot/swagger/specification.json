@@ -1986,11 +1986,73 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/MerchantBaseVM"
+                "$ref": "#/components/schemas/GetMerchantVM"
               }
             ]
           }
         }
+      },
+      "GetMerchantVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MerchantBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "booths": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/GetMerchantBoothVM"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetMerchantBoothVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetMerchantStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetMerchantStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "EditMerchantResponse": {
         "allOf": [

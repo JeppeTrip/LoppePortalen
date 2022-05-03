@@ -1,6 +1,6 @@
 import { action, flow, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
-import { CreateMerchantRequest, EditMerchantRequest, MerchantClient } from "../../services/clients"
+import { CreateMerchantRequest, EditMerchantRequest, GetMerchantQueryResponse, MerchantClient } from "../../services/clients"
 import { Merchant } from "../@DomainObjects/Merchant"
 import { RootStore } from "../RootStore"
 import { MerchantBaseVM as Dto } from "../../services/clients"
@@ -54,7 +54,7 @@ export class MerchantStore {
                 description: merchant.description
             })).then(
                 action("submitSuccess", res => {
-                        merchant.state = ModelState.IDLE
+                    merchant.state = ModelState.IDLE
                 }),
                 action("submitError", error => {
                     merchant.state = ModelState.ERROR
@@ -103,14 +103,19 @@ export class MerchantStore {
      * If it isn't here a fetch is made.
      */
     @flow
-    * resolveMerchant(id: number) {
+    *resolveMerchant(id: number) {
         let merchant = this.merchants.find(x => x.id === id)
         if (!merchant) {
-            var res = yield this.transportLayer.getMerchant(id)
-            if (res.succeeded) {
-                merchant = this.updateMerchantFromServer(res.merchant)
-            }
+            var res : GetMerchantQueryResponse = yield this.transportLayer.getMerchant(id)
+            merchant = this.updateMerchantFromServer(res.merchant)
         }
         return merchant
+    }
+
+    @flow
+    *fetchMerchant(id: number) {
+            var res : GetMerchantQueryResponse = yield this.transportLayer.getMerchant(id)
+            const merchant = this.updateMerchantFromServer(res.merchant)
+            return merchant
     }
 }

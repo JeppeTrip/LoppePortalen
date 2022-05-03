@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useErrorHandler } from "react-error-boundary";
 import { Merchant } from "../../../NewStores/@DomainObjects/Merchant";
 import { StoreContext } from "../../../NewStores/StoreContext";
+import BoothListItem from "../../../components/BoothListItem";
 import styles from './styles.module.css';
 type Props = {
     id: string
@@ -54,7 +55,7 @@ const MerchantPage: NextPage<Props> = observer(() => {
     useEffect(() => {
         if (selectedMerchant == null) {
             if (!(merchantId == "")) {
-                flowResult(stores.merchantStore.resolveMerchant(parseInt(merchantId)))
+                flowResult(stores.merchantStore.fetchMerchant(parseInt(merchantId)))
                     .then(res => setSelectedMerchant(res))
                     .catch(error => {
                         handleError(error)
@@ -109,10 +110,12 @@ const MerchantPage: NextPage<Props> = observer(() => {
                             <Grid item xs={5}>
                                 <Paper elevation={1}>
                                     <Typography variant="h6">
-                                        Upcomming Markets
+                                        Merchant Booths
                                     </Typography>
                                     <Divider />
-                                    booths here.
+                                    {
+                                        selectedMerchant.booths.map(x => <BoothListItem booth={x} />)
+                                    }
                                 </Paper>
                             </Grid>
                         </Grid>

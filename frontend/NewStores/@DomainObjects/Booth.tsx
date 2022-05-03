@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { BoothStore } from "../stores/BoothStore"
-import { BoothBaseVM as Dto, GetFilteredBoothsVM, UpdateBoothRequest } from "../../services/clients"
+import { BoothBaseVM as Dto, GetFilteredBoothsVM, GetMerchantBoothVM, UpdateBoothRequest } from "../../services/clients"
 import { Stall } from "./Stall"
 import { ModelState } from "../../@types/ModelState"
 import { Merchant } from "./Merchant"
@@ -34,25 +34,13 @@ export class Booth {
             this.name = dto.name
             this.description = dto.description
             this.itemCategories = dto.categories
-            switch (dto.constructor.name) {
-                case "GetFilteredBoothsVM":
-                    this.updateFromServerGetFilteredBoothsVM(dto)
-                    break;
-                default:
-                    this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
-                    this.stall.booth = this
-                    break;
-            }
+            
+            this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
+            this.stall.booth = this
 
             this.state = ModelState.IDLE
         }
         return this;
-    }
-
-    @action
-    private updateFromServerGetFilteredBoothsVM(dto : GetFilteredBoothsVM)
-    {
-        this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
     }
 
     @action

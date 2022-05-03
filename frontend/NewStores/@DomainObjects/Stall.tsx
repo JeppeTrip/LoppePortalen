@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
 import { StallStore } from "../stores/StallStore";
 import { StallType } from "./StallType";
-import { GetBoothStallVM, GetFilteredBoothsStallVM, GetUsersBoothsStallVM, StallBaseVM as Dto } from '../../services/clients'
+import { GetBoothStallVM, GetFilteredBoothsStallVM, GetMerchantStallVM, GetUsersBoothsStallVM, StallBaseVM as Dto } from '../../services/clients'
 import { Market } from "./Market";
 import { Booth } from "./Booth";
 
@@ -36,6 +36,9 @@ export class Stall {
                 case "GetFilteredBoothsStallVM":
                     this.updateFromServerGetFilteredBoothsStallVM(dto)
                     break;
+                case "GetMerchantStallVM":
+                    this.updateFromServerGetFilteredBoothsStallVM(dto)
+                    break;
             }
             this.state = ModelState.IDLE
         }
@@ -52,6 +55,14 @@ export class Stall {
 
     @action
     updateFromServerGetBoothStallVM(dto : GetBoothStallVM)
+    {
+        const market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
+        if(this.market == null || this.market.id != market.id)
+            this.market = market
+    }
+
+    @action
+    updateFromServerGetMerchantStallVM(dto : GetMerchantStallVM)
     {
         const market = this.store.rootStore.marketStore.updateMarketFromServer(dto.market)
         if(this.market == null || this.market.id != market.id)

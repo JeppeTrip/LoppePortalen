@@ -28,7 +28,8 @@ namespace Application.Organisers.Commands.CreateOrganiser
 
             public async Task<CreateOrganiserResponse> Handle(CreateOrganiserCommand request, CancellationToken cancellationToken)
             {
-                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(_currentUserService));
+                var user = _context.UserInfo.FirstOrDefault(x => x.IdentityId.Equals(_currentUserService.UserId));
+                
                 Address newAddress = new Address {
                     Street = request.Dto.Street,
                     Number = request.Dto.Number,

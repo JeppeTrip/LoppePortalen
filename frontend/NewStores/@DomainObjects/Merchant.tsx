@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import {MerchantBaseVM as Dto} from "../../services/clients"
+import {GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
 import { Booth } from "./Booth"
 
 
@@ -22,6 +22,7 @@ export class Merchant{
         this.state = ModelState.NEW
         this.name = ""
         this.description = ""
+        this.booths = [] as Booth[]
     }
 
     /**
@@ -46,11 +47,25 @@ export class Merchant{
             this._userId = dto.userId
             this.name = dto.name
             this.description = dto.description
+            switch(dto.constructor.name){
+                case "GetMerchantVM": 
+                    this.updateFromServerGetMerchantVM(dto);
+                    break;
+            }
             this._oldState = new Merchant(undefined)
             this.updateOldState()
             this.state = ModelState.IDLE
         }
         return this
+    }
+
+    private updateFromServerGetMerchantVM(dto : GetMerchantVM){
+        this.booths = []
+        dto.booths.forEach(boothDto => {
+            const booth = this.store.rootStore.boothStore.updateBoothFromServer(boothDto)
+            booth.merchant = this
+            this.booths.push(booth)
+        });
     }
 
     /**
