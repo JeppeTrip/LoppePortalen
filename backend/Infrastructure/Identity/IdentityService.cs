@@ -69,6 +69,7 @@ namespace Infrastructure.Identity
             };
 
             var result = await _userManager.CreateAsync(user, password);
+            await _userManager.AddToRolesAsync(user, new[] { "ApplicationUser" });
 
             return (result.ToApplicationResult(), user.Id);
         }

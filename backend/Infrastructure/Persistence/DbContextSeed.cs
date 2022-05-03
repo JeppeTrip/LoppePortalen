@@ -15,19 +15,26 @@ namespace Infrastructure.Persistence
     {
         public static async Task SeedDefaultUserAsync(IApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var administratorRole = new IdentityRole("Administrator");
-
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
+            List<IdentityRole> defaultRoles = new List<IdentityRole>()
             {
-                await roleManager.CreateAsync(administratorRole);
-            }
+                new IdentityRole("Administrator"),
+                new IdentityRole("ApplicationUser")
+            };
+
+            defaultRoles.ForEach(async role =>
+            {
+                if (roleManager.Roles.All(r => r.Name != role.Name))
+                {
+                    await roleManager.CreateAsync(role);
+                }
+            });
 
             var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
 
             if (userManager.Users.All(u => u.UserName != administrator.UserName))
             {
                 await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+                await userManager.AddToRolesAsync(administrator, new[] { "Administrator", "ApplicationUser" });
 
                 var newUser = new User()
                 {
