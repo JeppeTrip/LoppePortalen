@@ -901,6 +901,20 @@ namespace Application.Test
                     Name = "Merchant 3002",
                     Description = "Merchant 3002 description",
                     UserId = "User3000"
+                },
+                new Merchant()
+                {
+                    Id = 3003,
+                    Name = "Merchant 3003",
+                    Description = "Merchant 3003 description",
+                    UserId = "User3000"
+                },
+                new Merchant()
+                {
+                    Id = 3004,
+                    Name = "Merchant 3004",
+                    Description = "Merchant 3004 description",
+                    UserId = "User3000"
                 }
             };
             context.Merchants.AddRange(merchantList);
@@ -932,8 +946,8 @@ namespace Application.Test
             {
                 Id = 3000,
                 MarketTemplateId = 3000,
-                StartDate = new DateTime(1990, 1, 1),
-                EndDate = new DateTime(1990, 1, 2),
+                StartDate = DateTimeOffset.Now.AddDays(-1),
+                EndDate = DateTimeOffset.Now.AddDays(1),
                 IsCancelled = false,
             });
 
@@ -948,8 +962,8 @@ namespace Application.Test
             {
                 Id = 3001,
                 MarketTemplateId = 3001,
-                StartDate = new DateTime(1990, 1, 1),
-                EndDate = new DateTime(1990, 1, 2),
+                StartDate = DateTimeOffset.Now.AddDays(-1),
+                EndDate = DateTimeOffset.Now.AddDays(1),
                 IsCancelled = false,
             });
 
@@ -964,8 +978,8 @@ namespace Application.Test
             {
                 Id = 3002,
                 MarketTemplateId = 3002,
-                StartDate = new DateTime(1990, 1, 1),
-                EndDate = new DateTime(1990, 1, 2),
+                StartDate = DateTimeOffset.Now.AddDays(-1),
+                EndDate = DateTimeOffset.Now.AddDays(1),
                 IsCancelled = false,
             });
 
@@ -980,11 +994,42 @@ namespace Application.Test
             {
                 Id = 3003,
                 MarketTemplateId = 3003,
-                StartDate = new DateTime(1990, 1, 1),
-                EndDate = new DateTime(1990, 1, 2),
+                StartDate = DateTimeOffset.Now.AddDays(-1),
+                EndDate = DateTimeOffset.Now.AddDays(1),
                 IsCancelled = false,
             });
 
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 3004,
+                Name = "Market 3004",
+                Description = "Market 3004 Description",
+                OrganiserId = 3000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 3004,
+                MarketTemplateId = 3004,
+                StartDate = DateTimeOffset.Now.AddDays(-1),
+                EndDate = DateTimeOffset.Now.AddDays(1),
+                IsCancelled = true,
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 3005,
+                Name = "Market 3005",
+                Description = "Market 3005 Description",
+                OrganiserId = 3000
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 3005,
+                MarketTemplateId = 3005,
+                StartDate = DateTimeOffset.Now.AddDays(-2),
+                EndDate = DateTimeOffset.Now.AddDays(-1),
+                IsCancelled = false,
+            });
 
             context.StallTypes.AddRange(new StallType()
             {
@@ -1013,6 +1058,20 @@ namespace Application.Test
                 Name = "Stalltype 3003",
                 Description = "Stalltype 3003 description",
                 MarketTemplateId = 3003
+            },
+            new StallType()
+            {
+                Id = 3004,
+                Name = "Stalltype 3004",
+                Description = "Stalltype 3004 description",
+                MarketTemplateId = 3004
+            },
+            new StallType()
+            {
+                Id = 3005,
+                Name = "Stalltype 3005",
+                Description = "Stalltype 3005 description",
+                MarketTemplateId = 3005
             });
 
             context.Stalls.AddRange(
@@ -1039,6 +1098,43 @@ namespace Application.Test
                     Id = 3003,
                     MarketInstanceId = 3003,
                     StallTypeId = 3003
+                }
+                ,
+                new Stall()
+                {
+                    Id = 3004,
+                    MarketInstanceId = 3004,
+                    StallTypeId = 3004
+                },
+                new Stall()
+                {
+                    Id = 3005,
+                    MarketInstanceId = 3004,
+                    StallTypeId = 3004
+                },
+                new Stall()
+                {
+                    Id = 3006,
+                    MarketInstanceId = 3004,
+                    StallTypeId = 3004
+                },
+                new Stall()
+                {
+                    Id = 3007,
+                    MarketInstanceId = 3005,
+                    StallTypeId = 3005
+                },
+                new Stall()
+                {
+                    Id = 3008,
+                    MarketInstanceId = 3005,
+                    StallTypeId = 3005
+                },
+                new Stall()
+                {
+                    Id = 3009,
+                    MarketInstanceId = 3005,
+                    StallTypeId = 3005
                 }
             );
 
@@ -1088,6 +1184,54 @@ namespace Application.Test
                 BoothDescription = "Booth 3003 Description",
                 MerchantId = 3002,
                 StallId = 3003
+            },
+            new Booking()
+            {
+                Id = "Booth3004",
+                BoothName = "Booth 3004",
+                BoothDescription = "Booth 3004 Description",
+                MerchantId = 3003,
+                StallId = 3004
+            },
+            new Booking()
+            {
+                Id = "Booth3005",
+                BoothName = "Booth 3005",
+                BoothDescription = "Booth 3005 Description",
+                MerchantId = 3003,
+                StallId = 3005
+            },
+            new Booking()
+            {
+                Id = "Booth3006",
+                BoothName = "Booth 3006",
+                BoothDescription = "Booth 3006 Description",
+                MerchantId = 3003,
+                StallId = 3006
+            },
+            new Booking()
+            {
+                Id = "Booth3007",
+                BoothName = "Booth 3007",
+                BoothDescription = "Booth 3007 Description",
+                MerchantId = 3004,
+                StallId = 3007
+            },
+            new Booking()
+            {
+                Id = "Booth3008",
+                BoothName = "Booth 3008",
+                BoothDescription = "Booth 3008 Description",
+                MerchantId = 3004,
+                StallId = 3008
+            },
+            new Booking()
+            {
+                Id = "Booth3009",
+                BoothName = "Booth 3009",
+                BoothDescription = "Booth 3009 Description",
+                MerchantId = 3004,
+                StallId = 3009
             });
 
 

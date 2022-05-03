@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Domain.EntityExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,12 @@ namespace Application.Merchants.Queries.GetMerchant
                     Name = merchant.Name,
                     Description = merchant.Description,
                     UserId = merchant.UserId,
-                    Booths = merchant.Bookings.Select(x => new GetMerchantBoothVM()
+                    //only create view models for booths that are on markets that aren't done
+                    Booths = merchant.Bookings
+                                .Where(x => !x.Stall.MarketInstance.IsCancelled)
+                                .Where(x => DateTimeOffset.Compare(x.Stall.MarketInstance.StartDate, DateTimeOffset.Now) >= 0
+                                        || DateTimeOffset.Compare(x.Stall.MarketInstance.EndDate, DateTimeOffset.Now) >= 0)
+                                .Select(x => new GetMerchantBoothVM()
                     {
                           Id = x.Id,
                           Name = x.BoothName,

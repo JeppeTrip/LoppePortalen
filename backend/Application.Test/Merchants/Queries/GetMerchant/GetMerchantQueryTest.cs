@@ -61,8 +61,8 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Booths.First().Stall.Market.MarketId.Should().Be(3000);
             result.Merchant.Booths.First().Stall.Market.MarketName.Should().Be("Market 3000");
             result.Merchant.Booths.First().Stall.Market.Description.Should().Be("Market 3000 Description");
-            result.Merchant.Booths.First().Stall.Market.StartDate.Should().Be(new DateTime(1990, 1, 1));
-            result.Merchant.Booths.First().Stall.Market.EndDate.Should().Be(new DateTime(1990, 1, 2));
+            result.Merchant.Booths.First().Stall.Market.StartDate.Should().BeSameDateAs(DateTimeOffset.Now.AddDays(-1));
+            result.Merchant.Booths.First().Stall.Market.EndDate.Should().BeSameDateAs(DateTimeOffset.Now.AddDays(1));
             result.Merchant.Booths.First().Stall.Market.IsCancelled.Should().BeFalse();
             result.Merchant.Booths.First().Stall.Market.AvailableStallCount.Should().Be(0);
             result.Merchant.Booths.First().Stall.Market.OccupiedStallCount.Should().Be(1);
@@ -102,6 +102,40 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             var handler = new GetMerchantQuery.GetMerchantQueryHandler(Context);
 
             await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task Handle_MarketIsCancelled()
+        {
+            var request = new GetMerchantQueryRequest()
+            {
+                Id = 3003
+            };
+            var command = new GetMerchantQuery() { Dto = request };
+            var handler = new GetMerchantQuery.GetMerchantQueryHandler(Context);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            result.Merchant.UserId.Should().Be("User3000");
+            result.Merchant.Name.Should().Be("Merchant 3003");
+            result.Merchant.Description.Should().Be("Merchant 3003 description");
+            result.Merchant.Booths.Count().Should().Be(0);
+        }
+
+        [Fact]
+        public async Task Handle_MarketIsOver()
+        {
+            var request = new GetMerchantQueryRequest()
+            {
+                Id = 3004
+            };
+            var command = new GetMerchantQuery() { Dto = request };
+            var handler = new GetMerchantQuery.GetMerchantQueryHandler(Context);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            result.Merchant.UserId.Should().Be("User3000");
+            result.Merchant.Name.Should().Be("Merchant 3004");
+            result.Merchant.Description.Should().Be("Merchant 3004 description");
+            result.Merchant.Booths.Count().Should().Be(0);
         }
     }
 }
