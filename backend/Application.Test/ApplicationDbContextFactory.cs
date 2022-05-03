@@ -2730,6 +2730,12 @@ namespace Application.Test
                 Id = 1504,
                 StallTypeId = 1500,
                 MarketInstanceId = 1501
+            },
+            new Stall()
+            {
+                Id = 1505,
+                StallTypeId = 1500,
+                MarketInstanceId = 1501
             });
             context.Merchants.Add(new Merchant()
             {
@@ -2739,7 +2745,16 @@ namespace Application.Test
                 Description = "Merchant 1500 Description",
                 UserId = "User1500"
             });
-            context.Bookings.AddRange(new Booking()
+            context.Merchants.Add(new Merchant()
+            {
+
+                Id = 1501,
+                Name = "Merchant 1501",
+                Description = "Merchant 1501 Description",
+                UserId = "User1500"
+            });
+            context.Bookings.AddRange(
+                new Booking()
             {
                 Id = "Booking1500",
                 BoothName = "Booth 1500",
@@ -2764,6 +2779,14 @@ namespace Application.Test
                  MerchantId = 1500,
                  StallId = 1504,
                  ItemCategories = new List<Category>() { new Category() { Name = "Category 1501" } }
+             },
+             new Booking()
+             {
+                 Id = "Booking1503",
+                 BoothName = "Booth 1503",
+                 BoothDescription = "Booth 1503 description",
+                 MerchantId = 1501,
+                 StallId = 1505
              });
             context.SaveChanges();
         }

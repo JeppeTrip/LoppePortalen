@@ -80,7 +80,7 @@ namespace Application.Test.Booths.Queries.GetFilteredBooths
             var result = await handler.Handle(query, CancellationToken.None);
 
             result.Booths.Should().NotBeEmpty();
-            result.Booths.Count().Should().Be(3);
+            result.Booths.Count().Should().Be(4);
         }
 
         [Fact]
@@ -115,6 +115,21 @@ namespace Application.Test.Booths.Queries.GetFilteredBooths
 
             result.Booths.Should().NotBeEmpty();
             result.Booths.Count().Should().Be(2);
+        }
+
+        [Fact]
+        public async Task Handle_FilterOnMerchantId()
+        {
+            var request = new GetFilteredBoothRequest()
+            {
+                MerchantId = 1501
+            };
+            var query = new GetFilteredBoothsQuery() { Dto = request };
+            var handler = new GetFilteredBoothsQuery.GetFilteredBoothsQueryHandler(Context);
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            result.Booths.Should().NotBeEmpty();
+            result.Booths.Count().Should().Be(1);
         }
     }
 }

@@ -42,7 +42,8 @@ namespace Application.Booths.Queries.GetFilteredBooths
                     .Include(x => x.Stall)
                     .ThenInclude(x => x.MarketInstance)
                     .ThenInclude(x => x.Stalls)
-                    .ThenInclude(x => x.Bookings);
+                    .ThenInclude(x => x.Bookings)
+                    .ThenInclude(x => x.ItemCategories);
 
                 //booths on markets that falls on or after startdate
                 var filteredBookings = bookings.Where(x => DateTimeOffset.Compare(x.Stall.MarketInstance.StartDate, startDate) >= 0
@@ -54,7 +55,7 @@ namespace Application.Booths.Queries.GetFilteredBooths
 
                 //Fitler on merchant if the is passed to the query.
                 if (request.Dto.MerchantId > 0)
-                    filteredBookings.Where(x => x.MerchantId.Equals(request.Dto.MerchantId));
+                    filteredBookings = filteredBookings.Where(x => x.MerchantId == request.Dto.MerchantId);
 
                 var queryResult = await filteredBookings.ToListAsync(cancellationToken);
                
