@@ -21,10 +21,10 @@ export class Market {
     @observable stallTypes: StallType[]
     @observable stalls: Stall[]
     @observable booths: Booth[]
-    @observable totalStallCount : number 
-    @observable availableStallCount : number
-    @observable occupiedStallCount : number
-    @observable itemCategories : string[]
+    @observable totalStallCount: number
+    @observable availableStallCount: number
+    @observable occupiedStallCount: number
+    @observable itemCategories: string[]
 
     @action
     set setId(id: number) {
@@ -89,17 +89,13 @@ export class Market {
             this.availableStallCount = dto.availableStallCount
             this.occupiedStallCount = dto.occupiedStallCount
             this.itemCategories = dto.categories
-            switch (dto.constructor.name) {
-                case "GetAllMarketsVM":
-                    this.updateFromServerGetAllMarketsVM(dto)
-                    break;
-                case "GetMarketInstanceVM":
-                    this.updateFromServerGetMarketInstanceVM(dto)
-                    break;
-                case "UsersMarketsVM":
-                    this.updateFromServerGetUsersMarketsVM(dto)
-                    break;
-            }
+            if (dto instanceof GetAllMarketsVM)
+                this.updateFromServerGetAllMarketsVM(dto)
+            if (dto instanceof GetMarketInstanceVM)
+                this.updateFromServerGetMarketInstanceVM(dto)
+            if (dto instanceof UsersMarketsVM)
+                this.updateFromServerGetUsersMarketsVM(dto)
+
             this.state = ModelState.IDLE
         }
         return this;
@@ -121,15 +117,11 @@ export class Market {
         this.organiser.addMarket(this)
 
         //Update stalltypes based on the releated VM
-        console.log("foreach stall type")
         dto.stallTypes.forEach(x => {
-            console.log(x)
             const stallType = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
-            console.log(stallType)
             stallType.market = this
             const instance = this.stallTypes.find(x => x.id === stallType.id)
-            console.log(instance)
-            if(!instance)
+            if (!instance)
                 this.stallTypes.push(stallType)
         });
 
@@ -138,17 +130,17 @@ export class Market {
             const stall = this.store.rootStore.stallStore.updateStallFromServer(x)
             stall.market = this
             const instance = this.stalls.find(x => x.id === stall.id)
-            if(!instance)
+            if (!instance)
                 this.stalls.push(stall)
         })
 
         //Update  the booths based on the related VM.
         dto.booths.forEach(x => {
             const booth = this.store.rootStore.boothStore.updateBoothFromServer(x)
-            if(!booth.stall.market || booth.stall.market == null)
+            if (!booth.stall.market || booth.stall.market == null)
                 booth.stall.market = this
             const instance = this.booths.find(x => x.id === booth.id)
-            if(!instance)
+            if (!instance)
                 this.booths.push(booth)
         });
     }
