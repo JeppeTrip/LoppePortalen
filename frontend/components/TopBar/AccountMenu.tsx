@@ -35,7 +35,7 @@ const AccountMenu: React.FC<Props> = (props: Props) => {
 
   const handleOnProfileClick = React.useCallback(() => {
     if (router.isReady) {
-      router.push("profile", undefined, { shallow: true });
+      router.push("/profile", undefined, { shallow: true });
     }
   }, [router, router.isReady])
 

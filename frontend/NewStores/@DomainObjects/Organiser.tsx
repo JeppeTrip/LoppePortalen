@@ -1,8 +1,9 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
+import { AddContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
+import { ContactInfo } from "./ContactInfo";
 
 export class Organiser {
     store: OrganiserStore
@@ -17,6 +18,7 @@ export class Organiser {
     @observable postalCode: string = ""
     @observable city: string = ""
     @observable markets: Market[]
+    @observable contactInfo : ContactInfo[]
 
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
@@ -25,6 +27,7 @@ export class Organiser {
         this.userId = ""
         this.markets = [] as Market[]
         this.state = ModelState.NEW
+        this.contactInfo = [] as ContactInfo []
     }
 
     /**
@@ -125,6 +128,25 @@ export class Organiser {
                     })
                 )
         }
+    }
+
+    @action 
+    addContactInfo(contactInfo : ContactInfo)
+    {
+        this.store.transportLayer.addContactInformation(new AddContactInformationRequest({
+            organiserId: this.id,
+            type: contactInfo.type,
+            value: contactInfo.value
+        }))
+        .then(
+                action("submitSuccess", res => {
+                    this.contactInfo.push(contactInfo)
+                    contactInfo.state = ModelState.IDLE
+                }),
+                action("submitError", error => {
+                    contactInfo.state = ModelState.ERROR
+                })
+            )
     }
 
     set setName(name: string) {

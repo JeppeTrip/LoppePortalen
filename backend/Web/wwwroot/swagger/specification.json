@@ -737,7 +737,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddContactsToOrganiserRequest"
+                "$ref": "#/components/schemas/AddContactInformationRequest"
               }
             }
           },
@@ -750,7 +750,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddContactsToOrganiserResponse"
+                  "$ref": "#/components/schemas/AddContactInformationResponse"
                 }
               }
             }
@@ -2155,7 +2155,11 @@
           }
         }
       },
-      "AddContactsToOrganiserResponse": {
+      "AddContactInformationResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AddContactInformationRequest": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2163,23 +2167,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "contactInformation": {
-            "type": "object",
-            "nullable": true,
-            "additionalProperties": {
-              "$ref": "#/components/schemas/KeyValuePairOfStringAndContactInfoType"
-            }
-          }
-        }
-      },
-      "KeyValuePairOfStringAndContactInfoType": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "key": {
-            "type": "string"
-          },
           "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
             "$ref": "#/components/schemas/ContactInfoType"
           }
         }
@@ -2203,23 +2195,6 @@
           4,
           5
         ]
-      },
-      "AddContactsToOrganiserRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "organiserId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "contactInformation": {
-            "type": "object",
-            "nullable": true,
-            "additionalProperties": {
-              "$ref": "#/components/schemas/ContactInfoType"
-            }
-          }
-        }
       },
       "GetAllOrganisersResponse": {
         "type": "object",

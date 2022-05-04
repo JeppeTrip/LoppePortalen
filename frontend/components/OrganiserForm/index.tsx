@@ -14,19 +14,6 @@ type Props = {
 }
 
 const OrganiserForm: FC<Props> = (props: Props) => {
-    /**
-     * Placed here because I'm not going to figure out how to do this from the page right 
-     * now. Hopefully I will get back to this.
-     */
-    useEffect(() => {
-        return () => {
-            if(props.organiser.state === ModelState.EDITING)
-            {
-                props.organiser.state = ModelState.IDLE
-            }
-        }
-    },[])
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
