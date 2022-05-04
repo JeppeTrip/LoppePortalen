@@ -23,34 +23,7 @@ namespace Application.ContactInformation.Commands.AddContactsToOrganiser
 
             public async Task<AddContactsToOrganiserResponse> Handle(AddContactsToOrganiserCommand request, CancellationToken cancellationToken)
             {
-                Organiser organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId);
-                if(organiser == null)
-                    throw new NotImplementedException();
-
-                List<ContactInfo> newContactInfo = new List<ContactInfo>();
-                foreach (var contactInfo in request.Dto.ContactInformation)
-                {
-                   newContactInfo.Add(new ContactInfo
-                    {
-                        OrganiserId = organiser.Id,
-                        Organiser = organiser,
-                        ContactType = contactInfo.Value,
-                        Value = contactInfo.Key
-                    });
-                }
-
-                _context.ContactInformations.AddRange(newContactInfo);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                Dictionary<int, KeyValuePair<string, ContactInfoType>> infoResponse = new Dictionary<int, KeyValuePair<string, ContactInfoType>>();
-                foreach (var contactInfo in newContactInfo)
-                {
-                    infoResponse.Add(contactInfo.Id, new KeyValuePair<string, ContactInfoType>(contactInfo.Value, contactInfo.ContactType));
-                }
-                return new AddContactsToOrganiserResponse() { 
-                    OrganiserId=organiser.Id,
-                    ContactInformation=infoResponse
-                };
+                throw new NotImplementedException();
             }
         }
     }
