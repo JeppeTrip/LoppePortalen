@@ -54,10 +54,9 @@ export class Organiser {
             this.appartment = dto.appartment
             this.postalCode = dto.postalCode
             this.city = dto.city
-
-            switch(dto.constructor.name){
-                case "GetOrganiserVM": this.updateFromServerGetOrganiserVm(dto);
-            }
+            
+            if(dto instanceof GetOrganiserVM)
+                this.updateFromServerGetOrganiserVm(dto);
 
             this.state = ModelState.IDLE
         }

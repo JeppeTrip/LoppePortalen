@@ -74,11 +74,9 @@ export class Merchant{
             this._userId = dto.userId
             this.name = dto.name
             this.description = dto.description
-            switch(dto.constructor.name){
-                case "GetMerchantVM": 
-                    this.updateFromServerGetMerchantVM(dto);
-                    break;
-            }
+            if(dto instanceof GetMerchantVM)
+                this.updateFromServerGetMerchantVM(dto);
+
             this._oldState = new Merchant(undefined)
             this.updateOldState()
             this.state = ModelState.IDLE

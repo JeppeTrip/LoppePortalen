@@ -28,18 +28,16 @@ export class Stall {
             this.state = ModelState.UPDATING
             this.id = dto.id
             this.type = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(dto.stallType);
-            switch(dto.constructor.name)
-            {
-                case "GetUsersBoothsStallVM":
-                    this.updateFromServerGetUsersBoothsStallVM(dto)
-                    break;
-                case "GetFilteredBoothsStallVM":
-                    this.updateFromServerGetFilteredBoothsStallVM(dto)
-                    break;
-                case "GetMerchantStallVM":
-                    this.updateFromServerGetFilteredBoothsStallVM(dto)
-                    break;
-            }
+            
+            if(dto instanceof GetUsersBoothsStallVM)
+                this.updateFromServerGetUsersBoothsStallVM(dto)
+            if(dto instanceof GetBoothStallVM)
+                this.updateFromServerGetBoothStallVM(dto)
+            if(dto instanceof GetMerchantStallVM)
+                this.updateFromServerGetMerchantStallVM(dto)
+            if(dto instanceof GetFilteredBoothsStallVM)
+                this.updateFromServerGetFilteredBoothsStallVM(dto)
+
             this.state = ModelState.IDLE
         }
         return this;
