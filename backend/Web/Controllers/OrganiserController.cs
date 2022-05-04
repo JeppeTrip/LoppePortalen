@@ -1,14 +1,12 @@
 ﻿using Application.Common.Exceptions;
-using Application.ContactInformation.Commands.AddContactsToOrganiser;
+using Application.Organisers.Commands.AddContactInformation;
 using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Commands.EditOrganiser;
 using Application.Organisers.Queries.GetAllOrganisers;
 using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Application.Organisers.Queries.GetOrganiser;
-using Application.Organisers.Queries.GetUsersOrganisers;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -22,9 +20,9 @@ namespace Web.Controllers
         }
 
         [HttpPost("add/contactInformation")]
-        public async Task<ActionResult<AddContactsToOrganiserResponse>> AddContactInformation(AddContactsToOrganiserRequest dto)
+        public async Task<ActionResult<AddContactInformationResponse>> AddContactInformation(AddContactInformationRequest dto)
         {
-            return await Mediator.Send(new AddContactsToOrganiserCommand() { Dto = dto });
+            return await Mediator.Send(new AddContactInformationCommand() { Dto = dto });
         }
 
         [HttpGet("all")]

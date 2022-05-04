@@ -5,6 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,6 +35,9 @@ namespace Application.Organisers.Commands.AddContactInformation
 
                 if (organiser == null)
                     throw new NotFoundException("Organiser", request.Dto.OrganiserId);
+
+                if(organiser.ContactInformation.Select(x => x.Value).Contains(request.Dto.Value))
+                    throw new ValidationException($"Organiser {request.Dto.OrganiserId} already have contacts with value {request.Dto.Value}");
 
                 ContactInfo info = new ContactInfo()
                 {

@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Entities;
+using Domain.Enums;
 using IdentityServer4.EntityFramework.Options;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -337,6 +338,7 @@ namespace Application.Test
             SeedUpdateBoothCommandTestData(context);
             SeedGetBoothTestData(context);
             SeedGetUsersBoothsTestData(context);
+            SeedAddOrganiserContactsTestData(context);
         }
 
         /**
@@ -3563,6 +3565,82 @@ namespace Application.Test
                 BoothDescription = "Booth 1803 Description",
                 MerchantId = 1802,
                 StallId = 1800
+            });
+            context.SaveChanges();
+        }
+    
+        /** All ids within start at 1900 */
+        private static void SeedAddOrganiserContactsTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User1900",
+                Email = "User1900@mail",
+                UserName = "User1900@mail"
+            },
+            new ApplicationUser()
+            {
+                Id = "User1901",
+                Email = "User1901@mail",
+                UserName = "User1901@mail"
+            });
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User1900",
+                Email = "User1900@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User1900",
+                LastName = "Lastname User1900",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User1901",
+                Email = "User1901@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User1901",
+                LastName = "Lastname User1901",
+                Phone = "12345678"
+            });
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 1900,
+                Name = "Organiser 1900",
+                Description = "Organiser 1900 Description",
+                UserId = "User1900",
+                Address = new Address()
+                {
+                    Id = 1900,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 1901,
+                Name = "Organiser 1901",
+                Description = "Organiser 1901 Description",
+                UserId = "User1901",
+                Address = new Address()
+                {
+                    Id = 1901,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+            context.ContactInformations.Add(new ContactInfo()
+            {
+                OrganiserId = 1901,
+                Value = "value",
+                ContactType = ContactInfoType.PHONE_NUMER
             });
             context.SaveChanges();
         }

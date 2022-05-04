@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Organisers\Commands\NewFolder\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
