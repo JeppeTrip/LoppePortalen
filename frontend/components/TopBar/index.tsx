@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { FC, useContext } from 'react';
 import { StoreContext } from '../../NewStores/StoreContext';
+import AccountMenu from './AccountMenu';
 import styles from './styles.module.css';
 
 type Props = {
@@ -43,31 +44,19 @@ const TopBar: FC<Props> = (props: Props) => {
   const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   const handleOnClick = (path) => {
       if (router.isReady) {
           router.push(path, undefined, { shallow: true });
       }
-  }
-
-  const handleLogout = () => {
-    stores.authStore.auth.logOut()
   }
 
 
@@ -143,8 +132,9 @@ const TopBar: FC<Props> = (props: Props) => {
             ))}
           </Box>
           {
-            stores.authStore.auth.signedIn ? <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
-            : <Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>
+            stores.authStore.auth.signedIn ? 
+            (<AccountMenu />)
+            : (<Button color="inherit" onClick={() => handleOnClick('/login')}>Login</Button>)
           }
           
           
