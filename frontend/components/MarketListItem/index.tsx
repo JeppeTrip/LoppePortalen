@@ -67,6 +67,7 @@ const MarketListItem: FC<Props> = (props: Props) => {
                     (
                         <Tooltip title={"Book Stall"}>
                             <IconButton edge="end"
+                                disabled={props.Market.availableStallCount === 0}
                                 onClick={handleClickBook}>
                                 <BookOnlineIcon />
                             </IconButton>
