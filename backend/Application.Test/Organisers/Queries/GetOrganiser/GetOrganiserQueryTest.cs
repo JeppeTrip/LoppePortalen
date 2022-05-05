@@ -35,6 +35,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.PostalCode.Should().Be(entity.Address.PostalCode);
             result.Organiser.City.Should().Be(entity.Address.City);
             result.Organiser.Markets.Count().Should().Be(0);
+            result.Organiser.Contacts.Count().Should().Be(1);
         }
 
         [Fact]
@@ -68,6 +69,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.Markets.First().AvailableStallCount.Should().Be(0);
             result.Organiser.Markets.First().OccupiedStallCount.Should().Be(0);
             result.Organiser.Markets.First().Categories.Count().Should().Be(0);
+            result.Organiser.Contacts.Count().Should().Be(0);
         }
 
         [Fact]
@@ -101,6 +103,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.Markets.First().AvailableStallCount.Should().Be(0);
             result.Organiser.Markets.First().OccupiedStallCount.Should().Be(0);
             result.Organiser.Markets.First().Categories.Count().Should().Be(0);
+            result.Organiser.Contacts.Count().Should().Be(0);
         }
 
         [Fact]
@@ -134,6 +137,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.Markets.First().AvailableStallCount.Should().Be(4);
             result.Organiser.Markets.First().OccupiedStallCount.Should().Be(0);
             result.Organiser.Markets.First().Categories.Count().Should().Be(0);
+            result.Organiser.Contacts.Count().Should().Be(0);
         }
 
         [Fact]
@@ -167,6 +171,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.Markets.First().AvailableStallCount.Should().Be(2);
             result.Organiser.Markets.First().OccupiedStallCount.Should().Be(2);
             result.Organiser.Markets.First().Categories.Count().Should().Be(4);
+            result.Organiser.Contacts.Count().Should().Be(0);
         }
 
         [Fact]
@@ -191,6 +196,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.PostalCode.Should().Be(entity.Address.PostalCode);
             result.Organiser.City.Should().Be(entity.Address.City);
             result.Organiser.Markets.Count().Should().Be(2);
+            result.Organiser.Contacts.Count().Should().Be(0);
         }
 
         [Fact]

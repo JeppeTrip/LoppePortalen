@@ -831,6 +831,13 @@ namespace Application.Test
                 MarketTemplate = MarketTemplateTwo
             };
             context.MarketInstances.Add(MarketInstanceTwo);
+
+            context.ContactInformations.Add(new ContactInfo()
+            {
+                OrganiserId = 1000,
+                ContactType = 0,
+                Value = "contact"
+            });
             context.SaveChanges();
         }
 
