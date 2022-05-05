@@ -75,6 +75,19 @@ export class Organiser {
             currentMarket.organiser = this
             this.markets.push(currentMarket)
         })
+
+        let currentContact : ContactInfo
+        dto.contacts.forEach(x => {
+            currentContact = this.contactInfo.find(x => x.value === x.value)
+            if(!currentContact){
+                currentContact = new ContactInfo(this)
+                this.contactInfo.push(currentContact)
+            }
+            
+            currentContact.type = x.type
+            currentContact.value = x.value
+            currentContact.state = ModelState.IDLE
+        })
     }
 
     @action

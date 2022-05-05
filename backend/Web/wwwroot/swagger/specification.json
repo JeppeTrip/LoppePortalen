@@ -2297,10 +2297,30 @@
                 "items": {
                   "$ref": "#/components/schemas/MarketBaseVM"
                 }
+              },
+              "contacts": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContactInfoBaseVM"
+                }
               }
             }
           }
         ]
+      },
+      "ContactInfoBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
       },
       "EditOrganiserResponse": {
         "allOf": [

@@ -31,6 +31,7 @@ namespace Application.Organisers.Queries.GetOrganiser
             {
                 var organiser = await _context.Organisers
                     .Include(o => o.Address)
+                    .Include(o => o.ContactInformation)
                     .Include(o => o.MarketTemplates)
                     .ThenInclude(mt => mt.MarketInstances)
                     .ThenInclude(mi => mi.Stalls)
@@ -77,7 +78,12 @@ namespace Application.Organisers.Queries.GetOrganiser
                     Appartment = organiser.Address.Appartment,
                     PostalCode = organiser.Address.PostalCode,
                     City = organiser.Address.City,
-                    Markets = markets
+                    Markets = markets,
+                    Contacts = organiser.ContactInformation.Select(x => new ContactInfoBaseVM()
+                    {
+                        Type = x.ContactType,
+                        Value = x.Value
+                    }).ToList()
                 };
 
 

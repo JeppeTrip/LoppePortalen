@@ -6,5 +6,6 @@ namespace Application.Organisers.Queries.GetOrganiser
     public class GetOrganiserVM : OrganiserBaseVM
     {
         public List<MarketBaseVM> Markets { get; set; }
+        public List<ContactInfoBaseVM> Contacts { get; set; }
     }
 }
