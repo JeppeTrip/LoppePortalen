@@ -884,6 +884,38 @@
         }
       }
     },
+    "/api/Organiser/contactInfo": {
+      "delete": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_RemoveContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveContactInformationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveContactInformationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Stall/{marketId}": {
       "get": {
         "tags": [
@@ -2366,6 +2398,24 @@
             "nullable": true
           },
           "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RemoveContactInformationResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "RemoveContactInformationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
             "type": "string",
             "nullable": true
           }

@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { AddContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto } from "../../services/clients";
+import { AddContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
 import { ContactInfo } from "./ContactInfo";
@@ -18,7 +18,7 @@ export class Organiser {
     @observable postalCode: string = ""
     @observable city: string = ""
     @observable markets: Market[]
-    @observable contactInfo : ContactInfo[]
+    @observable contactInfo: ContactInfo[]
 
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
@@ -27,17 +27,16 @@ export class Organiser {
         this.userId = ""
         this.markets = [] as Market[]
         this.state = ModelState.NEW
-        this.contactInfo = [] as ContactInfo []
+        this.contactInfo = [] as ContactInfo[]
     }
 
     /**
      * Push market instance into the markets list if it doesn't exist there already.
      */
     @action
-    addMarket(market : Market)
-    {
+    addMarket(market: Market) {
         const res = this.markets.find(x => x.id === market.id)
-        if(!res)
+        if (!res)
             this.markets.push(market)
     }
 
@@ -57,8 +56,8 @@ export class Organiser {
             this.appartment = dto.appartment
             this.postalCode = dto.postalCode
             this.city = dto.city
-            
-            if(dto instanceof GetOrganiserVM)
+
+            if (dto instanceof GetOrganiserVM)
                 this.updateFromServerGetOrganiserVm(dto);
 
             this.state = ModelState.IDLE
@@ -67,24 +66,25 @@ export class Organiser {
     }
 
     @action
-    private updateFromServerGetOrganiserVm(dto : GetOrganiserVM)
-    {
-        let currentMarket : Market;
+    private updateFromServerGetOrganiserVm(dto: GetOrganiserVM) {
+        let currentMarket: Market;
         dto.markets.forEach(x => {
             currentMarket = this.store.rootStore.marketStore.updateMarketFromServer(x)
             currentMarket.organiser = this
             this.markets.push(currentMarket)
         })
 
-        dto.contacts.forEach(x => {
-            let currentContact : ContactInfo = this.contactInfo.find(x => x.value === x.value)
-            if(!currentContact){
+        let currentContact: ContactInfo
+        dto.contacts.forEach(contactDto => {
+            currentContact = this.contactInfo.find(x => contactDto.value === x.value)
+
+            if (!currentContact) {
                 currentContact = new ContactInfo(this)
                 this.contactInfo.push(currentContact)
             }
-            
-            currentContact.type = x.type
-            currentContact.value = x.value
+
+            currentContact.type = contactDto.type
+            currentContact.value = contactDto.value
             currentContact.state = ModelState.IDLE
         })
     }
@@ -142,18 +142,33 @@ export class Organiser {
         }
     }
 
-    @action 
-    addContactInfo(contactInfo : ContactInfo)
-    {
+    @action
+    addContactInfo(contactInfo: ContactInfo) {
         this.store.transportLayer.addContactInformation(new AddContactInformationRequest({
             organiserId: this.id,
             type: contactInfo.type,
             value: contactInfo.value
         }))
-        .then(
+            .then(
                 action("submitSuccess", res => {
                     this.contactInfo.push(contactInfo)
                     contactInfo.state = ModelState.IDLE
+                }),
+                action("submitError", error => {
+                    contactInfo.state = ModelState.ERROR
+                })
+            )
+    }
+
+    @action
+    deleteContactInfo(contactInfo: ContactInfo) {
+        this.store.transportLayer.removeContactInformation(new RemoveContactInformationRequest({
+            organiserId: this.id,
+            value: contactInfo.value
+        }))
+            .then(
+                action("submitSuccess", res => {
+                    this.contactInfo = this.contactInfo.filter(x => x.value != contactInfo.value)
                 }),
                 action("submitError", error => {
                     contactInfo.state = ModelState.ERROR

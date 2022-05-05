@@ -2,6 +2,7 @@
 using Application.Organisers.Commands.AddContactInformation;
 using Application.Organisers.Commands.CreateOrganiser;
 using Application.Organisers.Commands.EditOrganiser;
+using Application.Organisers.Commands.RemoveContactInformation;
 using Application.Organisers.Queries.GetAllOrganisers;
 using Application.Organisers.Queries.GetAllOrganisersWithPagination;
 using Application.Organisers.Queries.GetOrganiser;
@@ -60,6 +61,12 @@ namespace Web.Controllers
         public async Task<ActionResult<EditOrganiserResponse>> EditOrganiser(EditOrganiserRequest dto)
         {
             return await Mediator.Send(new EditOrganiserCommand() { Dto = dto });
+        }
+
+        [HttpDelete("contactInfo")]
+        public async Task<ActionResult<RemoveContactInformationResponse>> RemoveContactInformation(RemoveContactInformationRequest dto)
+        {
+            return await Mediator.Send(new RemoveContactInformationCommand() { Dto = dto });
         }
     }
 }

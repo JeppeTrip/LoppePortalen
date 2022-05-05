@@ -22,4 +22,11 @@ export class ContactInfo {
     {
         this.organiser.addContactInfo(this)
     }
+
+    @action
+    delete()
+    {
+        this.state = ModelState.EDITING
+        this.organiser.deleteContactInfo(this)
+    }
 }

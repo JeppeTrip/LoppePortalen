@@ -44,7 +44,7 @@ const OrganiserContactsForm: FC<Props> = (props: Props) => {
                         )
                         :
                         (
-                            props.organiser.contactInfo.map(x => <ContactInfoListItem key={`${props.organiser.id}_${x.value}`} contactInfo={x}/>)
+                            props.organiser.contactInfo.map(x => <ContactInfoListItem key={`${props.organiser.id}_${x.value}`} contactInfo={x} editing={true}/>)
                         )
                 }
 
