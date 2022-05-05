@@ -118,7 +118,7 @@ export class Market {
         this.organiser.addMarket(this)
 
         //Update stalltypes based on the releated VM
-        dto.stallTypes.forEach(x => {
+        dto.stallTypes.forEach(x => {          
             const stallType = this.store.rootStore.stallTypeStore.updateStallTypeFromServer(x)
             stallType.market = this
             const instance = this.stallTypes.find(x => x.id === stallType.id)

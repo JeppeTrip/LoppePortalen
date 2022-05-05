@@ -37,7 +37,7 @@ const StallDisplay: FC<Props> = (props: Props) => {
                 </TabPanel>
                 <TabPanel value={"1"}>
                     {
-                        props.market.stallTypes.map(x => <StallTypeInfoList market={props.market} />)
+                        <StallTypeInfoList market={props.market} />
                     }
                 </TabPanel>
             </Box>
