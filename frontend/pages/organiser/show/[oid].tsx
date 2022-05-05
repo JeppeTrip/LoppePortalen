@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Divider, Grid, List, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Grid, List, Paper, Tab, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { flowResult } from "mobx";
 import { NextPage } from "next";
@@ -8,6 +8,8 @@ import MarketListItem from "../../../components/MarketListItem";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
 import { useErrorHandler } from 'react-error-boundary';
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import ContactInfoListItem from "../../../components/ContactInfoListItem";
 
 
 type Props = {
@@ -19,6 +21,7 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
     const handleError = useErrorHandler();
     const [organiserId, setOrganiserId] = useState<string>("");
     const router = useRouter();
+    const [tabValue, setTabValue] = useState('1')
 
     useEffect(() => {
         if (!router.isReady) { return };
@@ -68,6 +71,10 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
         );
     }
 
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        setTabValue(newValue);
+    };
+
     return (
         <>
             {
@@ -103,14 +110,41 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
                                 <Grid container columns={12} spacing={1}>
                                     <Grid item xs={7}>
                                         <Paper elevation={1}>
+                                            <TabContext value={tabValue}>
+                                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                                    <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                                                        <Tab label="Organiser Info" value="1" />
+                                                        <Tab label="Contact Info" value="2" />
+                                                    </TabList>
+                                                </Box>
+                                                <TabPanel value="1">
+                                                    {
+                                                        <Container>
+                                                            <Typography variant="body1">
+                                                                {stores.organiserStore.selectedOrganiser.description}
+                                                            </Typography>
+                                                        </Container>
+                                                    }
+                                                </TabPanel>
+                                                <TabPanel value="2">
+                                                    {
+                                                        <Container>
+                                                            {
+                                                                stores.organiserStore.selectedOrganiser.contactInfo.length === 0 ?
+                                                                    (
+                                                                        "no contact info found"
+                                                                    )
+                                                                    :
+                                                                    (
+                                                                        stores.organiserStore.selectedOrganiser.contactInfo.map(x => <ContactInfoListItem key={`${stores.organiserStore.selectedOrganiser.id}_${x.value}`} contactInfo={x} />)
+                                                                    )
+                                                            }
+                                                        </Container>
+                                                    }
+                                                </TabPanel>
+                                            </TabContext>
                                             <Container>
-                                                <Typography variant="h6">
-                                                    About
-                                                </Typography>
-                                                <Divider />
-                                                <Typography variant="body1">
-                                                    {stores.organiserStore.selectedOrganiser.description}
-                                                </Typography>
+
                                             </Container>
                                         </Paper>
                                     </Grid>
