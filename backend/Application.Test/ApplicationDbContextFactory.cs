@@ -339,6 +339,7 @@ namespace Application.Test
             SeedGetBoothTestData(context);
             SeedGetUsersBoothsTestData(context);
             SeedAddOrganiserContactsTestData(context);
+            SeedRemoveOrganiserContactTestData(context);
         }
 
         /**
@@ -3640,6 +3641,88 @@ namespace Application.Test
             {
                 OrganiserId = 1901,
                 Value = "value",
+                ContactType = ContactInfoType.PHONE_NUMER
+            });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 2100 */
+        private static void SeedRemoveOrganiserContactTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User2100",
+                Email = "User2100@mail",
+                UserName = "User2100@mail"
+            },
+           new ApplicationUser()
+           {
+               Id = "User2101",
+               Email = "User2101@mail",
+               UserName = "User2101@mail"
+           });
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User2100",
+                Email = "User2100@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User2100",
+                LastName = "Lastname User2100",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User2101",
+                Email = "User2101@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User2101",
+                LastName = "Lastname User2101",
+                Phone = "12345678"
+            });
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 2100,
+                Name = "Organiser 2100",
+                Description = "Organiser 2100 Description",
+                UserId = "User2100",
+                Address = new Address()
+                {
+                    Id = 2100,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 2101,
+                Name = "Organiser 2101",
+                Description = "Organiser 2101 Description",
+                UserId = "User2101",
+                Address = new Address()
+                {
+                    Id = 2101,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+            context.ContactInformations.AddRange(new ContactInfo()
+            {
+                OrganiserId = 2100,
+                Value = "info 1",
+                ContactType = ContactInfoType.PHONE_NUMER
+            },
+            new ContactInfo()
+            {
+                OrganiserId = 2101,
+                Value = "info 2",
                 ContactType = ContactInfoType.PHONE_NUMER
             });
             context.SaveChanges();

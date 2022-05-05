@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Properties\" />
     <Folder Include="User\Commands\AuthenticateUser\" />
   </ItemGroup>
 
