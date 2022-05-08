@@ -37,7 +37,7 @@ namespace Web.Controllers
                 throw new ValidationException($"Invalid market id {id}.");
             }
             
-            return await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceQueryRequest() { MarketId = marketId } });
+            return await Mediator.Send(new GetMarketInstanceQuery() { Dto = new GetMarketInstanceRequest() { MarketId = marketId } });
         }
             
 

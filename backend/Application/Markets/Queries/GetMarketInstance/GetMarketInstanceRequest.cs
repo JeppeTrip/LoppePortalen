@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Markets.Queries.GetMarketInstance
 {
-    public class GetMarketInstanceQueryRequest
+    public class GetMarketInstanceRequest
     {
         public int MarketId { get; set; }
     }

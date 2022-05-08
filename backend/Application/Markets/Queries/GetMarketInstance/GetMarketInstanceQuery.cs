@@ -16,7 +16,7 @@ namespace Application.Markets.Queries.GetMarketInstance
 {
     public class GetMarketInstanceQuery : IRequest<GetMarketInstanceQueryResponse>
     {
-        public GetMarketInstanceQueryRequest Dto { get; set; }
+        public GetMarketInstanceRequest Dto { get; set; }
 
         public class GetMarketInstanceQueryHandler : IRequestHandler<GetMarketInstanceQuery, GetMarketInstanceQueryResponse>
         {
