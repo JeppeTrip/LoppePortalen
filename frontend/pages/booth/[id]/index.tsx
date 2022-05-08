@@ -5,6 +5,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { useErrorHandler } from "react-error-boundary";
+import BoothProfile from "../../../components/BoothProfile";
 import { Booth } from "../../../NewStores/@DomainObjects/Booth";
 import { StoreContext } from "../../../NewStores/StoreContext";
 import styles from './styles.module.css';
@@ -13,28 +14,12 @@ type Props = {
     id: string
 }
 
-const BoothProfile: NextPage<Props> = observer(() => {
+const BoothProfilePage: NextPage<Props> = observer(() => {
     const stores = useContext(StoreContext);
     const handleError = useErrorHandler();
     const [boothId, setBoothId] = useState<string>("");
     const [selectedBooth, setSelectedBooth] = useState<Booth>(null)
     const router = useRouter();
-
-    /**
-     * Comoponent will mount.
-     */
-    useEffect(() => {
-
-    }, [])
-
-    /**
-     * Component will unmount.
-     */
-    useEffect(() => {
-        return () => {
-
-        }
-    }, [])
 
     /**
      * The next.js router needs to be ready to read from it.
@@ -53,66 +38,15 @@ const BoothProfile: NextPage<Props> = observer(() => {
     useEffect(() => {
         if (selectedBooth == null) {
             if (!(boothId == "")) {
-            flowResult(stores.boothStore.fetchBooth(boothId))
-                .then(res => {
-                    setSelectedBooth(res)
-                }).catch(error => {
-                    handleError(error)
-                })
+                flowResult(stores.boothStore.fetchBooth(boothId))
+                    .then(res => {
+                        setSelectedBooth(res)
+                    }).catch(error => {
+                        handleError(error)
+                    })
             }
         }
     }, [boothId, selectedBooth])
-
-    const profileContent = () => {
-        return (
-            <Grid id={"ProfileContainer"} container columns={1} spacing={1}>
-                <Grid item xs={1}>
-                    <Paper square={true} elevation={1}>
-                        <Container maxWidth={"xl"}>
-                            <Grid container columns={12}>
-                                <Grid item xs={12}>
-                                    <div className={styles.bannerPlaceholder} />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Grid container columns={12}>
-                                        <Grid item xs={8}>
-                                            <Grid>
-                                                <Grid item xs={12}>
-                                                    <Typography variant="h5">
-                                                        {selectedBooth.name}
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={1}>
-                    <Container maxWidth={"lg"}>
-                        <Grid container columns={12} spacing={1}>
-                            <Grid item xs={7}>
-                                <Paper elevation={1}>
-                                    <div className={styles.AboutInfo}>
-                                        <Typography variant="h6">
-                                            About
-                                        </Typography>
-                                        <Divider />
-                                        <Typography variant="body1">
-                                            {selectedBooth.description}
-                                        </Typography>
-                                    </div>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </Grid>
-            </Grid>
-        )
-    }
 
     const loadingContent = () => {
         return (
@@ -124,17 +58,13 @@ const BoothProfile: NextPage<Props> = observer(() => {
         )
     }
 
-    const errorContent = () => {
-
-    }
-
     return (
         <>
             {
-                selectedBooth == null ? loadingContent() : profileContent()
+                selectedBooth == null ? loadingContent() : <BoothProfile booth={selectedBooth} />
             }
         </>
     )
 })
 
-export default BoothProfile;
+export default BoothProfilePage;
