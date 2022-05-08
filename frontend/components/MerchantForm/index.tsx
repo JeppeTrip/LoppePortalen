@@ -17,8 +17,6 @@ type Props = {
     title: string
 }
 
-const steps = ['Market Information'];
-
 const theme = createTheme();
 
 const MerchantForm: FC<Props> = (props: Props) => {
@@ -31,18 +29,6 @@ const MerchantForm: FC<Props> = (props: Props) => {
             router.push("/profile", undefined, {shallow: true})
         }
     }, [router.isReady])
-
-    //on mount
-    useEffect(() => {
-        
-    }, [])
-
-    //unmount
-    useEffect(() => {
-        return () => {
-
-        }
-    }, [])
 
     useEffect(() => {
         if(props.merchant.state === ModelState.IDLE)

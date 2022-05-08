@@ -25,16 +25,6 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
     const [merchantId, setMerchantId] = useState<string>("");
     const router = useRouter();
 
-    //mount
-    useEffect(() => {
-
-    }, [])
-
-    //Unmount
-    useEffect(() => () => {
-
-    }, [])
-
     useEffect(() => {
         if (!router.isReady) {
             return
