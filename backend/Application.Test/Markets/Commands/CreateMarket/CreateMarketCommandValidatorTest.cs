@@ -138,14 +138,14 @@ namespace Application.Test.Markets.Commands.CreateMarket
         }
 
         [Fact]
-        public void Handle_StartDateBeforeEndDate()
+        public void Handle_StartDateAfterEndDate()
         {
             var request = new CreateMarketRequest()
             {
                 OrganiserId = 1,
                 MarketName = "name",
-                Description = "",
-                StartDate = DateTime.Now.AddDays(-1),
+                Description = "description",
+                StartDate = DateTime.Now.AddDays(1),
                 EndDate = DateTime.Now
             };
             var command = new CreateMarketCommand() { Dto = request };

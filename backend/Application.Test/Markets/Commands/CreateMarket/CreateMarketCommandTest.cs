@@ -47,8 +47,6 @@ namespace Application.Test.Markets.Commands.CreateMarket
             result.Market.Organiser.PostalCode.Should().Be("postal");
             result.Market.Organiser.City.Should().Be("city");
             result.Market.Organiser.UserId.Should().Be("User2200");
-
-
         }
 
         [Fact]
