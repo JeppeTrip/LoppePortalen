@@ -345,6 +345,7 @@ namespace Application.Test
             SeedCancelMarketTestData(context);
             SeedBookStallsTestData(context);
             SeedGetMarketInstanceQueryTestData(context);
+            SeedGetUsersMarketsTestData(context);
         }
 
         /**
@@ -4318,6 +4319,176 @@ namespace Application.Test
                 BoothDescription = "booking 2601 description",
                 MerchantId = 2600,
                 StallId = 2601,
+                ItemCategories = new List<Category>() { itemCategory2, itemCategory3 }
+            });
+
+            context.SaveChanges();
+        }
+
+        /** Ids within start at 2700 */
+        private static void SeedGetUsersMarketsTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User2700",
+                Email = "User2700@mail",
+                UserName = "User2700@mail"
+            });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User2700",
+                Email = "User2700@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User2700",
+                LastName = "Lastname User2700",
+                Phone = "12345678"
+            });
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 2700,
+                Name = "Organiser 2700",
+                Description = "Organiser 2700 Description",
+                UserId = "User2700",
+                Address = new Address()
+                {
+                    Id = 2700,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 2701,
+                Name = "Organiser 2701",
+                Description = "Organiser 2701 Description",
+                UserId = "User2700",
+                Address = new Address()
+                {
+                    Id = 2701,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+            context.Merchants.Add(new Merchant()
+            {
+                Id = 2700,
+                Name = "Merchant 2700",
+                Description = "Merchant 2700",
+                UserId = "User2700"
+            });
+
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2700,
+                Name = "Market 2700 name",
+                Description = "Market 2700 description",
+                OrganiserId = 2700
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2700,
+                Id = 2700,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2701,
+                Name = "Market 2701 name",
+                Description = "Market 2701 description",
+                OrganiserId = 2701
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2701,
+                Id = 2701,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+
+
+            context.StallTypes.AddRange(new StallType()
+            {
+                Id = 2700,
+                Name = "Stalltype 2700",
+                Description = "Stalltype 2700 description",
+                MarketTemplateId = 2700
+            },
+            new StallType()
+            {
+                Id = 2701,
+                Name = "Stalltype 2701",
+                Description = "Stalltype 2701 description",
+                MarketTemplateId = 2701
+            });
+
+            context.Stalls.AddRange(new Stall()
+            {
+                Id = 2700,
+                StallTypeId = 2700,
+                MarketInstanceId = 2700
+            },
+            new Stall()
+            {
+                Id = 2701,
+                StallTypeId = 2700,
+                MarketInstanceId = 2700
+            },
+            new Stall()
+            {
+                Id = 2702,
+                StallTypeId = 2701,
+                MarketInstanceId = 2701
+            },
+            new Stall()
+            {
+                Id = 2703,
+                StallTypeId = 2701,
+                MarketInstanceId = 2701
+            });
+
+            var itemCategory1 = new Category()
+            {
+                Name = "category 2700"
+            };
+            var itemCategory2 = new Category()
+            {
+                Name = "category 2701"
+            };
+            var itemCategory3 = new Category()
+            {
+                Name = "category 2702"
+            };
+            context.ItemCategories.AddRange(itemCategory1, itemCategory2, itemCategory3);
+
+            context.Bookings.AddRange(new Booking()
+            {
+                Id = "Booking2700",
+                BoothName = "booking 2700",
+                BoothDescription = "booking 2700 description",
+                MerchantId = 2700,
+                StallId = 2700,
+                ItemCategories = new List<Category>() { itemCategory1, itemCategory2 }
+            },
+            new Booking()
+            {
+                Id = "Booking2701",
+                BoothName = "booking 2701",
+                BoothDescription = "booking 2701 description",
+                MerchantId = 2700,
+                StallId = 2702,
                 ItemCategories = new List<Category>() { itemCategory2, itemCategory3 }
             });
 
