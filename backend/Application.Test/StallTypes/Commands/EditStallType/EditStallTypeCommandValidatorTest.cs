@@ -12,7 +12,7 @@ namespace Application.Test.StallTypes.Commands.EditStallType
     public class EditStallTypeCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new EditStallTypeRequest()
             {
@@ -31,7 +31,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.IsValid.Should().BeTrue();
         }
 
-        public async Task Handle_MarketIdZero()
+        [Fact]
+        public void Handle_MarketIdZero()
         {
             var request = new EditStallTypeRequest()
             {
@@ -51,7 +52,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.Errors.Count().Should().Be(1);
         }
 
-        public async Task Handle_MarketIdNegative()
+        [Fact]
+        public void Handle_MarketIdNegative()
         {
             var request = new EditStallTypeRequest()
             {
@@ -71,7 +73,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.Errors.Count().Should().Be(1);
         }
 
-        public async Task Handle_StallTypeIdZero()
+        [Fact]
+        public void Handle_StallTypeIdZero()
         {
             var request = new EditStallTypeRequest()
             {
@@ -90,7 +93,9 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.IsValid.Should().BeFalse();
             result.Errors.Count().Should().Be(1);
         }
-        public async Task Handle_StallTypeIdNegative()
+
+        [Fact]
+        public void Handle_StallTypeIdNegative()
         {
             var request = new EditStallTypeRequest()
             {
@@ -110,7 +115,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.Errors.Count().Should().Be(1);
         }
 
-        public async Task Handle_NameEmpty()
+        [Fact]
+        public void Handle_NameEmpty()
         {
             var request = new EditStallTypeRequest()
             {
@@ -130,7 +136,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.Errors.Count().Should().Be(1);
         }
 
-        public async Task Handle_NameNull()
+        [Fact]
+        public void Handle_NameNull()
         {
             var request = new EditStallTypeRequest()
             {
@@ -150,7 +157,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.Errors.Count().Should().Be(1);
         }
 
-        public async Task Handle_DescriptionEmpty()
+        [Fact]
+        public void Handle_DescriptionEmpty()
         {
             var request = new EditStallTypeRequest()
             {
@@ -169,7 +177,8 @@ namespace Application.Test.StallTypes.Commands.EditStallType
             result.IsValid.Should().BeTrue();
         }
 
-        public async Task Handle_DescriptionNull()
+        [Fact]
+        public void Handle_DescriptionNull()
         {
             var request = new EditStallTypeRequest()
             {

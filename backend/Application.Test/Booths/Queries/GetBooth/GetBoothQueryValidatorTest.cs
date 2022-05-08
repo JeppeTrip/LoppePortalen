@@ -12,7 +12,7 @@ namespace Application.Test.Booths.Queries.GetBooth
     public class GetBoothQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public async void Handle_ValidRequest()
         {
             var request = new GetBoothRequest() { Id = "id" };
             var query = new GetBoothQuery() { Dto = request };

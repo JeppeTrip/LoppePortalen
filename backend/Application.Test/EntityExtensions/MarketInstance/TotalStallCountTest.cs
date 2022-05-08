@@ -14,7 +14,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
     public class TotalStallCountTest : TestBase
     {
         [Fact]
-        public async Task Handle_NoStalls()
+        public void Handle_NoStalls()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -30,7 +30,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_OneStall()
+        public void Handle_OneStall()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -46,7 +46,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_OneStallbooked()
+        public void Handle_OneStallbooked()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -62,7 +62,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleStalls()
+        public void Handle_MultipleStalls()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -78,7 +78,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleStallsBooked()
+        public void Handle_MultipleStallsBooked()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -94,7 +94,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleStallsMixed()
+        public void Handle_MultipleStallsMixed()
         {
             var market = Context.MarketInstances
                  .Include(x => x.Stalls)

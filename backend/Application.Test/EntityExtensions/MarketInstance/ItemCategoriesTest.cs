@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Domain.EntityExtensions;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +11,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
     public class ItemCategoriesTest : TestBase
     {
         [Fact]
-        public async Task Handle_NoStalls()
+        public void Handle_NoStalls()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -33,7 +30,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_NoBooths()
+        public void Handle_NoBooths()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -52,7 +49,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_OneBoothNoCategory()
+        public void Handle_OneBoothNoCategory()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -71,7 +68,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_OneBoothOneCategory()
+        public void Handle_OneBoothOneCategory()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -91,7 +88,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_OneBoothMultipleCategory()
+        public void Handle_OneBoothMultipleCategory()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -112,7 +109,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleBoothsNoCategories()
+        public void Handle_MultipleBoothsNoCategories()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -131,7 +128,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleBoothsUniqueCategories()
+        public void Handle_MultipleBoothsUniqueCategories()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)
@@ -153,7 +150,7 @@ namespace Application.Test.EntityExtensions.MarketInstance
         }
 
         [Fact]
-        public async Task Handle_MultipleBoothsOverlappingCategories()
+        public void Handle_MultipleBoothsOverlappingCategories()
         {
             var market = Context.MarketInstances
                 .Include(x => x.Stalls)

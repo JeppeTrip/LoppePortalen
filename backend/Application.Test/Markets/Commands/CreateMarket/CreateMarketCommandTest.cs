@@ -34,41 +34,5 @@ namespace Application.Test.Markets.Commands.CreateMarket
 
 
         }
-
-        [Fact (Skip = "Find out how to test validators.")]
-        public async Task Handle_WrongOrganiserId()
-        {
-
-        }
-
-        [Fact(Skip = "Find out how to test validators.")]
-        public async Task Handle_NoMarketName()
-        {
-
-        }
-
-        [Fact(Skip = "Find out how to test validators.")]
-        public async Task Handle_NoMarketDescription()
-        {
-
-        }
-
-        [Fact(Skip = "Find out how to test validators.")]
-        public async Task Handle_NoMarketStartDate()
-        {
-
-        }
-
-        [Fact(Skip = "Find out how to test validators.")]
-        public async Task Handle_NoMarketEndDate()
-        {
-
-        }
-
-        [Fact(Skip = "Find out how to test validators.")]
-        public async Task Handle_NoEndDateBeforeStartDate()
-        {
-
-        }
     }
 }

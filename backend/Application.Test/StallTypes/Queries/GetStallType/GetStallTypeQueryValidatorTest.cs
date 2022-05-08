@@ -12,7 +12,7 @@ namespace Application.Test.StallTypes.Queries.GetStallType
     public class GetStallTypeQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetStallTypeRequest() { StallTypeId = 1 };
             var query = new GetStallTypeQuery() { Dto = request };
@@ -23,7 +23,7 @@ namespace Application.Test.StallTypes.Queries.GetStallType
         }
 
         [Fact]
-        public async Task Handle_IdNegative()
+        public void Handle_IdNegative()
         {
             var request = new GetStallTypeRequest() { StallTypeId = -1 };
             var query = new GetStallTypeQuery() { Dto = request };
@@ -35,7 +35,7 @@ namespace Application.Test.StallTypes.Queries.GetStallType
         }
 
         [Fact]
-        public async Task Handle_IdZero()
+        public void Handle_IdZero()
         {
             var request = new GetStallTypeRequest() { StallTypeId = 0 };
             var query = new GetStallTypeQuery() { Dto = request };

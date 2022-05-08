@@ -12,7 +12,7 @@ namespace Application.Test.Stalls.Queries.GetStall
     public class GetStallQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public async void Handle_ValidRequest()
         {
             var request = new GetStallRequest() { StallId = 1 };
             var query = new GetStallQuery() { Dto = request };
@@ -24,7 +24,7 @@ namespace Application.Test.Stalls.Queries.GetStall
         }
 
         [Fact]
-        public async Task Handle_ZeroId()
+        public async void Handle_ZeroId()
         {
             var request = new GetStallRequest() { StallId = 0 };
             var query = new GetStallQuery() { Dto = request };
@@ -36,7 +36,7 @@ namespace Application.Test.Stalls.Queries.GetStall
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public async void Handle_NegativeId()
         {
             var request = new GetStallRequest() { StallId = -1 };
             var query = new GetStallQuery() { Dto = request };

@@ -12,7 +12,7 @@ namespace Application.Test.Merchants.Commands.CreateMerchant
     public class CreateMerchantCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new CreateMerchantRequest()
             {
@@ -29,7 +29,7 @@ namespace Application.Test.Merchants.Commands.CreateMerchant
         }
 
         [Fact]
-        public async Task Handle_EmptyName()
+        public void Handle_EmptyName()
         {
             var request = new CreateMerchantRequest()
             {
@@ -46,7 +46,7 @@ namespace Application.Test.Merchants.Commands.CreateMerchant
         }
 
         [Fact]
-        public async Task Handle_EmptyDescription()
+        public void Handle_EmptyDescription()
         {
             var request = new CreateMerchantRequest()
             {
@@ -62,7 +62,7 @@ namespace Application.Test.Merchants.Commands.CreateMerchant
         }
 
         [Fact]
-        public async Task Handle_NullName()
+        public void Handle_NullName()
         {
             var request = new CreateMerchantRequest()
             {
@@ -79,7 +79,7 @@ namespace Application.Test.Merchants.Commands.CreateMerchant
         }
 
         [Fact]
-        public async Task Handle_NullDescription()
+        public void Handle_NullDescription()
         {
             var request = new CreateMerchantRequest()
             {

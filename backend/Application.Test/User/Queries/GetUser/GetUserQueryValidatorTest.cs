@@ -13,7 +13,7 @@ namespace Application.Test.User.Queries.GetUser
     public class GetUserQueryValidatorTest
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetUserRequest()
             {
@@ -28,7 +28,7 @@ namespace Application.Test.User.Queries.GetUser
         }
 
         [Fact]
-        public async Task Handle_UserId_Null()
+        public void Handle_UserId_Null()
         {
             var request = new GetUserRequest()
             {
@@ -43,7 +43,7 @@ namespace Application.Test.User.Queries.GetUser
         }
 
         [Fact]
-        public async Task Handle_UserId_Empty()
+        public void Handle_UserId_Empty()
         {
             var request = new GetUserRequest()
             {

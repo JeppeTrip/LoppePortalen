@@ -12,7 +12,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
     public class UpdateBoothCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_EverythingFilledOut()
+        public async void Handle_EverythingFilledOut()
         {
             var request = new UpdateBoothRequest()
             {
@@ -29,7 +29,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_IdEmpty()
+        public async void Handle_IdEmpty()
         {
             var request = new UpdateBoothRequest()
             {
@@ -47,7 +47,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_IdNull()
+        public void Handle_IdNull()
         {
             var request = new UpdateBoothRequest()
             {
@@ -65,7 +65,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_NameEmpty()
+        public void Handle_NameEmpty()
         {
             var request = new UpdateBoothRequest()
             {
@@ -82,7 +82,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_NameNull()
+        public void Handle_NameNull()
         {
             var request = new UpdateBoothRequest()
             {
@@ -100,7 +100,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_DescriptionEmpty()
+        public void Handle_DescriptionEmpty()
         {
             var request = new UpdateBoothRequest()
             {
@@ -117,7 +117,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_DescriptionNull()
+        public void Handle_DescriptionNull()
         {
             var request = new UpdateBoothRequest()
             {
@@ -135,7 +135,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_CategoriesEmpty()
+        public void Handle_CategoriesEmpty()
         {
             var request = new UpdateBoothRequest()
             {
@@ -152,7 +152,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async Task Handle_CategoriesNull()
+        public void Handle_CategoriesNull()
         {
             var request = new UpdateBoothRequest()
             {

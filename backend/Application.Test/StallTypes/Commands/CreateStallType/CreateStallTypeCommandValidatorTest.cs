@@ -12,7 +12,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
     public class CreateStallTypeCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -29,7 +29,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_EmptyName()
+        public void Handle_EmptyName()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -46,7 +46,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_NullName()
+        public void Handle_NullName()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -63,7 +63,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_EmptyDescription()
+        public void Handle_EmptyDescription()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -79,7 +79,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_NullDescription()
+        public void Handle_NullDescription()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -96,7 +96,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public void Handle_NegativeId()
         {
             var request = new CreateStallTypeRequest()
             {
@@ -113,7 +113,7 @@ namespace Application.Test.StallTypes.Commands.CreateStallType
         }
 
         [Fact]
-        public async Task Handle_ZeroId()
+        public void Handle_ZeroId()
         {
             var request = new CreateStallTypeRequest()
             {
