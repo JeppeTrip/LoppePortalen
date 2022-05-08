@@ -1,15 +1,13 @@
-import { CircularProgress, Container, Divider, Grid, Paper, Typography } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import StallDisplay from "../../../components/MarketProfile/StallDisplay";
-import { Market } from "../../../NewStores/@DomainObjects/Market";
-import { StoreContext } from "../../../NewStores/StoreContext";
-import styles from './styles.module.css';
 import { useErrorHandler } from 'react-error-boundary';
 import MarketProfile from "../../../components/MarketProfile";
+import { Market } from "../../../NewStores/@DomainObjects/Market";
+import { StoreContext } from "../../../NewStores/StoreContext";
 
 type Props = {
     mid: string
