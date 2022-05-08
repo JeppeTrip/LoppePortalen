@@ -56,7 +56,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
         {
             var request = new GetFilteredMarketsQueryRequest()
             {
-                StartDate = new DateTimeOffset(new DateTime(9999, 1, 1))
+                StartDate = DateTimeOffset.MaxValue
             };
             var command = new GetFilteredMarketsQuery() { Dto = request };
             var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
@@ -71,7 +71,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
         {
             var request = new GetFilteredMarketsQueryRequest()
             {
-                EndDate = new DateTimeOffset(new DateTime(9999, 1, 1))
+                EndDate = DateTimeOffset.MaxValue
             };
             var command = new GetFilteredMarketsQuery() { Dto = request };
             var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
@@ -86,15 +86,99 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
         {
             var request = new GetFilteredMarketsQueryRequest()
             {
-                StartDate = new DateTimeOffset(new DateTime(1980, 1, 1)),
-                EndDate = new DateTimeOffset(new DateTime(1980, 6, 1))
+                StartDate = new DateTimeOffset(new DateTime(2800, 1, 1)),
+                EndDate = new DateTimeOffset(new DateTime(2800, 1, 10))
             };
             var command = new GetFilteredMarketsQuery() { Dto = request };
             var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            result.Markets.Count.Should().Be(5);
+            result.Markets.Count.Should().Be(1);
+
+            result.Markets.First(x => x.MarketId == 2800).MarketId.Should().Be(2800);
+            result.Markets.First(x => x.MarketId == 2800).MarketName.Should().Be("Market 2800 name");
+            result.Markets.First(x => x.MarketId == 2800).Description.Should().Be("Market 2800 description");
+            result.Markets.First(x => x.MarketId == 2800).StartDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 1, 1)));
+            result.Markets.First(x => x.MarketId == 2800).EndDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 1, 16)));
+            result.Markets.First(x => x.MarketId == 2800).IsCancelled.Should().BeFalse();
+            result.Markets.First(x => x.MarketId == 2800).AvailableStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2800).OccupiedStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2800).TotalStallCount.Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2800).Categories.Count().Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2800");
+            result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2801");
+
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Id.Should().Be(2800);
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Name.Should().Be("Organiser 2800");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Description.Should().Be("Organiser 2800 Description");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.UserId.Should().Be("User2800");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Street.Should().Be("street");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.StreetNumber.Should().Be("number");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Appartment.Should().Be("apt");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.City.Should().Be("city");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.PostalCode.Should().Be("postal");
+        }
+
+        [Fact]
+        public async Task Handle_ItemCategories()
+        {
+            var request = new GetFilteredMarketsQueryRequest()
+            {
+                Categories = new List<string>() { "category 2800", "category 2802" }
+            };
+            var command = new GetFilteredMarketsQuery() { Dto = request };
+            var handler = new GetFilteredMarketsQuery.GetFilteredMarketsQueryHandler(Context);
+
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            result.Markets.Count.Should().Be(2);
+
+            result.Markets.First(x => x.MarketId == 2800).MarketId.Should().Be(2800);
+            result.Markets.First(x => x.MarketId == 2800).MarketName.Should().Be("Market 2800 name");
+            result.Markets.First(x => x.MarketId == 2800).Description.Should().Be("Market 2800 description");
+            result.Markets.First(x => x.MarketId == 2800).StartDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 1, 1)));
+            result.Markets.First(x => x.MarketId == 2800).EndDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 1, 16)));
+            result.Markets.First(x => x.MarketId == 2800).IsCancelled.Should().BeFalse();
+            result.Markets.First(x => x.MarketId == 2800).AvailableStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2800).OccupiedStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2800).TotalStallCount.Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2800).Categories.Count().Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2800");
+            result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2801");
+
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Id.Should().Be(2800);
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Name.Should().Be("Organiser 2800");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Description.Should().Be("Organiser 2800 Description");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.UserId.Should().Be("User2800");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Street.Should().Be("street");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.StreetNumber.Should().Be("number");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.Appartment.Should().Be("apt");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.City.Should().Be("city");
+            result.Markets.First(x => x.MarketId == 2800).Organiser.PostalCode.Should().Be("postal");
+
+            result.Markets.First(x => x.MarketId == 2801).MarketId.Should().Be(2801);
+            result.Markets.First(x => x.MarketId == 2801).MarketName.Should().Be("Market 2801 name");
+            result.Markets.First(x => x.MarketId == 2801).Description.Should().Be("Market 2801 description");
+            result.Markets.First(x => x.MarketId == 2801).StartDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 2, 1)));
+            result.Markets.First(x => x.MarketId == 2801).EndDate.Should().BeSameDateAs(new DateTimeOffset(new DateTime(2800, 2, 16)));
+            result.Markets.First(x => x.MarketId == 2801).IsCancelled.Should().BeFalse();
+            result.Markets.First(x => x.MarketId == 2801).AvailableStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2801).OccupiedStallCount.Should().Be(1);
+            result.Markets.First(x => x.MarketId == 2801).TotalStallCount.Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2801).Categories.Count().Should().Be(2);
+            result.Markets.First(x => x.MarketId == 2801).Categories.Should().Contain("category 2801");
+            result.Markets.First(x => x.MarketId == 2801).Categories.Should().Contain("category 2802");
+
+            result.Markets.First(x => x.MarketId == 2801).Organiser.Id.Should().Be(2801);
+            result.Markets.First(x => x.MarketId == 2801).Organiser.Name.Should().Be("Organiser 2801");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.Description.Should().Be("Organiser 2801 Description");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.UserId.Should().Be("User2800");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.Street.Should().Be("street");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.StreetNumber.Should().Be("number");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.Appartment.Should().Be("apt");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.City.Should().Be("city");
+            result.Markets.First(x => x.MarketId == 2801).Organiser.PostalCode.Should().Be("postal");
         }
     }
 }
