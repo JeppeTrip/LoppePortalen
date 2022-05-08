@@ -32,11 +32,6 @@ namespace Application.Markets.Commands.CancelMarket
 
             public async Task<CancelMarketInstanceResponse> Handle(CancelMarketInstanceCommand request, CancellationToken cancellationToken)
             {
-                if (_currentUserService.UserId.Length == 0 || _currentUserService.UserId == null)
-                {
-                    throw new UnauthorizedAccessException();
-                }
-
                 var marketInstance = _context.MarketInstances
                     .Include(x => x.MarketTemplate.Organiser)
                     .Where(x => x.MarketTemplate.Organiser.UserId.Equals(_currentUserService.UserId))
