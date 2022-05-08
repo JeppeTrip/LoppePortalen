@@ -31,7 +31,9 @@ namespace Application.Markets.Commands.BookStalls
             public async Task<BookStallsResponse> Handle(BookStallsCommand request, CancellationToken cancellationToken)
             {
                 //make sure merchant exists for current user
-                var merchant = await _context.Merchants.FirstOrDefaultAsync(x => x.Id == request.Dto.MerchantId && x.UserId.Equals(_currentUserService.UserId));
+                var merchant = await _context
+                    .Merchants
+                    .FirstOrDefaultAsync(x => x.Id == request.Dto.MerchantId && x.UserId.Equals(_currentUserService.UserId));
                 if(merchant == null)
                 {
                     throw new NotFoundException("No such merchant");

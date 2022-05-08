@@ -22,8 +22,11 @@ namespace Application.Markets.Commands.BookStalls
                 .NotEmpty()
                 .GreaterThan(0);
 
-            RuleForEach(x => x.Dto.Stalls)
+            RuleFor(x => x.Dto.Stalls)
                 .NotEmpty();
+
+            RuleForEach(x => x.Dto.Stalls)
+                .Must(stall => stall.StallTypeId > 0 && stall.BookingAmount > 0);
         }
     }
 }
