@@ -12,7 +12,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
     public class GetOrganiserQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var dto = new GetOrganiserQueryRequest() { Id = 1 };
             var request = new GetOrganiserQuery() { Dto = dto };
@@ -23,7 +23,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
         }
 
         [Fact]
-        public async Task Handle_EmptyId()
+        public void Handle_EmptyId()
         {
             var dto = new GetOrganiserQueryRequest() { Id = 0 };
             var request = new GetOrganiserQuery() { Dto = dto };
@@ -35,7 +35,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public void Handle_NegativeId()
         {
             var dto = new GetOrganiserQueryRequest() { Id = -1 };
             var request = new GetOrganiserQuery() { Dto = dto };

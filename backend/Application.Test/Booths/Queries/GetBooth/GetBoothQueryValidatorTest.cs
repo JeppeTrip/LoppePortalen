@@ -12,7 +12,7 @@ namespace Application.Test.Booths.Queries.GetBooth
     public class GetBoothQueryValidatorTest : TestBase
     {
         [Fact]
-        public async void Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetBoothRequest() { Id = "id" };
             var query = new GetBoothQuery() { Dto = request };
@@ -23,7 +23,7 @@ namespace Application.Test.Booths.Queries.GetBooth
         }
 
         [Fact]
-        public async Task Handle_EmptyId()
+        public void Handle_EmptyId()
         {
             var request = new GetBoothRequest() { Id = "" };
             var query = new GetBoothQuery() { Dto = request };
@@ -35,7 +35,7 @@ namespace Application.Test.Booths.Queries.GetBooth
         }
 
         [Fact]
-        public async Task Handle_NullId()
+        public void Handle_NullId()
         {
             var request = new GetBoothRequest() { Id = null };
             var query = new GetBoothQuery() { Dto = request };

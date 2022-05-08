@@ -13,7 +13,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
     public class EditMerchantCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new EditMerchantRequest()
             {
@@ -30,7 +30,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_EmptyName()
+        public void Handle_EmptyName()
         {
             var request = new EditMerchantRequest()
             {
@@ -48,7 +48,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_EmptyDescription()
+        public void Handle_EmptyDescription()
         {
             var request = new EditMerchantRequest()
             {
@@ -65,7 +65,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_NullName()
+        public void Handle_NullName()
         {
             var request = new EditMerchantRequest()
             {
@@ -83,7 +83,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_NullDescription()
+        public void Handle_NullDescription()
         {
             var request = new EditMerchantRequest()
             {
@@ -101,7 +101,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public void Handle_NegativeId()
         {
             var request = new EditMerchantRequest()
             {
@@ -119,7 +119,7 @@ namespace Application.Test.Merchants.Commands.EditMerchant
         }
 
         [Fact]
-        public async Task Handle_ZeroId()
+        public void Handle_ZeroId()
         {
             var request = new EditMerchantRequest()
             {

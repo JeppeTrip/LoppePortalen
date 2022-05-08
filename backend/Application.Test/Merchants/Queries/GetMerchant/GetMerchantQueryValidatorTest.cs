@@ -12,7 +12,7 @@ namespace Application.Test.Merchants.Queries.GetMerchant
     public class GetMerchantQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetMerchantQueryRequest()
             {
@@ -25,7 +25,7 @@ namespace Application.Test.Merchants.Queries.GetMerchant
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public void Handle_NegativeId()
         {
             var request = new GetMerchantQueryRequest()
             {
@@ -39,7 +39,7 @@ namespace Application.Test.Merchants.Queries.GetMerchant
         }
 
         [Fact]
-        public async Task Handle_ZeroId()
+        public void Handle_ZeroId()
         {
             var request = new GetMerchantQueryRequest()
             {

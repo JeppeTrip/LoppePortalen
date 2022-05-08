@@ -12,7 +12,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
     public class UpdateBoothCommandValidatorTest : TestBase
     {
         [Fact]
-        public async void Handle_EverythingFilledOut()
+        public void Handle_EverythingFilledOut()
         {
             var request = new UpdateBoothRequest()
             {
@@ -29,7 +29,7 @@ namespace Application.Test.Booths.Commands.UpdateBooth
         }
 
         [Fact]
-        public async void Handle_IdEmpty()
+        public void Handle_IdEmpty()
         {
             var request = new UpdateBoothRequest()
             {

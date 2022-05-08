@@ -12,7 +12,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
     public class GetUsersMarketsQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidUserId()
+        public void Handle_ValidUserId()
         {
             var request = new GetUsersMarketsQuery() ;
             var validator = new GetUsersMarketsQueryValidator();
@@ -22,7 +22,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         }
 
         [Fact]
-        public async Task Handle_UserIdEmpty()
+        public void Handle_UserIdEmpty()
         {
             var request = new GetUsersMarketsQuery();
             var validator = new GetUsersMarketsQueryValidator();
@@ -33,7 +33,7 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
         }
 
         [Fact]
-        public async Task Handle_UserIdNull()
+        public void Handle_UserIdNull()
         {
             var request = new GetUsersMarketsQuery();
             var validator = new GetUsersMarketsQueryValidator();

@@ -12,7 +12,7 @@ namespace Application.Test.StallTypes.Queries.GetMarketStallTypes
     public class GetMarketStallTypesQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetMarketStallTypesRequest() { MarketId = 1 };
             var query = new GetMarketStallTypesQuery() { Dto = request };
@@ -23,7 +23,7 @@ namespace Application.Test.StallTypes.Queries.GetMarketStallTypes
         }
 
         [Fact]
-        public async Task Handle_NegativeId()
+        public void Handle_NegativeId()
         {
             var request = new GetMarketStallTypesRequest() { MarketId = -1 };
             var query = new GetMarketStallTypesQuery() { Dto = request };
@@ -35,7 +35,7 @@ namespace Application.Test.StallTypes.Queries.GetMarketStallTypes
         }
 
         [Fact]
-        public async Task Handle_ZeroId()
+        public void Handle_ZeroId()
         {
             var request = new GetMarketStallTypesRequest() { MarketId = 0 };
             var query = new GetMarketStallTypesQuery() { Dto = request };

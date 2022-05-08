@@ -12,7 +12,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
     public class AddStallsToMarketCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new AddStallsToMarketRequest() { 
               MarketId = 1,
@@ -28,7 +28,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_ZeroMarketId()
+        public void Handle_ZeroMarketId()
         {
             var request = new AddStallsToMarketRequest()
             {
@@ -45,7 +45,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_NegativeMarketId()
+        public void Handle_NegativeMarketId()
         {
             var request = new AddStallsToMarketRequest()
             {
@@ -62,7 +62,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_ZeroStallTypeId()
+        public void Handle_ZeroStallTypeId()
         {
             var request = new AddStallsToMarketRequest()
             {
@@ -79,7 +79,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_NegativeStallTypeId()
+        public void Handle_NegativeStallTypeId()
         {
             var request = new AddStallsToMarketRequest()
             {
@@ -96,7 +96,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_ZeroStallCount()
+        public void Handle_ZeroStallCount()
         {
             var request = new AddStallsToMarketRequest()
             {
@@ -113,7 +113,7 @@ namespace Application.Test.Stalls.Commands.AddStallsToMarket
         }
 
         [Fact]
-        public async Task Handle_NegativeStallCount()
+        public void Handle_NegativeStallCount()
         {
             var request = new AddStallsToMarketRequest()
             {

@@ -12,7 +12,7 @@ namespace Application.Test.Stalls.Commands.DeleteStall
     public class DeleteStallCommandValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new DeleteStallRequest() { StallId = 1 };
             var command = new DeleteStallCommand() { Dto = request };
@@ -24,7 +24,7 @@ namespace Application.Test.Stalls.Commands.DeleteStall
         }
 
         [Fact]
-        public async Task Handle_IdZero()
+        public void Handle_IdZero()
         {
             var request = new DeleteStallRequest() { StallId = 0 };
             var command = new DeleteStallCommand() { Dto = request };
@@ -36,7 +36,7 @@ namespace Application.Test.Stalls.Commands.DeleteStall
         }
 
         [Fact]
-        public async Task Handle_IdNegative()
+        public void Handle_IdNegative()
         {
             var request = new DeleteStallRequest() { StallId = -1 };
             var command = new DeleteStallCommand() { Dto = request };

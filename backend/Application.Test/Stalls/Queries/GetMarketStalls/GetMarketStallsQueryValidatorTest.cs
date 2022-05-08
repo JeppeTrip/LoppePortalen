@@ -12,7 +12,7 @@ namespace Application.Test.Stalls.Queries.GetMarketStalls
     public class GetMarketStallsQueryValidatorTest : TestBase
     {
         [Fact]
-        public async Task Handle_ValidRequest()
+        public void Handle_ValidRequest()
         {
             var request = new GetMarketStallsRequest() {MarketId = 1 };
             var query = new GetMarketStallsQuery() { Dto = request };
@@ -24,7 +24,7 @@ namespace Application.Test.Stalls.Queries.GetMarketStalls
         }
 
         [Fact]
-        public async Task Handle_MarketIdZero()
+        public void Handle_MarketIdZero()
         {
             var request = new GetMarketStallsRequest() { MarketId = 0 };
             var query = new GetMarketStallsQuery() { Dto = request };
@@ -36,7 +36,7 @@ namespace Application.Test.Stalls.Queries.GetMarketStalls
         }
 
         [Fact]
-        public async Task Handle_MarketIdNegative()
+        public void Handle_MarketIdNegative()
         {
             var request = new GetMarketStallsRequest() { MarketId = -1 };
             var query = new GetMarketStallsQuery() { Dto = request };
