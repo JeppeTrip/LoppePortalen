@@ -1,0 +1,42 @@
+@startuml
+left to right direction
+skinparam ObjectFontSize 16
+skinparam ObjectAttributeFontSize 14
+object Organiser {
+    name
+}
+
+object Salesperson {
+    name
+}
+
+object Stall {
+
+}
+
+object Market {
+    name 
+    startDate
+    endDate
+}
+
+object Item {
+    type
+}
+
+object Chair {
+
+}
+
+object Table {
+
+}
+
+Organiser "1"--"*"  Market : Organiserer >
+Market "1" -- "1..*" Stall
+Salesperson "1" -- "1..*" Stall : Lejer >
+Salesperson "1" -- "1..*" Item : Sælger >
+Stall "1" -- "1..*" Chair 
+Stall "1" -- "1..*" Table
+Stall "1" -- "1..*" Item : Solgt på <
+@enduml
