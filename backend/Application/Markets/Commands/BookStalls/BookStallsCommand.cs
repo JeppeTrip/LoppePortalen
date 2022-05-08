@@ -43,10 +43,10 @@ namespace Application.Markets.Commands.BookStalls
                 var market = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
                     .Include(x => x.MarketTemplate.StallTypes)
-                    .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
+                    .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId && !x.IsCancelled);
                 if(market == null)
                 {
-                    throw new NotFoundException($"No market with id {request.Dto.MarketId}.");
+                    throw new NotFoundException($"No active market with id {request.Dto.MarketId}.");
                 }
 
                 //make sure all the stall types exist
