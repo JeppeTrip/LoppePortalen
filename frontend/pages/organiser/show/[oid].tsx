@@ -1,11 +1,10 @@
-import { CircularProgress, Container, Divider, List, Paper, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { useErrorHandler } from 'react-error-boundary';
-import MarketListItem from "../../../components/MarketListItem";
 import OrganiserProfile from "../../../components/OrganiserProfile";
 import { Organiser } from "../../../NewStores/@DomainObjects/Organiser";
 import { StoreContext } from "../../../NewStores/StoreContext";
