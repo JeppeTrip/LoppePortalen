@@ -15,46 +15,27 @@ const Markets: NextPage = observer(() => {
         flowResult(stores.marketStore.fetchAllMarkets())
     }, [])
 
-    const error = () => {
-        return (
-            <ErrorIcon sx={{ fontSize: 50 }} />
-        )
-    }
-
-    const loading = () => {
-        return (
-            <CircularProgress />
-        )
-    }
-
-    const content = () => {
-        return (
-            <Paper elevation={1}>
-                {
-                    stores.marketStore.markets.length == 0 ?
-                        <Typography variant="subtitle2">
-                            No markets found.
-                        </Typography>
-                        :
-                        <List>
-                            {
-                                stores.marketStore.markets.map(
-                                    market =><MarketListItem key={`marketListItem_${market.id}`} Market={market} /> )
-                            }
-                        </List>
-                }
-
-            </Paper>
-        );
-    }
-
     return (
         <Container>
             <Box sx={{ display: 'flex' }}>
                 <MarketFilter />
                 <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     {
-                        content()
+                        <Paper elevation={1}>
+                            {
+                                stores.marketStore.markets.length == 0 ?
+                                    <Typography variant="subtitle2">
+                                        No markets found.
+                                    </Typography>
+                                    :
+                                    <List>
+                                        {
+                                            stores.marketStore.markets.map(
+                                                market => <MarketListItem key={`marketListItem_${market.id}`} Market={market} />)
+                                        }
+                                    </List>
+                            }
+                        </Paper>
                     }
                 </Box>
             </Box>
