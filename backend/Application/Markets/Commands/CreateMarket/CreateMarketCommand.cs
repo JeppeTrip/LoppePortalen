@@ -67,8 +67,12 @@ namespace Application.Markets.Commands.CreateMarket
                     StartDate = instance.StartDate,
                     EndDate = instance.EndDate,
                     IsCancelled = instance.IsCancelled,
+                    AvailableStallCount = 0,
+                    TotalStallCount = 0,
+                    OccupiedStallCount = 0,
                     Organiser = new OrganiserBaseVM()
                     {
+                        UserId = "User2200",
                         Id = organiser.Id,
                         Name = organiser.Name,
                         Description = organiser.Description,
