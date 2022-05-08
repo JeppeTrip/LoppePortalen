@@ -341,6 +341,7 @@ namespace Application.Test
             SeedAddOrganiserContactsTestData(context);
             SeedRemoveOrganiserContactTestData(context);
             SeedCreateMarketTestData(context);
+            SeedEditMarketTestData(context);    
         }
 
         /**
@@ -3802,6 +3803,140 @@ namespace Application.Test
                     City = "city",
                     PostalCode = "postal"
                 }
+            });
+
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 2300 */
+        private static void SeedEditMarketTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User2300",
+                Email = "User2300@mail",
+                UserName = "User2300@mail"
+            },
+            new ApplicationUser()
+            {
+                Id = "User2301",
+                Email = "User2301@mail",
+                UserName = "User2301@mail"
+            });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User2300",
+                Email = "User2300@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User2300",
+                LastName = "Lastname User2300",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User2301",
+                Email = "User2301@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User2300",
+                LastName = "Lastname User2300",
+                Phone = "12345678"
+            });
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 2300,
+                Name = "Organiser 2300",
+                Description = "Organiser 2300 Description",
+                UserId = "User2300",
+                Address = new Address()
+                {
+                    Id = 2300,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 2301,
+                Name = "Organiser 2301",
+                Description = "Organiser 2301 Description",
+                UserId = "User2300",
+                Address = new Address()
+                {
+                    Id = 2301,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 2302,
+                Name = "Organiser 2302",
+                Description = "Organiser 2302 Description",
+                UserId = "User2301",
+                Address = new Address()
+                {
+                    Id = 2302,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2300,
+                Name = "Market 2300 name",
+                Description = "Market 2300 description",
+                OrganiserId = 2300
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2300,
+                Id = 2300,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2301,
+                Name = "Market 2301 name",
+                Description = "Market 2301 description",
+                OrganiserId = 2301
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2301,
+                Id = 2301,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2302,
+                Name = "Market 2302 name",
+                Description = "Market 2302 description",
+                OrganiserId = 2302
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2302,
+                Id = 2302,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
             });
 
             context.SaveChanges();

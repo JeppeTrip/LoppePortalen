@@ -38,7 +38,7 @@ namespace Application.Markets.Commands.EditMarket
                 var organiser = _context.Organisers.FirstOrDefault(x => x.Id == request.Dto.OrganiserId && x.UserId.Equals(_currentUserService.UserId));
                 if (organiser == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new NotFoundException();
                 }
 
                 var instance = _context.MarketInstances
