@@ -14,8 +14,11 @@ namespace Application.Markets.Commands.CreateMarket
             RuleFor(e => e.Dto.OrganiserId)
                 .NotEmpty()
                 .GreaterThanOrEqualTo(1);
-
+            
             RuleFor(e => e.Dto.MarketName)
+                .NotEmpty();
+
+            RuleFor(e => e.Dto.Description)
                 .NotEmpty();
 
             RuleFor(e => e.Dto.EndDate)
