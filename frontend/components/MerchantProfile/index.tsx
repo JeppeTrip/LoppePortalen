@@ -1,8 +1,10 @@
-import { Container, Divider, Grid, Paper, Typography } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box, Container, Divider, Grid, Paper, Tab, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Merchant } from "../../NewStores/@DomainObjects/Merchant";
 import BoothListItem from "../BoothListItem";
+import ContactInfoListItem from "../ContactInfoListItem";
 import styles from './styles.module.css';
 
 
@@ -12,6 +14,13 @@ type Props = {
 
 
 const MerchantProfile: FC<Props> = observer((props: Props) => {
+    const [tabValue, setTabValue] = useState('1')
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        setTabValue(newValue);
+    };
+
+
     return (
         <Grid id={`merchant_${props.merchant.id}_profile_grid`} container columns={1} spacing={1}>
             <Grid item xs={1}>
@@ -44,13 +53,39 @@ const MerchantProfile: FC<Props> = observer((props: Props) => {
                     <Grid container columns={12} spacing={1}>
                         <Grid item xs={7}>
                             <Paper elevation={1}>
-                                <Typography variant="h6">
-                                    About
-                                </Typography>
-                                <Divider />
-                                <Typography variant="body1">
-                                    {props.merchant.description}
-                                </Typography>
+                            <TabContext value={tabValue}>
+                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                        <TabList onChange={handleTabChange}>
+                                            <Tab label="Merchant Info" value="1" />
+                                            <Tab label="Contact Info" value="2" />
+                                        </TabList>
+                                    </Box>
+                                    <TabPanel value="1">
+                                        {
+                                            <Container>
+                                                <Typography variant="body1">
+                                                    {props.merchant.description}
+                                                </Typography>
+                                            </Container>
+                                        }
+                                    </TabPanel>
+                                    <TabPanel value="2">
+                                        {
+                                            <Container>
+                                                {
+                                                    props.merchant.contactInfo.length === 0 ?
+                                                        (
+                                                            "no contact info found"
+                                                        )
+                                                        :
+                                                        (
+                                                            props.merchant.contactInfo.map(x => <ContactInfoListItem key={`${props.merchant.id}_${x.value}`} contactInfo={x} />)
+                                                        )
+                                                }
+                                            </Container>
+                                        }
+                                    </TabPanel>
+                                </TabContext>
                             </Paper>
                         </Grid>
 

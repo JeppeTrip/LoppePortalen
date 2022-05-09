@@ -51,7 +51,7 @@ const OrganiserProfile: FC<Props> = observer((props: Props) => {
                             <Paper elevation={1}>
                                 <TabContext value={tabValue}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                        <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                                        <TabList onChange={handleTabChange}>
                                             <Tab label="Organiser Info" value="1" />
                                             <Tab label="Contact Info" value="2" />
                                         </TabList>
