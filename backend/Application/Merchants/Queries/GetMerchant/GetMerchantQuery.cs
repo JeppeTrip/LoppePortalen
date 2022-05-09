@@ -26,6 +26,7 @@ namespace Application.Merchants.Queries.GetMerchant
             public async Task<GetMerchantQueryResponse> Handle(GetMerchantQuery request, CancellationToken cancellationToken)
             {
                 var merchant = await _context.Merchants
+                    .Include(x => x.ContactInfo)
                     .Include(x => x.Bookings)
                     .ThenInclude(x => x.Stall)
                     .ThenInclude(x => x.StallType)
@@ -86,6 +87,11 @@ namespace Application.Merchants.Queries.GetMerchant
                                   OccupiedStallCount = x.Stall.MarketInstance.OccupiedStallCount(),
                               }
                           }
+                    }).ToList(),
+                    ContactInfo = merchant.ContactInfo.Select(x => new ContactInfoBaseVM()
+                    {
+                        Type = x.ContactType,
+                        Value = x.Value
                     }).ToList()
                 };
 

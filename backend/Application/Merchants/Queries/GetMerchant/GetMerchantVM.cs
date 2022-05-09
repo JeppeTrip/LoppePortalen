@@ -10,5 +10,6 @@ namespace Application.Merchants.Queries.GetMerchant
     public class GetMerchantVM : MerchantBaseVM
     {
         public List<GetMerchantBoothVM> Booths { get; set; } = new List<GetMerchantBoothVM>();  
+        public List<ContactInfoBaseVM> ContactInfo { get; set; } = new List<ContactInfoBaseVM>();
     }
 }

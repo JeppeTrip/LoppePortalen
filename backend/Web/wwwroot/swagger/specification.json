@@ -2071,6 +2071,13 @@
                 "items": {
                   "$ref": "#/components/schemas/GetMerchantBoothVM"
                 }
+              },
+              "contactInfo": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContactInfoBaseVM"
+                }
               }
             }
           }
@@ -2116,6 +2123,39 @@
               }
             }
           }
+        ]
+      },
+      "ContactInfoBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "ContactInfoType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "PHONE_NUMER",
+          "FACEBOOK",
+          "TWITTER",
+          "EMAIL",
+          "INSTAGRAM",
+          "TIKTOK"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
         ]
       },
       "EditMerchantResponse": {
@@ -2167,26 +2207,6 @@
             "$ref": "#/components/schemas/ContactInfoType"
           }
         }
-      },
-      "ContactInfoType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "PHONE_NUMER",
-          "FACEBOOK",
-          "TWITTER",
-          "EMAIL",
-          "INSTAGRAM",
-          "TIKTOK"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
       },
       "CreateOrganiserResponse": {
         "type": "object",
@@ -2393,19 +2413,6 @@
             }
           }
         ]
-      },
-      "ContactInfoBaseVM": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/ContactInfoType"
-          }
-        }
       },
       "EditOrganiserResponse": {
         "allOf": [
