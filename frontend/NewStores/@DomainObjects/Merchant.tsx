@@ -95,7 +95,19 @@ export class Merchant{
             this.booths.push(booth)
         });
 
-        
+        let currentContact: ContactInfo
+        dto.contactInfo.forEach(contactDto => {
+            currentContact = this.contactInfo.find(x => contactDto.value === x.value)
+
+            if (!currentContact) {
+                currentContact = new ContactInfo()
+                this.contactInfo.push(currentContact)
+            }
+
+            currentContact.type = contactDto.type
+            currentContact.value = contactDto.value
+            currentContact.state = ModelState.IDLE
+        })
     }
 
     /**
