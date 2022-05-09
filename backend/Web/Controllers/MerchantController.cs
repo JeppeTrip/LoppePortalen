@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Merchants.Commands.AddContactInformation;
 using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Commands.EditMerchant;
 using Application.Merchants.Queries.AllMerchants;
@@ -40,6 +41,12 @@ namespace Web.Controllers
         public async Task<ActionResult<List<BoothBaseVM>>> GetBooths([FromQuery] int merchantId)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost("add/contactInformation")]
+        public async Task<ActionResult<AddContactInformationResponse>> AddContactInformation(AddMerchantContactInformationRequest dto)
+        {
+            return await Mediator.Send(new AddContactInformationCommand() { Dto = dto });
         }
     }
 }

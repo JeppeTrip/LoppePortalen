@@ -694,6 +694,38 @@
         }
       }
     },
+    "/api/Merchant/add/contactInformation": {
+      "post": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_AddContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMerchantContactInformationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactInformationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -737,7 +769,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddContactInformationRequest"
+                "$ref": "#/components/schemas/AddOrganiserContactInformationRequest"
               }
             }
           },
@@ -750,7 +782,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddContactInformationResponse"
+                  "$ref": "#/components/schemas/AddContactInformationResponse2"
                 }
               }
             }
@@ -2115,6 +2147,47 @@
           }
         }
       },
+      "AddContactInformationResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AddMerchantContactInformationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "ContactInfoType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "PHONE_NUMER",
+          "FACEBOOK",
+          "TWITTER",
+          "EMAIL",
+          "INSTAGRAM",
+          "TIKTOK"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
       "CreateOrganiserResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -2187,11 +2260,11 @@
           }
         }
       },
-      "AddContactInformationResponse": {
+      "AddContactInformationResponse2": {
         "type": "object",
         "additionalProperties": false
       },
-      "AddContactInformationRequest": {
+      "AddOrganiserContactInformationRequest": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2207,26 +2280,6 @@
             "$ref": "#/components/schemas/ContactInfoType"
           }
         }
-      },
-      "ContactInfoType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "PHONE_NUMER",
-          "FACEBOOK",
-          "TWITTER",
-          "EMAIL",
-          "INSTAGRAM",
-          "TIKTOK"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
       },
       "GetAllOrganisersResponse": {
         "type": "object",

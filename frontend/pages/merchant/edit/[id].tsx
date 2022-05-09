@@ -9,6 +9,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useErrorHandler } from "react-error-boundary";
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
+import MerchantContactsForm from "../../../components/MerchantContactsForm";
 import { Merchant } from '../../../NewStores/@DomainObjects/Merchant';
 import { StoreContext } from '../../../NewStores/StoreContext';
 
@@ -61,8 +62,9 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                 </Typography>
                 <TabContext value={tabValue}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                        <TabList onChange={handleTabChange} aria-label="edit-merchant-tabs">
                             <Tab label="Merchant Info" value="1" />
+                            <Tab label="Contact Info" value="2" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -73,7 +75,7 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                                         <Grid item xs={12}>
                                             <TextField
                                                 fullWidth={true}
-                                                id="marketName"
+                                                id="merchantName"
                                                 label="Name"
                                                 variant="outlined"
                                                 onChange={(event) => selectedMerchant.name = event.target.value}
@@ -121,6 +123,11 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                             )
                         }
 
+                    </TabPanel>
+                    <TabPanel value="2">
+                        {
+                            (selectedMerchant != null) && <MerchantContactsForm merchant={selectedMerchant} />
+                        }
                     </TabPanel>
                 </TabContext>
             </Paper>

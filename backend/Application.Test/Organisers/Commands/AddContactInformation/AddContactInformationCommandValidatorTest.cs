@@ -14,7 +14,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_ValidRequest()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1,
                 Value = "value",
@@ -30,7 +30,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_OrganiserIdZero()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 0,
                 Value = "value",
@@ -47,7 +47,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_OrganiserIdNegative()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = -1,
                 Value = "value",
@@ -64,7 +64,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_ValueEmpty()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1,
                 Value = "",
@@ -81,7 +81,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_ValueNull()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1,
                 Value = null,
@@ -98,7 +98,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public void Handle_TypeNotInEnum()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1,
                 Value = null,

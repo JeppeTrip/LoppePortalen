@@ -1,8 +1,9 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import {CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
+import {AddMerchantContactInformationRequest, CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
 import { Booth } from "./Booth"
+import { ContactInfo } from "./ContactInfo"
 
 
 export class Merchant{
@@ -14,6 +15,7 @@ export class Merchant{
     @observable _userId : string
     @observable _oldState : Merchant
     @observable booths : Booth[]
+    @observable contactInfo: ContactInfo[]
     
     constructor(store : MerchantStore)
     {
@@ -23,6 +25,7 @@ export class Merchant{
         this.name = ""
         this.description = ""
         this.booths = [] as Booth[]
+        this.contactInfo = [] as ContactInfo[]
     }
 
     /**
@@ -91,6 +94,8 @@ export class Merchant{
             booth.merchant = this
             this.booths.push(booth)
         });
+
+        
     }
 
     /**
@@ -110,6 +115,24 @@ export class Merchant{
     {
         this.oldState._name = this.name
         this.oldState._description = this.description
+    }
+
+    @action
+    addContactInfo(contactInfo: ContactInfo) {
+        this.store.transportLayer.addContactInformation(new AddMerchantContactInformationRequest({
+            merchantId: this.id,
+            type: contactInfo.type,
+            value: contactInfo.value
+        }))
+            .then(
+                action("submitSuccess", res => {
+                    this.contactInfo.push(contactInfo)
+                    contactInfo.state = ModelState.IDLE
+                }),
+                action("submitError", error => {
+                    contactInfo.state = ModelState.ERROR
+                })
+            )
     }
     
     get state()

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Organisers.Commands.AddContactInformation
+namespace Application.Merchants.Commands.AddContactInformation
 {
-    public class AddContactInformationRequest
+    public class AddMerchantContactInformationRequest
     {
-        public int OrganiserId { get; set; }
+        public int MerchantId { get; set; }
         public string Value { get; set; }
         public ContactInfoType Type { get; set; }
     }

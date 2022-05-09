@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { OrganiserStore } from "../stores/OrganiserStore"
-import { AddContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
+import { AddContactInformationRequest, AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
 import { Market } from "./Market";
 import { ModelState } from "../../@types/ModelState";
 import { ContactInfo } from "./ContactInfo";
@@ -144,9 +144,7 @@ export class Organiser {
 
     @action
     addContactInfo(contactInfo: ContactInfo) {
-        console.log("do we get here?")
-        console.log(this.store)
-        this.store.transportLayer.addContactInformation(new AddContactInformationRequest({
+        this.store.transportLayer.addContactInformation(new AddOrganiserContactInformationRequest({
             organiserId: this.id,
             type: contactInfo.type,
             value: contactInfo.value

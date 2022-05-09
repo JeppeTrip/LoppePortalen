@@ -21,7 +21,7 @@ namespace Web.Controllers
         }
 
         [HttpPost("add/contactInformation")]
-        public async Task<ActionResult<AddContactInformationResponse>> AddContactInformation(AddContactInformationRequest dto)
+        public async Task<ActionResult<AddContactInformationResponse>> AddContactInformation(AddOrganiserContactInformationRequest dto)
         {
             return await Mediator.Send(new AddContactInformationCommand() { Dto = dto });
         }

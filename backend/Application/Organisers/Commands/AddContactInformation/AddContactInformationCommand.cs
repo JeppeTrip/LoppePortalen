@@ -14,7 +14,7 @@ namespace Application.Organisers.Commands.AddContactInformation
     [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class AddContactInformationCommand : IRequest<AddContactInformationResponse>
     {
-        public AddContactInformationRequest Dto { get; set; }
+        public AddOrganiserContactInformationRequest Dto { get; set; }
 
         public class AddContactInformationCommandHandler : IRequestHandler<AddContactInformationCommand, AddContactInformationResponse>
         {

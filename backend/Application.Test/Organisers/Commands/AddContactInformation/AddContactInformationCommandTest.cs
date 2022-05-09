@@ -15,7 +15,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_AddContactInfo()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1900,
                 Type = 0,
@@ -31,7 +31,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_UserDoesNotExist()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1900,
                 Type = 0,
@@ -48,7 +48,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_UserNull()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1900,
                 Type = 0,
@@ -63,7 +63,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_OrganiserDoesNotExist()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = -1,
                 Type = 0,
@@ -79,7 +79,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_OrganiserExistOnOtherUser()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1901,
                 Type = 0,
@@ -95,7 +95,7 @@ namespace Application.Test.Organisers.Commands.AddContactInformation
         [Fact]
         public async Task Handle_ContactIfnoAlreadyExists()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddOrganiserContactInformationRequest()
             {
                 OrganiserId = 1901,
                 Type = 0,

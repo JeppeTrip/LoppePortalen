@@ -11,7 +11,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_AddContactInfo()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = 2900,
                 Type = 0,
@@ -27,7 +27,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_UserDoesNotExist()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = 2900,
                 Type = 0,
@@ -44,7 +44,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_UserNull()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = 2900,
                 Type = 0,
@@ -59,7 +59,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_MerchantDoesNotExist()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = -1,
                 Type = 0,
@@ -75,7 +75,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_MerchantExistOnOtherUser()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = 2901,
                 Type = 0,
@@ -91,7 +91,7 @@ namespace Application.Test.Merchants.Commands.AddContactInformation
         [Fact]
         public async Task Handle_ContactIfnoAlreadyExists()
         {
-            var request = new AddContactInformationRequest()
+            var request = new AddMerchantContactInformationRequest()
             {
                 MerchantId = 2901,
                 Type = 0,
