@@ -904,7 +904,16 @@ namespace Application.Test
                     Id = 3000,
                     Name = "Merchant 3000",
                     Description = "Merchant 3000 description",
-                    UserId = "User3000"
+                    UserId = "User3000",
+                    ContactInfo = new List<MerchantContactInfo>()
+                    {
+                        new MerchantContactInfo()
+                        {
+                            MerchantId = 3000,
+                            ContactType = 0,
+                            Value = "value"
+                        }
+                    }
                 },
                 new Merchant()
                 {

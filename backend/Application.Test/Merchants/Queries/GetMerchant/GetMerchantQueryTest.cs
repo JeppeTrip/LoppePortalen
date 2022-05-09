@@ -26,6 +26,9 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Name.Should().Be("Merchant 3000");
             result.Merchant.Description.Should().Be("Merchant 3000 description");
             result.Merchant.Booths.Should().BeEmpty();
+            result.Merchant.ContactInfo.Count().Should().Be(1);
+            result.Merchant.ContactInfo.First().Value.Should().Be("value");
+            result.Merchant.ContactInfo.First().Type.Should().Be(0);
         }
 
         [Fact]
