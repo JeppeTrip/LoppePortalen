@@ -75,6 +75,8 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Booths.First().Stall.Market.Categories.Should().Contain("Category 3001");
             result.Merchant.Booths.First().Stall.Market.Categories.Should().Contain("Category 3002");
 
+            result.Merchant.ContactInfo.Count().Should().Be(0);
+
         }
 
         [Fact]
@@ -92,6 +94,8 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Name.Should().Be("Merchant 3002");
             result.Merchant.Description.Should().Be("Merchant 3002 description");
             result.Merchant.Booths.Count().Should().Be(3);
+
+            result.Merchant.ContactInfo.Count().Should().Be(0);
         }
 
         [Fact]
@@ -122,6 +126,8 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Name.Should().Be("Merchant 3003");
             result.Merchant.Description.Should().Be("Merchant 3003 description");
             result.Merchant.Booths.Count().Should().Be(0);
+
+            result.Merchant.ContactInfo.Count().Should().Be(0);
         }
 
         [Fact]
@@ -139,6 +145,8 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.Name.Should().Be("Merchant 3004");
             result.Merchant.Description.Should().Be("Merchant 3004 description");
             result.Merchant.Booths.Count().Should().Be(0);
+
+            result.Merchant.ContactInfo.Count().Should().Be(0);
         }
     }
 }
