@@ -1,9 +1,9 @@
-import { action, makeAutoObservable, observable } from "mobx"
-import { OrganiserStore } from "../stores/OrganiserStore"
-import { AddContactInformationRequest, AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
-import { Market } from "./Market";
+import { action, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
+import { AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
+import { OrganiserStore } from "../stores/OrganiserStore";
 import { ContactInfo } from "./ContactInfo";
+import { Market } from "./Market";
 
 export class Organiser {
     store: OrganiserStore
