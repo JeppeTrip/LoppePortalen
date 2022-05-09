@@ -16,5 +16,6 @@ namespace Domain.Entities
         public User User { get; set; }
 
         public virtual List<Booking> Bookings { get; set; }
+        public virtual List<MerchantContactInfo> ContactInfo { get; set; }
     }
 }

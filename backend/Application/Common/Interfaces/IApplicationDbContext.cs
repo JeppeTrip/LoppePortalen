@@ -20,6 +20,7 @@ namespace Application.Common.Interfaces
         DbSet<Merchant> Merchants { get; set; }
         DbSet<Booking> Bookings { get; set; }
         DbSet<Category> ItemCategories { get; set; }
+        DbSet<MerchantContactInfo> MerchantContactInfos { get; set;}
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

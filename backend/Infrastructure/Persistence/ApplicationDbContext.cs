@@ -52,6 +52,7 @@ namespace Infrastructure.Persistence
         public DbSet<Merchant> Merchants { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> ItemCategories { get; set; }
+        public DbSet<MerchantContactInfo> MerchantContactInfos { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) 
         {
