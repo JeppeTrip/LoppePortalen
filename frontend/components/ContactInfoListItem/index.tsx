@@ -10,6 +10,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 type Props = {
     contactInfo: ContactInfo
     editing?: boolean
+    onDelete?
 }
 
 
@@ -17,14 +18,10 @@ type Props = {
 const ContactInfoListItem: FC<Props> = (props: Props) => {
     const stores = useContext(StoreContext);
 
-    const handleOnDelete = (event) => {
-        props.contactInfo.delete()
-    }
-
     return (
         <ListItem secondaryAction={props.editing &&
             <IconButton edge="end"
-                onClick={handleOnDelete}>
+                onClick={() => props.onDelete(props.contactInfo)}>
                 <CancelIcon />
             </IconButton>}>
             <ListItemAvatar>

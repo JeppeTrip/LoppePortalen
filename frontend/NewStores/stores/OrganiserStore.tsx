@@ -74,10 +74,16 @@ export class OrganiserStore {
     @action
     updateOrganiserFromServer(dto: Dto) {
         let organiser = this.organisers.find(x => x.id === dto.id);
+        console.log("fetching this frickadi fuckidy organiser")
+        console.log(organiser)
         if (!organiser) {
             organiser = new Organiser(this);
+            console.log("new organiser bitch")
+            console.log(organiser)
+            console.log(organiser.store)
             this.organisers.push(organiser);
         }
-        return organiser.updateFromServer(dto);
+        organiser = organiser.updateFromServer(dto);
+        return organiser
     }
 }

@@ -79,7 +79,7 @@ export class Organiser {
             currentContact = this.contactInfo.find(x => contactDto.value === x.value)
 
             if (!currentContact) {
-                currentContact = new ContactInfo(this)
+                currentContact = new ContactInfo()
                 this.contactInfo.push(currentContact)
             }
 
@@ -144,6 +144,8 @@ export class Organiser {
 
     @action
     addContactInfo(contactInfo: ContactInfo) {
+        console.log("do we get here?")
+        console.log(this.store)
         this.store.transportLayer.addContactInformation(new AddContactInformationRequest({
             organiserId: this.id,
             type: contactInfo.type,
