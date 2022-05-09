@@ -726,6 +726,38 @@
         }
       }
     },
+    "/api/Merchant/contactInfo": {
+      "delete": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_RemoveContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMerchantContactRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveMerchantContactResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organiser/new": {
       "post": {
         "tags": [
@@ -2205,6 +2237,24 @@
           },
           "type": {
             "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "RemoveMerchantContactResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "RemoveMerchantContactRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

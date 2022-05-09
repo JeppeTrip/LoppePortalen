@@ -27,7 +27,7 @@ const OrganiserContactsForm: FC<Props> = (props: Props) => {
     }, [props.merchant, newContact])
 
     const handleOnDelete = useCallback((contact) => {
-        console.log("implement")
+        props.merchant.deleteContactInfo(contact)
     }, [props.merchant])
 
     return (

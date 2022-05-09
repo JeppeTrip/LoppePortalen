@@ -1,24 +1,23 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import {AddMerchantContactInformationRequest, CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto} from "../../services/clients"
+import { AddMerchantContactInformationRequest, CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto, RemoveMerchantContactRequest } from "../../services/clients"
 import { Booth } from "./Booth"
 import { ContactInfo } from "./ContactInfo"
 
 
-export class Merchant{
-    store : MerchantStore
-    @observable _id : number
-    @observable _state : ModelState
-    @observable _name : string
-    @observable _description : string
-    @observable _userId : string
-    @observable _oldState : Merchant
-    @observable booths : Booth[]
+export class Merchant {
+    store: MerchantStore
+    @observable _id: number
+    @observable _state: ModelState
+    @observable _name: string
+    @observable _description: string
+    @observable _userId: string
+    @observable _oldState: Merchant
+    @observable booths: Booth[]
     @observable contactInfo: ContactInfo[]
-    
-    constructor(store : MerchantStore)
-    {
+
+    constructor(store: MerchantStore) {
         makeAutoObservable(this)
         this.store = store
         this.state = ModelState.NEW
@@ -35,8 +34,7 @@ export class Merchant{
      * If error is encountered update state to error.
      */
     @action
-    save()
-    {
+    save() {
         if (!this.id) {
             this.state = ModelState.SAVING
             this.store.transportLayer.createMerchant(new CreateMerchantRequest({
@@ -68,16 +66,14 @@ export class Merchant{
     }
 
     @action
-    updateFromServer(dto : Dto)
-    {
-        if(this.state != ModelState.UPDATING)
-        {
+    updateFromServer(dto: Dto) {
+        if (this.state != ModelState.UPDATING) {
             this.state = ModelState.UPDATING
             this._id = dto.id
             this._userId = dto.userId
             this.name = dto.name
             this.description = dto.description
-            if(dto instanceof GetMerchantVM)
+            if (dto instanceof GetMerchantVM)
                 this.updateFromServerGetMerchantVM(dto);
 
             this._oldState = new Merchant(undefined)
@@ -87,7 +83,7 @@ export class Merchant{
         return this
     }
 
-    private updateFromServerGetMerchantVM(dto : GetMerchantVM){
+    private updateFromServerGetMerchantVM(dto: GetMerchantVM) {
         this.booths = []
         dto.booths.forEach(boothDto => {
             const booth = this.store.rootStore.boothStore.updateBoothFromServer(boothDto)
@@ -114,7 +110,7 @@ export class Merchant{
      * Reset the fields in this class to what is stored in the oldstate.
      */
     @action
-    resetFields(){
+    resetFields() {
         this._name = this.oldState._name
         this._description = this.oldState._description
     }
@@ -123,8 +119,7 @@ export class Merchant{
      * Update the oldstate field such that it contains the most recent fields.
      */
     @action
-    updateOldState()
-    {
+    updateOldState() {
         this.oldState._name = this.name
         this.oldState._description = this.description
     }
@@ -146,48 +141,57 @@ export class Merchant{
                 })
             )
     }
-    
-    get state()
-    {
+
+    @action
+    deleteContactInfo(contactInfo: ContactInfo) {
+        this.store.transportLayer.removeContactInformation(new RemoveMerchantContactRequest({
+            merchantId: this.id,
+            value: contactInfo.value
+        }))
+            .then(
+                action("submitSuccess", res => {
+                    this.contactInfo = this.contactInfo.filter(x => x.value != contactInfo.value)
+                }),
+                action("submitError", error => {
+                    contactInfo.state = ModelState.ERROR
+                })
+            )
+    }
+
+
+    get state() {
         return this._state
     }
 
-    set state(state : ModelState)
-    {
+    set state(state: ModelState) {
         this._state = state
     }
 
-    get name()
-    {
+    get name() {
         return this._name
     }
 
-    set name(name : string)
-    {
+    set name(name: string) {
         this._name = name
     }
 
-    get description()
-    {
+    get description() {
         return this._description
     }
 
-    set description(description : string)
-    {
+    set description(description: string) {
         this._description = description
     }
 
-    get id()
-    {
+    get id() {
         return this._id
     }
 
-    get userId()
-    {
+    get userId() {
         return this._userId
     }
 
-    get oldState(){
+    get oldState() {
         return this._oldState
     }
 

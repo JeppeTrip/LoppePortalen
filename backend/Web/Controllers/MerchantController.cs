@@ -2,6 +2,7 @@
 using Application.Merchants.Commands.AddContactInformation;
 using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Commands.EditMerchant;
+using Application.Merchants.Commands.RemoveContactInformation;
 using Application.Merchants.Queries.AllMerchants;
 using Application.Merchants.Queries.GetMerchant;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,12 @@ namespace Web.Controllers
         public async Task<ActionResult<AddContactInformationResponse>> AddContactInformation(AddMerchantContactInformationRequest dto)
         {
             return await Mediator.Send(new AddContactInformationCommand() { Dto = dto });
+        }
+
+        [HttpDelete("contactInfo")]
+        public async Task<ActionResult<RemoveMerchantContactResponse>> RemoveContactInformation(RemoveMerchantContactRequest dto)
+        {
+            return await Mediator.Send(new RemoveMerchantContactCommand() { Dto = dto });
         }
     }
 }
