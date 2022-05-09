@@ -11,7 +11,7 @@ namespace Application.Merchants.Commands.RemoveContactInformation
     {
         public RemoveMerchantContactCommandValidator()
         {
-            RuleFor(x => x.Dto.OrganiserId)
+            RuleFor(x => x.Dto.MerchantId)
                 .GreaterThan(0);
 
             RuleFor(x => x.Dto.Value)

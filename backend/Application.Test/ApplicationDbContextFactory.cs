@@ -348,6 +348,7 @@ namespace Application.Test
             SeedGetUsersMarketsTestData(context);
             SeedGetFilteredMarketInstances(context);
             SeedAddMerchantContactInformationTest(context);
+            SeedRemoveMerchantContactCommandTestData(context);
         }
 
         /**
@@ -4731,6 +4732,70 @@ namespace Application.Test
             {
                 MerchantId = 2901,
                 Value = "value",
+                ContactType = ContactInfoType.PHONE_NUMER
+            });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3100 */
+        private static void SeedRemoveMerchantContactCommandTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User3100",
+                Email = "User3100@mail",
+                UserName = "User3100@mail"
+            },
+            new ApplicationUser()
+            {
+               Id = "User3101",
+               Email = "User3101@mail",
+               UserName = "User3101@mail"
+            });
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User3100",
+                Email = "User3100@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3100",
+                LastName = "Lastname User3100",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User3101",
+                Email = "User3101@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3101",
+                LastName = "Lastname User3101",
+                Phone = "12345678"
+            });
+            context.Merchants.AddRange(new Merchant()
+            {
+                Id = 3100,
+                Name = "Merchant 3100",
+                Description = "Merchant 3100 Description",
+                UserId = "User3100"
+            },
+            new Merchant()
+            {
+                Id = 3101,
+                Name = "Merchant 3101",
+                Description = "Merchant 3101 Description",
+                UserId = "User3101"
+            });
+            context.MerchantContactInfos.AddRange(new MerchantContactInfo()
+            {
+                MerchantId = 3100,
+                Value = "info 1",
+                ContactType = ContactInfoType.PHONE_NUMER
+            },
+            new MerchantContactInfo()
+            {
+                MerchantId = 3101,
+                Value = "info 2",
                 ContactType = ContactInfoType.PHONE_NUMER
             });
             context.SaveChanges();
