@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Markets.Commands.CreateMarket;
+using Domain.EntityExtensions;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -58,13 +59,9 @@ namespace Application.Test.Markets.Commands.CreateMarket
             market.MarketTemplate.Address.Should().Be(request.Address);
             market.MarketTemplate.City.Should().Be(request.City);
             market.MarketTemplate.PostalCode.Should().Be(request.PostalCode);
-            result.Market.StartDate.Should().Be(request.StartDate);
-            result.Market.EndDate.Should().Be(request.EndDate);
-            result.Market.Categories.Should().BeEmpty();
-            result.Market.AvailableStallCount.Should().Be(0);
-            result.Market.TotalStallCount.Should().Be(0);
-            result.Market.OccupiedStallCount.Should().Be(0);
-            result.Market.IsCancelled.Should().BeFalse();
+            market.StartDate.Should().Be(request.StartDate);
+            market.EndDate.Should().Be(request.EndDate);
+            market.IsCancelled.Should().BeFalse();
         }
 
         [Fact]
@@ -110,13 +107,9 @@ namespace Application.Test.Markets.Commands.CreateMarket
             market.MarketTemplate.Address.Should().BeNull();
             market.MarketTemplate.City.Should().BeNull();
             market.MarketTemplate.PostalCode.Should().BeNull();
-            result.Market.StartDate.Should().Be(request.StartDate);
-            result.Market.EndDate.Should().Be(request.EndDate);
-            result.Market.Categories.Should().BeEmpty();
-            result.Market.AvailableStallCount.Should().Be(0);
-            result.Market.TotalStallCount.Should().Be(0);
-            result.Market.OccupiedStallCount.Should().Be(0);
-            result.Market.IsCancelled.Should().BeFalse();
+            market.StartDate.Should().Be(request.StartDate);
+            market.EndDate.Should().Be(request.EndDate);
+            market.IsCancelled.Should().BeFalse();
         }
 
         [Fact]
@@ -165,13 +158,9 @@ namespace Application.Test.Markets.Commands.CreateMarket
             market.MarketTemplate.Address.Should().BeNull();
             market.MarketTemplate.City.Should().BeNull();
             market.MarketTemplate.PostalCode.Should().BeNull();
-            result.Market.StartDate.Should().Be(request.StartDate);
-            result.Market.EndDate.Should().Be(request.EndDate);
-            result.Market.Categories.Should().BeEmpty();
-            result.Market.AvailableStallCount.Should().Be(0);
-            result.Market.TotalStallCount.Should().Be(0);
-            result.Market.OccupiedStallCount.Should().Be(0);
-            result.Market.IsCancelled.Should().BeFalse();
+            market.StartDate.Should().Be(request.StartDate);
+            market.EndDate.Should().Be(request.EndDate);
+            market.IsCancelled.Should().BeFalse();
         }
 
         [Fact]

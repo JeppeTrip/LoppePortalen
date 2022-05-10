@@ -53,6 +53,9 @@ namespace Application.Markets.Commands.EditMarket
                 instance.EndDate = request.Dto.EndDate;
                 instance.MarketTemplate.Name = request.Dto.MarketName;
                 instance.MarketTemplate.Description = request.Dto.Description;
+                instance.MarketTemplate.Address = request.Dto.Address;
+                instance.MarketTemplate.PostalCode = request.Dto.PostalCode;
+                instance.MarketTemplate.City = request.Dto.City;
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return new EditMarketResponse(Result.Success());

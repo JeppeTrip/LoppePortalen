@@ -14,5 +14,8 @@ namespace Application.Markets.Commands.EditMarket
         public string Description { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
+        public string Address { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
     }
 }
