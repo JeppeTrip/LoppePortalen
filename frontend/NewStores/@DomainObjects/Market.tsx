@@ -25,6 +25,9 @@ export class Market {
     @observable availableStallCount: number
     @observable occupiedStallCount: number
     @observable itemCategories: string[]
+    @observable address : string
+    @observable postalCode : string
+    @observable city : string
 
     @action
     set setId(id: number) {
@@ -175,7 +178,10 @@ export class Market {
                 marketName: this.name,
                 description: this.description,
                 startDate: this.startDate,
-                endDate: this.endDate
+                endDate: this.endDate,
+                address: this.address,
+                city: this.city,
+                postalCode: this.postalCode
             })).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,

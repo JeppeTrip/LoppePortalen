@@ -58,8 +58,8 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketAddress"
                     label="Address"
                     variant="outlined"
-                    onChange={(event) =>  props.market.name = event.target.value}
-                    value={ props.market.name} />
+                    onChange={(event) =>  props.market.address = event.target.value}
+                    value={ props.market.address} />
             </Grid>
             <Grid item xs={6}>
                 <TextField
@@ -67,8 +67,8 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketPostal"
                     label="Postal"
                     variant="outlined"
-                    onChange={(event) =>  props.market.name = event.target.value}
-                    value={ props.market.name} />
+                    onChange={(event) =>  props.market.postalCode = event.target.value}
+                    value={ props.market.postalCode} />
             </Grid>
             <Grid item xs={6}>
                 <TextField
@@ -76,8 +76,8 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketCity"
                     label="City"
                     variant="outlined"
-                    onChange={(event) =>  props.market.name = event.target.value}
-                    value={ props.market.name} />
+                    onChange={(event) =>  props.market.city = event.target.value}
+                    value={ props.market.city} />
             </Grid>
             <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
