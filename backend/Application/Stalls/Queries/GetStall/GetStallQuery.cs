@@ -61,6 +61,9 @@ namespace Application.Stalls.Queries.GetStall
                         AvailableStallCount = stall.MarketInstance.AvailableStallCount(),
                         OccupiedStallCount = stall.MarketInstance.OccupiedStallCount(),
                         Categories = stall.MarketInstance.ItemCategories(),
+                        Address = stall.MarketInstance.MarketTemplate.Address,
+                        City = stall.MarketInstance.MarketTemplate.City,
+                        PostalCode = stall.MarketInstance.MarketTemplate.PostalCode,
                         Organiser = new OrganiserBaseVM()
                         {
                             Id = stall.MarketInstance.MarketTemplate.Organiser.Id,

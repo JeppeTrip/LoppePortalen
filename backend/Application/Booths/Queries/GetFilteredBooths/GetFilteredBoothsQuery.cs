@@ -91,7 +91,10 @@ namespace Application.Booths.Queries.GetFilteredBooths
                                 Categories = booking.Stall.MarketInstance.ItemCategories(),
                                 TotalStallCount = booking.Stall.MarketInstance.TotalStallCount(),
                                 AvailableStallCount = booking.Stall.MarketInstance.AvailableStallCount(),
-                                OccupiedStallCount = booking.Stall.MarketInstance.OccupiedStallCount()
+                                OccupiedStallCount = booking.Stall.MarketInstance.OccupiedStallCount(),
+                                Address = booking.Stall.MarketInstance.MarketTemplate.Address,
+                                PostalCode = booking.Stall.MarketInstance.MarketTemplate.PostalCode,
+                                City = booking.Stall.MarketInstance.MarketTemplate.City
                             }
                         }
                     };

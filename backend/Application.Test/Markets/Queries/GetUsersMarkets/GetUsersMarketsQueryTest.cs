@@ -34,6 +34,9 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
             result.Markets.First(x => x.MarketId == 2700).Categories.Count().Should().Be(2);
             result.Markets.First(x => x.MarketId == 2700).Categories.Should().Contain("category 2700");
             result.Markets.First(x => x.MarketId == 2700).Categories.Should().Contain("category 2701");
+            result.Markets.First(x => x.MarketId == 2700).Address.Should().Be("address 2700");
+            result.Markets.First(x => x.MarketId == 2700).PostalCode.Should().Be("postal 2700");
+            result.Markets.First(x => x.MarketId == 2700).City.Should().Be("city 2700");
 
             result.Markets.First(x => x.MarketId == 2700).Organiser.Id.Should().Be(2700);
             result.Markets.First(x => x.MarketId == 2700).Organiser.Name.Should().Be("Organiser 2700");
@@ -57,6 +60,9 @@ namespace Application.Test.Markets.Queries.GetUsersMarkets
             result.Markets.First(x => x.MarketId == 2701).Categories.Count().Should().Be(2);
             result.Markets.First(x => x.MarketId == 2701).Categories.Should().Contain("category 2701");
             result.Markets.First(x => x.MarketId == 2701).Categories.Should().Contain("category 2702");
+            result.Markets.First(x => x.MarketId == 2701).Address.Should().BeNull();
+            result.Markets.First(x => x.MarketId == 2701).PostalCode.Should().BeNull();
+            result.Markets.First(x => x.MarketId == 2701).City.Should().BeNull();
 
             result.Markets.First(x => x.MarketId == 2701).Organiser.Id.Should().Be(2701);
             result.Markets.First(x => x.MarketId == 2701).Organiser.Name.Should().Be("Organiser 2701");

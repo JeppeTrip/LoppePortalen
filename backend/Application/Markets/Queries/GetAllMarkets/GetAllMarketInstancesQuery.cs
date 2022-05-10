@@ -61,7 +61,10 @@ namespace Application.Markets.Queries.GetAllMarkets
                         Categories = market.ItemCategories(),
                         TotalStallCount = market.TotalStallCount(),
                         AvailableStallCount = market.AvailableStallCount(),
-                        OccupiedStallCount = market.OccupiedStallCount()
+                        OccupiedStallCount = market.OccupiedStallCount(),
+                        Address = market.MarketTemplate.Address,
+                        PostalCode = market.MarketTemplate.PostalCode,
+                        City = market.MarketTemplate.City
                     };
                 }).ToList();
 

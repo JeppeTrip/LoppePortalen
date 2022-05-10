@@ -3345,27 +3345,52 @@ namespace Application.Test
                     PostalCode = "postal"
                 }
             });
-            context.MarketTemplates.Add(new MarketTemplate()
+            context.MarketTemplates.AddRange(new MarketTemplate()
             {
                 Id = 1700,
                 Name = "Market 1700",
                 Description = "Market 1700 Description",
                 OrganiserId = 1700
+            },
+            new MarketTemplate()
+            {
+                Id = 1701,
+                Name = "Market 1701",
+                Description = "Market 1701 Description",
+                OrganiserId = 1700,
+                Address = "address 1701",
+                PostalCode = "1701",
+                City = "city 1701"
             });
-            context.MarketInstances.Add(new MarketInstance()
+            context.MarketInstances.AddRange(new MarketInstance()
             {
                 Id = 1700,
                 MarketTemplateId = 1700,
                 StartDate = new DateTime(1990, 1, 1),
                 EndDate = new DateTime(1990, 1, 2),
                 IsCancelled = false,
+            },
+            new MarketInstance()
+            {
+                Id = 1701,
+                MarketTemplateId = 1701,
+                StartDate = new DateTime(1990, 1, 1),
+                EndDate = new DateTime(1990, 1, 2),
+                IsCancelled = false,
             });
-            context.StallTypes.Add(new StallType()
+            context.StallTypes.AddRange(new StallType()
             {
                 Id = 1700,
                 Name = "Stalltype 1700",
                 Description = "Stalltype 1700 description",
                 MarketTemplateId = 1700
+            },
+            new StallType()
+            {
+                Id = 1701,
+                Name = "Stalltype 1701",
+                Description = "Stalltype 1701 description",
+                MarketTemplateId = 1701
             });
             context.Stalls.AddRange(
                 new Stall()
@@ -3373,6 +3398,12 @@ namespace Application.Test
                     Id = 1700,
                     MarketInstanceId = 1700,
                     StallTypeId = 1700
+                },
+                new Stall()
+                {
+                    Id = 1701,
+                    MarketInstanceId = 1701,
+                    StallTypeId = 1701
                 }
             );
             context.Merchants.Add(new Merchant()
@@ -3382,7 +3413,7 @@ namespace Application.Test
                 Description = "Merchant 1700 Description",
                 UserId = "User1700"
             });
-            context.Bookings.Add(new Booking()
+            context.Bookings.AddRange(new Booking()
             {
                 Id = "Booth1700",
                 BoothName = "Booth 1700",
@@ -3404,6 +3435,14 @@ namespace Application.Test
                         Name = "Category 1702",
                     }
                 }
+            },
+            new Booking()
+            {
+                Id = "Booth1701",
+                BoothName = "Booth 1701",
+                BoothDescription = "Booth 1701 Description",
+                MerchantId = 1700,
+                StallId = 1701,
             });
             context.SaveChanges();
         }
@@ -4421,7 +4460,10 @@ namespace Application.Test
                 Id = 2700,
                 Name = "Market 2700 name",
                 Description = "Market 2700 description",
-                OrganiserId = 2700
+                OrganiserId = 2700,
+                Address = "address 2700",
+                PostalCode =  "postal 2700",
+                City = "city 2700"
             });
             context.MarketInstances.Add(new MarketInstance()
             {
@@ -4593,7 +4635,10 @@ namespace Application.Test
                 Id = 2800,
                 Name = "Market 2800 name",
                 Description = "Market 2800 description",
-                OrganiserId = 2800
+                OrganiserId = 2800,
+                Address = "address 2800",
+                PostalCode = "postal 2800",
+                City = "city 2800",
             });
             context.MarketInstances.Add(new MarketInstance()
             {

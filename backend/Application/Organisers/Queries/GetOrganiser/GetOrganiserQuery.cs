@@ -64,6 +64,9 @@ namespace Application.Organisers.Queries.GetOrganiser
                             TotalStallCount = market.TotalStallCount(),
                             AvailableStallCount = market.AvailableStallCount(),
                             OccupiedStallCount = market.OccupiedStallCount(),
+                            Address = market.MarketTemplate.Address,
+                            City = market.MarketTemplate.City,
+                            PostalCode = market.MarketTemplate.PostalCode
                         };
                     }).ToList();
 

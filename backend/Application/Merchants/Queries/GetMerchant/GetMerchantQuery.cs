@@ -85,6 +85,9 @@ namespace Application.Merchants.Queries.GetMerchant
                                   TotalStallCount = x.Stall.MarketInstance.TotalStallCount(),
                                   AvailableStallCount = x.Stall.MarketInstance.AvailableStallCount(),
                                   OccupiedStallCount = x.Stall.MarketInstance.OccupiedStallCount(),
+                                  Address = x.Stall.MarketInstance.MarketTemplate.Address,
+                                  PostalCode = x.Stall.MarketInstance.MarketTemplate.PostalCode,
+                                  City = x.Stall.MarketInstance.MarketTemplate.City
                               }
                           }
                     }).ToList(),

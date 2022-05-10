@@ -108,6 +108,9 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
             result.Markets.First(x => x.MarketId == 2800).Categories.Count().Should().Be(2);
             result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2800");
             result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2801");
+            result.Markets.First(x => x.MarketId == 2800).Address.Should().Be("address 2800");
+            result.Markets.First(x => x.MarketId == 2800).PostalCode.Should().Be("postal 2800");
+            result.Markets.First(x => x.MarketId == 2800).City.Should().Be("city 2800");
 
             result.Markets.First(x => x.MarketId == 2800).Organiser.Id.Should().Be(2800);
             result.Markets.First(x => x.MarketId == 2800).Organiser.Name.Should().Be("Organiser 2800");
@@ -147,6 +150,7 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
             result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2800");
             result.Markets.First(x => x.MarketId == 2800).Categories.Should().Contain("category 2801");
 
+
             result.Markets.First(x => x.MarketId == 2800).Organiser.Id.Should().Be(2800);
             result.Markets.First(x => x.MarketId == 2800).Organiser.Name.Should().Be("Organiser 2800");
             result.Markets.First(x => x.MarketId == 2800).Organiser.Description.Should().Be("Organiser 2800 Description");
@@ -169,6 +173,10 @@ namespace Application.Test.Markets.Queries.GetFilteredMarkets
             result.Markets.First(x => x.MarketId == 2801).Categories.Count().Should().Be(2);
             result.Markets.First(x => x.MarketId == 2801).Categories.Should().Contain("category 2801");
             result.Markets.First(x => x.MarketId == 2801).Categories.Should().Contain("category 2802");
+            result.Markets.First(x => x.MarketId == 2801).Address.Should().BeNull();
+            result.Markets.First(x => x.MarketId == 2801).PostalCode.Should().BeNull();
+            result.Markets.First(x => x.MarketId == 2801).City.Should().BeNull();
+
 
             result.Markets.First(x => x.MarketId == 2801).Organiser.Id.Should().Be(2801);
             result.Markets.First(x => x.MarketId == 2801).Organiser.Name.Should().Be("Organiser 2801");
