@@ -52,6 +52,33 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     onChange={(event) =>  props.market.name = event.target.value}
                     value={ props.market.name} />
             </Grid>
+            <Grid item xs={12}>
+                <TextField
+                    className={styles.nameInput}
+                    id="marketAddress"
+                    label="Address"
+                    variant="outlined"
+                    onChange={(event) =>  props.market.name = event.target.value}
+                    value={ props.market.name} />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    className={styles.nameInput}
+                    id="marketPostal"
+                    label="Postal"
+                    variant="outlined"
+                    onChange={(event) =>  props.market.name = event.target.value}
+                    value={ props.market.name} />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    className={styles.nameInput}
+                    id="marketCity"
+                    label="City"
+                    variant="outlined"
+                    onChange={(event) =>  props.market.name = event.target.value}
+                    value={ props.market.name} />
+            </Grid>
             <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker

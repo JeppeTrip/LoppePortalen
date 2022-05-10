@@ -1456,6 +1456,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1719,6 +1731,18 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
