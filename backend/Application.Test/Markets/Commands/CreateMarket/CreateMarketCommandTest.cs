@@ -36,6 +36,9 @@ namespace Application.Test.Markets.Commands.CreateMarket
             result.Market.Description.Should().Be(request.Description);
             result.Market.StartDate.Should().Be(request.StartDate);
             result.Market.EndDate.Should().Be(request.EndDate);
+            result.Market.Address.Should().Be(request.Address);
+            result.Market.PostalCode.Should().Be(request.PostalCode);
+            result.Market.City.Should().Be(request.City);
             result.Market.Categories.Should().BeEmpty();
             result.Market.AvailableStallCount.Should().Be(0);
             result.Market.TotalStallCount.Should().Be(0);

@@ -4251,17 +4251,35 @@ namespace Application.Test
             });
 
 
-            context.MarketTemplates.Add(new MarketTemplate()
+            context.MarketTemplates.AddRange(new MarketTemplate()
             {
                 Id = 2600,
                 Name = "Market 2600 name",
                 Description = "Market 2600 description",
                 OrganiserId = 2600
+            },
+            new MarketTemplate()
+            {
+                Id = 2601,
+                Name = "Market 2601 name",
+                Description = "Market 2601 description",
+                OrganiserId = 2600,
+                Address = "address",
+                City = "city",
+                PostalCode = "postal"
             });
-            context.MarketInstances.Add(new MarketInstance()
+            context.MarketInstances.AddRange(new MarketInstance()
             {
                 MarketTemplateId = 2600,
                 Id = 2600,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            },
+            new MarketInstance()
+            {
+                MarketTemplateId = 2601,
+                Id = 2601,
                 IsCancelled = false,
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTimeOffset.Now.AddDays(1)
