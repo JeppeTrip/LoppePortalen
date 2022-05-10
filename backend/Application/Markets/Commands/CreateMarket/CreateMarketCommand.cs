@@ -46,7 +46,10 @@ namespace Application.Markets.Commands.CreateMarket
                     Name = request.Dto.MarketName,
                     Description = request.Dto.Description,
                     Organiser = organiser,
-                    OrganiserId = organiser.Id
+                    OrganiserId = organiser.Id,
+                    Address = request.Dto.Address,
+                    City = request.Dto.City,
+                    PostalCode = request.Dto.PostalCode
                 };
                 _context.MarketTemplates.Add(template);
                 
@@ -67,6 +70,9 @@ namespace Application.Markets.Commands.CreateMarket
                     StartDate = instance.StartDate,
                     EndDate = instance.EndDate,
                     IsCancelled = instance.IsCancelled,
+                    Address = instance.MarketTemplate.Address,
+                    PostalCode= instance.MarketTemplate.PostalCode,
+                    City = instance.MarketTemplate.City,
                     AvailableStallCount = 0,
                     TotalStallCount = 0,
                     OccupiedStallCount = 0,

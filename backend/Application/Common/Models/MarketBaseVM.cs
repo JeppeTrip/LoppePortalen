@@ -18,5 +18,8 @@ namespace Application.Common.Models
         public int AvailableStallCount { get; set; } = -1;
         public int OccupiedStallCount { get; set; } = -1;
         public List<string> Categories { get; set; } = new List<string>();
+        public string Address { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
     }
 }
