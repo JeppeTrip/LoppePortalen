@@ -980,6 +980,53 @@
         }
       }
     },
+    "/api/Organiser/banner/upload": {
+      "put": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_UploadOrganiserBanner",
+        "parameters": [
+          {
+            "name": "organiserId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Stall/{marketId}": {
       "get": {
         "tags": [
@@ -2566,6 +2613,10 @@
             "nullable": true
           }
         }
+      },
+      "UploadBannerResponse": {
+        "type": "object",
+        "additionalProperties": false
       },
       "GetMarketStallsResponse": {
         "type": "object",

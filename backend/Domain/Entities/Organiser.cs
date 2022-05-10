@@ -18,5 +18,7 @@ namespace Domain.Entities
         
         public virtual User User { get; set; }
         public string UserId { get; set; }
+
+        public OrganiserImage BannerImage { get; set; }
     }
 }
