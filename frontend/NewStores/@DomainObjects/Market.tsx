@@ -92,6 +92,9 @@ export class Market {
             this.availableStallCount = dto.availableStallCount
             this.occupiedStallCount = dto.occupiedStallCount
             this.itemCategories = dto.categories
+            this.address = dto.address
+            this.city = dto.city
+            this.postalCode = dto.postalCode
             
             if (dto instanceof GetAllMarketsVM)
                 this.updateFromServerGetAllMarketsVM(dto)
