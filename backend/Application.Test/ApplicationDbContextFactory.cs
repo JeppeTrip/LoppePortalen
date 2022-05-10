@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Application.Test
 {
@@ -349,6 +350,7 @@ namespace Application.Test
             SeedGetFilteredMarketInstances(context);
             SeedAddMerchantContactInformationTest(context);
             SeedRemoveMerchantContactCommandTestData(context);
+            SeedUploadOrganiserBannerTestData(context);
         }
 
         /**
@@ -4861,6 +4863,86 @@ namespace Application.Test
                 Value = "info 2",
                 ContactType = ContactInfoType.PHONE_NUMER
             });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3200 */
+        private static void SeedUploadOrganiserBannerTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User3200",
+                Email = "User3200@mail",
+                UserName = "User3200@mail"
+            },
+            new ApplicationUser()
+            {
+                Id = "User3201",
+                Email = "User3201@mail",
+                UserName = "User3201@mail"
+            });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User3200",
+                Email = "User3200@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3200",
+                LastName = "Lastname User3200",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User3201",
+                Email = "User3201@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3201",
+                LastName = "Lastname User3201",
+                Phone = "12345678"
+            });
+
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 3200,
+                Name = "Organiser 3200",
+                Description = "Organiser 3200 Description",
+                UserId = "User3200",
+                Address = new Address()
+                {
+                    Id = 3200,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 3201,
+                Name = "Organiser 3201",
+                Description = "Organiser 3201 Description",
+                UserId = "User3201",
+                Address = new Address()
+                {
+                    Id = 3201,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.OrganiserImages.AddRange(new OrganiserImage()
+            {
+                ImageTitle = "title",
+                OrganiserId = 3201,
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
+
             context.SaveChanges();
         }
     }

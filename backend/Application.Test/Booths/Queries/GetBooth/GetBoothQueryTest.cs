@@ -65,11 +65,11 @@ namespace Application.Test.Booths.Queries.GetBooth
             result.Booth.Name.Should().Be("Booth 1701");
             result.Booth.Description.Should().Be("Booth 1701 Description");
             result.Booth.Categories.Should().BeEmpty();
-            result.Booth.Stall.Id.Should().Be(1700);
+            result.Booth.Stall.Id.Should().Be(1701);
             result.Booth.Stall.StallType.Name.Should().Be("Stalltype 1701");
             result.Booth.Stall.StallType.Description.Should().Be("Stalltype 1701 description");
 
-            result.Booth.Stall.Market.MarketId.Should().Be(1700);
+            result.Booth.Stall.Market.MarketId.Should().Be(1701);
 
             result.Booth.Stall.Market.MarketId.Should().Be(1701);
             result.Booth.Stall.Market.MarketName.Should().Be("Market 1701");
@@ -83,7 +83,7 @@ namespace Application.Test.Booths.Queries.GetBooth
             result.Booth.Stall.Market.Categories.Should().BeEmpty();
             result.Booth.Stall.Market.Address.Should().Be("address 1701");
             result.Booth.Stall.Market.PostalCode.Should().Be("1701");
-            result.Booth.Stall.Market.Description.Should().Be("city 1701");
+            result.Booth.Stall.Market.City.Should().Be("city 1701");
         }
 
         [Fact]

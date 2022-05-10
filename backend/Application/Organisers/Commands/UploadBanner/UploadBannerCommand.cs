@@ -34,17 +34,14 @@ namespace Application.Organisers.Commands.UploadBanner
                     throw new NotFoundException("Organiser", request.Dto.OrganiserId);
 
                 var image = _context.OrganiserImages.FirstOrDefault(x => x.OrganiserId == organiser.Id);
-                if(image == null)
+                if(image != null)
                 {
-                    image = new OrganiserImage() { OrganiserId = organiser.Id, ImageTitle = request.Dto.Title, ImageData = request.Dto.ImageData };
-                    _context.OrganiserImages.Add(image);
+                    _context.OrganiserImages.Remove(image);
                 }
-                else
-                {
-                    image.ImageTitle = request.Dto.Title;
-                    image.ImageData = request.Dto.ImageData;
-                    _context.OrganiserImages.Update(image);
-                }
+
+                var banner = new OrganiserImage() { OrganiserId = organiser.Id, ImageTitle = request.Dto.Title, ImageData = request.Dto.ImageData };
+                _context.OrganiserImages.Add(banner);
+
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return new UploadBannerResponse() { OrganiserId = organiser.Id, Title = request.Dto.Title};
