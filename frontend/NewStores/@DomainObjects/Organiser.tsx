@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
+import { AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, FileParameter, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
 import { OrganiserStore } from "../stores/OrganiserStore";
 import { ContactInfo } from "./ContactInfo";
 import { Market } from "./Market";
@@ -174,6 +174,22 @@ export class Organiser {
                     contactInfo.state = ModelState.ERROR
                 })
             )
+    }
+
+    @action
+    uploadBanner(file : File)
+    {
+        console.log(file)
+        let fileParameter: FileParameter = { data: file, fileName: file.name };
+        this.store.transportLayer.uploadOrganiserBanner(this.id, fileParameter)
+        .then(
+            action("submitSuccess", res => {
+                console.log("do nothing I guess?")
+            }),
+            action("submitError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
     }
 
     set setName(name: string) {

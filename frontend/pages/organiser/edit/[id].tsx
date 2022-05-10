@@ -1,11 +1,10 @@
-import SaveIcon from '@mui/icons-material/Save';
-import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
-import { Button, Container, Paper, Stack, Tab, Typography } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Container, Paper, Tab, Typography, TextField, Button } from "@mui/material";
 import { Box } from '@mui/system';
-import { flowResult, reaction } from 'mobx';
+import { flowResult } from 'mobx';
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useErrorHandler } from 'react-error-boundary';
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
@@ -25,6 +24,18 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
     const [organiserId, setOrganiserId] = useState<string>(undefined);
     const [selectedOrganiser, setSelectedOrganiser] = useState<Organiser>(new Organiser(null))
     const router = useRouter();
+
+    const [file, setFile] = useState<File>()
+
+    const saveFile = (e) => {
+        setFile(e.target.files[0])
+    }
+
+    const uploadFile = useCallback(() => {
+        console.log("file stuff")
+        console.log(file)
+        selectedOrganiser.uploadBanner(file)
+    }, [selectedOrganiser, file])
 
     const resetOrganiserState = useCallback(() => {
         if (selectedOrganiser != null)
@@ -101,6 +112,7 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
                         <TabList onChange={handleTabChange} aria-label="lab API tabs example">
                             <Tab label="Organiser Info" value="1" />
                             <Tab label="Contact Info" value="2" />
+                            <Tab label="Images" value="3" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -111,6 +123,27 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
                     <TabPanel value="2">
                         {
                             (selectedOrganiser != null) && <OrganiserContactsForm organiser={selectedOrganiser} />
+                        }
+                    </TabPanel>
+                    <TabPanel value="3">
+                        {
+                            (selectedOrganiser != null) &&
+                            <>
+                                <TextField
+                                    id="outlined-full-width"
+                                    label="Image Upload"
+                                    name="upload-photo"
+                                    type="file"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
+                                    onChange={saveFile}
+                                />
+                                <Button onClick={uploadFile}> Upload Banner</Button>
+                            </>
                         }
                     </TabPanel>
                 </TabContext>

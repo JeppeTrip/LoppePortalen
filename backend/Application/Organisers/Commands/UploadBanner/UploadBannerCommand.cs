@@ -41,12 +41,13 @@ namespace Application.Organisers.Commands.UploadBanner
                 }
                 else
                 {
-                    image = new OrganiserImage() { OrganiserId = organiser.Id, ImageTitle = request.Dto.Title, ImageData = request.Dto.ImageData };
+                    image.ImageTitle = request.Dto.Title;
+                    image.ImageData = request.Dto.ImageData;
                     _context.OrganiserImages.Update(image);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return new UploadBannerResponse();
+                return new UploadBannerResponse() { OrganiserId = organiser.Id, Title = request.Dto.Title};
             }
         }
     }

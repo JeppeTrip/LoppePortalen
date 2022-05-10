@@ -2616,7 +2616,17 @@
       },
       "UploadBannerResponse": {
         "type": "object",
-        "additionalProperties": false
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "GetMarketStallsResponse": {
         "type": "object",
