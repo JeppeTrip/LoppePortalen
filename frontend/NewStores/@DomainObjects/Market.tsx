@@ -201,6 +201,9 @@ export class Market {
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate,
+                address: this.address,
+                city: this.city,
+                postalCode: this.postalCode
             })).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {

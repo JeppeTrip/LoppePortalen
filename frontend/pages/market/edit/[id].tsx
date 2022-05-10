@@ -107,6 +107,33 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 onChange={(event) => selectedMarket.name = event.target.value}
                                                 value={selectedMarket.name} />
                                         </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth={true}
+                                                id="marketAddress"
+                                                label="Address"
+                                                variant="outlined"
+                                                onChange={(event) => selectedMarket.address = event.target.value}
+                                                value={selectedMarket.address} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                fullWidth={true}
+                                                id="marketPostal"
+                                                label="Postal Code"
+                                                variant="outlined"
+                                                onChange={(event) => selectedMarket.postalCode = event.target.value}
+                                                value={selectedMarket.postalCode} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                fullWidth={true}
+                                                id="marketCity"
+                                                label="City"
+                                                variant="outlined"
+                                                onChange={(event) => selectedMarket.city = event.target.value}
+                                                value={selectedMarket.city} />
+                                        </Grid>
                                         <Grid item xs={"auto"}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                 <DateTimePicker
