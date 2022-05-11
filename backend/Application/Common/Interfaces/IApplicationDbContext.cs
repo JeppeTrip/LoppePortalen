@@ -22,6 +22,9 @@ namespace Application.Common.Interfaces
         DbSet<Category> ItemCategories { get; set; }
         DbSet<MerchantContactInfo> MerchantContactInfos { get; set;}
         DbSet<OrganiserImage> OrganiserImages { get; set; }
+        DbSet<BookingImage> BookingImages{ get; set; }
+        DbSet<MerchantImage> MerchantImages { get; set; }
+        DbSet<MarketImage> MarketImages { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
