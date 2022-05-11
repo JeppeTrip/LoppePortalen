@@ -2,15 +2,13 @@ import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Autocomplete, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { Market } from "../../NewStores/@DomainObjects/Market";
+import RegionInput from "../RegionInput";
 import styles from './styles.module.css';
 
 
-interface Postal {
-    number: number;
-    name: string;
-  }
+
 
 
 type Props = {
@@ -24,35 +22,12 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
         props.market.store.rootStore.userStore.user.fetchOwnedOrganisers()
     }, []);
 
-    const [open, setOpen] = useState(false);
-    const [postals, setPostals] = useState<readonly Postal[]>([]);
-    const loadingPostal = open && postals.length === 0;
-
-    useEffect(() => {
-        let active = true;
-    
-        if (!loadingPostal) {
-          return undefined;
-        }
-    
-        (async () => {
-          if (active) {
-            fetch('https://api.dataforsyningen.dk/postnumre')
-            .then(response => response.json())
-            .then(rawData => rawData.map(x => {
-                const p = {number: x.nr, name: x.navn} as Postal
-                return p
-            }))
-            .then(data => {
-                setPostals([...data])
-            });
-          }
-        })();
-    
-        return () => {
-          active = false;
-        };
-      }, [loadingPostal]);
+    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
+        console.log("psotal")
+        console.log(postalCode)
+        props.market.postalCode = postalCode
+        props.market.city = city
+    }, [props.market, props.market.city, props.market.postalCode])
 
     return (
         <Grid container spacing={2}>
@@ -94,58 +69,8 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     onChange={(event) => props.market.address = event.target.value}
                     value={props.market.address} />
             </Grid>
-            <Grid item xs={6}>
-                <Autocomplete
-                    id="postals-autocomplete"
-                    open={open}
-                    onOpen={() => {
-                        setOpen(true);
-                    }}
-                    onClose={() => {
-                        setOpen(false);
-                    }}
-                    isOptionEqualToValue={(option, value) => option.number === value.number}
-                    getOptionLabel={(postal) => postal.number}
-                    options={postals}
-                    loading={loadingPostal}
-                    value={props.market.postalCode}
-                    onChange={(event,value) => {
-                        if(!value || value == null)
-                        {
-                            props.market.postalCode = null; 
-                            props.market.city = null
-                        }
-                        else
-                        {
-                            props.market.postalCode = value.number; 
-                            props.market.city = value.name
-                        }
-                    }}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Postal"
-                            InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                    <>
-                                        {loadingPostal ? <CircularProgress color="inherit" size={20} /> : null}
-                                        {params.InputProps.endAdornment}
-                                    </>
-                                ),
-                            }}
-                        />
-                    )}
-                />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField
-                    disabled
-                    className={styles.nameInput}
-                    id="marketCity"
-                    label="City"
-                    variant="outlined"
-                    value={props.market.city ? props.market.city : ""} />
+            <Grid item xs={12}>
+                <RegionInput postalCode={props.market.postalCode} city={props.market.city} onChange={handleOnRegionChange} />
             </Grid>
             <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
