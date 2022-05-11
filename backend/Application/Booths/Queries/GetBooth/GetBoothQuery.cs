@@ -29,6 +29,7 @@ namespace Application.Booths.Queries.GetBooth
             public async Task<GetBoothResponse> Handle(GetBoothQuery request, CancellationToken cancellationToken)
             {
                 var allBookings = _context.Bookings
+                    .Include(x => x.BannerImage)
                     .Include(x => x.Stall)
                     .ThenInclude(x => x.StallType)
                     .Include(x => x.Stall.MarketInstance)
@@ -70,7 +71,8 @@ namespace Application.Booths.Queries.GetBooth
                             PostalCode = booking.Stall.MarketInstance.MarketTemplate.PostalCode,
                             City = booking.Stall.MarketInstance.MarketTemplate.City
                         }
-                    }
+                    },
+                    ImageData = booking.BannerImage != null ? Convert.ToBase64String(booking.BannerImage.ImageData) : null
                 };
 
                 return new GetBoothResponse()
