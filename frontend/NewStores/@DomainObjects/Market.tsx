@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ModelState } from "../../@types/ModelState";
-import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
+import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, FileParameter, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Booth } from "./Booth";
 import { Organiser } from "./Organiser";
@@ -290,6 +290,21 @@ export class Market {
                 }
             }),
             action("bookingError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
+    }
+
+    @action
+    uploadBanner(file : File)
+    {
+        let fileParameter: FileParameter = { data: file, fileName: file.name };
+        this.store.transportLayer.uploadMarketBanner(this.id, fileParameter)
+        .then(
+            action("submitSuccess", res => {
+                console.log("do nothing I guess?")
+            }),
+            action("submitError", error => {
                 this.state = ModelState.ERROR
             })
         )

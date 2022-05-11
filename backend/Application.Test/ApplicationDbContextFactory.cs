@@ -351,6 +351,8 @@ namespace Application.Test
             SeedAddMerchantContactInformationTest(context);
             SeedRemoveMerchantContactCommandTestData(context);
             SeedUploadOrganiserBannerTestData(context);
+            SeedUploadMarketBannerTestData(context);
+            SeedUploadMerchantBannerTestData(context);
         }
 
         /**
@@ -4006,7 +4008,7 @@ namespace Application.Test
         }
 
         /** All ids within start at 2400 */
-        private static async void SeedCancelMarketTestData(ApplicationDbContext context)
+        private static void SeedCancelMarketTestData(ApplicationDbContext context)
         {
             context.Users.AddRange(new ApplicationUser()
             {
@@ -4946,6 +4948,168 @@ namespace Application.Test
             {
                 ImageTitle = "title",
                 OrganiserId = 3201,
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
+
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3300 */
+        private static void SeedUploadMarketBannerTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User3300",
+                Email = "User3300@mail",
+                UserName = "User3300@mail"
+            },
+            new ApplicationUser()
+            {
+                Id = "User3301",
+                Email = "User3301@mail",
+                UserName = "User3301@mail"
+            });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User3300",
+                Email = "User3300@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3300",
+                LastName = "Lastname User3200",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User3301",
+                Email = "User3301@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3301",
+                LastName = "Lastname User3301",
+                Phone = "12345678"
+            });
+
+            context.Organisers.AddRange(new Organiser()
+            {
+                Id = 3300,
+                Name = "Organiser 3300",
+                Description = "Organiser 3300 Description",
+                UserId = "User3300",
+                Address = new Address()
+                {
+                    Id = 3300,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            },
+            new Organiser()
+            {
+                Id = 3301,
+                Name = "Organiser 3301",
+                Description = "Organiser 3301 Description",
+                UserId = "User3301",
+                Address = new Address()
+                {
+                    Id = 3301,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.AddRange(new MarketTemplate()
+            {
+                Id = 3300,
+                OrganiserId = 3300,
+                Name = "market 3300",
+                Description = "market 3300 description",
+                Address = "address",
+                PostalCode = "postal",
+                City = "city"
+            },
+            new MarketTemplate()
+            {
+                Id = 3301,
+                OrganiserId = 3301,
+                Name = "market 3301",
+                Description = "market 3301 description",
+                Address = "address",
+                PostalCode = "postal",
+                City = "city"
+            });
+
+            context.MarketImages.Add(new MarketImage()
+            {
+                ImageTitle = "title",
+                MarketTemplateId = 3301,
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3400 */
+        private static void SeedUploadMerchantBannerTestData(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User3400",
+                Email = "User3400@mail",
+                UserName = "User3400@mail"
+            },
+            new ApplicationUser()
+            {
+                Id = "User3401",
+                Email = "User3401@mail",
+                UserName = "User3401@mail"
+            });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User3400",
+                Email = "User3400@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3400",
+                LastName = "Lastname User3400",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User3401",
+                Email = "User3401@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3401",
+                LastName = "Lastname User3401",
+                Phone = "12345678"
+            });
+
+            context.Merchants.AddRange(new Merchant()
+            {
+                Id = 3400,
+                Name = "Organiser 3400",
+                Description = "Organiser 3400 Description",
+                UserId = "User3400",
+            },
+            new Merchant()
+            {
+                Id = 3401,
+                Name = "Organiser 3401",
+                Description = "Organiser 3401 Description",
+                UserId = "User3401"
+            });
+
+            context.MerchantImages.AddRange(new MerchantImage()
+            {
+                ImageTitle = "title",
+                MerchantId = 3401,
                 ImageData = Encoding.ASCII.GetBytes("some_data")
             });
 

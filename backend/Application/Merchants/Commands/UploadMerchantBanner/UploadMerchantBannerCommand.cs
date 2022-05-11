@@ -46,6 +46,5 @@ namespace Application.Merchants.Commands.UploadMerchantBanner
                 return new UploadMerchantBannerResponse() { MerchantId = merchant.Id, Title = request.Dto.Title };
             }
         }
-        }
     }
 }

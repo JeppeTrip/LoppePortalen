@@ -33,17 +33,15 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     const [marketId, setMarketId] = useState<string>(undefined);
     const router = useRouter();
 
-    //mount
-    useEffect(() => {
+    const [file, setFile] = useState<File>()
 
-    }, [])
+    const saveFile = (e) => {
+        setFile(e.target.files[0])
+    }
 
-    //Unmount
-    useEffect(() => {
-        return () => {
-
-        }
-    }, [])
+    const uploadFile = useCallback(() => {
+        selectedMarket.uploadBanner(file)
+    }, [selectedMarket, file])
 
     useEffect(() => {
         if (!router.isReady) {
@@ -91,6 +89,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                             <Tab label="Market Info" value="1" />
                             <Tab label="Stall Types" value="2" />
                             <Tab label="Stalls" value="3" />
+                            <Tab label="Images" value="4" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -288,6 +287,27 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                 </Grid>
                             </Grid>
                         )
+                        }
+                    </TabPanel>
+                    <TabPanel value="4">
+                        {
+                            (selectedMarket != null) &&
+                            <>
+                                <TextField
+                                    id="outlined-full-width"
+                                    label="Image Upload"
+                                    name="upload-photo"
+                                    type="file"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
+                                    onChange={saveFile}
+                                />
+                                <Button onClick={uploadFile}> Upload Banner</Button>
+                            </>
                         }
                     </TabPanel>
                 </TabContext>

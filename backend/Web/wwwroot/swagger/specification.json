@@ -549,6 +549,53 @@
         }
       }
     },
+    "/api/Market/banner/upload": {
+      "put": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_UploadMarketBanner",
+        "parameters": [
+          {
+            "name": "marketId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMarketBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Merchant": {
       "post": {
         "tags": [
@@ -751,6 +798,53 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RemoveMerchantContactResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/banner/upload": {
+      "put": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_UploadMerchantBanner",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMerchantBannerResponse"
                 }
               }
             }
@@ -2094,6 +2188,20 @@
           }
         }
       },
+      "UploadMarketBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateMerchantResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -2336,6 +2444,20 @@
             "format": "int32"
           },
           "value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UploadMerchantBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
             "type": "string",
             "nullable": true
           }
