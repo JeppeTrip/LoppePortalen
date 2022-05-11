@@ -10,5 +10,6 @@ namespace Application.Booths.Queries.GetBooth
     public class GetBoothVM : BoothBaseVM
     {
         public new GetBoothStallVM Stall { get; set; }
+        public string ImageData { get; set; } //Should absolutely be a base64 string.
     }
 }

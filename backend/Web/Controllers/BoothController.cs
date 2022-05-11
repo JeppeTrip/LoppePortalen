@@ -46,7 +46,7 @@ namespace Web.Controllers
         }
 
         [HttpPut("banner/upload")]
-        public async Task<ActionResult<UploadBoothBannerResponse>> UploadMarketBanner(string boothId, IFormFile image)
+        public async Task<ActionResult<UploadBoothBannerResponse>> UploadBoothBanner(string boothId, IFormFile image)
         {
             if (image.Length > 0)
             {

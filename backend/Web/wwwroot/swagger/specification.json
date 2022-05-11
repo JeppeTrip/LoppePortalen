@@ -219,6 +219,53 @@
         }
       }
     },
+    "/api/Booth/banner/upload": {
+      "put": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_UploadBoothBanner",
+        "parameters": [
+          {
+            "name": "boothId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadBoothBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ItemCategory/all": {
       "get": {
         "tags": [
@@ -1526,6 +1573,10 @@
                     "$ref": "#/components/schemas/GetBoothStallVM"
                   }
                 ]
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
               }
             }
           }
@@ -1771,6 +1822,20 @@
             }
           }
         ]
+      },
+      "UploadBoothBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "boothId": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "CreateMarketResponse": {
         "type": "object",

@@ -17,7 +17,9 @@ const BoothProfile: FC<Props> = observer((props: Props) => {
                     <Container maxWidth={"xl"}>
                         <Grid container columns={12}>
                             <Grid item xs={12}>
-                                <div className={styles.bannerPlaceholder} />
+                                {
+                                    props.booth.imageData ? <img className={styles.banner} src={`data:image/jpeg;base64,${props.booth.imageData}`} /> : <div className={styles.bannerPlaceholder} />
+                                }
                             </Grid>
                             <Grid item xs={12}>
                                 <Grid container columns={12}>

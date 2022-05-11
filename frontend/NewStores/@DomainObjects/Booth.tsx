@@ -1,11 +1,10 @@
 import { action, makeAutoObservable, observable } from "mobx"
-import { BoothStore } from "../stores/BoothStore"
-import { BoothBaseVM as Dto, GetFilteredBoothsVM, GetMerchantBoothVM, UpdateBoothRequest } from "../../services/clients"
-import { Stall } from "./Stall"
 import { ModelState } from "../../@types/ModelState"
+import { BoothBaseVM as Dto, FileParameter, UpdateBoothRequest, GetBoothVM } from "../../services/clients"
+import { BoothStore } from "../stores/BoothStore"
 import { Merchant } from "./Merchant"
-import be from "date-fns/esm/locale/be/index.js"
-import { BreakfastDining } from "@mui/icons-material"
+import { Stall } from "./Stall"
+
 
 export class Booth {
     store: BoothStore
@@ -16,6 +15,7 @@ export class Booth {
     @observable stall: Stall
     @observable merchant: Merchant
     @observable itemCategories: string[]
+    @observable imageData : string //base64 string representation of image data.
 
     constructor(store: BoothStore) {
         makeAutoObservable(this)
@@ -38,9 +38,18 @@ export class Booth {
             this.stall = this.store.rootStore.stallStore.updateStallFromServer(dto.stall)
             this.stall.booth = this
 
+            if(dto instanceof GetBoothVM)
+                this.updateFromServerGetBoothVM(dto)
+
             this.state = ModelState.IDLE
         }
         return this;
+    }
+
+    @action
+    private updateFromServerGetBoothVM(dto : GetBoothVM)
+    {
+        this.imageData = dto.imageData
     }
 
     @action
@@ -58,6 +67,21 @@ export class Booth {
                 this.state = ModelState.IDLE
             }),
             action("updateError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
+    }
+
+    @action
+    uploadBanner(file : File)
+    {
+        let fileParameter: FileParameter = { data: file, fileName: file.name };
+        this.store.transportLayer.uploadBoothBanner(this.id, fileParameter)
+        .then(
+            action("submitSuccess", res => {
+                console.log("do nothing I guess?")
+            }),
+            action("submitError", error => {
                 this.state = ModelState.ERROR
             })
         )
