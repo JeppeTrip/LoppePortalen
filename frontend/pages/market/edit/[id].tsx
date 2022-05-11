@@ -79,8 +79,6 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     };
 
     const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
-        console.log("psotal")
-        console.log(postalCode)
         selectedMarket.postalCode = postalCode
         selectedMarket.city = city
     }, [selectedMarket, selectedMarket?.city, selectedMarket?.postalCode])

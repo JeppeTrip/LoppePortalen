@@ -40,18 +40,6 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
             selectedOrganiser.state = ModelState.IDLE
     }, [selectedOrganiser]);
 
-    //mount
-    useEffect(() => {
-
-    }, [])
-
-    //Unmount
-    useEffect(() => {
-        return () => {
-            resetOrganiserState()
-        }
-    }, [])
-
     useEffect(() => {
         if (!router.isReady) {
             return

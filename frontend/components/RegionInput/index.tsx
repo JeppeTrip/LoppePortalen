@@ -56,7 +56,7 @@ const RegionInput: FC<Props> = (props: Props) => {
                         setOpen(false);
                     }}
                     isOptionEqualToValue={(option, value) => option.number === value.number}
-                    getOptionLabel={(postal) => postal.number}
+                    getOptionLabel={(postal) => !postal.number || postal.number == null ? "" : postal.number }
                     options={postals}
                     loading={loadingPostal}
                     value={ {number: props.postalCode, name: props.city} as Postal}

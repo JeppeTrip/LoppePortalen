@@ -2,9 +2,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { ModelState } from '../../@types/ModelState';
 import { Organiser } from "../../NewStores/@DomainObjects/Organiser";
+import RegionInput from '../RegionInput';
 import styles from './styles.module.css';
 
 
@@ -14,6 +15,12 @@ type Props = {
 }
 
 const OrganiserForm: FC<Props> = (props: Props) => {
+
+    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
+        props.organiser.postalCode = postalCode
+        props.organiser.city = city
+    }, [props.organiser, props.organiser, props.organiser])
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -56,25 +63,8 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     onChange={event => props.organiser.setAppartment = event.target.value}
                 />
             </Grid>
-            <Grid item xs={4}>
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserPostal"
-                    label="Postal Code"
-                    variant="outlined"
-                    value={props.organiser.postalCode}
-                    onChange={event => props.organiser.setPostalCode = event.target.value}
-                />
-            </Grid>
-            <Grid item xs={8}>
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserCity"
-                    label="City"
-                    variant="outlined"
-                    value={props.organiser.city}
-                    onChange={event => props.organiser.setCity = event.target.value}
-                />
+            <Grid item xs={12}>
+                <RegionInput city={props.organiser.city} postalCode={props.organiser.postalCode} onChange={handleOnRegionChange} />
             </Grid>
             <Grid item xs={12}>
                 <TextField
