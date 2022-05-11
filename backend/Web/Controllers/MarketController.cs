@@ -3,14 +3,17 @@ using Application.Markets.Commands.BookStalls;
 using Application.Markets.Commands.CancelMarket;
 using Application.Markets.Commands.CreateMarket;
 using Application.Markets.Commands.EditMarket;
+using Application.Markets.Commands.UploadMarketBanner;
 using Application.Markets.Queries.GetAllMarkets;
 using Application.Markets.Queries.GetFilteredMarkets;
 using Application.Markets.Queries.GetMarketInstance;
 using Application.Markets.Queries.GetUsersMarkets;
 using Application.Stalls.Commands.AddStallsToMarket;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -113,6 +116,28 @@ namespace Web.Controllers
         public async Task<ActionResult<BookStallsResponse>> BookStalls(BookStallsRequest dto)
         {
             return await Mediator.Send(new BookStallsCommand() { Dto = dto });
+        }
+
+        [HttpPut("banner/upload")]
+        public async Task<ActionResult<UploadMarketBannerResponse>> UploadMarketBanner(int marketId, IFormFile image)
+        {
+            if (image.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    image.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+
+                    var request = new UploadMarketBannerRequest() { MarketId = marketId, Title = "banner", ImageData = fileBytes };
+                    var command = new UploadMarketBannerCommand() { Dto = request };
+                    return await Mediator.Send(command);
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
