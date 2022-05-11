@@ -3,11 +3,14 @@ using Application.Merchants.Commands.AddContactInformation;
 using Application.Merchants.Commands.CreateMerchant;
 using Application.Merchants.Commands.EditMerchant;
 using Application.Merchants.Commands.RemoveContactInformation;
+using Application.Merchants.Commands.UploadMerchantBanner;
 using Application.Merchants.Queries.AllMerchants;
 using Application.Merchants.Queries.GetMerchant;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -54,6 +57,28 @@ namespace Web.Controllers
         public async Task<ActionResult<RemoveMerchantContactResponse>> RemoveContactInformation(RemoveMerchantContactRequest dto)
         {
             return await Mediator.Send(new RemoveMerchantContactCommand() { Dto = dto });
+        }
+
+        [HttpPut("banner/upload")]
+        public async Task<ActionResult<UploadMerchantBannerResponse>> UploadMerchantBanner(int merchantId, IFormFile image)
+        {
+            if (image.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    image.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+
+                    var request = new UploadMerchantBannerRequest() { MerchantId = merchantId, Title = "banner", ImageData = fileBytes };
+                    var command = new UploadMerchantBannerCommand() { Dto = request };
+                    return await Mediator.Send(command);
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
