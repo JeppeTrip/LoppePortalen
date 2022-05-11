@@ -32,8 +32,6 @@ const EditOrganiserPage: NextPageAuth<Props> = observer(() => {
     }
 
     const uploadFile = useCallback(() => {
-        console.log("file stuff")
-        console.log(file)
         selectedOrganiser.uploadBanner(file)
     }, [selectedOrganiser, file])
 

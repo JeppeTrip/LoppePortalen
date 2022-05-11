@@ -182,7 +182,6 @@ export class Organiser {
     @action
     uploadBanner(file : File)
     {
-        console.log(file)
         let fileParameter: FileParameter = { data: file, fileName: file.name };
         this.store.transportLayer.uploadOrganiserBanner(this.id, fileParameter)
         .then(
