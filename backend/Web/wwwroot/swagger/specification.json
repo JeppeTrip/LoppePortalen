@@ -2542,6 +2542,10 @@
                 "items": {
                   "$ref": "#/components/schemas/ContactInfoBaseVM"
                 }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
               }
             }
           }

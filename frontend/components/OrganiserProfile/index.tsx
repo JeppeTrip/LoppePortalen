@@ -23,8 +23,10 @@ const OrganiserProfile: FC<Props> = observer((props: Props) => {
                 <Paper square={true} elevation={1}>
                     <Container maxWidth={"xl"}>
                         <Grid container columns={12}>
-                            <Grid item xs={12}>
-                                <div className={styles.bannerPlaceholder} />
+                            <Grid item xs={12} container justifyContent={"center"}>
+                                {
+                                    props.organiser.imageData ? <img className={styles.banner} src={`data:image/jpeg;base64,${props.organiser.imageData}`} /> : <div className={styles.bannerPlaceholder} />
+                                }
                             </Grid>
                             <Grid item xs={12}>
                                 <Grid container columns={12}>

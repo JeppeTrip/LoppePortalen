@@ -382,6 +382,12 @@ namespace Application.Test
                 }
             };
             context.Organisers.Add(OrganiserNoMarkets);
+            context.OrganiserImages.Add(new OrganiserImage()
+            {
+                OrganiserId = 1000,
+                ImageTitle = "title",
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
             context.SaveChanges();
             
             //Organisers with one market

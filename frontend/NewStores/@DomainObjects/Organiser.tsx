@@ -19,6 +19,7 @@ export class Organiser {
     @observable city: string = ""
     @observable markets: Market[]
     @observable contactInfo: ContactInfo[]
+    @observable imageData : string //base64 string representation of image data.
 
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
@@ -87,6 +88,8 @@ export class Organiser {
             currentContact.value = contactDto.value
             currentContact.state = ModelState.IDLE
         })
+
+        this.imageData = dto.imageData
     }
 
     @action

@@ -7,5 +7,6 @@ namespace Application.Organisers.Queries.GetOrganiser
     {
         public List<MarketBaseVM> Markets { get; set; }
         public List<ContactInfoBaseVM> Contacts { get; set; }
+        public string ImageData { get; set; } //Should absolutely be a base64 string.
     }
 }

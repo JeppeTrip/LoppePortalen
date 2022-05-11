@@ -30,6 +30,7 @@ namespace Application.Organisers.Queries.GetOrganiser
             public async Task<GetOrganiserQueryResponse> Handle(GetOrganiserQuery request, CancellationToken cancellationToken)
             {
                 var organiser = await _context.Organisers
+                    .Include(x => x.BannerImage)
                     .Include(o => o.Address)
                     .Include(o => o.ContactInformation)
                     .Include(o => o.MarketTemplates)
@@ -86,7 +87,8 @@ namespace Application.Organisers.Queries.GetOrganiser
                     {
                         Type = x.ContactType,
                         Value = x.Value
-                    }).ToList()
+                    }).ToList(),
+                    ImageData = Convert.ToBase64String(organiser.BannerImage.ImageData)
                 };
 
 

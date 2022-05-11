@@ -36,6 +36,7 @@ namespace Application.Test.Organisers.Queries.GetOrganiser
             result.Organiser.City.Should().Be(entity.Address.City);
             result.Organiser.Markets.Count().Should().Be(0);
             result.Organiser.Contacts.Count().Should().Be(1);
+            result.Organiser.ImageData.Should().NotBeEmpty();
         }
 
         [Fact]
