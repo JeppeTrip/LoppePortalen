@@ -17,6 +17,7 @@ namespace Domain.Entities
         public string BoothName { get; set; }
         public string BoothDescription { get; set; }
         public List<Category> ItemCategories { get; set; }
+        public virtual BookingImage BookingImage { get; set; }
   
     }
 }

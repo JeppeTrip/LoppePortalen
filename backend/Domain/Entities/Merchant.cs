@@ -17,5 +17,6 @@ namespace Domain.Entities
 
         public virtual List<Booking> Bookings { get; set; }
         public virtual List<MerchantContactInfo> ContactInfo { get; set; }
+        public virtual MerchantImage MerchantImage { get; set; }
     }
 }
