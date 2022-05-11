@@ -11,6 +11,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useErrorHandler } from 'react-error-boundary';
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
+import RegionInput from '../../../components/RegionInput';
 import StallListItem from "../../../components/StallListItem";
 import StallTypeListItem from "../../../components/StallType";
 import StallTypeInputListItem from "../../../components/StallTypeNewListItem";
@@ -77,6 +78,13 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
         setTabValue(newValue);
     };
 
+    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
+        console.log("psotal")
+        console.log(postalCode)
+        selectedMarket.postalCode = postalCode
+        selectedMarket.city = city
+    }, [selectedMarket, selectedMarket?.city, selectedMarket?.postalCode])
+
     return (
         <Container >
             <Paper elevation={1}>
@@ -115,23 +123,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 onChange={(event) => selectedMarket.address = event.target.value}
                                                 value={selectedMarket.address} />
                                         </Grid>
-                                        <Grid item xs={6}>
-                                            <TextField
-                                                fullWidth={true}
-                                                id="marketPostal"
-                                                label="Postal Code"
-                                                variant="outlined"
-                                                onChange={(event) => selectedMarket.postalCode = event.target.value}
-                                                value={selectedMarket.postalCode} />
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <TextField
-                                                fullWidth={true}
-                                                id="marketCity"
-                                                label="City"
-                                                variant="outlined"
-                                                onChange={(event) => selectedMarket.city = event.target.value}
-                                                value={selectedMarket.city} />
+                                        <Grid item xs={12}>
+                                            <RegionInput postalCode={selectedMarket.postalCode} city={selectedMarket.city} onChange={handleOnRegionChange} />
                                         </Grid>
                                         <Grid item xs={"auto"}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>

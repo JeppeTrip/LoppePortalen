@@ -2,7 +2,7 @@ import { Autocomplete, CircularProgress, Grid, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
 interface Postal {
-    string: string;
+    number: string;
     name: string;
 }
 
@@ -56,10 +56,10 @@ const RegionInput: FC<Props> = (props: Props) => {
                         setOpen(false);
                     }}
                     isOptionEqualToValue={(option, value) => option.number === value.number}
-                    getOptionLabel={(postal) => !postal.number || postal.number == null ? "" : postal.number}
+                    getOptionLabel={(postal) => postal.number}
                     options={postals}
                     loading={loadingPostal}
-                    value={ props.postalCode }
+                    value={ {number: props.postalCode, name: props.city} as Postal}
                     onChange={(event, value) => {
                         console.log(value)
                         if(value == null)
@@ -69,6 +69,7 @@ const RegionInput: FC<Props> = (props: Props) => {
                     }}
                     renderInput={(params) => (
                         <TextField
+                            fullWidth
                             {...params}
                             label="Postal"
                             InputProps={{
@@ -87,6 +88,7 @@ const RegionInput: FC<Props> = (props: Props) => {
             <Grid item xs={6}>
                 <TextField
                     disabled
+                    fullWidth
                     id="marketCity"
                     label="City"
                     variant="outlined"
