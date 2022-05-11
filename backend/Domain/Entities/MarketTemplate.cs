@@ -22,6 +22,6 @@ namespace Domain.Entities
 
         public virtual List<StallType> StallTypes { get; set; }
 
-        public virtual MarketImage MarketImage { get; set; }
+        public virtual MarketImage BannerImage { get; set; }
     }
 }
