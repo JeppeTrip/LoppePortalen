@@ -27,3 +27,12 @@
     background-size: cover;
 
 }
+
+.banner {
+    border-radius: 5px;
+    height: 350px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

@@ -36,6 +36,8 @@ namespace Application.Markets.Queries.GetMarketInstance
                     .Include(x => x.Stalls)
                     .ThenInclude(x => x.Bookings)
                     .ThenInclude(x => x.ItemCategories)
+                    .Include( x=> x.MarketTemplate)
+                    .ThenInclude(x => x.BannerImage)
                     .FirstOrDefaultAsync(x => x.Id == request.Dto.MarketId);
                 if (marketInstance == null)
                 {
@@ -109,7 +111,9 @@ namespace Application.Markets.Queries.GetMarketInstance
                                         Description = x.Stall.StallType.Description
                                     }
                                 }
-                            }).ToList()
+                            }).ToList(),
+                    ImageData = marketInstance.MarketTemplate.BannerImage != null ? Convert.ToBase64String(marketInstance.MarketTemplate.BannerImage.ImageData) : null
+
                 };
 
                 GetMarketInstanceQueryResponse response = new GetMarketInstanceQueryResponse()

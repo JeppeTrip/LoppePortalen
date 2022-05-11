@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { ModelState } from "../../@types/ModelState"
 import { MerchantStore } from "../stores/MerchantStore"
-import { AddMerchantContactInformationRequest, CreateMerchantRequest, EditMerchantRequest, GetMerchantVM, MerchantBaseVM as Dto, RemoveMerchantContactRequest } from "../../services/clients"
+import { AddMerchantContactInformationRequest, CreateMerchantRequest, EditMerchantRequest, FileParameter, GetMerchantVM, MerchantBaseVM as Dto, RemoveMerchantContactRequest } from "../../services/clients"
 import { Booth } from "./Booth"
 import { ContactInfo } from "./ContactInfo"
 
@@ -16,6 +16,7 @@ export class Merchant {
     @observable _oldState: Merchant
     @observable booths: Booth[]
     @observable contactInfo: ContactInfo[]
+    @observable imageData : string //base64 string representation of image data.
 
     constructor(store: MerchantStore) {
         makeAutoObservable(this)
@@ -104,6 +105,8 @@ export class Merchant {
             currentContact.value = contactDto.value
             currentContact.state = ModelState.IDLE
         })
+
+        this.imageData = dto.imageData
     }
 
     /**
@@ -156,6 +159,21 @@ export class Merchant {
                     contactInfo.state = ModelState.ERROR
                 })
             )
+    }
+
+    @action
+    uploadBanner(file : File)
+    {
+        let fileParameter: FileParameter = { data: file, fileName: file.name };
+        this.store.transportLayer.uploadMerchantBanner(this.id, fileParameter)
+        .then(
+            action("submitSuccess", res => {
+                console.log("do nothing I guess?")
+            }),
+            action("submitError", error => {
+                this.state = ModelState.ERROR
+            })
+        )
     }
 
 

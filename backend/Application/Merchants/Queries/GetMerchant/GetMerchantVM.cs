@@ -11,5 +11,6 @@ namespace Application.Merchants.Queries.GetMerchant
     {
         public List<GetMerchantBoothVM> Booths { get; set; } = new List<GetMerchantBoothVM>();  
         public List<ContactInfoBaseVM> ContactInfo { get; set; } = new List<ContactInfoBaseVM>();
+        public string ImageData { get; set; } //Should absolutely be a base64 string.
     }
 }

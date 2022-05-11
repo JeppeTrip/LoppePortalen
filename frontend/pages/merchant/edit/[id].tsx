@@ -1,6 +1,6 @@
 import SaveIcon from "@mui/icons-material/Save";
 import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
-import { Container, Grid, Paper, Tab, TextField, Typography } from "@mui/material";
+import { Button, Container, Grid, Paper, Tab, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
@@ -25,6 +25,16 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
     const stores = useContext(StoreContext);
     const [merchantId, setMerchantId] = useState<string>("");
     const router = useRouter();
+
+    const [file, setFile] = useState<File>()
+
+    const saveFile = (e) => {
+        setFile(e.target.files[0])
+    }
+
+    const uploadFile = useCallback(() => {
+        selectedMerchant.uploadBanner(file)
+    }, [selectedMerchant, file])
 
     useEffect(() => {
         if (!router.isReady) {
@@ -65,6 +75,7 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                         <TabList onChange={handleTabChange} aria-label="edit-merchant-tabs">
                             <Tab label="Merchant Info" value="1" />
                             <Tab label="Contact Info" value="2" />
+                            <Tab label="Images" value="3" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -127,6 +138,27 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                     <TabPanel value="2">
                         {
                             (selectedMerchant != null) && <MerchantContactsForm merchant={selectedMerchant} />
+                        }
+                    </TabPanel>
+                    <TabPanel value="3">
+                        {
+                            (selectedMerchant != null) &&
+                            <>
+                                <TextField
+                                    id="outlined-full-width"
+                                    label="Image Upload"
+                                    name="upload-photo"
+                                    type="file"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
+                                    onChange={saveFile}
+                                />
+                                <Button onClick={uploadFile}> Upload Banner</Button>
+                            </>
                         }
                     </TabPanel>
                 </TabContext>

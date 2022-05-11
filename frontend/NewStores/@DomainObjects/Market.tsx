@@ -28,6 +28,7 @@ export class Market {
     @observable address : string
     @observable postalCode : string
     @observable city : string
+    @observable imageData : string //base64 string representation of image data.
 
     @action
     set setId(id: number) {
@@ -150,6 +151,8 @@ export class Market {
             if (!instance)
                 this.booths.push(booth)
         });
+
+        this.imageData = dto.imageData
     }
 
     @action

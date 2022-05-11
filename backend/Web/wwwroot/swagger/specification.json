@@ -1938,6 +1938,10 @@
                 "items": {
                   "$ref": "#/components/schemas/StallBaseVM"
                 }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
               }
             }
           }
@@ -2301,6 +2305,10 @@
                 "items": {
                   "$ref": "#/components/schemas/ContactInfoBaseVM"
                 }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
               }
             }
           }

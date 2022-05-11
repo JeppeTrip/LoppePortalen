@@ -26,6 +26,7 @@ namespace Application.Merchants.Queries.GetMerchant
             public async Task<GetMerchantQueryResponse> Handle(GetMerchantQuery request, CancellationToken cancellationToken)
             {
                 var merchant = await _context.Merchants
+                    .Include(x => x.BannerImage)
                     .Include(x => x.ContactInfo)
                     .Include(x => x.Bookings)
                     .ThenInclude(x => x.Stall)
@@ -95,7 +96,8 @@ namespace Application.Merchants.Queries.GetMerchant
                     {
                         Type = x.ContactType,
                         Value = x.Value
-                    }).ToList()
+                    }).ToList(),
+                    ImageData = merchant.BannerImage != null ? Convert.ToBase64String(merchant.BannerImage.ImageData) : null
                 };
 
                 return new GetMerchantQueryResponse() { 

@@ -88,7 +88,7 @@ namespace Application.Organisers.Queries.GetOrganiser
                         Type = x.ContactType,
                         Value = x.Value
                     }).ToList(),
-                    ImageData = Convert.ToBase64String(organiser.BannerImage.ImageData)
+                    ImageData = organiser.BannerImage != null ? Convert.ToBase64String(organiser.BannerImage.ImageData) : null
                 };
 
 
