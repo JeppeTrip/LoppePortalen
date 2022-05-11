@@ -353,6 +353,7 @@ namespace Application.Test
             SeedUploadOrganiserBannerTestData(context);
             SeedUploadMarketBannerTestData(context);
             SeedUploadMerchantBannerTestData(context);
+            SeedUploadBoothBannerCommandTest(context);
         }
 
         /**
@@ -5094,15 +5095,15 @@ namespace Application.Test
             context.Merchants.AddRange(new Merchant()
             {
                 Id = 3400,
-                Name = "Organiser 3400",
-                Description = "Organiser 3400 Description",
+                Name = "Merchant 3400",
+                Description = "Merchant 3400 Description",
                 UserId = "User3400",
             },
             new Merchant()
             {
                 Id = 3401,
-                Name = "Organiser 3401",
-                Description = "Organiser 3401 Description",
+                Name = "Merchant 3401",
+                Description = "Merchant 3401 Description",
                 UserId = "User3401"
             });
 
@@ -5110,6 +5111,139 @@ namespace Application.Test
             {
                 ImageTitle = "title",
                 MerchantId = 3401,
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
+
+            context.SaveChanges();
+        }
+
+        /** All ids within start at 3500 */
+        private static void SeedUploadBoothBannerCommandTest(ApplicationDbContext context)
+        {
+            context.Users.AddRange(new ApplicationUser()
+            {
+                Id = "User3500",
+                Email = "User3500@mail",
+                UserName = "User3500@mail"
+            },
+           new ApplicationUser()
+           {
+               Id = "User3501",
+               Email = "User3501@mail",
+               UserName = "User3501@mail"
+           });
+
+            context.UserInfo.AddRange(new Domain.Entities.User()
+            {
+                IdentityId = "User3500",
+                Email = "User3500@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3500",
+                LastName = "Lastname User3500",
+                Phone = "12345678"
+            },
+            new Domain.Entities.User()
+            {
+                IdentityId = "User3501",
+                Email = "User3501@mail",
+                Country = "Test",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                FirstName = "Firstname User3501",
+                LastName = "Lastname User3501",
+                Phone = "12345678"
+            });
+
+            context.Merchants.AddRange(new Merchant()
+            {
+                Id = 3500,
+                Name = "Merchant 3500",
+                Description = "Merchant 3500 Description",
+                UserId = "User3500",
+            },
+            new Merchant()
+            {
+                Id = 3501,
+                Name = "Merchant 3501",
+                Description = "Merchant 3501 Description",
+                UserId = "User3501"
+            });
+
+            context.Organisers.Add(new Organiser()
+            {
+                Id = 3500,
+                Name = "Organiser 3500",
+                Description = "Organiser 3500 description",
+                Address = new Address()
+                {
+                    Id = 3500,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
+            });
+
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 3500,
+                OrganiserId = 3500, 
+                Name = "market 3500",
+                Description = "market 3500 description",
+                Address = "address",
+                PostalCode = "postal",
+                City = "city"
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                Id = 3500,
+                MarketTemplateId = 3500,
+                IsCancelled = false,
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddDays(1)
+            });
+            context.StallTypes.Add(new StallType()
+            {
+                Id = 3500,
+                MarketTemplateId = 3500,
+                Name = "stalltype 3500",
+                Description = "stalltype 3500 description"
+            });
+            context.Stalls.AddRange(new Stall()
+            {
+                Id = 3500,
+                StallTypeId = 3500,
+                MarketInstanceId = 3500
+            },
+            new Stall()
+            {
+                Id = 3501,
+                StallTypeId = 3500,
+                MarketInstanceId = 3500
+            });
+
+            context.Bookings.AddRange(new Booking()
+            {
+                Id = "booking3500",
+                MerchantId = 3500,
+                StallId = 3500,
+                BoothName = "booth 3500",
+                BoothDescription = "booth 3500 description",
+            },
+            new Booking()
+            {
+                Id = "booking3501",
+                MerchantId = 3501,
+                StallId = 3501,
+                BoothName = "booth 3501",
+                BoothDescription = "booth 3501 description",
+            });
+
+            context.BookingImages.Add(new BookingImage()
+            {
+                BookingId = "booking3501",
+                ImageTitle = "banner",
                 ImageData = Encoding.ASCII.GetBytes("some_data")
             });
 
