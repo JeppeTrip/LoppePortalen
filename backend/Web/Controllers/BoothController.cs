@@ -1,13 +1,16 @@
 ﻿using Application.Booths.Commands.UpdateBooth;
+using Application.Booths.Commands.UploadBoothBanner;
 using Application.Booths.Queries.GetBooth;
 using Application.Booths.Queries.GetFilteredBooths;
 using Application.Common.Models;
 using Application.Markets.Queries.GetMarketInstance;
 using Application.Stalls.Queries.GetStall;
 using Application.StallTypes.Queries.GetStallType;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -40,6 +43,28 @@ namespace Web.Controllers
                     Categories = new List<string>(categories)
                 }
             });
+        }
+
+        [HttpPut("banner/upload")]
+        public async Task<ActionResult<UploadBoothBannerResponse>> UploadMarketBanner(string boothId, IFormFile image)
+        {
+            if (image.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    image.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    string s = Convert.ToBase64String(fileBytes);
+
+                    var request = new UploadBoothBannerRequest() { BoothId = boothId, Title = "banner", ImageData = fileBytes };
+                    var command = new UploadBoothBannerCommand() { Dto = request };
+                    return await Mediator.Send(command);
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
     }

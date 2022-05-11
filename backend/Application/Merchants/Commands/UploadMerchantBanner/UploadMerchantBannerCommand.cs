@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Merchants.Commands.UploadMerchantBanner
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class UploadMerchantBannerCommand : IRequest<UploadMerchantBannerResponse>
     {
         public UploadMerchantBannerRequest Dto { get; set; }

@@ -1,17 +1,16 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Security;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Markets.Commands.UploadMarketBanner
 {
+    [AuthorizeAttribute(Roles = "ApplicationUser")]
     public class UploadMarketBannerCommand : IRequest<UploadMarketBannerResponse>
     {
         public UploadMarketBannerRequest Dto { get; set; }
