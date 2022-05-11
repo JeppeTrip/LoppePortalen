@@ -39,6 +39,7 @@ namespace Application.Test.Markets.Queries.GetMarketInstance
             result.Market.Address.Should().BeNull();
             result.Market.PostalCode.Should().BeNull();
             result.Market.City.Should().BeNull();
+            result.Market.ImageData.Should().NotBeEmpty();
 
             result.Market.Organiser.Id.Should().Be(2600);
             result.Market.Organiser.Name.Should().Be("Organiser 2600");
@@ -93,6 +94,7 @@ namespace Application.Test.Markets.Queries.GetMarketInstance
             result.Market.Address.Should().Be("address");
             result.Market.PostalCode.Should().Be("postal");
             result.Market.City.Should().Be("city");
+            result.Market.ImageData.Should().BeNull();
 
             result.Market.Organiser.Id.Should().Be(2600);
             result.Market.Organiser.Name.Should().Be("Organiser 2600");

@@ -958,6 +958,12 @@ namespace Application.Test
             };
             context.Merchants.AddRange(merchantList);
 
+            context.MerchantImages.Add(new MerchantImage()
+            {
+                MerchantId = 3000,
+                ImageTitle = "title",
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
             context.Organisers.Add(new Organiser()
             {
                 Id = 3000,
@@ -3455,6 +3461,13 @@ namespace Application.Test
                 MerchantId = 1700,
                 StallId = 1701,
             });
+
+            context.BookingImages.Add(new BookingImage()
+            {
+                BookingId = "Booth1700",
+                ImageTitle = "title",
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
             context.SaveChanges();
         }
 
@@ -4335,6 +4348,12 @@ namespace Application.Test
                 EndDate = DateTimeOffset.Now.AddDays(1)
             });
 
+            context.MarketImages.AddRange(new MarketImage()
+            {
+                MarketTemplateId = 2600,
+                ImageTitle = "title",
+                ImageData = Encoding.ASCII.GetBytes("some_data")
+            });
             context.StallTypes.AddRange(new StallType()
             {
                 Id = 2600,

@@ -29,6 +29,7 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.ContactInfo.Count().Should().Be(1);
             result.Merchant.ContactInfo.First().Value.Should().Be("value");
             result.Merchant.ContactInfo.First().Type.Should().Be(0);
+            result.Merchant.ImageData.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -45,6 +46,7 @@ namespace Application.Test.Merchants.Queries.GetMerchant
             result.Merchant.UserId.Should().Be("User3000");
             result.Merchant.Name.Should().Be("Merchant 3001");
             result.Merchant.Description.Should().Be("Merchant 3001 description");
+            result.Merchant.ImageData.Should().BeNull();
             result.Merchant.Booths.Count().Should().Be(1);
 
             result.Merchant.Booths.First().Id.Should().Be("Booth3000");

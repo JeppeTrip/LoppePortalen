@@ -28,6 +28,7 @@ namespace Application.Test.Booths.Queries.GetBooth
             result.Booth.Categories.Should().Contain("Category 1700");
             result.Booth.Categories.Should().Contain("Category 1701");
             result.Booth.Categories.Should().Contain("Category 1702");
+            result.Booth.ImageData.Should().NotBeEmpty();
 
             result.Booth.Stall.Id.Should().Be(1700);
             result.Booth.Stall.StallType.Name.Should().Be("Stalltype 1700");
@@ -64,11 +65,11 @@ namespace Application.Test.Booths.Queries.GetBooth
             result.Booth.Id.Should().Be("Booth1701");
             result.Booth.Name.Should().Be("Booth 1701");
             result.Booth.Description.Should().Be("Booth 1701 Description");
+            result.Booth.ImageData.Should().BeNull();
             result.Booth.Categories.Should().BeEmpty();
             result.Booth.Stall.Id.Should().Be(1701);
             result.Booth.Stall.StallType.Name.Should().Be("Stalltype 1701");
             result.Booth.Stall.StallType.Description.Should().Be("Stalltype 1701 description");
-
             result.Booth.Stall.Market.MarketId.Should().Be(1701);
 
             result.Booth.Stall.Market.MarketId.Should().Be(1701);
