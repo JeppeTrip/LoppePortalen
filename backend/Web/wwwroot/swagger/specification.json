@@ -1949,6 +1949,23 @@
           "city": {
             "type": "string",
             "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Vector2"
+          }
+        }
+      },
+      "Vector2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "float"
+          },
+          "y": {
+            "type": "number",
+            "format": "float"
           }
         }
       },
@@ -2177,6 +2194,9 @@
           "city": {
             "type": "string",
             "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Vector2"
           }
         }
       },

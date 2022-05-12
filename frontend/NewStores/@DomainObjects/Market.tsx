@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { Location } from "../../@types/Location";
 import { ModelState } from "../../@types/ModelState";
-import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, FileParameter, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
+import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, FileParameter, GetAllMarketsVM, GetMarketInstanceVM, IVector2, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
 import { Booth } from "./Booth";
 import { Organiser } from "./Organiser";
@@ -192,7 +192,8 @@ export class Market {
                 endDate: this.endDate,
                 address: this.location.address,
                 city: this.location.city,
-                postalCode: this.location.postalCode
+                postalCode: this.location.postalCode,
+                location: {x: this.location.x, y: this.location.y} as IVector2
             })).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
@@ -214,7 +215,8 @@ export class Market {
                 endDate: this.endDate,
                 address: this.location.address,
                 city: this.location.city,
-                postalCode: this.location.postalCode
+                postalCode: this.location.postalCode,
+                location: {x: this.location.x, y: this.location.y} as IVector2
             })).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {

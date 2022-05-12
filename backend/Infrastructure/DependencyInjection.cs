@@ -39,7 +39,11 @@ namespace Infrastructure
                     services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseNpgsql(
                             configuration.GetConnectionString("Postgresql"),
-                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                            b =>
+                            {
+                                b.UseNetTopologySuite();
+                                b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                            }));
                 }
                 //TODO: Add timetracking as a trancient dependency here.
             }

@@ -16,7 +16,11 @@ export class Organiser {
     @observable markets: Market[]
     @observable contactInfo: ContactInfo[]
     @observable imageData : string //base64 string representation of image data.
-    @observable location : Location
+    @observable street: string = ""
+    @observable streetNumber: string = ""
+    @observable appartment: string = ""
+    @observable postalCode: string = ""
+    @observable city: string = ""
 
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
@@ -49,11 +53,11 @@ export class Organiser {
             this.userId = dto.userId
             this.name = dto.name
             this.description = dto.description
-            this.location = {
-                postalCode: dto.postalCode,
-                city: dto.city,
-                address: `${dto.street} ${dto.streetNumber}`
-            } as Location
+            this.street = dto.street
+            this.streetNumber = dto.streetNumber
+            this.appartment = dto.appartment
+            this.postalCode = dto.postalCode
+            this.city = dto.city
 
             if (dto instanceof GetOrganiserVM)
                 this.updateFromServerGetOrganiserVm(dto);
@@ -104,11 +108,11 @@ export class Organiser {
             this.store.transportLayer.createOrganiser(new CreateOrganiserRequest({
                 name: this.name,
                 description: this.description,
-                street: this.location.address,
-                number: "deprecated",
-                appartment: "deprecated",
-                city: this.location.city,
-                postalCode: this.location.postalCode
+                street: this.street,
+                number: this.streetNumber,
+                appartment: this.appartment,
+                city: this.city,
+                postalCode: this.postalCode
             })).then(
                 action("submitSuccess", res => {
                     this.id = res.id,
@@ -125,11 +129,11 @@ export class Organiser {
                 organiserId: this.id,
                 name: this.name,
                 description: this.description,
-                street: this.location.address,
-                number: "deprecated",
-                appartment: "deprecated",
-                city: this.location.city,
-                postalCode: this.location.postalCode
+                street: this.street,
+                number: this.streetNumber,
+                appartment: this.appartment,
+                city: this.city,
+                postalCode: this.postalCode
             }))
                 .then(
                     action("submitSuccess", res => {
