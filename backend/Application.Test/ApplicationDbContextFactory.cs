@@ -4669,6 +4669,7 @@ namespace Application.Test
                 Address = "address 2800",
                 PostalCode = "postal 2800",
                 City = "city 2800",
+                Location = new NetTopologySuite.Geometries.Point(725060.44, 6177236.33) { SRID = 25832 } // københavn
             });
             context.MarketInstances.Add(new MarketInstance()
             {
@@ -4684,7 +4685,8 @@ namespace Application.Test
                 Id = 2801,
                 Name = "Market 2801 name",
                 Description = "Market 2801 description",
-                OrganiserId = 2801
+                OrganiserId = 2801,
+                Location = new NetTopologySuite.Geometries.Point(693759.25, 6170422.02) { SRID = 25832 } // roskilde
             });
             context.MarketInstances.Add(new MarketInstance()
             {
@@ -4694,7 +4696,22 @@ namespace Application.Test
                 StartDate = new DateTimeOffset(new DateTime(2800, 2, 1)),
                 EndDate = new DateTimeOffset(new DateTime(2800, 2, 16))
             });
-
+            context.MarketTemplates.Add(new MarketTemplate()
+            {
+                Id = 2802,
+                Name = "Market 2802 name",
+                Description = "Market 2802 description",
+                OrganiserId = 2802,
+                Location = new NetTopologySuite.Geometries.Point(685658.96, 6120400.28) { SRID = 25832 } // rønne
+            });
+            context.MarketInstances.Add(new MarketInstance()
+            {
+                MarketTemplateId = 2802,
+                Id = 2802,
+                IsCancelled = false,
+                StartDate = new DateTimeOffset(new DateTime(2800, 2, 1)),
+                EndDate = new DateTimeOffset(new DateTime(2800, 2, 16))
+            });
 
             context.StallTypes.AddRange(new StallType()
             {

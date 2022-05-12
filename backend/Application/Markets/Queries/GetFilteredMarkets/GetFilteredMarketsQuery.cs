@@ -3,9 +3,14 @@ using Application.Common.Models;
 using Domain.Entities;
 using Domain.EntityExtensions;
 using Domain.Enums;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Utilities;
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +25,8 @@ namespace Application.Markets.Queries.GetFilteredMarkets
 
         public class GetFilteredMarketsQueryHandler : IRequestHandler<GetFilteredMarketsQuery, GetFilteredMarketsQueryResponse>
         {
+            private readonly int LATITUDE = 1;
+            private readonly int LONGITUDE = 0;
             private readonly IApplicationDbContext _context;
 
             public GetFilteredMarketsQueryHandler(IApplicationDbContext context)
@@ -29,6 +36,8 @@ namespace Application.Markets.Queries.GetFilteredMarkets
 
             public async Task<GetFilteredMarketsQueryResponse> Handle(GetFilteredMarketsQuery request, CancellationToken cancellationToken)
             {
+                List<double> distances;
+                List<double> kmDistances;
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
                     .ThenInclude(x => x.Organiser)
@@ -48,7 +57,13 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                 }
                 if(request.Dto.DistanceParams != null)
                 {
-                    instances = instances.Where(x => x.MarketTemplate.Location.IsWithinDistance(new Point(request.Dto.DistanceParams.Value.X, request.Dto.DistanceParams.Value.Y) { SRID = (int) SRID.WGS84 }, request.Dto.DistanceParams.Value.Z)).ToList();
+                    distances = instances
+                        .Where(x => x.MarketTemplate.Location != null).Select(x => x.MarketTemplate.Location.Distance(new Point(request.Dto.DistanceParams.X, request.Dto.DistanceParams.Y) { SRID = 25832 })).ToList();
+                    instances = instances
+                        .Where(x => x.MarketTemplate.Location != null)
+                        .Where(x => x.MarketTemplate.Location.IsWithinDistance(new Point(request.Dto.DistanceParams.X, request.Dto.DistanceParams.Y) { SRID = 25832 }, request.Dto.DistanceParams.Distance))
+                        .ToList();
+                    
                 }
 
                 var startDate = request.Dto.StartDate == null ? DateTimeOffset.MinValue : (DateTimeOffset) request.Dto.StartDate;

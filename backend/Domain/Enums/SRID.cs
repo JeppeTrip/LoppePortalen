@@ -8,6 +8,7 @@ namespace Domain.Enums
 {
     public enum SRID
     {
-        WGS84 = 4326
+        WGS84 = 4326,
+        EUROPE = 5643
     }
 }
