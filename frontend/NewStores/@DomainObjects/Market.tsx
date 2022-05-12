@@ -1,4 +1,5 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
+import { Location } from "../../@types/Location";
 import { ModelState } from "../../@types/ModelState";
 import { BookStallsRequest, CreateMarketRequest, EditMarketRequest, FileParameter, GetAllMarketsVM, GetMarketInstanceVM, MarketBaseVM as Dto, StallBooking, UsersMarketsVM } from "../../services/clients";
 import { MarketStore } from "../stores/MarketStore";
@@ -25,10 +26,8 @@ export class Market {
     @observable availableStallCount: number
     @observable occupiedStallCount: number
     @observable itemCategories: string[]
-    @observable address : string
-    @observable postalCode : string
-    @observable city : string
     @observable imageData : string //base64 string representation of image data.
+    @observable location : Location
 
     @action
     set setId(id: number) {
@@ -77,6 +76,7 @@ export class Market {
         this.stalls = [] as Stall[]
         this.booths = [] as Booth[]
         this.itemCategories = [] as string[]
+        this.location = null
     }
 
     @action
@@ -93,9 +93,14 @@ export class Market {
             this.availableStallCount = dto.availableStallCount
             this.occupiedStallCount = dto.occupiedStallCount
             this.itemCategories = dto.categories
-            this.address = dto.address
-            this.city = dto.city
-            this.postalCode = dto.postalCode
+            this.location = {
+                text: `${dto.address}, ${dto.postalCode} ${dto.city}`,
+                address: dto.address,
+                city : dto.city,
+                postalCode : dto.postalCode,
+                x: 0,
+                y: 0
+            } as Location
             
             if (dto instanceof GetAllMarketsVM)
                 this.updateFromServerGetAllMarketsVM(dto)
@@ -185,9 +190,9 @@ export class Market {
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate,
-                address: this.address,
-                city: this.city,
-                postalCode: this.postalCode
+                address: this.location.address,
+                city: this.location.city,
+                postalCode: this.location.postalCode
             })).then(
                 action("submitSuccess", res => {
                     this.id = res.market.marketId,
@@ -207,9 +212,9 @@ export class Market {
                 description: this.description,
                 startDate: this.startDate,
                 endDate: this.endDate,
-                address: this.address,
-                city: this.city,
-                postalCode: this.postalCode
+                address: this.location.address,
+                city: this.location.city,
+                postalCode: this.location.postalCode
             })).then(
                 action("submitSuccess", res => {
                     if (res.succeeded) {

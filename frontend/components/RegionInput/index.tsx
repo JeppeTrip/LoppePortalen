@@ -1,20 +1,19 @@
-import { Autocomplete, CircularProgress, Grid, TextField } from "@mui/material";
-import { FC, useEffect, useMemo, useState } from "react";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import throttle from 'lodash/throttle';
+import { FC, useEffect, useMemo, useState } from "react";
 import { Location } from "../../@types/Location";
 
 type Props = {
-    postalCode: string,
-    city: string,
-    onChange: (code: string, city: string) => void
+    value : Location
+    onChange: (location : Location) => void
 }
 
 const RegionInput: FC<Props> = (props: Props) => {
-    const [value, setValue] = useState<Location | null>(null);
     const [open, setOpen] = useState(false);
     const [locations, setLocations] = useState<readonly Location[]>([]);
     const [queryString, setQueryString] = useState<string>("")
     const loading = open && locations.length === 0;
+
 
     const fetchOptions = useMemo(
         () =>
@@ -53,7 +52,7 @@ const RegionInput: FC<Props> = (props: Props) => {
         let active = true;
 
         if (queryString === '') {
-            setLocations(value ? [value] : []);
+            setLocations(props.value ? [props.value] : []);
             return undefined;
         }
 
@@ -64,8 +63,8 @@ const RegionInput: FC<Props> = (props: Props) => {
                 console.log("active?")
                 let newOptions: readonly Location[] = [];
 
-                if (value) {
-                    newOptions = [value];
+                if (props.value) {
+                    newOptions = [props.value];
                 }
 
                 if (results) {
@@ -79,14 +78,16 @@ const RegionInput: FC<Props> = (props: Props) => {
         return () => {
             active = false;
         };
-    }, [value, queryString, fetchOptions]);
+    }, [props.value, queryString, fetchOptions]);
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Autocomplete
                     id="address-autocomplete"
-                    getOptionLabel={(location) => location.text}
+                    getOptionLabel={(location) => {
+                        return location.text
+                    }}
                     filterOptions={(x) => x}
                     options={locations}
                     autoComplete
@@ -94,10 +95,10 @@ const RegionInput: FC<Props> = (props: Props) => {
                     filterSelectedOptions
                     isOptionEqualToValue={(option, value) => option.address === value.address}
                     loading={loading}
-                    value={value}
+                    value={props.value}
                     onChange={(event: any, newValue: Location | null) => {
                         setLocations(newValue ? [newValue, ...locations] : locations);
-                        setValue(newValue);
+                        props.onChange(newValue);
                     }}
                     onInputChange={(event, newInputValue) => {
                         setQueryString(newInputValue);
@@ -114,7 +115,7 @@ const RegionInput: FC<Props> = (props: Props) => {
                     id="postalCode"
                     label="City"
                     variant="outlined"
-                    value={value ? value.postalCode : ""} />
+                    value={props.value ? props.value.postalCode : ""} />
             </Grid>
             <Grid item xs={6}>
                 <TextField
@@ -123,7 +124,7 @@ const RegionInput: FC<Props> = (props: Props) => {
                     id="city"
                     label="City"
                     variant="outlined"
-                    value={value ? value.city : ""} />
+                    value={props.value ? props.value.city : ""} />
             </Grid>
         </Grid>
     );

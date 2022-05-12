@@ -1,8 +1,9 @@
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Autocomplete, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect } from "react";
+import { Location } from "../../@types/Location";
 import { Market } from "../../NewStores/@DomainObjects/Market";
 import RegionInput from "../RegionInput";
 import styles from './styles.module.css';
@@ -22,12 +23,9 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
         props.market.store.rootStore.userStore.user.fetchOwnedOrganisers()
     }, []);
 
-    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
-        console.log("psotal")
-        console.log(postalCode)
-        props.market.postalCode = postalCode
-        props.market.city = city
-    }, [props.market, props.market.city, props.market.postalCode])
+    const handleOnLocationChange = useCallback((location : Location) => {
+        props.market.location = location
+    }, [props.market, props.market.location])
 
     return (
         <Grid container spacing={2}>
@@ -61,16 +59,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     value={props.market.name} />
             </Grid>
             <Grid item xs={12}>
-                <TextField
-                    className={styles.nameInput}
-                    id="marketAddress"
-                    label="Address"
-                    variant="outlined"
-                    onChange={(event) => props.market.address = event.target.value}
-                    value={props.market.address} />
-            </Grid>
-            <Grid item xs={12}>
-                <RegionInput postalCode={props.market.postalCode} city={props.market.city} onChange={handleOnRegionChange} />
+                <RegionInput value={props.market.location} onChange={handleOnLocationChange} />
             </Grid>
             <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>

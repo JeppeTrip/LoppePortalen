@@ -4,11 +4,12 @@ import { DateTimePicker, LoadingButton, LocalizationProvider, TabContext, TabLis
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { Button, Container, FormControl, Grid, InputLabel, List, MenuItem, Paper, Select, Tab, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { flowResult, reaction } from "mobx";
+import { flowResult } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useErrorHandler } from 'react-error-boundary';
+import { Location } from '../../../@types/Location';
 import { ModelState } from '../../../@types/ModelState';
 import { NextPageAuth } from "../../../@types/NextAuthPage";
 import RegionInput from '../../../components/RegionInput';
@@ -78,10 +79,9 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
         setTabValue(newValue);
     };
 
-    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
-        selectedMarket.postalCode = postalCode
-        selectedMarket.city = city
-    }, [selectedMarket, selectedMarket?.city, selectedMarket?.postalCode])
+    const handleOnLocationChange = useCallback((location : Location) => {
+        selectedMarket.location = location
+    }, [selectedMarket, selectedMarket?.location])
 
     return (
         <Container >
@@ -113,16 +113,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 value={selectedMarket.name} />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <TextField
-                                                fullWidth={true}
-                                                id="marketAddress"
-                                                label="Address"
-                                                variant="outlined"
-                                                onChange={(event) => selectedMarket.address = event.target.value}
-                                                value={selectedMarket.address} />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <RegionInput postalCode={selectedMarket.postalCode} city={selectedMarket.city} onChange={handleOnRegionChange} />
+                                            <RegionInput value={selectedMarket.location} onChange={handleOnLocationChange} />
                                         </Grid>
                                         <Grid item xs={"auto"}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>

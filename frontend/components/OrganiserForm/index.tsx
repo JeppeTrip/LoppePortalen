@@ -1,8 +1,9 @@
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback } from "react";
+import { Location } from '../../@types/Location';
 import { ModelState } from '../../@types/ModelState';
 import { Organiser } from "../../NewStores/@DomainObjects/Organiser";
 import RegionInput from '../RegionInput';
@@ -16,11 +17,10 @@ type Props = {
 
 const OrganiserForm: FC<Props> = (props: Props) => {
 
-    const handleOnRegionChange = useCallback((postalCode : string, city : string) => {
-        props.organiser.postalCode = postalCode
-        props.organiser.city = city
-    }, [props.organiser, props.organiser, props.organiser])
-
+    const handleOnLocationChange = useCallback((location : Location) => {
+        props.organiser.location = location
+    }, [props.organiser, props.organiser.location])
+    
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -34,37 +34,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserStreet"
-                    label="Street"
-                    variant="outlined"
-                    value={props.organiser.street}
-                    onChange={event => props.organiser.setStreet = event.target.value}
-                />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserNumber"
-                    label="Street Number"
-                    variant="outlined"
-                    value={props.organiser.streetNumber}
-                    onChange={event => props.organiser.setStreetNumber = event.target.value}
-                />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField
-                    className={styles.nameInput}
-                    id="organiserAppartment"
-                    label="Appartment"
-                    variant="outlined"
-                    value={props.organiser.appartment}
-                    onChange={event => props.organiser.setAppartment = event.target.value}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <RegionInput city={props.organiser.city} postalCode={props.organiser.postalCode} onChange={handleOnRegionChange} />
+                <RegionInput value={props.organiser.location} onChange={handleOnLocationChange} />
             </Grid>
             <Grid item xs={12}>
                 <TextField

@@ -11,7 +11,9 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
         public string Street { get; set; }
+        //deprecated
         public string Number { get; set; }
+        //deprecated
         public string? Appartment { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }

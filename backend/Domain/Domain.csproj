@@ -8,6 +8,7 @@
   <ItemGroup>
     <!-- TODO: Find a way to work around this dependency.-->
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.15" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="5.0.10" />
   </ItemGroup>
 
 

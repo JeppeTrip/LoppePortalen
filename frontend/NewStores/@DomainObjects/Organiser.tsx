@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { Location } from "../../@types/Location";
 import { ModelState } from "../../@types/ModelState";
 import { AddOrganiserContactInformationRequest, CreateOrganiserRequest, EditOrganiserRequest, FileParameter, GetOrganiserVM, OrganiserBaseVM as Dto, RemoveContactInformationRequest } from "../../services/clients";
 import { OrganiserStore } from "../stores/OrganiserStore";
@@ -12,14 +13,10 @@ export class Organiser {
     @observable userId: string = null
     @observable name: string = ""
     @observable description: string = ""
-    @observable street: string = ""
-    @observable streetNumber: string = ""
-    @observable appartment: string = ""
-    @observable postalCode: string = ""
-    @observable city: string = ""
     @observable markets: Market[]
     @observable contactInfo: ContactInfo[]
     @observable imageData : string //base64 string representation of image data.
+    @observable location : Location
 
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
@@ -52,11 +49,11 @@ export class Organiser {
             this.userId = dto.userId
             this.name = dto.name
             this.description = dto.description
-            this.street = dto.street
-            this.streetNumber = dto.streetNumber
-            this.appartment = dto.appartment
-            this.postalCode = dto.postalCode
-            this.city = dto.city
+            this.location = {
+                postalCode: dto.postalCode,
+                city: dto.city,
+                address: `${dto.street} ${dto.streetNumber}`
+            } as Location
 
             if (dto instanceof GetOrganiserVM)
                 this.updateFromServerGetOrganiserVm(dto);
@@ -107,11 +104,11 @@ export class Organiser {
             this.store.transportLayer.createOrganiser(new CreateOrganiserRequest({
                 name: this.name,
                 description: this.description,
-                street: this.street,
-                number: this.streetNumber,
-                appartment: this.appartment,
-                city: this.city,
-                postalCode: this.postalCode
+                street: this.location.address,
+                number: "deprecated",
+                appartment: "deprecated",
+                city: this.location.city,
+                postalCode: this.location.postalCode
             })).then(
                 action("submitSuccess", res => {
                     this.id = res.id,
@@ -128,11 +125,11 @@ export class Organiser {
                 organiserId: this.id,
                 name: this.name,
                 description: this.description,
-                street: this.street,
-                number: this.streetNumber,
-                appartment: this.appartment,
-                city: this.city,
-                postalCode: this.postalCode
+                street: this.location.address,
+                number: "deprecated",
+                appartment: "deprecated",
+                city: this.location.city,
+                postalCode: this.location.postalCode
             }))
                 .then(
                     action("submitSuccess", res => {
@@ -200,25 +197,5 @@ export class Organiser {
 
     set setDescription(description: string) {
         this.description = description
-    }
-
-    set setStreet(street: string) {
-        this.street = street
-    }
-
-    set setStreetNumber(streetNumber: string) {
-        this.streetNumber = streetNumber
-    }
-
-    set setAppartment(appartment: string) {
-        this.appartment = appartment
-    }
-
-    set setPostalCode(postalCode: string) {
-        this.postalCode = postalCode
-    }
-
-    set setCity(city: string) {
-        this.city = city
     }
 }

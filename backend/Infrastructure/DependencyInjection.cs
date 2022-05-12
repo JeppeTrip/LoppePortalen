@@ -1,15 +1,14 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Common;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Domain.Common;
-using Domain.Entities;
 using System;
 
 namespace Infrastructure
@@ -29,7 +28,11 @@ namespace Infrastructure
                     var password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
                     services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseNpgsql($"Server={server};Port={port};Database={database};User Id={userId};Password={password}",
-                            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                        b => { 
+                            b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                            b.UseNetTopologySuite();
+                            }
+                        ));
                 }
                 else
                 {
