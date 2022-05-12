@@ -57,9 +57,9 @@ export class MarketStore {
     * For now this resets the current markets instances and then fetches a whole new list.
     */
     @action
-    fetchFilteredMarkets(organiserId?: number, isCancelled?: boolean, startDate?: Date, endDate?: Date, categories?: string[]) {
+    fetchFilteredMarkets(organiserId?: number, isCancelled?: boolean, startDate?: Date, endDate?: Date, categories?: string[], x?: number, y?:number, distance?:number) {
         this.markets = []
-        this.transportLayer.getFilteredMarketInstances(isCancelled, organiserId, startDate, endDate, categories)
+        this.transportLayer.getFilteredMarketInstances(isCancelled, organiserId, startDate, endDate, categories, x, y, distance)
             .then(
                 action("fetchSuccess", result => {
                     result.markets.forEach(dto => {

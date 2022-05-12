@@ -1,12 +1,13 @@
 import { DateTimePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Autocomplete, Button, Checkbox, Drawer, FormControlLabel, FormGroup, ListItem, Stack, TextField } from '@mui/material';
-import List from '@mui/material/List';
+import { Autocomplete, Button, Checkbox, Drawer, FormControlLabel, FormGroup, Stack, TextField } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react-lite';
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { Location } from '../../@types/Location';
 import { StoreContext } from '../../NewStores/StoreContext';
+import RegionInput from '../RegionInput';
 
 const drawerWidth = 300
 
@@ -19,6 +20,8 @@ const MarketFilter: FC<Props> = (props: Props) => {
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
     const [categories, setCategories] = useState<string[]>([])
+    const [location, setLocation] = useState<Location>(null)
+    const [distance, setDistance] = useState(10)
 
     useEffect(() => {
         stores.itemCategoryStore.fetchCategories()
@@ -30,8 +33,12 @@ const MarketFilter: FC<Props> = (props: Props) => {
 
     const handleSubmit = (event) => {
         //Todo: expand with organiser filter
-        stores.marketStore.fetchFilteredMarkets(null, hideCancelledEvents, startDate, endDate, categories)
+        stores.marketStore.fetchFilteredMarkets(null, hideCancelledEvents, startDate, endDate, categories, location?.x, location?.y, distance * 1000) //km conversion
     }
+
+    const handleOnLocationChange = useCallback((location : Location) => {
+        setLocation(location)
+    }, [location, setLocation])
 
     return (
         <>
@@ -78,7 +85,6 @@ const MarketFilter: FC<Props> = (props: Props) => {
                                 }
                             />
                         </LocalizationProvider>
-
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DateTimePicker
                                 renderInput={(props) => <TextField {...props} />}
@@ -90,7 +96,26 @@ const MarketFilter: FC<Props> = (props: Props) => {
                                 }
                             />
                         </LocalizationProvider>
-
+                        
+                        <RegionInput value={location} onChange={handleOnLocationChange} />
+                        <TextField 
+                            disabled
+                            value={location ? location.x : ""}
+                        />
+                        <TextField 
+                            disabled
+                            value={location ? location.y : ""}
+                        />
+                        <TextField
+                            id="distanceInput"
+                            label="Distance"
+                            type="number"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            value = {distance}
+                            onChange = {(event) => setDistance(parseFloat(event.target.value) < 0 ? 0 : parseFloat(event.target.value))}
+                        />
                         <Autocomplete
                             onChange={(event, value) => setCategories(value)}
                             fullWidth

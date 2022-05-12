@@ -14,7 +14,7 @@ namespace Application.Markets.Queries.GetFilteredMarkets
         public DateTimeOffset? EndDate { get; set; }
         public int? OrganiserId { get; set; }
         public List<string> Categories { get; set; } = new List<string>();
-        public DistanceParameters DistanceParams { get; set; } //x y coordinate for position to measure from and the z for the distance
+        public DistanceParameters? DistanceParams { get; set; } //x y coordinate for position to measure from and the z for the distance
     }
 
     public class DistanceParameters

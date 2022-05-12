@@ -72,16 +72,24 @@ namespace Web.Controllers
             [FromQuery] int? organiserId,
             [FromQuery] DateTimeOffset? startDate,
             [FromQuery] DateTimeOffset? endDate,
-            [FromQuery] string[] categories
+            [FromQuery] string[] categories,
+            [FromQuery] double? x,
+            [FromQuery] double? y,
+            [FromQuery] double? distance
         )
         {
+            DistanceParameters parameters = null;
+            if(x != null && y != null && distance != null)
+                parameters = new DistanceParameters((double) x, (double) y, (double) distance);
+
             var request = new GetFilteredMarketsQueryRequest()
             {
                 OrganiserId = organiserId,
                 HideCancelled = isCancelled,
                 StartDate = startDate,
                 EndDate = endDate,
-                Categories = new List<string>(categories)
+                Categories = new List<string>(categories),
+                DistanceParams = parameters
             };
             return await Mediator.Send(
                 new GetFilteredMarketsQuery()

@@ -22,7 +22,7 @@ const RegionInput: FC<Props> = (props: Props) => {
                     request: { input: string },
                     callback: (results?: readonly Location[]) => void,
                 ) => {
-                    fetch(`https://api.dataforsyningen.dk/adresser/autocomplete?struktur=mini${request.input.length === 0 ? "" : `&q=${request.input}`}`)
+                    fetch(`https://api.dataforsyningen.dk/adresser/autocomplete?struktur=mini&srid=25832${request.input.length === 0 ? "" : `&q=${request.input}`}`)
                         .then(response => response.json())
                         .then(rawData => rawData.map(loc => {
                             const street = loc.adresse.vejnavn
