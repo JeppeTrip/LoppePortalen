@@ -3,8 +3,10 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Security;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,8 +51,10 @@ namespace Application.Markets.Commands.CreateMarket
                     OrganiserId = organiser.Id,
                     Address = request.Dto.Address,
                     City = request.Dto.City,
-                    PostalCode = request.Dto.PostalCode
+                    PostalCode = request.Dto.PostalCode,
+                    Location = new Point(request.Dto.Location.X, request.Dto.Location.Y) { SRID = (int) SRID.WGS84 }
                 };
+
                 _context.MarketTemplates.Add(template);
                 
                 MarketInstance instance = new MarketInstance()

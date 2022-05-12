@@ -2,8 +2,10 @@
 using Application.Common.Models;
 using Domain.Entities;
 using Domain.EntityExtensions;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +45,10 @@ namespace Application.Markets.Queries.GetFilteredMarkets
                 if (request.Dto.HideCancelled != null && (bool)request.Dto.HideCancelled)
                 {
                     instances = instances.Where(x => !x.IsCancelled).ToList();
+                }
+                if(request.Dto.DistanceParams != null)
+                {
+                    instances = instances.Where(x => x.MarketTemplate.Location.IsWithinDistance(new Point(request.Dto.DistanceParams.Value.X, request.Dto.DistanceParams.Value.Y) { SRID = (int) SRID.WGS84 }, request.Dto.DistanceParams.Value.Z)).ToList();
                 }
 
                 var startDate = request.Dto.StartDate == null ? DateTimeOffset.MinValue : (DateTimeOffset) request.Dto.StartDate;
