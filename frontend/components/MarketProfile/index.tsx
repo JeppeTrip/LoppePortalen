@@ -38,10 +38,10 @@ const MarketProfile: FC<Props> = observer((props: Props) => {
                                                 </Typography>
                                             </Grid>
                                             {
-                                                (props.market.address && props.market.postalCode && props.market.city) && <Grid item xs={12}>
+                                                (props.market.location) && <Grid item xs={12}>
                                                     <Typography>
                                                         {
-                                                            `${props.market.address} ${props.market.postalCode} ${props.market.city}`
+                                                            `${props.market.location.address}, ${props.market.location.postalCode} ${props.market.location.city}`
                                                         }
                                                     </Typography>
                                                 </Grid>
