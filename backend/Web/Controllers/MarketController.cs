@@ -78,6 +78,7 @@ namespace Web.Controllers
             [FromQuery] double? distance
         )
         {
+            //only fill in distance parameters if all of them are set.
             DistanceParameters parameters = null;
             if(x != null && y != null && distance != null)
                 parameters = new DistanceParameters((double) x, (double) y, (double) distance);

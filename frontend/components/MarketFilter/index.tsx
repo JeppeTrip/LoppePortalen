@@ -1,6 +1,6 @@
 import { DateTimePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Autocomplete, Button, Checkbox, Drawer, FormControlLabel, FormGroup, Stack, TextField } from '@mui/material';
+import { Autocomplete, Button, Checkbox, Drawer, FormControlLabel, FormGroup, InputAdornment, Stack, TextField } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react-lite';
@@ -115,6 +115,9 @@ const MarketFilter: FC<Props> = (props: Props) => {
                             }}
                             value = {distance}
                             onChange = {(event) => setDistance(parseFloat(event.target.value) < 0 ? 0 : parseFloat(event.target.value))}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="start">km</InputAdornment>,
+                              }}
                         />
                         <Autocomplete
                             onChange={(event, value) => setCategories(value)}

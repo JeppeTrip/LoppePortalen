@@ -81,7 +81,7 @@ const RegionInput: FC<Props> = (props: Props) => {
     }, [props.value, queryString, fetchOptions]);
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={0} >
             <Grid item xs={12}>
                 <Autocomplete
                     id="address-autocomplete"
@@ -104,27 +104,9 @@ const RegionInput: FC<Props> = (props: Props) => {
                         setQueryString(newInputValue);
                     }}
                     renderInput={(params) => (
-                        <TextField {...params} label="Add a location" fullWidth />
+                        <TextField multiline {...params} label="Add a location" fullWidth />
                       )}
                 />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField
-                    disabled
-                    fullWidth
-                    id="postalCode"
-                    label="City"
-                    variant="outlined"
-                    value={props.value ? props.value.postalCode : ""} />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField
-                    disabled
-                    fullWidth
-                    id="city"
-                    label="City"
-                    variant="outlined"
-                    value={props.value ? props.value.city : ""} />
             </Grid>
         </Grid>
     );
