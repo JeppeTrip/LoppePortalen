@@ -17,10 +17,6 @@ type Props = {
 
 const OrganiserForm: FC<Props> = (props: Props) => {
 
-    const handleOnLocationChange = useCallback((location : Location) => {
-        props.organiser.location = location
-    }, [props.organiser, props.organiser.location])
-    
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -34,7 +30,54 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <RegionInput value={props.organiser.location} onChange={handleOnLocationChange} />
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserStreet"
+                    label="Street"
+                    variant="outlined"
+                    value={props.organiser.street}
+                    onChange={event => props.organiser.setStreet = event.target.value}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserNumber"
+                    label="Street Number"
+                    variant="outlined"
+                    value={props.organiser.streetNumber}
+                    onChange={event => props.organiser.setStreetNumber = event.target.value}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserAppartment"
+                    label="Appartment"
+                    variant="outlined"
+                    value={props.organiser.appartment}
+                    onChange={event => props.organiser.setAppartment = event.target.value}
+                />
+            </Grid>
+            <Grid item xs={4}>
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserPostal"
+                    label="Postal Code"
+                    variant="outlined"
+                    value={props.organiser.postalCode}
+                    onChange={event => props.organiser.setPostalCode = event.target.value}
+                />
+            </Grid>
+            <Grid item xs={8}>
+                <TextField
+                    className={styles.nameInput}
+                    id="organiserCity"
+                    label="City"
+                    variant="outlined"
+                    value={props.organiser.city}
+                    onChange={event => props.organiser.setCity = event.target.value}
+                />
             </Grid>
             <Grid item xs={12}>
                 <TextField
@@ -67,8 +110,6 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                         Could not submit organiser
                     </Typography>
                 </Grid>
-
-
             }
         </Grid>
 
