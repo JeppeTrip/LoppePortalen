@@ -38,7 +38,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 label="Name"
                                 variant="outlined"
                                 value={props.stallType.name}
-                                onChange={(event) => props.stallType.name = event.target.value} />
+                                onChange={(event) => props.stallType.Name = event.target.value} />
 
                             <TextField
                                 size="small"
@@ -46,7 +46,7 @@ const StallTypeInputListItem: FC<Props> = (props: Props) => {
                                 label="Description"
                                 variant="outlined"
                                 value={props.stallType.description}
-                                onChange={(event) => props.stallType.description = event.target.value} />
+                                onChange={(event) => props.stallType.Description = event.target.value} />
                         </Stack>
 
                     </Grid>

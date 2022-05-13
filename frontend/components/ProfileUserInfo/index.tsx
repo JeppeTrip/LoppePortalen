@@ -33,19 +33,19 @@ const ProfileUserInfo: FC<Props> = (props: Props) => {
     }, [])
 
     const handleFirstNameChange = (event) => {
-        props.user.firstName = event.target.value
+        props.user.FirstName = event.target.value
     }
 
     const handleLastNameChange = (event) => {
-        props.user.lastName = event.target.value
+        props.user.LastName = event.target.value
     }
 
     const handlePhoneNumberChange = (event) => {
-        props.user.phoneNumber = event.target.value
+        props.user.PhoneNumber = event.target.value
     }
 
     const handleDateOfBirthChange = (value) => {
-        props.user.dateOfBirth = value
+        props.user.DateOfBirth = value
     }
 
     const handleCountryChange = (value) => {

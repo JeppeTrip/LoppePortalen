@@ -23,9 +23,9 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
         props.market.store.rootStore.userStore.user.fetchOwnedOrganisers()
     }, []);
 
-    const handleOnLocationChange = useCallback((location : Location) => {
-        props.market.location = location
-    }, [props.market, props.market.location])
+    const handleOnLocationChange = useCallback((location: Location) => {
+        props.market.Location = location
+    }, [props.market, props.market.location, props.market.Location])
 
     return (
         <Grid container spacing={2}>
@@ -38,7 +38,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         value={(props.market.organiser == null || props.market.organiser.id < 1) ? "" : props.market.organiser.id + ""}
                         label="Organiser"
                         onChange={event =>
-                            props.market.organiser = props.market.store.rootStore.userStore.user.organisers.find(x => x.id === parseInt(event.target.value))}
+                            props.market.Organiser = props.market.store.rootStore.userStore.user.organisers.find(x => x.id === parseInt(event.target.value))}
                     >
                         {
                             props.market.store.rootStore.userStore.user.organisers.map(o =>
@@ -55,7 +55,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="marketName"
                     label="Name"
                     variant="outlined"
-                    onChange={(event) => props.market.name = event.target.value}
+                    onChange={(event) => props.market.Name= event.target.value}
                     value={props.market.name} />
             </Grid>
             <Grid item xs={12}>
@@ -68,7 +68,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         label="Start Date"
                         value={props.market.startDate}
                         onChange={(newValue) => {
-                            props.market.startDate = newValue;
+                            props.market.StartDate = newValue;
                         }
                         }
                     />
@@ -81,7 +81,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                         label="End Date"
                         value={props.market.endDate}
                         onChange={(newValue) => {
-                            props.market.endDate = newValue;
+                            props.market.EndDate = newValue;
                         }
                         }
                     />
@@ -94,7 +94,7 @@ const MarketDetailsForm: FC<Props> = (props: Props) => {
                     id="outlined-multiline-static"
                     label="Description"
                     value={props.market.description}
-                    onChange={(event) => props.market.description = event.target.value}
+                    onChange={(event) => props.market.Description = event.target.value}
                     multiline
                     rows={10}
                 />

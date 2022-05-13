@@ -36,7 +36,9 @@ export class Market {
     set StartDate(date: Date) { this.startDate = date }
     set EndDate(date: Date) { this.startDate = date }
     set IsCancelled(isCancelled: boolean) { this.isCancelled = isCancelled }
-
+    set Organiser(organiser : Organiser) {this.organiser = organiser }
+    set Location(location : Location) {this.location = location}
+    
     constructor(store: MarketStore) {
         makeAutoObservable(this);
         this.state = ModelState.NEW

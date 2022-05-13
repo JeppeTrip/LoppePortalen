@@ -73,7 +73,7 @@ const LoginPage: NextPage = observer(() => {
                         autoComplete="email"
                         autoFocus
                         value={stores.authStore.auth.email}
-                        onChange={event => stores.authStore.auth.email = event.target.value}
+                        onChange={event => stores.authStore.auth.Email = event.target.value}
                     />
                     <TextField
                         margin="normal"
@@ -85,7 +85,7 @@ const LoginPage: NextPage = observer(() => {
                         id="password"
                         autoComplete="current-password"
                         value={stores.authStore.auth.password}
-                        onChange={event => stores.authStore.auth.password = event.target.value}
+                        onChange={event => stores.authStore.auth.Password = event.target.value}
                     />
                     <LoadingButton
                         type="submit"

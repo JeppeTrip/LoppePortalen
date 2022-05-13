@@ -21,6 +21,7 @@ export class Booth {
     set Id(id : string) {this.id = id}
     set Name(name : string) {this.name = name}
     set Description(description : string) {this.description = description }
+    set ItemCategories(itemCategories : string[]) { this.itemCategories = itemCategories }
 
     constructor(store: BoothStore) {
         makeAutoObservable(this)

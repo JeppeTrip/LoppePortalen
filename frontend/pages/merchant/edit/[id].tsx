@@ -89,7 +89,7 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                                                 id="merchantName"
                                                 label="Name"
                                                 variant="outlined"
-                                                onChange={(event) => selectedMerchant.name = event.target.value}
+                                                onChange={(event) => selectedMerchant.Name = event.target.value}
                                                 value={selectedMerchant.name} />
                                         </Grid>
 
@@ -99,7 +99,7 @@ const EditMerchantPage: NextPageAuth<Props> = observer(() => {
                                                 id="outlined-multiline-static"
                                                 label="Description"
                                                 value={selectedMerchant.description}
-                                                onChange={(event) => selectedMerchant.description = event.target.value}
+                                                onChange={(event) => selectedMerchant.Description = event.target.value}
                                                 multiline
                                                 rows={10}
                                             />

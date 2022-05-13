@@ -24,7 +24,7 @@ const BoothForm: FC<Props> = observer((props: Props) => {
                         id="marketName"
                         label="Name"
                         variant="outlined"
-                        onChange={(event) => props.booth.name = event.target.value}
+                        onChange={(event) => props.booth.Name = event.target.value}
                         value={props.booth.name} />
                 </Grid>
 
@@ -34,14 +34,14 @@ const BoothForm: FC<Props> = observer((props: Props) => {
                         id="outlined-multiline-static"
                         label="Description"
                         value={props.booth.description}
-                        onChange={(event) => props.booth.description = event.target.value}
+                        onChange={(event) => props.booth.Description = event.target.value}
                         multiline
                         rows={10}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <Autocomplete
-                        onChange={(event, value) => props.booth.itemCategories = value}
+                        onChange={(event, value) => props.booth.ItemCategories = value}
                         fullWidth
                         multiple
                         id="tags-standard"

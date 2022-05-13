@@ -80,8 +80,8 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
     };
 
     const handleOnLocationChange = useCallback((location : Location) => {
-        selectedMarket.location = location
-    }, [selectedMarket, selectedMarket?.location])
+        selectedMarket.Location = location
+    }, [selectedMarket, selectedMarket?.location, selectedMarket?.Location])
 
     return (
         <Container >
@@ -109,7 +109,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 id="marketName"
                                                 label="Name"
                                                 variant="outlined"
-                                                onChange={(event) => selectedMarket.name = event.target.value}
+                                                onChange={(event) => selectedMarket.Name = event.target.value}
                                                 value={selectedMarket.name} />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -122,7 +122,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                     label="Start Date"
                                                     value={selectedMarket.startDate}
                                                     onChange={(newValue) => {
-                                                        selectedMarket.startDate = newValue;
+                                                        selectedMarket.StartDate = newValue;
                                                     }
                                                     }
                                                 />
@@ -135,7 +135,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                     label="End Date"
                                                     value={selectedMarket.endDate}
                                                     onChange={(newValue) => {
-                                                        selectedMarket.endDate = newValue;
+                                                        selectedMarket.EndDate = newValue;
                                                     }
                                                     }
                                                 />
@@ -148,7 +148,7 @@ const EditMarketPage: NextPageAuth<Props> = observer(() => {
                                                 id="outlined-multiline-static"
                                                 label="Description"
                                                 value={selectedMarket.description}
-                                                onChange={(event) => selectedMarket.description = event.target.value}
+                                                onChange={(event) => selectedMarket.Description = event.target.value}
                                                 multiline
                                                 rows={10}
                                             />

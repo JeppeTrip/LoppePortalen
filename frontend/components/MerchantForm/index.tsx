@@ -54,7 +54,7 @@ const MerchantForm: FC<Props> = (props: Props) => {
                                 id="merchantName"
                                 label="Name"
                                 variant="outlined"
-                                onChange={(event) => props.merchant.name = event.target.value}
+                                onChange={(event) => props.merchant.Name = event.target.value}
                                 value={props.merchant.name}
                             />
                         </Grid>
@@ -63,7 +63,7 @@ const MerchantForm: FC<Props> = (props: Props) => {
                                 id="merchant Description"
                                 label="Description"
                                 variant="outlined"
-                                onChange={(event) => props.merchant.description = event.target.value}
+                                onChange={(event) => props.merchant.Description = event.target.value}
                                 value={props.merchant.description}
                                 multiline
                                 rows={10}

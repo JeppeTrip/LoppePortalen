@@ -26,7 +26,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Name"
                     variant="outlined"
                     value={props.organiser.name}
-                    onChange={event => props.organiser.setName = event.target.value}
+                    onChange={event => props.organiser.Name = event.target.value}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -36,7 +36,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Street"
                     variant="outlined"
                     value={props.organiser.street}
-                    onChange={event => props.organiser.setStreet = event.target.value}
+                    onChange={event => props.organiser.Street = event.target.value}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -46,7 +46,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Street Number"
                     variant="outlined"
                     value={props.organiser.streetNumber}
-                    onChange={event => props.organiser.setStreetNumber = event.target.value}
+                    onChange={event => props.organiser.StreetNumber = event.target.value}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -56,7 +56,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Appartment"
                     variant="outlined"
                     value={props.organiser.appartment}
-                    onChange={event => props.organiser.setAppartment = event.target.value}
+                    onChange={event => props.organiser.Appartment = event.target.value}
                 />
             </Grid>
             <Grid item xs={4}>
@@ -66,7 +66,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="Postal Code"
                     variant="outlined"
                     value={props.organiser.postalCode}
-                    onChange={event => props.organiser.setPostalCode = event.target.value}
+                    onChange={event => props.organiser.PostalCode = event.target.value}
                 />
             </Grid>
             <Grid item xs={8}>
@@ -76,7 +76,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     label="City"
                     variant="outlined"
                     value={props.organiser.city}
-                    onChange={event => props.organiser.setCity = event.target.value}
+                    onChange={event => props.organiser.City = event.target.value}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -85,7 +85,7 @@ const OrganiserForm: FC<Props> = (props: Props) => {
                     id="outlined-multiline-static"
                     label="Description"
                     value={props.organiser.description}
-                    onChange={event => props.organiser.setDescription = event.target.value}
+                    onChange={event => props.organiser.Description = event.target.value}
                     multiline
                     rows={10}
                 />

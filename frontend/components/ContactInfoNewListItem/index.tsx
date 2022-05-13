@@ -19,7 +19,7 @@ const ContactInfoInputListItem: FC<Props> = (props: Props) => {
      * react to when the modelstate isn't new, and then remove the input list component from the list.
      */
     const handleOnDelete = (event) => {
-        props.contactInfo.state = ModelState.IDLE
+        props.contactInfo.State = ModelState.IDLE
     }
 
     return (
@@ -35,7 +35,7 @@ const ContactInfoInputListItem: FC<Props> = (props: Props) => {
                                 id="demo-select-small"
                                 value={props.contactInfo.type}
                                 label="Type"
-                                onChange={(event) => props.contactInfo.type = event.target.value as ContactInfoType}
+                                onChange={(event) => props.contactInfo.Type = event.target.value as ContactInfoType}
                             >
                                 <MenuItem value={ContactInfoType.EMAIL}>Mail</MenuItem>
                                 <MenuItem value={ContactInfoType.FACEBOOK}>Facebook</MenuItem>
@@ -52,7 +52,7 @@ const ContactInfoInputListItem: FC<Props> = (props: Props) => {
                                 size="small"
                                 id="contactInfoValue"
                                 variant="outlined"
-                                value={props.contactInfo.value}
+                                value={props.contactInfo.Value}
                                 onChange={(event) => props.contactInfo.value = event.target.value} />
                         </Stack>
 
