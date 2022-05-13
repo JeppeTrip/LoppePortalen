@@ -202,15 +202,7 @@ export class Organiser {
     set setDescription(description: string) {
         this.description = description
     }
-
-    set setName(name: string) {
-        this.name = name
-    }
-
-    set setDescription(description: string) {
-        this.description = description
-    }
-
+    
     set setStreet(street: string) {
         this.street = street
     }
