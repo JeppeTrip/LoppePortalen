@@ -22,6 +22,14 @@ export class Organiser {
     @observable postalCode: string = ""
     @observable city: string = ""
 
+    set Name(name: string) { this.name = name }
+    set Description(description: string) { this.description = description }
+    set Street(street: string) { this.street = street }
+    set StreetNumber(streetNumber: string) { this.streetNumber = streetNumber }
+    set Appartment(appartment: string) { this.appartment = appartment }
+    set PostalCode(postalCode: string) { this.postalCode = postalCode }
+    set City(city: string) { this.city = city }
+
     constructor(store: OrganiserStore, id?: number) {
         makeAutoObservable(this)
         this.store = store
@@ -193,33 +201,5 @@ export class Organiser {
                 this.state = ModelState.ERROR
             })
         )
-    }
-
-    set setName(name: string) {
-        this.name = name
-    }
-
-    set setDescription(description: string) {
-        this.description = description
-    }
-    
-    set setStreet(street: string) {
-        this.street = street
-    }
-
-    set setStreetNumber(streetNumber: string) {
-        this.streetNumber = streetNumber
-    }
-
-    set setAppartment(appartment: string) {
-        this.appartment = appartment
-    }
-
-    set setPostalCode(postalCode: string) {
-        this.postalCode = postalCode
-    }
-
-    set setCity(city: string) {
-        this.city = city
     }
 }

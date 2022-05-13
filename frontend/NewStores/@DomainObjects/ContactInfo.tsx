@@ -8,6 +8,9 @@ export class ContactInfo {
     @observable type : ContactInfoType
     @observable state : ModelState
 
+    set Value(value : string) { this.value = value }
+    set Type(type : ContactInfoType) {this.type = type }
+    set State(state : ModelState) {this.state = state}
     constructor(){
         makeAutoObservable(this)
         this.value = ""

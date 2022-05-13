@@ -29,40 +29,13 @@ export class Market {
     @observable imageData : string //base64 string representation of image data.
     @observable location : Location
 
-    @action
-    set setId(id: number) {
-        this.id = id;
-    }
-
-    @action
-    set setOrganiserId(id: number) {
-        this.id = id;
-    }
-
-    @action
-    set setName(name: string) {
-        this.name = name
-    }
-
-    @action
-    set setDescription(description: string) {
-        this.description = description
-    }
-
-    @action
-    set setStartDate(date: Date) {
-        this.startDate = date
-    }
-
-    @action
-    set setEndDate(date: Date) {
-        this.startDate = date
-    }
-
-    @action
-    set setIsCancelled(isCancelled: boolean) {
-        this.isCancelled = isCancelled
-    }
+    set Id(id: number) { this.id = id }
+    set OrganiserId(id: number) { this.id = id }
+    set Name(name: string) { this.name = name }
+    set Description(description: string) { this.description = description }
+    set StartDate(date: Date) { this.startDate = date }
+    set EndDate(date: Date) { this.startDate = date }
+    set IsCancelled(isCancelled: boolean) { this.isCancelled = isCancelled }
 
     constructor(store: MarketStore) {
         makeAutoObservable(this);

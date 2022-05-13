@@ -15,9 +15,11 @@ export class StallType {
     @observable stalls: Stall[]
     @observable market: Market
     @observable totalStallCount: number
+    @observable bookingCount: number    //this is used when booking. Should probably be moved out
 
-    //this is used when booking. Should probably be moved out
-    @observable bookingCount: number
+    set Name(name: string) { this.name = name }
+    set Description(description: string) { this.description = description }
+    set BookingCount(count: number) { this.bookingCount = count }
 
     constructor(store) {
         makeAutoObservable(this);
@@ -131,20 +133,6 @@ export class StallType {
     @action
     removeStall(id: number) {
         this.stalls = this.stalls.filter(x => x.id != id)
-    }
-
-    @action
-    set setName(name: string) {
-        this.name = name
-    }
-
-    @action
-    set setDescription(description: string) {
-        this.description = description
-    }
-
-    set setBookingCount(count: number) {
-        this.bookingCount = count
     }
 
     @action

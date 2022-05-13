@@ -17,6 +17,11 @@ export class Booth {
     @observable itemCategories: string[]
     @observable imageData : string //base64 string representation of image data.
 
+    set State(state : symbol) { this.state = state }
+    set Id(id : string) {this.id = id}
+    set Name(name : string) {this.name = name}
+    set Description(description : string) {this.description = description }
+
     constructor(store: BoothStore) {
         makeAutoObservable(this)
         this.store = store

@@ -14,10 +14,12 @@ export class Auth {
     refreshPath: string = "loppeportalen_refresh"
     @observable email: string = "" //email to be used for authentication.
     @observable password: string = "" //password to be used for authentication.
-
     @observable user: User = null
     @observable signedIn: boolean = false;
     @observable initializing: boolean = true;
+
+    set Email(email: string) { this.email = email }
+    set Password(password: string) { this.password = password }
 
     constructor(authStore: AuthStore, user?: User) {
         makeAutoObservable(this);
@@ -152,13 +154,5 @@ export class Auth {
         localStorage.removeItem(this.jwtPath);
         localStorage.removeItem(this.refreshPath);
         this.signedIn = false;
-    }
-
-    set setEmail(email: string) {
-        this.email = email;
-    }
-
-    set setPassword(password: string) {
-        this.password = password;
     }
 }

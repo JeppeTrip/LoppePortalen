@@ -75,16 +75,6 @@ export class Stall {
             this.market = market
     }
 
-    @action
-    set setId(id: number) {
-        this.id = id
-    }
-
-    @action
-    set setType(stallType: StallType) {
-        this.type = stallType
-    }
-
     /**
     * Permanently delete this stall from server. 
     * Propagates the update to the related market and stalltype if they are loaded 

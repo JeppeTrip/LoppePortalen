@@ -8,15 +8,19 @@ import { ContactInfo } from "./ContactInfo"
 
 export class Merchant {
     store: MerchantStore
-    @observable _id: number
-    @observable _state: ModelState
-    @observable _name: string
-    @observable _description: string
-    @observable _userId: string
-    @observable _oldState: Merchant
+    @observable id: number
+    @observable state: ModelState
+    @observable name: string
+    @observable description: string
+    @observable userId: string
+    @observable oldState: Merchant
     @observable booths: Booth[]
     @observable contactInfo: ContactInfo[]
     @observable imageData : string //base64 string representation of image data.
+
+    set State(state: ModelState) { this.state = state }
+    set Name(name: string) { this.name = name }
+    set Description(description: string) { this.description = description }
 
     constructor(store: MerchantStore) {
         makeAutoObservable(this)
@@ -70,14 +74,14 @@ export class Merchant {
     updateFromServer(dto: Dto) {
         if (this.state != ModelState.UPDATING) {
             this.state = ModelState.UPDATING
-            this._id = dto.id
-            this._userId = dto.userId
+            this.id = dto.id
+            this.userId = dto.userId
             this.name = dto.name
             this.description = dto.description
             if (dto instanceof GetMerchantVM)
                 this.updateFromServerGetMerchantVM(dto);
 
-            this._oldState = new Merchant(undefined)
+            this.oldState = new Merchant(undefined)
             this.updateOldState()
             this.state = ModelState.IDLE
         }
@@ -114,8 +118,8 @@ export class Merchant {
      */
     @action
     resetFields() {
-        this._name = this.oldState._name
-        this._description = this.oldState._description
+        this.name = this.oldState._name
+        this.description = this.oldState._description
     }
 
     /**
@@ -176,42 +180,6 @@ export class Merchant {
         )
     }
 
-
-    get state() {
-        return this._state
-    }
-
-    set state(state: ModelState) {
-        this._state = state
-    }
-
-    get name() {
-        return this._name
-    }
-
-    set name(name: string) {
-        this._name = name
-    }
-
-    get description() {
-        return this._description
-    }
-
-    set description(description: string) {
-        this._description = description
-    }
-
-    get id() {
-        return this._id
-    }
-
-    get userId() {
-        return this._userId
-    }
-
-    get oldState() {
-        return this._oldState
-    }
 
 
 }

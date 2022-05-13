@@ -21,8 +21,14 @@ export class User {
     @observable merchants: Merchant[]
     @observable booths: Booth[]
 
-    //organisers form a organiser store
+    set FirstName(name: string) { this.firstName = name }
+    set LastName(name: string) { this.lastName = name }
+    set Email(email: string) { this.email = email }
+    set PhoneNumber(phoneNumber: string) { this.phoneNumber = phoneNumber }
+    set DateOfBirth(date: Date) { this.dateOfBirth = date }
+    set setCountry(country: string) { this.country = country }
 
+    //organisers form a organiser store
     constructor(store: UserStore, id?: string) {
         makeAutoObservable(this)
         this.store = store
@@ -136,27 +142,5 @@ export class User {
         return this;
     }
 
-    set setFirstName(name: string) {
-        this.firstName = name
-    }
 
-    set setLastName(name: string) {
-        this.lastName = name
-    }
-
-    set setEamil(email: string) {
-        this.email = email;
-    }
-
-    set setPhoneNumber(phoneNumber: string) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    set setDateOfBirth(date: Date) {
-        this.dateOfBirth = date;
-    }
-
-    set setCountry(country: string) {
-        this.country = country
-    }
 }
