@@ -118,8 +118,8 @@ export class Merchant {
      */
     @action
     resetFields() {
-        this.name = this.oldState._name
-        this.description = this.oldState._description
+        this.name = this.oldState.name
+        this.description = this.oldState.description
     }
 
     /**
@@ -127,8 +127,8 @@ export class Merchant {
      */
     @action
     updateOldState() {
-        this.oldState._name = this.name
-        this.oldState._description = this.description
+        this.oldState.name = this.name
+        this.oldState.description = this.description
     }
 
     @action
