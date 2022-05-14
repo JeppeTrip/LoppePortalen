@@ -23,7 +23,7 @@ namespace Application.Test
 
             var someOptions = Options.Create(new OperationalStoreOptions());
 
-            var context = new ApplicationDbContext(options, someOptions, null); //TODO this doesn't work.
+            var context = new ApplicationDbContext(options, someOptions, null);
 
             if (context != null)
             {

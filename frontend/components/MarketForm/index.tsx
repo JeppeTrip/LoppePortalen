@@ -15,7 +15,6 @@ import { FC, Fragment, useEffect, useState } from 'react';
 import { ModelState } from '../../@types/ModelState';
 import { Market } from '../../NewStores/@DomainObjects/Market';
 import MarketDetailsForm from '../MarketDetailsForm';
-import StallForm from '../StallForm';
 
 
 type Props = {

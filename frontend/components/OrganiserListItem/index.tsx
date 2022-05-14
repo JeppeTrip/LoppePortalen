@@ -15,7 +15,6 @@ const OrganiserListItem: FC<Props> = (props: Props) => {
 
     const handleOnClick = (event) => {
         event.preventDefault();
-        props.Organiser.select();
         if (router.isReady) {
             router.push('/organiser/show/' + props.Organiser.id, undefined, { shallow: true });
         }

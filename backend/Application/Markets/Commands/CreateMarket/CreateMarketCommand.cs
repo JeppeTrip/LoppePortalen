@@ -97,6 +97,5 @@ namespace Application.Markets.Commands.CreateMarket
                 return new CreateMarketResponse() { Market = market };
             }
         }
-
     }
 }
