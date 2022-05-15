@@ -82,7 +82,7 @@ namespace Application.Markets.Commands.CreateMarket
                     OccupiedStallCount = 0,
                     Organiser = new OrganiserBaseVM()
                     {
-                        UserId = "User2200",
+                        UserId = organiser.UserId,
                         Id = organiser.Id,
                         Name = organiser.Name,
                         Description = organiser.Description,

@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 package "Next.js Frontend" {
   package "Pages" {}
   package "Components" {}
@@ -7,23 +8,16 @@ package "Next.js Frontend" {
 
 package ".NET Backend" {
   package "Web" {}
-  package "Application" {
-      package "Common" {
-          package "Interfaces" {}
-          package "Exceptions" {}
-          package "Dtos" {}
-          package "Behaviours" {}
-      }
-  }
+  package "Application" {  }
   package "Infrastructure" {}
   package "Domain" {}
 }
 
-database "SQL" {
+database "DB" {
 
 }
 
-Infrastructure ..> SQL
+Infrastructure ..> DB
 Web ..> Infrastructure
 Web ..> Application
 Application ..> Domain
