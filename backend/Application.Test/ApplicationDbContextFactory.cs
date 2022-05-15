@@ -4650,6 +4650,22 @@ namespace Application.Test
                     City = "city",
                     PostalCode = "postal"
                 }
+            },
+            new Organiser()
+            {
+                Id = 2802,
+                Name = "Organiser 2802",
+                Description = "Organiser 2802 Description",
+                UserId = "User2800",
+                Address = new Address()
+                {
+                    Id = 2802,
+                    Street = "street",
+                    Number = "number",
+                    Appartment = "apt",
+                    City = "city",
+                    PostalCode = "postal"
+                }
             });
             context.Merchants.Add(new Merchant()
             {

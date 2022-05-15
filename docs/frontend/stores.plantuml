@@ -1,0 +1,89 @@
+@startuml
+skinparam ClassFontSize 16
+skinparam PackageFontSize 16
+skinparam ClassAttributeFontSize 16 
+
+class RootStore {
+
+}
+
+class UserStore {
+    transportLayer : UserClient
+    user: User 
+    ...
+}
+
+class StallTypeStore {
+    transportLayer : StallTypeClient
+    stallTypes : StallType[]
+    ...
+}
+
+class StallStore {
+    transportLayer : StallClient
+    stalls: Stall[]
+    ...
+}
+
+class OrganiserStore {
+    transportLayer : OrganiserClient
+    organisers: Organiser[]
+    ...
+}
+
+class MerchantStore {
+    transportLayer : MerchantClient
+    merchants: Merchant[]
+    ...
+
+    createMerchant()
+    updateMerchantFromServer(dto: MerchantBaseVM)
+    getAllMerchants()
+    resolveMerchant(id: number)
+    fetchMerchant(id: number)
+}
+
+class MarketStore {
+    transportLayer : MarketClient
+    markets: Market[]
+    ...
+}
+
+class ItemCategoryStore {
+    transportLayer : ItemCategoryClient
+    categories: string[]
+    ...
+}
+
+class BoothStore {
+    transportLayer : BoothClient
+    booths: Booth[]
+    ...
+}
+
+class AuthStore {
+    transportLayer : AuthorizationClient
+    auth : Auth
+    ...
+}
+
+RootStore <--> AuthStore
+RootStore <--> BoothStore
+RootStore <--> ItemCategoryStore
+RootStore <--> MarketStore
+RootStore <--> MerchantStore
+RootStore <--> OrganiserStore
+RootStore <--> StallStore
+RootStore <--> StallTypeStore
+RootStore <--> UserStore
+
+MerchantStore -[hidden]down-> OrganiserStore
+OrganiserStore -[hidden]down-> StallStore
+StallStore -[hidden]down-> StallTypeStore
+StallTypeStore -[hidden]down-> UserStore
+
+OrganiserStore -[hidden]right-> MarketStore
+StallStore -[hidden]right-> ItemCategoryStore
+StallTypeStore -[hidden]right-> BoothStore
+UserStore -[hidden]down-> AuthStore
+@enduml

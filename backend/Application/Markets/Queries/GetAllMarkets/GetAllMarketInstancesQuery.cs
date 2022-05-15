@@ -28,11 +28,13 @@ namespace Application.Markets.Queries.GetAllMarkets
                 //TODO: this must be horrible performance. Might need update.
                 var instances = await _context.MarketInstances
                     .Include(x => x.MarketTemplate)
-                    .ThenInclude(x => x.Organiser)
+                    .ThenInclude(x => x.StallTypes)
+                    .Include(x => x.MarketTemplate.Organiser)
                     .ThenInclude(x => x.Address)
                     .Include(x => x.Stalls)
                     .ThenInclude(x => x.Bookings)
                     .ThenInclude(x => x.ItemCategories)
+                    .Include(x => x.MarketTemplate)
                     .ToListAsync();
 
                 OrganiserBaseVM organiser;

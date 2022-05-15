@@ -1,0 +1,76 @@
+@startuml
+skinparam ClassFontSize 16
+skinparam PackageFontSize 16
+skinparam ClassAttributeFontSize 16 
+class Auth {
+    authStore: AuthStore
+    ...
+}
+
+class Booth {
+    store: BoothStore
+    ...
+}
+
+class ContactInfo {
+    ...
+}
+
+class Market {
+    store: MarketStore
+    ...
+}
+
+class Merchant {
+    store: MerchantStore
+    ...
+}
+
+class Organiser {
+    store: OrganiserStore
+    ...
+    
+    updateFromServer(dto: OrganiserBaseVM)
+    updateFromServerGetOrganiserVm(dto: GetOrganiserVM)
+    save()
+    addContactInfo(contactInfo: ContactInfo)
+    deleteContactInfo(contactInfo: ContactInfo)
+    uploadBanner(file : File)
+}
+
+class Stall {
+    store: StallStore
+    ...
+}
+
+class StallType {
+    store: StallTypeStore
+    ...
+}   
+
+class User {
+    store: UserStore
+    ...
+}
+
+Auth --> User
+
+Booth <--> Stall
+Booth <--> Merchant
+
+Market <--> Organiser 
+Market <--> StallType
+Market <--> Stall
+Market --> Booth
+
+Merchant --> ContactInfo
+
+Organiser --> ContactInfo
+
+Stall <--> StallType
+
+User --> Organiser
+User --> Market
+User --> Merchant
+User --> Booth
+@enduml

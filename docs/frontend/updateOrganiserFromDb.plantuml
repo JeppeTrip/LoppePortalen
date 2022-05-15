@@ -1,0 +1,42 @@
+@startuml
+skinparam ParticipantFontSize 16
+skinparam SequenceBoxFontSize 16
+skinparam SequenceDividerFontSize 16
+skinparam SequenceReferenceFontSize 16
+skinparam SequenceDelayFontSize 16
+skinparam SequenceTitleFontSize 16 
+
+Participant OrganiserStore
+Participant Organiser
+Participant MarketStore
+
+[o-> OrganiserStore : updateOrganiserFromDb(dto)
+
+OrganiserStore -> Organiser : updateFromDb(dto)
+
+alt Organiser.state = updating
+  Organiser --> OrganiserStore : return(this)
+else else
+  Organiser -> Organiser : setState(updating)
+  alt dto er instans af GetOrganiserVM
+
+      group Foreach [Market in dto market collection]
+        Organiser -> MarketStore : updateMarketFromDb(dto)
+        MarketStore --> Organiser : return(market)
+        alt Organiser indeholder ikke Market instansen
+        Organiser -> Organiser : addMarket()
+        end
+      end
+
+  end
+
+  Organiser -> Organiser : setState(idle)
+  Organiser --> OrganiserStore : return(this)
+end
+
+
+
+
+[o<- OrganiserStore : return(organiser)
+
+@enduml

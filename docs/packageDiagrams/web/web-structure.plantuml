@@ -1,0 +1,47 @@
+@startuml
+skinparam ClassFontSize 16
+skinparam PackageFontSize 16
+skinparam ClassAttributeFontSize 16 
+package Web {
+    package Controllers {
+        abstract class ApiBase {
+            - _mediator : IMediator
+            - _currentUserService : ICurrentUserService
+        }
+    }
+
+    package Filters {
+        class ApiExceptionFilter {
+            - HandleException(context : ExceptionContext)
+            - HandleValidationException(context : ExceptionContext)
+            - HandleNotFoundException(context : ExceptionContext)
+            - HandleUnknownException(context : ExceptionContext)
+            - HandleUnauthorizedAccessException(context : ExceptionContext)
+            - HandleForbiddenAccessException(context : ExceptionContext)
+        }
+    }
+
+    package Services {
+        class CurrentUserService {
+            - _httpContextAccessor : IHttpContextAccessor
+
+            + UserId() : string
+        }
+    }
+
+    class Program {
+        {static} + async Main (args : string[]) : Task
+    }
+
+    class Startup {
+        + ConfigureServices(services : IServiceCollection);
+        + Configure(app : IApplicationBuilder, env : IWebHostEnvironment)
+    }
+}
+
+Startup -[hidden]down-> Program
+Controllers -[hidden]down-> Filters
+Filters -[hidden]down-> Services
+
+Program ..> Startup
+@enduml

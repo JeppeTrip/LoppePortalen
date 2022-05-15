@@ -1,9 +1,7 @@
 import { action, flow, makeAutoObservable, observable } from "mobx"
-import { ModelState } from "../../@types/ModelState"
-import { CreateMerchantRequest, EditMerchantRequest, GetMerchantQueryResponse, MerchantClient } from "../../services/clients"
+import { GetMerchantQueryResponse, MerchantBaseVM as Dto, MerchantClient } from "../../services/clients"
 import { Merchant } from "../@DomainObjects/Merchant"
 import { RootStore } from "../RootStore"
-import { MerchantBaseVM as Dto } from "../../services/clients"
 
 export class MerchantStore {
     rootStore: RootStore

@@ -12,10 +12,8 @@ namespace Web.Controllers
     {
         private IMediator _mediator;
         private ICurrentUserService _currentUserSerivce;
-        private ApplicationDbContext _context;
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
         protected ICurrentUserService CurrentUserService => _currentUserSerivce ??= HttpContext.RequestServices.GetService<ICurrentUserService>();
-        protected ApplicationDbContext Context => _context ??= HttpContext.RequestServices.GetService< ApplicationDbContext>();
     }
 }
