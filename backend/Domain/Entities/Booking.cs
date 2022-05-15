@@ -1,13 +1,9 @@
-﻿using Domain.Enums;
-using System;
+﻿using Domain.Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Booking
+    public class Booking : AuditableEntity
     {
         public string Id { get; set; }
         public int MerchantId { get; set; }
