@@ -7,6 +7,7 @@ type Props = {
  
 }
 
+//THANK YOU IVAN! https://dev.to/ivandotv/protecting-static-pages-in-next-js-application-1e50
 const AuthGuard: React.FunctionComponent<Props> = props => {
   const authStore = useContext(StoreContext).authStore;
   const router = useRouter()
