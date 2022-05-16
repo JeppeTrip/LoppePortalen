@@ -1,15 +1,11 @@
 @startuml
 package Domain {
     package Entites {
-        class MarketTemplate {
+        class Category {
             ...
         }
 
         class Stall {
-            ...
-        }
-
-        class StallType {
             ...
         }
 
@@ -35,10 +31,8 @@ package Domain {
 }
 
 MarketInstanceExtensions .right.> MarketInstance
-MarketTemplate "1" -up- "*" MarketInstance
 MarketInstance "1" -right- "*" Stall
-Stall "*" -down- "1" StallType
-MarketTemplate "1" -right- "*" StallType
-Stall -right- Booking
+Stall -down- Booking
+Booking -left- Category
 
 @enduml

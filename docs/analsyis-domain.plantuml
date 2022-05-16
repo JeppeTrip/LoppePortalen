@@ -6,7 +6,7 @@ object Organiser {
     name
 }
 
-object Salesperson {
+object Merchant {
     name
 }
 
@@ -34,8 +34,8 @@ object Table {
 
 Organiser "1"--"*"  Market : Organiserer >
 Market "1" -- "1..*" Stall
-Salesperson "1" -- "1..*" Stall : Lejer >
-Salesperson "1" -- "1..*" Item : Sælger >
+Merchant "1" -- "1..*" Stall : Lejer >
+Merchant "1" -- "1..*" Item : Sælger >
 Stall "1" -- "1..*" Chair 
 Stall "1" -- "1..*" Table
 Stall "1" -- "1..*" Item : Solgt på <
