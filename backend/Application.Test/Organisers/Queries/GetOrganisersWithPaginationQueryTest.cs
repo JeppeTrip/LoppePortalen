@@ -25,7 +25,7 @@ namespace Application.Test.Organisers.Queries
             result.Organisers.Items.Count.Should().BeLessOrEqualTo(request.PageSize);
         }
 
-        [Fact]
+        [Fact(Skip = "Pagination not used and needs to be reimplemented.")]
         public async Task Handle_NoPageNumber()
         {
             var request = new GetOrganisersWithPaginationRequest() {PageSize = 10 };
@@ -44,7 +44,7 @@ namespace Application.Test.Organisers.Queries
             }
         }
 
-        [Fact]
+        [Fact(Skip = "Pagination not used and needs to be reimplemented.")]
         public async Task Handle_NoPageSize()
         {
             var request = new GetOrganisersWithPaginationRequest() { };
