@@ -139,11 +139,13 @@ export class Auth {
                         this.initializing = false;
                     }),
                     action("resolvedUserFailed", user => {
-                        this.user = null
                         this.signedIn = false;
                         this.initializing = false;
                     })
                 );
+        } else {
+            this.signedIn = false;
+            this.initializing = false;
         }
     }
 

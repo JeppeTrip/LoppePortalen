@@ -30,7 +30,6 @@ export const StoreProvider: StoreComponent = ({ children }): ReactElement => {
         moved authorization here because the rootstore isn't available in the _app.tsx file
      */
     useEffect(() => {
-        console.log("store provider useeffect called")
         store.authStore.auth.initialize();
     }, []);
 

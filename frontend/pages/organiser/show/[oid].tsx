@@ -30,14 +30,12 @@ const OrganiserProfilePage: NextPage<Props> = observer(() => {
     }, [router.isReady]);
 
     useEffect(() => {
-        console.log("ever called ?")
         if (selectedOrganiser == null) {
             if (!(organiserId == "")) {
                 flowResult(stores.organiserStore.fetchOrganiser(parseInt(organiserId)))
                     .then(res => {
                         setSelectedOrganiser(res)
                     }).catch(error => {
-                        console.log("error ?")
                         handleError(error)
                     });
             }

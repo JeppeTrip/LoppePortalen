@@ -85,7 +85,7 @@ export class Booth {
         this.store.transportLayer.uploadBoothBanner(this.id, fileParameter)
         .then(
             action("submitSuccess", res => {
-                console.log("do nothing I guess?")
+                //todo consider what to do here.
             }),
             action("submitError", error => {
                 this.state = ModelState.ERROR

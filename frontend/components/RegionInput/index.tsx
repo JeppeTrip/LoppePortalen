@@ -48,7 +48,6 @@ const RegionInput: FC<Props> = (props: Props) => {
     );
 
     useEffect(() => {
-        console.log("use effect")
         let active = true;
 
         if (queryString === '') {
@@ -57,10 +56,7 @@ const RegionInput: FC<Props> = (props: Props) => {
         }
 
         fetchOptions({ input: queryString }, (results?: readonly Location[]) => {
-            console.log("fetch options callback?")
-            console.log(results)
             if (active) {
-                console.log("active?")
                 let newOptions: readonly Location[] = [];
 
                 if (props.value) {

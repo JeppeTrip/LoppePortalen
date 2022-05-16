@@ -172,7 +172,7 @@ export class Merchant {
         this.store.transportLayer.uploadMerchantBanner(this.id, fileParameter)
         .then(
             action("submitSuccess", res => {
-                console.log("do nothing I guess?")
+                //todo consider what to do here.
             }),
             action("submitError", error => {
                 this.state = ModelState.ERROR

@@ -13,4 +13,4 @@ The frontend is built around Next.JS https://nextjs.org/learn/foundations/from-r
 
 Uses Mobx https://mobx.js.org/README.html for statemanagement. 
 
-There is also used https://mui.com/material-ui/getting-started/installation/ through out.
+MUI and their components are also used through out, https://mui.com/material-ui/getting-started/installation/.
