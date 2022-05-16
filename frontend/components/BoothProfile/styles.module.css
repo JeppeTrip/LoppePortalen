@@ -1,0 +1,20 @@
+.bannerPlaceholder {
+    border-radius: 5px;
+    height: 350px;
+
+    background-image: url("../../public/placeholder/booth_placeholder.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.banner {
+    border-radius: 5px;
+    height: 350px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}

@@ -1,0 +1,3105 @@
+{
+  "x-generator": "NSwag v13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v12.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Loppe Portalen API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/Authorization/Register": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Authorization_RegisterUser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Authorization/Login": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Authorization_AuthenticateUser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticateUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Authorization/RefreshToken": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Authorization_RefreshToken",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshJwtRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshJwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Booth": {
+      "get": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_GetBooth",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoothResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_UpdateBooth",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBoothRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBoothResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Booth/filtered": {
+      "get": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_FilteredBooths",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFilteredBoothsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Booth/banner/upload": {
+      "put": {
+        "tags": [
+          "Booth"
+        ],
+        "operationId": "Booth_UploadBoothBanner",
+        "parameters": [
+          {
+            "name": "boothId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadBoothBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ItemCategory/all": {
+      "get": {
+        "tags": [
+          "ItemCategory"
+        ],
+        "operationId": "ItemCategory_GetAllItemCategories",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/new": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_CreateMarket",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMarketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/instance/{id}": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetMarketInstance",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketInstanceQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/instance/all": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetAllMarketInstances",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllMarketInstancesQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/instance/cancel/{id}": {
+      "patch": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_CancelMarketInstance",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelMarketInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/instance/filtered": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetFilteredMarketInstances",
+        "parameters": [
+          {
+            "name": "isCancelled",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "organiserId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 5
+          },
+          {
+            "name": "x",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "x-position": 6
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "distance",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "x-position": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFilteredMarketsQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/user/current": {
+      "get": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_GetCurrentUsersMarkets",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market": {
+      "put": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_UpdateMarket",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditMarketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/addStalls": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_AddStallsToMarket",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddStallsToMarketRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddStallsToMarketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/bookstalls": {
+      "post": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_BookStalls",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookStallsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookStallsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Market/banner/upload": {
+      "put": {
+        "tags": [
+          "Market"
+        ],
+        "operationId": "Market_UploadMarketBanner",
+        "parameters": [
+          {
+            "name": "marketId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMarketBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant": {
+      "post": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_CreateMerchant",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMerchantRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMerchantResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_GetMerchant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMerchantQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_UpdateMerchant",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditMerchantRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditMerchantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/all": {
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_GetAllMerchants",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllMerchantsQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/booths": {
+      "get": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_GetBooths",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoothBaseVM"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/add/contactInformation": {
+      "post": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_AddContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMerchantContactInformationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactInformationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/contactInfo": {
+      "delete": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_RemoveContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMerchantContactRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveMerchantContactResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Merchant/banner/upload": {
+      "put": {
+        "tags": [
+          "Merchant"
+        ],
+        "operationId": "Merchant_UploadMerchantBanner",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMerchantBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/new": {
+      "post": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_CreateOrganiser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganiserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrganiserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/add/contactInformation": {
+      "post": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_AddContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrganiserContactInformationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactInformationResponse2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/all": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetAllOrganisers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllOrganisersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/{pageNumber}/{pageSize}": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetOrganisers",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganisersWithPaginationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/{id}": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_GetOrganiser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganiserQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/edit": {
+      "put": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_EditOrganiser",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditOrganiserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditOrganiserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/contactInfo": {
+      "delete": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_RemoveContactInformation",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveContactInformationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveContactInformationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Organiser/banner/upload": {
+      "put": {
+        "tags": [
+          "Organiser"
+        ],
+        "operationId": "Organiser_UploadOrganiserBanner",
+        "parameters": [
+          {
+            "name": "organiserId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadBannerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Stall/{marketId}": {
+      "get": {
+        "tags": [
+          "Stall"
+        ],
+        "operationId": "Stall_GetStallsForMarket",
+        "parameters": [
+          {
+            "name": "marketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketStallsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Stall/{id}": {
+      "delete": {
+        "tags": [
+          "Stall"
+        ],
+        "operationId": "Stall_DeleteStall",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteStallResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/StallType/create": {
+      "post": {
+        "tags": [
+          "StallType"
+        ],
+        "operationId": "StallType_CreateStallType",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStallTypeRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStallTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Test": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "operationId": "Test_GetTest",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestCommandResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUserInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_UpdateUserInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/markets": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersMarkets",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMarketsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/organisers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersOrganisers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersOrganisersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/merchants": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersMerchants",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersMerchantsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/booths": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetUsersBooths",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersBoothsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterUserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "AuthResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "token": {
+                "type": "string",
+                "nullable": true
+              },
+              "refreshToken": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "Result": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RegisterUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AuthenticateUserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AuthenticateUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RefreshJwtResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AuthResult"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "RefreshJwtRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetBoothResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "booth": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetBoothVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetBoothVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetBoothStallVM"
+                  }
+                ]
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "GetBoothStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "MarketBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          },
+          "totalStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "occupiedStallCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "StallBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stallType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/StallTypeBaseVM"
+              }
+            ]
+          }
+        }
+      },
+      "StallTypeBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "BoothBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "stall": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/StallBaseVM"
+              }
+            ]
+          },
+          "categories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateBoothResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "UpdateBoothRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "boothName": {
+            "type": "string",
+            "nullable": true
+          },
+          "boothDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemCategories": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GetFilteredBoothsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "booths": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetFilteredBoothsVM"
+            }
+          }
+        }
+      },
+      "GetFilteredBoothsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetFilteredBoothsStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetFilteredBoothsStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "UploadBoothBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "boothId": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateMarketResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "market": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateMarketVM"
+              }
+            ]
+          }
+        }
+      },
+      "CreateMarketVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "OrganiserBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Vector2"
+          }
+        }
+      },
+      "Vector2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "float"
+          },
+          "y": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "GetMarketInstanceQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "market": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetMarketInstanceVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetMarketInstanceVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              },
+              "stallTypes": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/StallTypeBaseVM"
+                }
+              },
+              "booths": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/BoothBaseVM"
+                }
+              },
+              "stalls": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/StallBaseVM"
+                }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "GetAllMarketInstancesQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetAllMarketsVM"
+            }
+          }
+        }
+      },
+      "GetAllMarketsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "CancelMarketInstanceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isCancelled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GetFilteredMarketsQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FilteredMarketVM"
+            }
+          }
+        }
+      },
+      "FilteredMarketVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetUsersMarketsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "markets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UsersMarketsVM"
+            }
+          }
+        }
+      },
+      "UsersMarketsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MarketBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organiser": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OrganiserBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "EditMarketResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "EditMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marketName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Vector2"
+          }
+        }
+      },
+      "AddStallsToMarketResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallBaseVM"
+            }
+          }
+        }
+      },
+      "AddStallsToMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stallTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BookStallsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BookStallsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallBooking"
+            }
+          }
+        }
+      },
+      "StallBooking": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stallTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookingAmount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UploadMarketBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateMerchantResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MerchantBaseVM"
+              }
+            ]
+          }
+        }
+      },
+      "MerchantBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateMerchantRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AllMerchantsQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantList": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MerchantBaseVM"
+            }
+          }
+        }
+      },
+      "GetMerchantQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetMerchantVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetMerchantVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MerchantBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "booths": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/GetMerchantBoothVM"
+                }
+              },
+              "contactInfo": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContactInfoBaseVM"
+                }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "GetMerchantBoothVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetMerchantStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetMerchantStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ContactInfoBaseVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "ContactInfoType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "PHONE_NUMER",
+          "FACEBOOK",
+          "TWITTER",
+          "EMAIL",
+          "INSTAGRAM",
+          "TIKTOK"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "EditMerchantResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "EditMerchantRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddContactInformationResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AddMerchantContactInformationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "RemoveMerchantContactResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "RemoveMerchantContactRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UploadMerchantBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateOrganiserResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateOrganiserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddContactInformationResponse2": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AddOrganiserContactInformationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContactInfoType"
+          }
+        }
+      },
+      "GetAllOrganisersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organisers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OrganiserBaseVM"
+            }
+          }
+        }
+      },
+      "GetOrganisersWithPaginationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organisers": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedListOfOrganiser"
+              }
+            ]
+          }
+        }
+      },
+      "PaginatedListOfOrganiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Organiser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetOrganiserQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiser": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetOrganiserVM"
+              }
+            ]
+          }
+        }
+      },
+      "GetOrganiserVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OrganiserBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "markets": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/MarketBaseVM"
+                }
+              },
+              "contacts": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContactInfoBaseVM"
+                }
+              },
+              "imageData": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "EditOrganiserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "EditOrganiserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "appartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RemoveContactInformationResponse": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "RemoveContactInformationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UploadBannerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organiserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetMarketStallsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stalls": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StallBaseVM"
+            }
+          }
+        }
+      },
+      "DeleteStallResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "CreateStallTypeResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateStallTypeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TestCommandResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testResult": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetUserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "user": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/User"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "User": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetUsersOrganisersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organisers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OrganiserBaseVM"
+            }
+          }
+        }
+      },
+      "GetUsersMerchantsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "merchants": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MerchantBaseVM"
+            }
+          }
+        }
+      },
+      "GetUsersBoothsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "booths": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetUsersBoothsVM"
+            }
+          }
+        }
+      },
+      "GetUsersBoothsVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BoothBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stall": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetUsersBoothsStallVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetUsersBoothsStallVM": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StallBaseVM"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "market": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/MarketBaseVM"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "Type into the textbox: Bearer {your JWT token}.",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
+}

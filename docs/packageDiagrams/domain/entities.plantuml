@@ -1,0 +1,131 @@
+@startuml
+skinparam ClassFontSize 16
+skinparam PackageFontSize 16
+skinparam ClassAttributeFontSize 16 
+package Domain {
+    package Entites {
+        class Address {
+            street : string
+            number : string
+            appartment : string
+            postalcode : string
+            city : string
+        }
+
+        class Booking{
+            boothName : string
+            boothDescription : string
+        }
+
+        class BookingImage {
+            ImageTitle : string
+            ImageData : string
+        }
+
+        class Category{
+            name : string
+        }
+
+        class ContactInfo {
+            contactType : ContactInfoType
+            value : string
+        }
+
+        class MarketImage {
+            ImageTitle : string
+            ImageData : string
+        }
+
+        class MarketInstance {
+            isCancelled : bool
+            startDate : Date
+            endDate : Date
+        }
+
+        class MarketTemplate {
+            marketName : string
+            marketDescription : string
+            address : string
+            postalCode : string
+            city : string
+            location : Point
+        }
+
+        class Merchant {
+            merchantName : string
+            merchantDescription : string
+        }
+
+        class MerchantContactInfo {
+            value : string
+            contactType : ContactInfoType
+        }
+
+        class MerchantImage {
+            ImageTitle : string
+            ImageData : string
+        }
+
+        class Organiser {
+            organiserName : string
+            organiserDescription : string
+        }
+
+        class OrganiserImage {
+            ImageTitle : string
+            ImageData : string
+        }
+
+        class RefreshToken {
+            token : string
+            jwtId : string
+            isUsed : boolean
+            isRewoked : boolean
+            ExpirtyDate : Date
+            applicationUser : ApplicationUser
+        }
+
+        class Stall {
+
+        }
+
+        class StallType {
+            stallName : string
+            stallDescription : string
+        }
+
+        class User {
+            firstName : string
+            lastName : string
+            email : string
+            DateOfBirth : Date
+        }
+    }
+}
+
+Booking "*" -- "*" Category
+Booking "1" -- "0..1" BookingImage
+
+MarketInstance "*" -up- "1" MarketTemplate
+Merchant "1" -- "*" Booking
+Merchant "1" -up- "*" MerchantContactInfo
+Merchant "1" -up- "0..1" MerchantImage
+
+Organiser  -left-> "1" Address
+Organiser "1" -right- "*" MarketTemplate
+Organiser "1" -up- "*" ContactInfo
+
+MarketInstance "1" -down- "*" Stall
+Stall -left- Booking
+MarketTemplate "1" -down- "*" StallType
+MarketTemplate "1" -up- "0..1" MarketImage
+Stall "*" -right- "1" StallType
+
+Organiser "1" -up- "0..1" OrganiserImage
+User "1" -right- "*" Organiser
+
+Merchant "*" -right- "1" User
+
+Merchant -[hidden]down-> RefreshToken
+StallType -[hidden]left-> MarketInstance
+@enduml

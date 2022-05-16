@@ -1,0 +1,60 @@
+@startuml
+package Application {
+    package Common {
+        package Models {
+            class BoothBaseVM {
+
+            }
+
+            class ContactInfoBaseVM {
+
+            }
+
+            class MarketBaseVM {
+
+            }
+
+            class MerchantBaseVM {
+
+            }
+
+            class OrganiserBaseVM {
+
+            }
+
+            class StallBaseVM {
+
+            }
+
+            class StallTypeBaseVM {
+
+            }
+        }
+    }
+    package Booths{
+        package Queries {
+            package GetBooth {
+                class GetBoothVM {
+
+                }
+            }
+
+            package GetFilteredBooths {
+                class GetFilteredBoothsVM {
+
+                }
+            }
+
+            package GetUsersBooths {
+                class GetUsersBoothsVM {
+
+                }
+            }
+        }
+    }
+}
+
+GetBoothVM --|> BoothBaseVM
+GetFilteredBoothsVM --|> BoothBaseVM
+GetUsersBoothsVM --|> BoothBaseVM
+@enduml

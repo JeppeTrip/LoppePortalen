@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+package "Next.js Frontend" {
+  package "Pages" {}
+  package "Components" {}
+  package "Stores" {}
+}
+
+package ".NET Backend" {
+  package "Web" {}
+  package "Application" {  }
+  package "Infrastructure" {}
+  package "Domain" {}
+}
+
+database "DB" {
+
+}
+
+Infrastructure ..> DB
+Web ..> Infrastructure
+Web ..> Application
+Application ..> Domain
+Infrastructure ..> Domain
+
+Stores ..> Web
+Pages ..> Stores 
+Pages ..> Components
+@enduml

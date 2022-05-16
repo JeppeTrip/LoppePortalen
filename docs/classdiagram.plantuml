@@ -1,0 +1,32 @@
+@startuml
+class Organiser {
+    name : string
+    description : string 
+}
+
+class Address {
+    street : string
+    number : string
+    appartment : string
+    postalCode : int
+    city : string
+}
+
+class ContactInfo {
+    type : ContactInfoType
+    value : ContactInfoType
+}
+
+enum ContactInfoType {
+    PHONE_NUMBER = 0
+    FACEBOOK = 1
+    TWITTER = 2
+    EMAIL = 3
+    INSTAGRAM = 4
+    TIKTOK = 5
+}
+
+Organiser "1" --> "*" ContactInfo
+Organiser "1" --> "*" Address
+ContactInfo ..> ContactInfoType
+@enduml

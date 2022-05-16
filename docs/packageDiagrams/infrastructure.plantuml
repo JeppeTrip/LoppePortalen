@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+package Infrastructure {
+    package Identity {
+
+    }
+
+    package Migrations {
+
+    }
+
+    package Persistence {
+        package Configurations {
+
+        }
+        class ApplicationDbContext {
+
+        }
+
+        class DbContextSeed {
+
+        }
+    }
+}
+@enduml

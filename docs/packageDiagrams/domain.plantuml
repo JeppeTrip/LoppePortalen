@@ -1,0 +1,117 @@
+@startuml
+package Domain {
+    package Common {
+        class AuditableEntity {
+
+        }
+
+        class ApplicationUser {
+
+        }
+    }
+
+    package Entites {
+        class Address {
+
+        }
+
+        class Booking {
+
+        }
+
+        class Category {
+
+        }
+
+        class ContactInfo {
+
+        }
+
+        class MarketInstance {
+
+        }
+
+        class MarketTemplate {
+
+        }
+
+        class Merchant {
+            
+        }
+
+        class Organiser {
+
+        }
+
+        class RefreshToken {
+
+        }
+
+        class Stall {
+
+        }
+
+        class StallType {
+
+        }
+
+        class User {
+
+        }
+    }
+
+    package Enums {
+        enum ContactInfoType {
+
+        }
+    }
+
+    package EntityExtensions {
+        class MarketInstanceExtension << static >> {
+
+        }
+    }
+
+    package Exceptions {
+
+    }
+}
+
+ContactInfo ..> ContactInfoType
+ContactInfo -up-|> AuditableEntity
+MarketInstance -up-|> AuditableEntity
+Category -up-|> AuditableEntity
+MarketTemplate -up-|> AuditableEntity
+MarketInstance -up-|> AuditableEntity
+Merchant -up-|> AuditableEntity
+Booking -up-|> AuditableEntity
+StallType -up-|> AuditableEntity
+Stall -up-|> AuditableEntity
+User -up-|> AuditableEntity
+Address -up-|> AuditableEntity
+RefreshToken -up-|> AuditableEntity
+
+
+Booking <--> Merchant
+Booking <--> Stall
+Booking <--> Category
+
+ContactInfo <--> Organiser
+
+MarketInstance <--> MarketTemplate
+MarketInstance <--> Stall
+
+MarketTemplate <--> MarketInstance
+MarketTemplate <--> StallType
+MarketTemplate <--> Organiser
+
+Merchant <--> User
+
+Organiser <--> User
+
+RefreshToken <--> ApplicationUser
+
+Stall <--> StallType
+
+MarketInstanceExtension .up.> MarketInstance
+@enduml

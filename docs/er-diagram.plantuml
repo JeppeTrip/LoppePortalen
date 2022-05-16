@@ -1,0 +1,52 @@
+@startuml
+class User {
+    id
+    email 
+    password
+    name 
+    address 
+}
+
+class Organiser {
+    
+}
+
+class Merchant {
+    
+}
+
+class Stall {
+    position
+}
+
+class MarketTemplate {
+
+}
+
+class MarketInstance {
+
+}
+
+class StallType {
+    name 
+    descriptions
+    form
+}
+
+class Booking {
+    timeframe
+}
+
+User -- Merchant
+User -- Organiser
+Organiser -- MarketTemplate 
+MarketTemplate -- MarketInstance
+MarketTemplate -- StallType
+
+MarketInstance "1" -- "*" Stall
+
+
+Stall -- StallType
+Stall "1" -- "*" Booking
+Booking "*" -- "1" Merchant
+@enduml

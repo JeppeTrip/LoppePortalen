@@ -1,0 +1,91 @@
+@startuml
+skinparam ClassFontSize 24
+skinparam PackageFontSize 24
+
+package Application {
+    package Common {
+        package Exceptions {
+            class NotFoundException {
+
+            }
+        }
+
+        package Interfaces {
+            interface IApplicationDbContext {
+
+            }
+
+            interface ICurrentUserService {
+
+            }
+        }
+
+        package Models {
+            class MarketBaseVM {
+
+            }
+
+            class OrganiserBaseVM {
+
+            }
+        }
+
+        package Security {
+            class AuthorizeAttribute {
+
+            }
+        }
+    }
+
+    package Markets {
+        package Commands {
+            package CreateMarket {
+                class CreateMarketCommand {
+
+                }
+
+                class CreateMarketCommandHandler {
+
+                }
+
+                class CreateMarketRequest {
+
+                }
+
+                class CreateMarketResponse {
+
+                }
+
+                class CreateMarketVM {
+
+                }
+
+                class CreateMarketCommandValidator {
+
+                }
+            }
+        }
+
+    }
+}
+
+CreateMarketCommand --> CreateMarketRequest
+CreateMarketCommand ..> CreateMarketResponse
+CreateMarketCommand ..> AuthorizeAttribute
+
+CreateMarketCommandHandler ..> CreateMarketCommand
+CreateMarketCommandHandler ..> CreateMarketResponse
+CreateMarketCommandHandler --> IApplicationDbContext
+CreateMarketCommandHandler --> ICurrentUserService
+CreateMarketCommandHandler ..> NotFoundException
+
+CreateMarketCommandValidator ..> CreateMarketCommand
+
+CreateMarketResponse --> CreateMarketVM
+
+CreateMarketVM --|> MarketBaseVM
+CreateMarketVM --> OrganiserBaseVM
+
+Security -[hidden]down-> Exceptions
+
+@enduml

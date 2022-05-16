@@ -1,0 +1,16 @@
+.dateContainer {
+    display: flex;
+    column-gap: 5px;
+    font-weight: 600;
+    font-size: medium
+}
+
+.dateContainer p{
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.dateContainer i{
+    display: flex;
+    align-items: center;
+}

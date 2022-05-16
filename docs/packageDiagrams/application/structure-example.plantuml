@@ -1,0 +1,76 @@
+@startuml
+package Application {
+    package Common {
+        package Behaviours {
+
+        }
+
+        package Exceptions {
+
+        }
+
+        package Interfaces {
+
+        }
+
+        package Mappings {
+
+        }
+
+        package Models {
+
+        }
+
+        package Security {
+
+        }
+    }
+
+    package Markets {
+        package Commands {
+            package BookStalls {
+
+            }
+
+            package CancelMarket {
+
+            }
+
+            package CreateMarket {
+
+            }
+
+            package EditMarket {
+
+            }
+
+            package UploadBanner {
+
+            }
+        }
+
+        package Queries {
+            package GetAllMarkets {
+
+            }
+
+            package GetFilteredMarkets {
+                
+            }
+
+            package GetMArketInstance {
+
+            }
+
+            package GetUsersMarkets {
+
+            }
+        }
+    }
+}
+
+Commands -[hidden]up-> Queries
+Common -[hidden]down-> Markets
+
+Markets ..> Common
+@enduml
