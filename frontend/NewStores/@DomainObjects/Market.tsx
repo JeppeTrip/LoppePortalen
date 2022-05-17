@@ -158,6 +158,11 @@ export class Market {
     @action
     save() {
         this.state = ModelState.SAVING
+        if(!this.location)
+        {
+            this.state = ModelState.ERROR
+            return
+        }
         if (!this.id) {
             this.store.transportLayer.createMarket(new CreateMarketRequest({
                 organiserId: this.organiser?.id,

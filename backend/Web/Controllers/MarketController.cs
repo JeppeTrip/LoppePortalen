@@ -23,7 +23,6 @@ namespace Web.Controllers
         [HttpPost("new")]
         public async Task<ActionResult<CreateMarketResponse>> CreateMarket(CreateMarketRequest dto)
         {
-
                 CreateMarketResponse marketResponse = await Mediator.Send(new CreateMarketCommand() { Dto = dto });
                 return marketResponse;
         }
