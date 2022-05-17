@@ -43,9 +43,7 @@ namespace Application.Stalls.Commands.DeleteStall
                 }
 
                 if(stall.MarketInstance.IsCancelled
-                    || stall.Bookings.Count() > 0
-                    || stall.MarketInstance.StartDate <= DateTimeOffset.Now
-                    || stall.MarketInstance.EndDate <= DateTimeOffset.Now)
+                    || stall.Bookings.Count() > 0)
                 {
                     //todo: re evaluate this if there's time?
                     throw new ForbiddenAccessException();

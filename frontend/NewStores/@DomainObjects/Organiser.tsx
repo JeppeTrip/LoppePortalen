@@ -80,8 +80,11 @@ export class Organiser {
         let currentMarket: Market;
         dto.markets.forEach(x => {
             currentMarket = this.store.rootStore.marketStore.updateMarketFromServer(x)
-            currentMarket.organiser = this
-            this.markets.push(currentMarket)
+            if(!currentMarket.organiser) {
+                currentMarket.organiser = this
+                this.markets.push(currentMarket)
+            }
+                
         })
 
         let currentContact: ContactInfo
